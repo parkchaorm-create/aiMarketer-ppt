@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 01 · 오프닝 · 수강 안내 · 사전 진단 — AI 마케터 37회 과정</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --ink: #141414;
+    --gold: #e2c793;
+    --gold-soft: #b8941f;
+    --cream: #F7F0DF;
+    --text: #E8E0CC;
+    --muted: #7a7666;
+    --dim: #3a3730;
+    --border: #1f1d19;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow: hidden;
+    letter-spacing: -0.01em;
+    cursor: none;
+  }
+  #bgcanvas {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; opacity: 0.5;
+  }
+  .dot-grid {
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+    background-size: 28px 28px;
+    z-index: 1; pointer-events: none; opacity: 0.5;
+  }
+  .vignette {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.78) 100%);
+    z-index: 2; pointer-events: none;
+  }
+  .cursor-dot, .cursor-ring {
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px; background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--gold);
+  }
+  .cursor-ring {
+    width: 38px; height: 38px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), width 0.2s, height 0.2s;
+  }
+  .cursor-ring.hover { width: 70px; height: 70px; background: rgba(226,199,147,0.08); }
+
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 56px; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 50;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; font-weight: 900; letter-spacing: 3px; color: var(--gold);
+  }
+  .brand::before {
+    content: ''; width: 10px; height: 10px;
+    background: var(--gold); transform: rotate(45deg);
+    box-shadow: 0 0 12px var(--gold);
+    animation: brandPulse 3s infinite;
+  }
+  @keyframes brandPulse {
+    0%, 100% { transform: rotate(45deg) scale(1); }
+    50% { transform: rotate(225deg) scale(1.2); }
+  }
+  .topbar-center { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+  .topbar-right { display: flex; gap: 12px; align-items: center; }
+  .nav-arrow {
+    font-size: 11px; color: var(--muted); text-decoration: none;
+    letter-spacing: 1px; padding: 6px 12px; border: 1px solid var(--border);
+    border-radius: 2px; transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .nav-arrow::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold);
+    transform: translateX(-101%);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-arrow:hover { color: var(--black); border-color: var(--gold); }
+  .nav-arrow:hover::before { transform: translateX(0); }
+  .nav-arrow span, .nav-arrow { position: relative; z-index: 1; }
+  .nav-arrow.disabled { opacity: 0.3; pointer-events: none; }
+
+  .progress {
+    position: fixed; top: 56px; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+    width: 0%; z-index: 55;
+    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 14px var(--gold);
+  }
+
+  .deck {
+    position: relative; width: 100%; height: 100vh;
+    padding-top: 56px; z-index: 10;
+  }
+  .slide {
+    position: absolute; inset: 56px 0 80px 0;
+    padding: 50px 80px 30px;
+    opacity: 0;
+    transform: translateY(30px) scale(0.985);
+    filter: blur(8px);
+    pointer-events: none;
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.5s ease;
+    display: flex; flex-direction: column;
+  }
+  .slide.active {
+    opacity: 1; transform: translateY(0) scale(1); filter: blur(0);
+    pointer-events: auto;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .slide.active .reveal { opacity: 1; transform: translateY(0); }
+
+  .slide-cover { justify-content: center; align-items: flex-start; padding-left: 10vw; padding-right: 10vw; }
+  .cover-bg-shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .float-shape {
+    position: absolute; opacity: 0.18;
+    animation: floatShape 18s ease-in-out infinite;
+  }
+  .float-shape.fs1 { width: 180px; height: 180px; top: 8%; right: 8%; animation-delay: 0s; }
+  .float-shape.fs2 { width: 120px; height: 120px; bottom: 20%; right: 22%; animation-delay: -4s; }
+  .float-shape.fs3 { width: 100px; height: 100px; top: 40%; right: 18%; animation-delay: -9s; }
+  .float-shape.fs4 { width: 140px; height: 140px; bottom: 10%; right: 6%; animation-delay: -13s; }
+  @keyframes floatShape {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33%      { transform: translate(-25px, 18px) rotate(20deg); }
+    66%      { transform: translate(18px, -12px) rotate(-15deg); }
+  }
+  .cover-kicker {
+    font-size: 11px; letter-spacing: 4px; font-weight: 800;
+    color: var(--gold); padding: 8px 16px;
+    border: 1px solid var(--gold); border-radius: 30px;
+    display: inline-block; margin-bottom: 36px;
+    text-transform: uppercase;
+    background: rgba(226,199,147,0.04);
+    backdrop-filter: blur(6px);
+  }
+  .cover-number {
+    font-size: 13px; color: var(--muted); letter-spacing: 6px;
+    margin-bottom: 18px; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .cover-title {
+    font-size: clamp(40px, 5.5vw, 82px);
+    font-weight: 900; line-height: 1.1;
+    color: var(--cream); letter-spacing: -0.03em;
+    word-break: keep-all; max-width: 18ch;
+    margin-bottom: 28px; position: relative;
+    min-height: 1.2em;
+  }
+  .cover-title::after {
+    content: ''; display: block;
+    width: 0; height: 3px;
+    background: var(--gold); margin-top: 36px;
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s;
+  }
+  .slide-cover.active .cover-title::after { width: 120px; }
+  .cover-title .caret {
+    display: inline-block; width: 3px; height: 0.85em;
+    background: var(--gold); margin-left: 4px;
+    animation: caretBlink 0.7s steps(2) infinite;
+    vertical-align: text-bottom;
+  }
+  @keyframes caretBlink { 50% { opacity: 0; } }
+  .cover-sub {
+    font-size: 18px; color: var(--muted);
+    letter-spacing: 2px; font-weight: 600;
+    text-transform: uppercase;
+  }
+  .cover-meta {
+    position: absolute; bottom: 40px; left: 10vw;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; color: var(--muted); letter-spacing: 1px;
+  }
+  .meta-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--gold); border-radius: 50%;
+    animation: dotPulse 2s infinite;
+  }
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(226,199,147,0.6); }
+    50% { opacity: 0.5; transform: scale(1.5); box-shadow: 0 0 0 8px rgba(226,199,147,0); }
+  }
+  .cover-hint {
+    position: absolute; bottom: 40px; right: 10vw;
+    font-size: 11px; color: var(--dim); letter-spacing: 1px;
+  }
+  .cover-hint kbd {
+    background: var(--ink); border: 1px solid var(--border);
+    color: var(--gold); padding: 2px 6px; border-radius: 2px;
+    font-family: monospace; font-size: 10px;
+  }
+
+  .section-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 32px;
+  }
+  .section-kicker {
+    font-size: 11px; letter-spacing: 4px; font-weight: 800;
+    color: var(--gold); text-transform: uppercase;
+    padding: 6px 14px; border: 1px solid var(--gold);
+    border-radius: 20px; background: rgba(226,199,147,0.04);
+  }
+  .section-counter {
+    font-size: 11px; color: var(--muted); letter-spacing: 3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .section-grid {
+    flex: 1; display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px; align-items: center;
+    max-width: 1400px;
+  }
+  .section-body { display: flex; flex-direction: column; justify-content: center; }
+  .section-title {
+    font-size: clamp(28px, 3.4vw, 48px);
+    font-weight: 900; color: var(--cream);
+    line-height: 1.15; margin-bottom: 32px;
+    word-break: keep-all; max-width: 22ch;
+    position: relative; padding-left: 28px;
+  }
+  .section-title::before {
+    content: ''; position: absolute;
+    left: 0; top: 8px;
+    width: 10px; height: calc(100% - 12px);
+    background: linear-gradient(180deg, var(--gold), transparent);
+  }
+  .bullet-list {
+    list-style: none; display: flex; flex-direction: column;
+    gap: 14px; max-width: 62ch;
+  }
+  .bullet-list li.tilt-card {
+    display: flex; gap: 18px; align-items: flex-start;
+    flex-wrap: wrap; cursor: pointer;
+    font-size: 17px; color: var(--text);
+    line-height: 1.5; word-break: keep-all;
+    padding: 14px 20px;
+    background: rgba(20,20,20,0.55);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--dim);
+    backdrop-filter: blur(6px);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-style: preserve-3d;
+    position: relative;
+  }
+  .bullet-list li.tilt-card::before {
+    content: ''; position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(226,199,147,0.08) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.35s;
+    pointer-events: none;
+  }
+  .bullet-list li.tilt-card:hover {
+    border-left-color: var(--gold);
+    border-color: var(--gold);
+    transform: translateX(6px) translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  }
+  .bullet-list li.tilt-card:hover::before { opacity: 1; }
+  .bullet-list li.tilt-card:hover .bullet-arrow { opacity: 1; transform: translateX(0); }
+  .bullet-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gold);
+    font-weight: 800; letter-spacing: 1px;
+    padding-top: 4px; min-width: 26px;
+  }
+  .bullet-text { flex: 1; }
+  .bullet-arrow {
+    font-size: 16px; color: var(--gold);
+    opacity: 0; transform: translateX(-8px);
+    transition: all 0.3s;
+    align-self: center;
+  }
+  .tilt-card.open .bullet-arrow { opacity: 1; transform: rotate(90deg); }
+  .tilt-card.open { border-left-color: var(--gold); background: rgba(226,199,147,0.06); }
+  .bullet-detail {
+    width: 100%; max-height: 0; overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.22,1,0.36,1), padding 0.35s, opacity 0.3s;
+    font-size: 14px; color: var(--muted); line-height: 1.75;
+    padding: 0 0 0 44px; opacity: 0;
+    word-break: keep-all;
+  }
+  .tilt-card.open .bullet-detail {
+    max-height: 500px; padding: 10px 0 6px 44px;
+    opacity: 1; border-top: 1px solid var(--border); margin-top: 10px;
+  }
+
+  .section-visual {
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    min-height: 360px;
+  }
+  .infographic {
+    width: 100%; max-width: 620px;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(226,199,147,0.15));
+  }
+
+  .svg-pulse { animation: svgPulse 3s ease-in-out infinite; transform-origin: center; }
+  .svg-pulse2 { animation: svgPulse 3s ease-in-out infinite 0.5s; transform-origin: center; }
+  @keyframes svgPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.08); }
+  }
+  .svg-rotate-slow { animation: svgRotate 24s linear infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgRotate { to { transform: rotate(360deg); } }
+  .svg-twinkle { animation: svgTwinkle 2.5s ease-in-out infinite; }
+  @keyframes svgTwinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.6); }
+  }
+  .slide.active .svg-draw {
+    stroke-dasharray: 1000; stroke-dashoffset: 1000;
+    animation: svgDraw 2s ease-out forwards 0.3s;
+  }
+  @keyframes svgDraw { to { stroke-dashoffset: 0; } }
+  .slide.active .svg-draw-path {
+    stroke-dasharray: 500; stroke-dashoffset: 500;
+    animation: svgDraw 1.5s ease-out forwards 0.6s;
+  }
+  .slide.active .svg-stagger {
+    opacity: 0; transform: translateY(10px);
+    animation: svgStagger 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
+  }
+  @keyframes svgStagger { to { opacity: 1; transform: translateY(0); } }
+  .slide.active .svg-check-mark {
+    stroke-dasharray: 30; stroke-dashoffset: 30;
+    animation: svgDraw 0.5s ease-out forwards 0.6s;
+  }
+  .slide.active .svg-check-row {
+    opacity: 0; transform: translateX(-12px);
+    animation: svgSlide 0.55s ease-out forwards 0.4s;
+  }
+  @keyframes svgSlide { to { opacity: 1; transform: translateX(0); } }
+  .slide.active .svg-progress {
+    stroke-dasharray: 565; stroke-dashoffset: 565;
+    animation: svgProgress 2s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.5s;
+  }
+  @keyframes svgProgress { to { stroke-dashoffset: 282; } }
+  .slide.active .svg-line-fill {
+    stroke-dasharray: 400; stroke-dashoffset: 400;
+    animation: svgDraw 1.8s ease-out forwards 0.4s;
+  }
+  .svg-spin { animation: svgRotate 12s linear infinite; transform-origin: 200px 130px; }
+  .svg-ripple { animation: svgRipple 2.4s ease-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgRipple {
+    0% { opacity: 0.8; transform: scale(0.6); }
+    100% { opacity: 0; transform: scale(1.1); }
+  }
+  .svg-button-pulse { animation: svgBtnPulse 2.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgBtnPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+  }
+  .svg-countup { font-feature-settings: "tnum"; }
+
+  .section-foot {
+    display: flex; justify-content: space-between;
+    align-items: center; padding-top: 12px;
+  }
+  .audio-bars {
+    display: flex; gap: 3px; align-items: flex-end;
+    height: 18px;
+  }
+  .audio-bars span {
+    display: block; width: 3px;
+    background: var(--gold);
+    border-radius: 1px;
+    animation: audioBar 1.2s ease-in-out infinite;
+  }
+  .audio-bars span:nth-child(1) { height: 60%; animation-delay: 0s; }
+  .audio-bars span:nth-child(2) { height: 30%; animation-delay: 0.1s; }
+  .audio-bars span:nth-child(3) { height: 80%; animation-delay: 0.2s; }
+  .audio-bars span:nth-child(4) { height: 45%; animation-delay: 0.3s; }
+  .audio-bars span:nth-child(5) { height: 90%; animation-delay: 0.4s; }
+  .audio-bars span:nth-child(6) { height: 55%; animation-delay: 0.5s; }
+  .audio-bars span:nth-child(7) { height: 70%; animation-delay: 0.6s; }
+  .audio-bars span:nth-child(8) { height: 35%; animation-delay: 0.7s; }
+  @keyframes audioBar {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+  .foot-tag {
+    font-size: 10px; color: var(--dim);
+    letter-spacing: 2px; text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .slide-outro {
+    justify-content: center; align-items: center; text-align: center;
+    position: relative;
+  }
+  .outro-radial {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(226,199,147,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .outro-kicker {
+    font-size: 11px; letter-spacing: 6px;
+    color: var(--gold); margin-bottom: 32px; font-weight: 800;
+  }
+  .outro-title {
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 900; color: var(--cream);
+    letter-spacing: -0.02em; margin-bottom: 24px;
+    word-break: keep-all;
+  }
+  .outro-sub {
+    font-size: 18px; color: var(--muted);
+    letter-spacing: 2px; margin-bottom: 60px;
+  }
+  .outro-actions { display: flex; gap: 16px; }
+  .btn {
+    font-family: inherit; padding: 14px 28px;
+    font-size: 12px; font-weight: 800; letter-spacing: 2px;
+    border-radius: 2px; cursor: none;
+    text-decoration: none; border: 1px solid;
+    transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
+  .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+  .btn-gold { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 900; }
+  .btn-gold:hover { background: transparent; color: var(--gold); box-shadow: 0 0 30px rgba(226,199,147,0.4); }
+
+  .controls {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
+    z-index: 40;
+  }
+  .ctrl-left, .ctrl-right { display: flex; align-items: center; gap: 12px; }
+  .ctrl-btn {
+    width: 44px; height: 44px;
+    background: rgba(20,20,20,0.6);
+    border: 1px solid var(--border);
+    color: var(--muted); cursor: none;
+    font-size: 18px;
+    transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
+    backdrop-filter: blur(6px);
+  }
+  .ctrl-btn:hover {
+    background: var(--gold); color: var(--black); border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(226,199,147,0.25);
+  }
+  .ctrl-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted); letter-spacing: 2px;
+  }
+  .ctrl-counter strong { color: var(--gold); }
+  .ctrl-dots { display: flex; gap: 6px; max-width: 40vw; overflow: hidden; }
+  .ctrl-dot {
+    width: 20px; height: 2px; background: var(--dim);
+    cursor: none; transition: all 0.35s;
+  }
+  .ctrl-dot:hover { background: var(--muted); }
+  .ctrl-dot.active {
+    background: var(--gold); width: 40px;
+    box-shadow: 0 0 10px var(--gold);
+  }
+
+  .thumb-strip {
+    position: fixed; left: 0; right: 0;
+    bottom: 80px; height: 0;
+    background: rgba(10,10,10,0.96);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 41;
+  }
+  .thumb-strip.open { height: 110px; }
+  .thumb-strip-inner {
+    display: flex; gap: 12px; padding: 20px 32px;
+    overflow-x: auto;
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--ink);
+  }
+  .thumb-strip-inner::-webkit-scrollbar { height: 4px; }
+  .thumb-strip-inner::-webkit-scrollbar-thumb { background: var(--gold); }
+  .thumb {
+    flex-shrink: 0; width: 120px; height: 68px;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 10px;
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 1.5px; cursor: none;
+    transition: all 0.25s;
+    background: rgba(20,20,20,0.6);
+  }
+  .thumb:hover { border-color: var(--gold); background: rgba(28,26,20,0.9); transform: translateY(-2px); }
+  .thumb.active { border-color: var(--gold); background: rgba(226,199,147,0.08); }
+  .thumb-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold); font-weight: 900; font-size: 11px;
+  }
+  .thumb-label {
+    color: var(--cream); font-weight: 700; font-size: 10px;
+    text-transform: uppercase;
+  }
+  .thumb.active .thumb-label { color: var(--gold); }
+
+  .help-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(16px);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .help-overlay.open { opacity: 1; pointer-events: auto; }
+  .help-box {
+    padding: 50px 60px;
+    background: var(--ink);
+    border: 1px solid var(--gold);
+    max-width: 480px;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.9);
+    transform: scale(0.92);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .help-overlay.open .help-box { transform: scale(1); }
+  .help-box h3 {
+    font-size: 14px; color: var(--gold);
+    letter-spacing: 4px; margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+  .help-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text);
+  }
+  .help-row:last-child { border-bottom: none; }
+  .help-key {
+    display: inline-flex; gap: 4px;
+  }
+  .help-key kbd {
+    background: var(--black);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: 4px 10px; border-radius: 2px;
+    font-family: monospace; font-size: 11px;
+    min-width: 28px; text-align: center;
+  }
+  .help-close {
+    margin-top: 24px; font-size: 10px;
+    color: var(--dim); letter-spacing: 2px;
+    text-align: center;
+  }
+
+  @media (max-width: 1100px) {
+    .section-grid { grid-template-columns: 1fr; gap: 24px; }
+    .section-visual { min-height: 200px; }
+    .infographic { max-width: 480px; }
+  }
+  @media (max-width: 900px) {
+    .slide { padding: 40px 28px 30px; }
+    .slide-cover { padding-left: 28px; padding-right: 28px; }
+    .cover-meta, .cover-hint { left: 28px; right: 28px; bottom: 20px; }
+    .bullet-list li.tilt-card { font-size: 15px; }
+    .topbar { padding: 0 16px; }
+    .nav-arrow { display: none; }
+    body { cursor: auto; }
+    .cursor-dot, .cursor-ring { display: none; }
+    .btn, .ctrl-btn, .ctrl-dot, .thumb { cursor: pointer; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI MARKETER · 37회 과정</div>
+  <div class="topbar-center">PART 01 · 오프닝 · 수강 안내 · 사전 진단</div>
+  <div class="topbar-right">
+    <a class="nav-arrow disabled" title="이전 없음">◀ FIRST</a>
+    <a class="nav-arrow" href="./index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-02.html" title="다음 파트">PART 02 ▶</a>
+  </div>
+</div>
+
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+    <section class="slide slide-cover" data-slide="0">
+      <div class="cover-bg-shapes">
+        <svg class="float-shape fs1" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+        <svg class="float-shape fs2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+        <svg class="float-shape fs3" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" fill="none" stroke="#e2c793" stroke-width="1" transform="rotate(15 50 50)"/></svg>
+        <svg class="float-shape fs4" viewBox="0 0 100 100"><polygon points="50,5 95,30 95,70 50,95 5,70 5,30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      </div>
+      <div class="cover-kicker reveal">ACT 1 · 토대</div>
+      <div class="cover-number reveal" style="transition-delay:0.1s">PART 01</div>
+      <h1 class="cover-title typewriter-target" data-text="오프닝 · 수강 안내 · 사전 진단">&nbsp;</h1>
+      <div class="cover-sub reveal" style="transition-delay:0.6s">AI 마케터 37회 과정의 첫 무대</div>
+      <div class="cover-meta reveal" style="transition-delay:0.8s">
+        <span class="meta-dot"></span>
+        <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+      </div>
+      <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+    </section>
+
+    <section class="slide slide-section" data-slide="1" data-diagram="meta">
+      <div class="section-head">
+        <div class="section-kicker reveal">META · 파트 메타</div>
+        <div class="section-counter reveal">00 / 00</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">과정 안내 + 사전 진단</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">⏱️ 오리엔테이션 · 첫 무대 안내</span><span class="bullet-arrow">→</span><div class="bullet-detail">Part 01은 다음과 같이 진행됩니다. 수업 전체 흐름을 소개하고 수강생 사전 수준을 확인하는 첫 무대입니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🎤 비유 · 오리엔테이션 무대</span><span class="bullet-arrow">→</span><div class="bullet-detail">37회 과정의 서막에 해당하는 파트입니다. 본격 실습 전에 수업 규칙과 참여 방식을 함께 맞추는 자리입니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🎯 목표 · 전체 흐름 + 수준 파악</span><span class="bullet-arrow">→</span><div class="bullet-detail">과정 전체가 어떻게 진행되는지 안내드리고, 손들기 설문으로 수강생 사전 수준을 확인합니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><defs><radialGradient id="stage1" cx="50%" cy="100%" r="70%"><stop offset="0%" stop-color="#e2c793" stop-opacity="0.25"/><stop offset="100%" stop-color="#e2c793" stop-opacity="0"/></radialGradient></defs><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">ORIENTATION STAGE</text><ellipse cx="200" cy="210" rx="150" ry="28" fill="url(#stage1)" stroke="#3a3730" stroke-width="1"/><g ><path d="M110 170 Q200 70 290 170" fill="none" stroke="#e2c793" stroke-width="1.5" stroke-dasharray="200" stroke-dashoffset="0"/></g><g ><circle cx="110" cy="170" r="4" fill="#e2c793"/><circle cx="200" cy="95" r="6" fill="#e2c793"/><circle cx="290" cy="170" r="4" fill="#e2c793"/></g><g transform="translate(200,180)"><rect x="-10" y="-8" width="20" height="22" rx="3" fill="none" stroke="#F7F0DF" stroke-width="1.2"/><circle cx="0" cy="-2" r="3" fill="#e2c793"/><line x1="0" y1="14" x2="0" y2="24" stroke="#F7F0DF" stroke-width="1"/></g><g font-size="11" fill="#F7F0DF"><rect x="30" y="60" width="78" height="26" rx="4" fill="none" stroke="#3a3730"/><text x="38" y="77">STAGE 서막</text><rect x="30" y="95" width="78" height="26" rx="4" fill="none" stroke="#3a3730"/><text x="38" y="112">STAGE 37회</text><rect x="292" y="60" width="78" height="26" rx="4" fill="none" stroke="#3a3730"/><text x="300" y="77">GOAL 흐름+수준</text><rect x="292" y="95" width="78" height="26" rx="4" fill="none" stroke="#3a3730"/><text x="300" y="112">SURVEY 4문항</text></g><text x="200" y="245" text-anchor="middle" font-size="11" fill="#7a7666">서막 · 수업 규칙과 참여 방식을 맞추는 자리</text></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">META</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section" data-slide="2" data-diagram="hook">
+      <div class="section-head">
+        <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+        <div class="section-counter reveal">01 / 09</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">1강 환영 · 오늘 정리할 것</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">👋 1강 환영 · AI 마케터 창업 과정 시작</span><span class="bullet-arrow">→</span><div class="bullet-detail">AI 마케터 전문가 창업 과정 1강에 오신 것을 환영합니다. 오늘은 과정 전체의 첫 무대입니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📅 37회 운영 · 수업 진행 방식 안내</span><span class="bullet-arrow">→</span><div class="bullet-detail">앞으로 37회 동안 어떻게 수업이 진행되는지 함께 정리합니다. 회차 구성과 운영 규정을 확인합니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🧭 AI 마케팅 · 분야 영역 설명</span><span class="bullet-arrow">→</span><div class="bullet-detail">AI 마케팅이라는 분야가 어떤 영역인지 함께 살펴봅니다. 도구를 짧게 체험하는 시간도 포함됩니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🌿 편안한 참여 · 완성 부담 없음</span><span class="bullet-arrow">→</span><div class="bullet-detail">결과물이 곧바로 완성되지 않더라도 정상입니다. 편안한 마음으로 따라와 주시면 됩니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">WELCOME · LECTURE 01</text><g ><g transform="translate(80,130)"><circle r="34" fill="none" stroke="#e2c793" stroke-width="1.5"/><text y="-4" text-anchor="middle" font-size="18">👋</text><text y="14" text-anchor="middle" font-size="11" fill="#F7F0DF">환영</text></g><g transform="translate(173,130)"><circle r="34" fill="none" stroke="#e2c793" stroke-width="1.5"/><text y="-4" text-anchor="middle" font-size="16">📅</text><text y="14" text-anchor="middle" font-size="11" fill="#F7F0DF">37회 운영</text></g><g transform="translate(266,130)"><circle r="34" fill="none" stroke="#e2c793" stroke-width="1.5"/><text y="-4" text-anchor="middle" font-size="16">🧭</text><text y="14" text-anchor="middle" font-size="11" fill="#F7F0DF">AI 마케팅</text></g><g transform="translate(350,130)"><circle r="22" fill="#e2c793" fill-opacity="0.15" stroke="#e2c793" stroke-width="1.5" /><text y="4" text-anchor="middle" font-size="14">🌿</text></g></g><path d="M114 130 L139 130 M207 130 L232 130 M300 130 L328 130" stroke="#e2c793" stroke-width="1" stroke-dasharray="3 3"/><text x="200" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793">오늘 정리할 네 가지</text><text x="200" y="220" text-anchor="middle" font-size="11" fill="#7a7666">완성 부담 없이 · 편안한 참여가 기본</text><line x1="60" y1="235" x2="340" y2="235" stroke="#3a3730" stroke-width="1"/></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">HOOK</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section" data-slide="3" data-diagram="concept">
+      <div class="section-head">
+        <div class="section-kicker reveal">CONCEPT · 수업 시간</div>
+        <div class="section-counter reveal">02 / 09</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">37회 · 1회 4시간 구성</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📅 37회 × 4시간 · 전체 과정 분량</span><span class="bullet-arrow">→</span><div class="bullet-detail">전체 37회로 구성되며 1회당 4시간입니다. 장기 과정인 만큼 꾸준한 참여가 중요합니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📚 이론 1h + 실습 3h · 원칙 배분</span><span class="bullet-arrow">→</span><div class="bullet-detail">이론 1시간 + 실습 3시간이 원칙입니다. 회차 주제에 따라 비율은 조정될 수 있습니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">✅ 출결 확인 · 매 회차 시작 시점</span><span class="bullet-arrow">→</span><div class="bullet-detail">출결은 매 회차 시작 시 확인합니다. 제시간에 입장해 주시기 바랍니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">37회 × 4시간 타임라인</text><g ><text x="200" y="78" text-anchor="middle" font-size="56" font-weight="900" fill="#e2c793">37</text><text x="200" y="98" text-anchor="middle" font-size="11" fill="#7a7666" letter-spacing="2">TOTAL SESSIONS</text></g><g transform="translate(40,128)"><rect x="0" y="0" width="320" height="42" rx="4" fill="none" stroke="#3a3730"/><rect x="0" y="0" width="80" height="42" fill="#e2c793" fill-opacity="0.18" /><line x1="80" y1="0" x2="80" y2="42" stroke="#e2c793" stroke-width="1.5" stroke-dasharray="3 3"/><text x="40" y="20" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793">이론</text><text x="40" y="34" text-anchor="middle" font-size="11" fill="#F7F0DF">1h</text><text x="200" y="20" text-anchor="middle" font-size="12" font-weight="900" fill="#F7F0DF">실습</text><text x="200" y="34" text-anchor="middle" font-size="11" fill="#F7F0DF">3h</text></g><g font-size="11" fill="#7a7666"><text x="40" y="186">0h</text><text x="120" y="186">1h</text><text x="355" y="186" text-anchor="end">4h</text></g><text x="200" y="240" text-anchor="middle" font-size="11" fill="#7a7666">이론 1h + 실습 3h · 원칙 배분</text></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">CONCEPT</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section" data-slide="4" data-diagram="concept">
+      <div class="section-head">
+        <div class="section-kicker reveal">CONCEPT · 소통 채널</div>
+        <div class="section-counter reveal">03 / 09</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">슬랙 · 공식 소통 채널</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">💬 공식 채널 · 슬랙(Slack) 사용</span><span class="bullet-arrow">→</span><div class="bullet-detail">본 과정의 공식 소통 채널은 슬랙(Slack)입니다. 참여 링크는 오늘 수업 후 문자로 안내드립니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📢 #공지 · #강사-QnA · 기본 두 채널</span><span class="bullet-arrow">→</span><div class="bullet-detail">#공지는 강사·운영진 공지 전용이며, #강사-QnA은 도구·실습 관련 질문을 올리는 채널입니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📂 #수업실습 · #자유 · 제출과 교류</span><span class="bullet-arrow">→</span><div class="bullet-detail">#수업실습은 모든 회차 실습 결과물을 [N강][클라이언트태그] 형식으로 올리는 통합 채널이며, #자유는 수강생 간 자유 대화 채널입니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🙋 질문 경로 · 구두 + 슬랙 두 가지</span><span class="bullet-arrow">→</span><div class="bullet-detail">질문은 수업 중 구두로, 수업 후에는 슬랙 #강사-QnA으로 올리시면 됩니다. 두 경로 모두 가능합니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">SLACK · WORKSPACE</text><g transform="translate(170,45)"><rect x="0" y="0" width="60" height="32" rx="4" fill="#e2c793" fill-opacity="0.2" stroke="#e2c793" stroke-width="1.5"/><text x="30" y="21" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793">#slack</text></g><path d="M200 77 L90 120 M200 77 L200 120 M200 77 L310 120" stroke="#3a3730" stroke-width="1" stroke-dasharray="3 3"/><g font-size="11"><g transform="translate(50,120)"><rect width="80" height="34" rx="4" fill="none" stroke="#e2c793"/><text x="40" y="15" text-anchor="middle" font-weight="700" fill="#e2c793">📢 #공지</text><text x="40" y="28" text-anchor="middle" fill="#7a7666">강사 전용</text></g><g transform="translate(160,120)"><rect width="80" height="34" rx="4" fill="none" stroke="#e2c793"/><text x="40" y="15" text-anchor="middle" font-weight="700" fill="#e2c793">🙋 #강사-QnA</text><text x="40" y="28" text-anchor="middle" fill="#7a7666">도구·실습</text></g><g transform="translate(270,120)"><rect width="80" height="34" rx="4" fill="none" stroke="#e2c793"/><text x="40" y="15" text-anchor="middle" font-weight="700" fill="#e2c793">💭 #자유</text><text x="40" y="28" text-anchor="middle" fill="#7a7666">교류</text></g></g><g transform="translate(50,175)"><rect width="300" height="42" rx="4" fill="none" stroke="#3a3730" stroke-dasharray="4 3"/><text x="150" y="17" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">📂 #수업실습 (통합)</text><text x="150" y="32" text-anchor="middle" font-size="11" fill="#F7F0DF">회차별 제출·공유 채널</text></g><text x="200" y="240" text-anchor="middle" font-size="11" fill="#7a7666">질문 경로 · 수업 중 구두 + 수업 후 슬랙</text></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">CONCEPT</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section" data-slide="5" data-diagram="concept">
+      <div class="section-head">
+        <div class="section-kicker reveal">CONCEPT · 과제와 자료</div>
+        <div class="section-counter reveal">04 / 09</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">과제 제출 · 자료 공유</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📤 #수업실습 · 매 회차 업로드</span><span class="bullet-arrow">→</span><div class="bullet-detail">매 회차 슬랙 #수업실습 채널에 [N강][클라이언트태그] 형식으로 업로드합니다 (예: [02강][A] naming_초안.txt).</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🙆 미제출 OK · 다만 제출 권장</span><span class="bullet-arrow">→</span><div class="bullet-detail">과제 미제출이라도 다음 수업 참여에는 제약이 없습니다. 다만 다음 실습 자료로 이어지므로 가능한 한 제출해 주시기 바랍니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📎 #공지 업로드 · 자료·튜토리얼</span><span class="bullet-arrow">→</span><div class="bullet-detail">강의 자료와 실습 튜토리얼은 수업 전·후로 슬랙 #공지에 업로드됩니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🏠 복습·결석 · 자료실 내려받기</span><span class="bullet-arrow">→</span><div class="bullet-detail">복습이나 결석 시에는 슬랙 자료실에서 내려받아 혼자 진행하실 수 있습니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">과제 &amp; 자료 흐름</text><g ><g transform="translate(50,70)"><rect width="70" height="50" rx="4" fill="none" stroke="#e2c793" stroke-width="1.5"/><text x="35" y="22" text-anchor="middle" font-size="16">📎</text><text x="35" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">#공지</text></g><g transform="translate(165,70)"><rect width="70" height="50" rx="4" fill="none" stroke="#e2c793" stroke-width="1.5"/><text x="35" y="22" text-anchor="middle" font-size="16">👩‍🎓</text><text x="35" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">수강생</text></g><g transform="translate(280,70)"><rect width="70" height="50" rx="4" fill="none" stroke="#e2c793" stroke-width="1.5"/><text x="35" y="22" text-anchor="middle" font-size="16">📤</text><text x="35" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">#수업실습</text></g></g><g stroke="#e2c793" stroke-width="1.5" fill="none"><path d="M120 95 L165 95" marker-end="url(#ar1)"/><path d="M235 95 L280 95" marker-end="url(#ar1)"/></g><defs><marker id="ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#e2c793"/></marker></defs><text x="142" y="88" text-anchor="middle" font-size="11" fill="#7a7666">자료</text><text x="258" y="88" text-anchor="middle" font-size="11" fill="#7a7666">제출</text><g transform="translate(50,155)"><rect width="300" height="32" rx="4" fill="#e2c793" fill-opacity="0.1" stroke="#3a3730"/><text x="150" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">🙆 미제출 OK · 다만 다음 실습 이어짐</text></g><g transform="translate(50,198)"><rect width="300" height="32" rx="4" fill="none" stroke="#3a3730" stroke-dasharray="4 3"/><text x="150" y="20" text-anchor="middle" font-size="11" fill="#F7F0DF">🏠 복습·결석 → 자료실 내려받기</text></g></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">CONCEPT</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section" data-slide="6" data-diagram="concept">
+      <div class="section-head">
+        <div class="section-kicker reveal">CONCEPT · 안내 사항</div>
+        <div class="section-counter reveal">05 / 09</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">실무 활용 · 수익 비보장</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🛠️ 실무 활용 · AI 도구 중심 구성</span><span class="bullet-arrow">→</span><div class="bullet-detail">본 과정은 AI 도구의 실무 활용법을 다룹니다. 이론보다 현장 적용에 무게를 둡니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">⚖️ 수익 비보장 · 계약·시장 변수</span><span class="bullet-arrow">→</span><div class="bullet-detail">창업 이후 수익은 계약과 시장 상황에 따라 차이가 크므로 수익을 보장하지 않습니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🆓 1강 무료 도구 · 유료는 사전 안내</span><span class="bullet-arrow">→</span><div class="bullet-detail">유료 구독이 반드시 필요한 도구는 등장 시점에 미리 안내드립니다. 1강은 모두 무료 도구만 사용합니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">수강 안내 · 3 NOTICES</text><g ><g transform="translate(40,50)"><rect width="320" height="50" rx="4" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="25" cy="25" r="12" fill="#e2c793" fill-opacity="0.2" stroke="#e2c793"/><path d="M19 25 L23 29 L31 20" stroke="#e2c793" stroke-width="2" fill="none" /><text x="50" y="22" font-size="12" font-weight="700" fill="#e2c793">🛠️ 실무 활용 중심</text><text x="50" y="38" font-size="11" fill="#F7F0DF">AI 도구 현장 적용에 무게</text></g><g transform="translate(40,110)"><rect width="320" height="50" rx="4" fill="none" stroke="#7a7666" stroke-width="1.5" stroke-dasharray="4 3"/><g transform="translate(25,25)"><circle r="12" fill="none" stroke="#7a7666"/><text y="4" text-anchor="middle" font-size="14" font-weight="900" fill="#7a7666">!</text></g><text x="50" y="22" font-size="12" font-weight="700" fill="#F7F0DF">⚖️ 수익 비보장</text><text x="50" y="38" font-size="11" fill="#7a7666">계약·시장 상황에 따라 차이</text></g><g transform="translate(40,170)"><rect width="320" height="50" rx="4" fill="none" stroke="#e2c793" stroke-width="1.5"/><g transform="translate(25,25)"><circle r="12" fill="#e2c793" fill-opacity="0.2" stroke="#e2c793"/><text y="4" text-anchor="middle" font-size="10" font-weight="900" fill="#e2c793">FREE</text></g><text x="50" y="22" font-size="12" font-weight="700" fill="#e2c793">🆓 1강 무료 도구만</text><text x="50" y="38" font-size="11" fill="#F7F0DF">유료 필요 시 등장 시점 사전 안내</text></g></g><text x="200" y="245" text-anchor="middle" font-size="11" fill="#7a7666">알아두실 세 가지</text></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">CONCEPT</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section" data-slide="7" data-diagram="concept">
+      <div class="section-head">
+        <div class="section-kicker reveal">CONCEPT · 자기소개</div>
+        <div class="section-counter reveal">06 / 09</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">30초 자기소개 · 세 가지</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🪪 성함 · 닉네임도 사용 가능</span><span class="bullet-arrow">→</span><div class="bullet-detail">한 분당 30초 이내로 성함을 말씀해 주시면 됩니다. 닉네임으로 소개하셔도 괜찮습니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">💼 현재 · 하시는 일 또는 관심 분야</span><span class="bullet-arrow">→</span><div class="bullet-detail">현재 하시는 일이나 관심을 두고 계신 분야를 간단히 말씀해 주시기 바랍니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🎯 목표 · 가장 얻고 싶은 한 가지</span><span class="bullet-arrow">→</span><div class="bullet-detail">이 과정에서 가장 얻고 싶은 한 가지를 말씀해 주시면 됩니다. 수업 운영에 참고합니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">30초 자기소개 · 3 STEPS</text><g transform="translate(200,95)"><circle r="42" fill="none" stroke="#3a3730" stroke-width="8"/><circle r="42" fill="none" stroke="#e2c793" stroke-width="8" stroke-dasharray="263" stroke-dashoffset="0" transform="rotate(-90)" /><text y="-2" text-anchor="middle" font-size="22" font-weight="900" fill="#e2c793">30s</text><text y="14" text-anchor="middle" font-size="11" fill="#7a7666">per person</text></g><g font-size="11"><g transform="translate(40,170)"><rect width="100" height="60" rx="4" fill="none" stroke="#e2c793"/><text x="50" y="18" text-anchor="middle" font-size="16">🪪</text><text x="50" y="35" text-anchor="middle" font-weight="700" fill="#e2c793">① 성함</text><text x="50" y="50" text-anchor="middle" fill="#F7F0DF">닉네임 OK</text></g><g transform="translate(150,170)"><rect width="100" height="60" rx="4" fill="none" stroke="#e2c793"/><text x="50" y="18" text-anchor="middle" font-size="16">💼</text><text x="50" y="35" text-anchor="middle" font-weight="700" fill="#e2c793">② 현재</text><text x="50" y="50" text-anchor="middle" fill="#F7F0DF">직무·관심</text></g><g transform="translate(260,170)"><rect width="100" height="60" rx="4" fill="none" stroke="#e2c793"/><text x="50" y="18" text-anchor="middle" font-size="16">🎯</text><text x="50" y="35" text-anchor="middle" font-weight="700" fill="#e2c793">③ 목표</text><text x="50" y="50" text-anchor="middle" fill="#F7F0DF">얻고 싶은 1</text></g></g><path d="M140 200 L150 200 M250 200 L260 200" stroke="#e2c793" stroke-width="1.5"/></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">CONCEPT</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section" data-slide="8" data-diagram="concept">
+      <div class="section-head">
+        <div class="section-kicker reveal">CONCEPT · 사전 진단</div>
+        <div class="section-counter reveal">07 / 09</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">손들기 설문 · 4문항</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🤖 대화형 AI · 한 번이라도 사용 경험</span><span class="bullet-arrow">→</span><div class="bullet-detail">ChatGPT 또는 유사한 대화형 AI를 한 번이라도 사용해 보신 분은 손을 들어 주시기 바랍니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📱 SNS 운영 · 블로그·인스타·페북</span><span class="bullet-arrow">→</span><div class="bullet-detail">블로그·인스타그램·페이스북 중 직접 운영해 보신 분은 손을 들어 주시기 바랍니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📧 Gmail · 구글 계정 보유 여부</span><span class="bullet-arrow">→</span><div class="bullet-detail">구글 계정(Gmail)을 가지고 계신 분은 손을 들어 주시기 바랍니다. 이후 실습에서 활용됩니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🧾 사업자 등록 · 보유 또는 준비</span><span class="bullet-arrow">→</span><div class="bullet-detail">본인 명의로 사업자 등록을 해 보셨거나 준비 중이신 분은 손을 들어 주시기 바랍니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">손들기 설문 · 4 QUESTIONS</text><g ><g transform="translate(30,45)"><rect width="170" height="70" rx="4" fill="none" stroke="#e2c793"/><text x="14" y="22" font-size="18">🤖</text><text x="42" y="25" font-size="11" font-weight="700" fill="#e2c793">Q1 · 대화형 AI</text><text x="42" y="40" font-size="11" fill="#F7F0DF">ChatGPT 등 사용 경험</text><g transform="translate(146,48)"><text font-size="14" text-anchor="middle">✋</text></g></g><g transform="translate(210,45)"><rect width="170" height="70" rx="4" fill="none" stroke="#e2c793"/><text x="14" y="22" font-size="18">📱</text><text x="42" y="25" font-size="11" font-weight="700" fill="#e2c793">Q2 · SNS 운영</text><text x="42" y="40" font-size="11" fill="#F7F0DF">블로그·인스타·페북</text><g transform="translate(146,48)"><text font-size="14" text-anchor="middle">✋</text></g></g><g transform="translate(30,125)"><rect width="170" height="70" rx="4" fill="none" stroke="#e2c793"/><text x="14" y="22" font-size="18">📧</text><text x="42" y="25" font-size="11" font-weight="700" fill="#e2c793">Q3 · Gmail</text><text x="42" y="40" font-size="11" fill="#F7F0DF">구글 계정 보유 여부</text><g transform="translate(146,48)"><text font-size="14" text-anchor="middle">✋</text></g></g><g transform="translate(210,125)"><rect width="170" height="70" rx="4" fill="none" stroke="#e2c793"/><text x="14" y="22" font-size="18">🧾</text><text x="42" y="25" font-size="11" font-weight="700" fill="#e2c793">Q4 · 사업자 등록</text><text x="42" y="40" font-size="11" fill="#F7F0DF">보유 또는 준비 중</text><g transform="translate(146,48)"><text font-size="14" text-anchor="middle">✋</text></g></g></g><text x="200" y="225" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793">사전 수준 확인 · 수업 운영 참고</text><line x1="60" y1="240" x2="340" y2="240" stroke="#3a3730"/></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">CONCEPT</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section" data-slide="9" data-diagram="recap">
+      <div class="section-head">
+        <div class="section-kicker reveal">RECAP · 복습</div>
+        <div class="section-counter reveal">08 / 09</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">Part 01 · 요약 세 줄</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🧭 오늘 구성 · 안내 + 기초 + 체험</span><span class="bullet-arrow">→</span><div class="bullet-detail">오늘 수업은 과정 전체 안내와 AI 기초, 도구 짧은 체험으로 구성됩니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">💬 소통 · 슬랙 + 편한 질문</span><span class="bullet-arrow">→</span><div class="bullet-detail">소통은 슬랙을 사용합니다. 질문은 언제든 편하게 올려 주시면 됩니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🌱 핵심 · 완성보다 참여 경험</span><span class="bullet-arrow">→</span><div class="bullet-detail">결과물 완성 여부보다 참여 경험이 이번 수업의 핵심입니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">PART 01 · RECAP</text><g transform="translate(200,55)"><circle r="18" fill="#e2c793" fill-opacity="0.2" stroke="#e2c793" stroke-width="1.5" /><path d="M-7 0 L-2 6 L8 -6" stroke="#e2c793" stroke-width="2.5" fill="none" /></g><text x="200" y="95" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793">COMPLETE</text><g ><g transform="translate(30,115)"><rect width="110" height="110" rx="6" fill="none" stroke="#e2c793" stroke-width="1.5"/><text x="55" y="30" text-anchor="middle" font-size="22">🧭</text><text x="55" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">오늘 구성</text><text x="55" y="74" text-anchor="middle" font-size="11" fill="#F7F0DF">안내 + 기초</text><text x="55" y="90" text-anchor="middle" font-size="11" fill="#F7F0DF">+ 체험</text></g><g transform="translate(145,115)"><rect width="110" height="110" rx="6" fill="none" stroke="#e2c793" stroke-width="1.5"/><text x="55" y="30" text-anchor="middle" font-size="22">💬</text><text x="55" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">소통 채널</text><text x="55" y="74" text-anchor="middle" font-size="11" fill="#F7F0DF">슬랙 · 편한</text><text x="55" y="90" text-anchor="middle" font-size="11" fill="#F7F0DF">질문 환영</text></g><g transform="translate(260,115)"><rect width="110" height="110" rx="6" fill="none" stroke="#e2c793" stroke-width="1.5"/><text x="55" y="30" text-anchor="middle" font-size="22">🌱</text><text x="55" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">핵심 가치</text><text x="55" y="74" text-anchor="middle" font-size="11" fill="#F7F0DF">완성보다</text><text x="55" y="90" text-anchor="middle" font-size="11" fill="#F7F0DF">참여 경험</text></g></g><text x="200" y="250" text-anchor="middle" font-size="11" fill="#7a7666">세 줄로 남기는 오리엔테이션</text></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">RECAP</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section" data-slide="10" data-diagram="bridge">
+      <div class="section-head">
+        <div class="section-kicker reveal">BRIDGE · 다음 악장</div>
+        <div class="section-counter reveal">09 / 09</div>
+      </div>
+      <div class="section-grid">
+        <div class="section-body">
+          <h2 class="section-title">NEXT · Part 02 용어 정리</h2>
+          <ul class="bullet-list"><li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📚 용어 정리 · 자주 등장할 단어부터</span><span class="bullet-arrow">→</span><div class="bullet-detail">앞으로 자주 등장할 단어들부터 정리하겠습니다. 기본 용어를 먼저 맞춰 둡니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🔀 마케팅 vs 브랜딩 · 차이 비교</span><span class="bullet-arrow">→</span><div class="bullet-detail">마케팅과 브랜딩은 어떻게 다른지 함께 살펴보겠습니다.</div></li><li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🧑‍💻 AI 마케터 · 어떤 일을 하는가</span><span class="bullet-arrow">→</span><div class="bullet-detail">AI 마케터는 어떤 일을 하는 사람인지 Part 02에서 정리하겠습니다.</div></li></ul>
+        </div>
+        <div class="section-visual reveal" style="transition-delay:0.3s">
+          <svg viewBox="0 0 400 260" class="infographic"><text x="200" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">NEXT · PART 02 PREVIEW</text><g transform="translate(120,110)"><circle r="28" fill="none" stroke="#7a7666" stroke-width="1.5" stroke-dasharray="3 3"/><text y="6" text-anchor="middle" font-size="20">🎤</text><text y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#7a7666">PART 01</text><text y="66" text-anchor="middle" font-size="11" fill="#7a7666">오리엔테이션</text></g><g ><path d="M160 110 L250 110" stroke="#e2c793" stroke-width="1.5" stroke-dasharray="200" marker-end="url(#ar2)"/></g><defs><marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#e2c793"/></marker></defs><g transform="translate(290,110)"><circle r="30" fill="#e2c793" fill-opacity="0.18" stroke="#e2c793" stroke-width="1.8" /><text y="6" text-anchor="middle" font-size="20">📚</text><text y="54" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793">PART 02</text><text y="68" text-anchor="middle" font-size="11" fill="#F7F0DF">용어 정리</text></g><g transform="translate(40,165)"><rect width="100" height="60" rx="4" fill="none" stroke="#3a3730"/><text x="50" y="24" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">마케팅</text><text x="50" y="40" text-anchor="middle" font-size="12" font-weight="900" fill="#F7F0DF">VS</text><text x="50" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">브랜딩</text></g><g transform="translate(150,165)"><rect width="100" height="60" rx="4" fill="none" stroke="#3a3730"/><text x="50" y="26" text-anchor="middle" font-size="18">📖</text><text x="50" y="46" text-anchor="middle" font-size="11" fill="#F7F0DF">기본 용어</text></g><g transform="translate(260,165)"><rect width="100" height="60" rx="4" fill="none" stroke="#3a3730"/><text x="50" y="26" text-anchor="middle" font-size="18">🧑‍💻</text><text x="50" y="46" text-anchor="middle" font-size="11" fill="#F7F0DF">AI 마케터 역할</text></g><rect x="40" y="240" width="320" height="4" rx="2" fill="#3a3730"/><rect x="40" y="240" width="32" height="4" rx="2" fill="#e2c793"/></svg>
+        </div>
+      </div>
+      <div class="section-foot">
+        <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="foot-tag">BRIDGE</div>
+      </div>
+    </section>
+
+    <section class="slide slide-outro" data-slide="11">
+      <div class="outro-radial"></div>
+      <div class="outro-kicker reveal">END OF PART</div>
+      <h2 class="outro-title reveal" style="transition-delay:0.15s">Part 01 · 마무리</h2>
+      <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 02 · 마케팅·브랜딩·AI 마케터 용어 정리</div>
+      <div class="outro-actions reveal" style="transition-delay:0.5s">
+        <a class="btn btn-ghost" href="./index.html">← 전체 목차</a>
+        <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+        <a class="btn btn-gold" href="./part-02.html">다음으로 →</a>
+      </div>
+    </section>
+</main>
+
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전 (←)">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음 (→)">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / <span id="totalNum">12</span></div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일 (T)">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말 (?)">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면 (F)">⛶</button>
+  </div>
+</div>
+
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner" id="thumbInner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div><div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">META</span></div><div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div><div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">CONCEPT</span></div><div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">CONCEPT</span></div><div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">CONCEPT</span></div><div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">CONCEPT</span></div><div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">CONCEPT</span></div><div class="thumb" data-idx="8"><span class="thumb-num">09</span><span class="thumb-label">CONCEPT</span></div><div class="thumb" data-idx="9"><span class="thumb-num">10</span><span class="thumb-label">RECAP</span></div><div class="thumb" data-idx="10"><span class="thumb-num">11</span><span class="thumb-label">BRIDGE</span></div><div class="thumb" data-idx="11"><span class="thumb-num">12</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<div class="help-overlay" id="helpOverlay" onclick="toggleHelp()">
+  <div class="help-box" onclick="event.stopPropagation()">
+    <h3>KEYBOARD SHORTCUTS</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>Space</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>처음으로</span><span class="help-key"><kbd>Home</kbd></span></div>
+    <div class="help-row"><span>마지막으로</span><span class="help-key"><kbd>End</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 스트립</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-close">아무 곳이나 클릭하면 닫힙니다</div>
+  </div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+const progressEl = document.getElementById('progress');
+const curNumEl = document.getElementById('curNum');
+const thumbStrip = document.getElementById('thumbStrip');
+const helpOverlay = document.getElementById('helpOverlay');
+let current = 0;
+
+slides.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.className = 'ctrl-dot';
+  d.onclick = () => go(i);
+  dotsEl.appendChild(d);
+});
+document.querySelectorAll('.thumb').forEach(t => {
+  t.onclick = () => go(parseInt(t.dataset.idx, 10));
+});
+
+function render() {
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  document.querySelectorAll('.ctrl-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === current));
+  progressEl.style.width = ((current + 1) / slides.length * 100) + '%';
+  curNumEl.textContent = String(current + 1).padStart(2, '0');
+  runCountup();
+}
+function next() { if (current < slides.length - 1) { current++; render(); } }
+function prev() { if (current > 0) { current--; render(); } }
+function go(i) { current = i; render(); }
+function goFirst() { current = 0; render(); }
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+function toggleThumbs() { thumbStrip.classList.toggle('open'); }
+function toggleHelp() { helpOverlay.classList.toggle('open'); }
+
+document.addEventListener('keydown', e => {
+  if (helpOverlay.classList.contains('open') && e.key !== 'Escape' && e.key !== '?') return;
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+  else if (e.key === 'Home') go(0);
+  else if (e.key === 'End') go(slides.length - 1);
+  else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+  else if (e.key === 't' || e.key === 'T') toggleThumbs();
+  else if (e.key === '?' || e.key === '/') toggleHelp();
+  else if (e.key === 'Escape') {
+    helpOverlay.classList.remove('open');
+    thumbStrip.classList.remove('open');
+  }
+});
+
+document.getElementById('deck').addEventListener('click', e => {
+  if (e.target.closest('a, button, .bullet-list, .outro-actions')) return;
+  next();
+});
+
+const tw = document.querySelector('.typewriter-target');
+if (tw) {
+  const text = tw.dataset.text;
+  let ti = 0;
+  tw.innerHTML = '<span class="caret"></span>';
+  function typ() {
+    if (ti < text.length) {
+      tw.innerHTML = text.substring(0, ti + 1) + '<span class="caret"></span>';
+      ti++;
+      setTimeout(typ, 55 + Math.random() * 40);
+    }
+  }
+  setTimeout(typ, 600);
+}
+
+function runCountup() {
+  const active = document.querySelector('.slide.active');
+  if (!active) return;
+  active.querySelectorAll('.svg-countup').forEach(el => {
+    const target = parseInt(el.dataset.target || '100', 10);
+    let v = 0;
+    const step = Math.max(1, Math.ceil(target / 60));
+    const t = setInterval(() => {
+      v += step;
+      if (v >= target) { v = target; clearInterval(t); }
+      el.textContent = v;
+    }, 20);
+  });
+}
+
+const cDot = document.getElementById('cursorDot');
+const cRing = document.getElementById('cursorRing');
+let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+let rx = mx, ry = my;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cDot.style.left = mx + 'px';
+  cDot.style.top = my + 'px';
+});
+function animCursor() {
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  cRing.style.left = rx + 'px';
+  cRing.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+document.querySelectorAll('a, button, .ctrl-dot, .tilt-card, .thumb').forEach(el => {
+  el.addEventListener('mouseenter', () => cRing.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cRing.classList.remove('hover'));
+});
+
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `translateX(6px) translateY(-2px) perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+  card.addEventListener('click', () => {
+    card.classList.toggle('open');
+  });
+});
+
+const canvas = document.getElementById('bgcanvas');
+const ctx = canvas.getContext('2d');
+let w, h;
+function resize() {
+  w = canvas.width = window.innerWidth * devicePixelRatio;
+  h = canvas.height = window.innerHeight * devicePixelRatio;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+}
+resize();
+window.addEventListener('resize', resize);
+
+const MODE = 'FLOW';
+const GOLD = '#e2c793';
+const GOLD2 = '#b8941f';
+
+let seed = 7932;
+function rand() {
+  seed = (seed * 1664525 + 1013904223) | 0;
+  return ((seed >>> 0) / 4294967296);
+}
+
+const noiseTable = new Array(512);
+for (let i = 0; i < 512; i++) noiseTable[i] = rand();
+function noise2(x, y) {
+  const xi = Math.floor(x) & 255;
+  const yi = Math.floor(y) & 255;
+  const xf = x - Math.floor(x);
+  const yf = y - Math.floor(y);
+  const u = xf * xf * (3 - 2 * xf);
+  const v = yf * yf * (3 - 2 * yf);
+  const aa = noiseTable[(xi + yi * 57) & 511];
+  const ba = noiseTable[((xi + 1) + yi * 57) & 511];
+  const ab = noiseTable[(xi + (yi + 1) * 57) & 511];
+  const bb = noiseTable[((xi + 1) + (yi + 1) * 57) & 511];
+  const x1 = aa * (1 - u) + ba * u;
+  const x2 = ab * (1 - u) + bb * u;
+  return x1 * (1 - v) + x2 * v;
+}
+
+let particles = [], nodes = [], cells = [];
+let t = 0;
+let mouseX = w / 2, mouseY = h / 2;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX * devicePixelRatio;
+  mouseY = e.clientY * devicePixelRatio;
+});
+
+function initFlow() {
+  particles = [];
+  for (let i = 0; i < 220; i++) particles.push({ x: rand() * w, y: rand() * h, vx: 0, vy: 0, life: rand() * 200 });
+}
+function drawFlow() {
+  ctx.fillStyle = 'rgba(13,13,13,0.08)';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.6 * devicePixelRatio;
+  for (const p of particles) {
+    const mDx = (p.x - mouseX) / 300;
+    const mDy = (p.y - mouseY) / 300;
+    const n = noise2(p.x * 0.0018, p.y * 0.0018 + t * 0.02) * Math.PI * 4;
+    p.vx = Math.cos(n) * 1.2 * devicePixelRatio + mDx * 0.4;
+    p.vy = Math.sin(n) * 1.2 * devicePixelRatio + mDy * 0.4;
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+    p.x += p.vx; p.y += p.vy;
+    ctx.lineTo(p.x, p.y);
+    ctx.globalAlpha = 0.3;
+    ctx.stroke();
+    p.life--;
+    if (p.life < 0 || p.x < 0 || p.x > w || p.y < 0 || p.y > h) {
+      p.x = rand() * w; p.y = rand() * h; p.life = 120 + rand() * 160;
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+initFlow();
+
+function loop() {
+  t++;
+  drawFlow();
+  requestAnimationFrame(loop);
+}
+loop();
+
+render();
+</script>
+</body>
+</html>
