@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 04 · 팀 세팅·역할 3+1 — AI 마케터 · 8강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --ink: #141414;
+    --gold: #e2c793;
+    --gold-soft: #b8941f;
+    --cream: #F7F0DF;
+    --text: #E8E0CC;
+    --muted: #7a7666;
+    --dim: #3a3730;
+    --border: #1f1d19;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow: hidden;
+    letter-spacing: -0.01em;
+    cursor: none;
+  }
+  #bgcanvas {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; opacity: 0.5;
+  }
+  .dot-grid {
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+    background-size: 28px 28px;
+    z-index: 1; pointer-events: none; opacity: 0.5;
+  }
+  .vignette {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.78) 100%);
+    z-index: 2; pointer-events: none;
+  }
+  /* Custom cursor */
+  .cursor-dot, .cursor-ring {
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px; background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--gold);
+  }
+  .cursor-ring {
+    width: 38px; height: 38px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), width 0.2s, height 0.2s;
+  }
+  .cursor-ring.hover { width: 70px; height: 70px; background: rgba(226,199,147,0.08); }
+
+  /* TOP BAR */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 56px; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 50;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; font-weight: 900; letter-spacing: 3px; color: var(--gold);
+  }
+  .brand::before {
+    content: ''; width: 10px; height: 10px;
+    background: var(--gold); transform: rotate(45deg);
+    box-shadow: 0 0 12px var(--gold);
+    animation: brandPulse 3s infinite;
+  }
+  @keyframes brandPulse {
+    0%, 100% { transform: rotate(45deg) scale(1); }
+    50% { transform: rotate(225deg) scale(1.2); }
+  }
+  .topbar-center { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+  .topbar-right { display: flex; gap: 12px; align-items: center; }
+  .nav-arrow {
+    font-size: 11px; color: var(--muted); text-decoration: none;
+    letter-spacing: 1px; padding: 6px 12px; border: 1px solid var(--border);
+    border-radius: 2px; transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .nav-arrow::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold);
+    transform: translateX(-101%);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-arrow:hover { color: var(--black); border-color: var(--gold); }
+  .nav-arrow:hover::before { transform: translateX(0); }
+  .nav-arrow span, .nav-arrow { position: relative; z-index: 1; }
+  .nav-arrow.disabled { opacity: 0.3; pointer-events: none; }
+
+  /* PROGRESS */
+  .progress {
+    position: fixed; top: 56px; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+    width: 0%; z-index: 55;
+    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 14px var(--gold);
+  }
+
+  /* DECK */
+  .deck {
+    position: relative; width: 100%; height: 100vh;
+    padding-top: 56px; z-index: 10;
+  }
+  .slide {
+    position: absolute; inset: 56px 0 80px 0;
+    padding: 50px 80px 30px;
+    opacity: 0;
+    transform: translateY(30px) scale(0.985);
+    filter: blur(8px);
+    pointer-events: none;
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.5s ease;
+    display: flex; flex-direction: column;
+  }
+  .slide.active {
+    opacity: 1; transform: translateY(0) scale(1); filter: blur(0);
+    pointer-events: auto;
+  }
+
+  /* Reveal items */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .slide.active .reveal { opacity: 1; transform: translateY(0); }
+
+  /* COVER */
+  .slide-cover { justify-content: center; align-items: flex-start; padding-left: 10vw; padding-right: 10vw; }
+  .cover-bg-shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .float-shape {
+    position: absolute; opacity: 0.18;
+    animation: floatShape 18s ease-in-out infinite;
+  }
+  .float-shape.fs1 { width: 180px; height: 180px; top: 8%; right: 8%; animation-delay: 0s; }
+  .float-shape.fs2 { width: 120px; height: 120px; bottom: 20%; right: 22%; animation-delay: -4s; }
+  .float-shape.fs3 { width: 100px; height: 100px; top: 40%; right: 18%; animation-delay: -9s; }
+  .float-shape.fs4 { width: 140px; height: 140px; bottom: 10%; right: 6%; animation-delay: -13s; }
+  @keyframes floatShape {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33%      { transform: translate(-25px, 18px) rotate(20deg); }
+    66%      { transform: translate(18px, -12px) rotate(-15deg); }
+  }
+  .cover-kicker {
+    font-size: 11px; letter-spacing: 4px; font-weight: 800;
+    color: var(--gold); padding: 8px 16px;
+    border: 1px solid var(--gold); border-radius: 30px;
+    display: inline-block; margin-bottom: 36px;
+    text-transform: uppercase;
+    background: rgba(226,199,147,0.04);
+    backdrop-filter: blur(6px);
+  }
+  .cover-number {
+    font-size: 13px; color: var(--muted); letter-spacing: 6px;
+    margin-bottom: 18px; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .cover-title {
+    font-size: clamp(40px, 5.5vw, 82px);
+    font-weight: 900; line-height: 1.1;
+    color: var(--cream); letter-spacing: -0.03em;
+    word-break: keep-all; max-width: 18ch;
+    margin-bottom: 28px; position: relative;
+    min-height: 1.2em;
+  }
+  .cover-title::after {
+    content: ''; display: block;
+    width: 0; height: 3px;
+    background: var(--gold); margin-top: 36px;
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s;
+  }
+  .slide-cover.active .cover-title::after { width: 120px; }
+  .cover-title .caret {
+    display: inline-block; width: 3px; height: 0.85em;
+    background: var(--gold); margin-left: 4px;
+    animation: caretBlink 0.7s steps(2) infinite;
+    vertical-align: text-bottom;
+  }
+  @keyframes caretBlink { 50% { opacity: 0; } }
+  .cover-sub {
+    font-size: 18px; color: var(--muted);
+    letter-spacing: 2px; font-weight: 600;
+    text-transform: uppercase;
+  }
+  .cover-meta {
+    position: absolute; bottom: 40px; left: 10vw;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; color: var(--muted); letter-spacing: 1px;
+  }
+  .meta-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--gold); border-radius: 50%;
+    animation: dotPulse 2s infinite;
+  }
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(226,199,147,0.6); }
+    50% { opacity: 0.5; transform: scale(1.5); box-shadow: 0 0 0 8px rgba(226,199,147,0); }
+  }
+  .cover-hint {
+    position: absolute; bottom: 40px; right: 10vw;
+    font-size: 11px; color: var(--dim); letter-spacing: 1px;
+  }
+  .cover-hint kbd {
+    background: var(--ink); border: 1px solid var(--border);
+    color: var(--gold); padding: 2px 6px; border-radius: 2px;
+    font-family: monospace; font-size: 10px;
+  }
+
+  /* SECTION SLIDE */
+  .section-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 32px;
+  }
+  .section-kicker {
+    font-size: 11px; letter-spacing: 4px; font-weight: 800;
+    color: var(--gold); text-transform: uppercase;
+    padding: 6px 14px; border: 1px solid var(--gold);
+    border-radius: 20px; background: rgba(226,199,147,0.04);
+  }
+  .section-counter {
+    font-size: 11px; color: var(--muted); letter-spacing: 3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .section-grid {
+    flex: 1; display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px; align-items: center;
+    max-width: 1400px;
+  }
+  .section-body { display: flex; flex-direction: column; justify-content: center; }
+  .section-title {
+    font-size: clamp(28px, 3.4vw, 48px);
+    font-weight: 900; color: var(--cream);
+    line-height: 1.15; margin-bottom: 32px;
+    word-break: keep-all; max-width: 22ch;
+    position: relative; padding-left: 28px;
+  }
+  .section-title::before {
+    content: ''; position: absolute;
+    left: 0; top: 8px;
+    width: 10px; height: calc(100% - 12px);
+    background: linear-gradient(180deg, var(--gold), transparent);
+  }
+  .bullet-list {
+    list-style: none; display: flex; flex-direction: column;
+    gap: 14px; max-width: 62ch;
+  }
+  .bullet-list li.tilt-card {
+    display: flex; gap: 18px; align-items: flex-start;
+    flex-wrap: wrap; cursor: pointer;
+    font-size: 17px; color: var(--text);
+    line-height: 1.5; word-break: keep-all;
+    padding: 14px 20px;
+    background: rgba(20,20,20,0.55);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--dim);
+    backdrop-filter: blur(6px);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-style: preserve-3d;
+    position: relative;
+  }
+  .bullet-list li.tilt-card::before {
+    content: ''; position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(226,199,147,0.08) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.35s;
+    pointer-events: none;
+  }
+  .bullet-list li.tilt-card:hover {
+    border-left-color: var(--gold);
+    border-color: var(--gold);
+    transform: translateX(6px) translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  }
+  .bullet-list li.tilt-card:hover::before { opacity: 1; }
+  .bullet-list li.tilt-card:hover .bullet-arrow { opacity: 1; transform: translateX(0); }
+  .bullet-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gold);
+    font-weight: 800; letter-spacing: 1px;
+    padding-top: 4px; min-width: 26px;
+  }
+  .bullet-text { flex: 1; }
+  .bullet-arrow {
+    font-size: 16px; color: var(--gold);
+    opacity: 0; transform: translateX(-8px);
+    transition: all 0.3s;
+    align-self: center;
+  }
+  .tilt-card.open .bullet-arrow { opacity: 1; transform: rotate(90deg); }
+  .tilt-card.open { border-left-color: var(--gold); background: rgba(226,199,147,0.06); }
+  .bullet-detail {
+    width: 100%; max-height: 0; overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.22,1,0.36,1), padding 0.35s, opacity 0.3s;
+    font-size: 14px; color: var(--muted); line-height: 1.75;
+    padding: 0 0 0 44px; opacity: 0;
+    word-break: keep-all;
+  }
+  .tilt-card.open .bullet-detail {
+    max-height: 500px; padding: 10px 0 6px 44px;
+    opacity: 1; border-top: 1px solid var(--border); margin-top: 10px;
+  }
+
+  .section-visual {
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    min-height: 360px;
+  }
+  .infographic {
+    width: 100%; max-width: 620px;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(226,199,147,0.15));
+  }
+
+  /* SVG Animations */
+  .svg-pulse { animation: svgPulse 3s ease-in-out infinite; transform-origin: center; }
+  .svg-pulse2 { animation: svgPulse 3s ease-in-out infinite 0.5s; transform-origin: center; }
+  @keyframes svgPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.08); }
+  }
+  .svg-rotate-slow { animation: svgRotate 24s linear infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgRotate { to { transform: rotate(360deg); } }
+  .svg-twinkle { animation: svgTwinkle 2.5s ease-in-out infinite; }
+  @keyframes svgTwinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.6); }
+  }
+  .slide.active .svg-draw {
+    stroke-dasharray: 1000; stroke-dashoffset: 1000;
+    animation: svgDraw 2s ease-out forwards 0.3s;
+  }
+  @keyframes svgDraw { to { stroke-dashoffset: 0; } }
+  .slide.active .svg-draw-path {
+    stroke-dasharray: 500; stroke-dashoffset: 500;
+    animation: svgDraw 1.5s ease-out forwards 0.6s;
+  }
+  .slide.active .svg-stagger {
+    opacity: 0; transform: translateY(10px);
+    animation: svgStagger 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
+  }
+  @keyframes svgStagger { to { opacity: 1; transform: translateY(0); } }
+  .slide.active .svg-check-mark {
+    stroke-dasharray: 30; stroke-dashoffset: 30;
+    animation: svgDraw 0.5s ease-out forwards 0.6s;
+  }
+  .slide.active .svg-check-row {
+    opacity: 0; transform: translateX(-12px);
+    animation: svgSlide 0.55s ease-out forwards 0.4s;
+  }
+  @keyframes svgSlide { to { opacity: 1; transform: translateX(0); } }
+  .slide.active .svg-progress {
+    stroke-dasharray: 565; stroke-dashoffset: 565;
+    animation: svgProgress 2s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.5s;
+  }
+  @keyframes svgProgress { to { stroke-dashoffset: 282; } }
+  .slide.active .svg-line-fill {
+    stroke-dasharray: 400; stroke-dashoffset: 400;
+    animation: svgDraw 1.8s ease-out forwards 0.4s;
+  }
+  .svg-spin { animation: svgRotate 12s linear infinite; transform-origin: 200px 130px; }
+  .svg-ripple { animation: svgRipple 2.4s ease-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgRipple {
+    0% { opacity: 0.8; transform: scale(0.6); }
+    100% { opacity: 0; transform: scale(1.1); }
+  }
+  .svg-button-pulse { animation: svgBtnPulse 2.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgBtnPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+  }
+  .svg-countup { font-feature-settings: "tnum"; }
+
+  /* Section foot — audio bar visualizer */
+  .section-foot {
+    display: flex; justify-content: space-between;
+    align-items: center; padding-top: 12px;
+  }
+  .audio-bars {
+    display: flex; gap: 3px; align-items: flex-end;
+    height: 18px;
+  }
+  .audio-bars span {
+    display: block; width: 3px;
+    background: var(--gold);
+    border-radius: 1px;
+    animation: audioBar 1.2s ease-in-out infinite;
+  }
+  .audio-bars span:nth-child(1) { height: 60%; animation-delay: 0s; }
+  .audio-bars span:nth-child(2) { height: 30%; animation-delay: 0.1s; }
+  .audio-bars span:nth-child(3) { height: 80%; animation-delay: 0.2s; }
+  .audio-bars span:nth-child(4) { height: 45%; animation-delay: 0.3s; }
+  .audio-bars span:nth-child(5) { height: 90%; animation-delay: 0.4s; }
+  .audio-bars span:nth-child(6) { height: 55%; animation-delay: 0.5s; }
+  .audio-bars span:nth-child(7) { height: 70%; animation-delay: 0.6s; }
+  .audio-bars span:nth-child(8) { height: 35%; animation-delay: 0.7s; }
+  @keyframes audioBar {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+  .foot-tag {
+    font-size: 10px; color: var(--dim);
+    letter-spacing: 2px; text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* OUTRO */
+  .slide-outro {
+    justify-content: center; align-items: center; text-align: center;
+    position: relative;
+  }
+  .outro-radial {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(226,199,147,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .outro-kicker {
+    font-size: 11px; letter-spacing: 6px;
+    color: var(--gold); margin-bottom: 32px; font-weight: 800;
+  }
+  .outro-title {
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 900; color: var(--cream);
+    letter-spacing: -0.02em; margin-bottom: 24px;
+    word-break: keep-all;
+  }
+  .outro-sub {
+    font-size: 18px; color: var(--muted);
+    letter-spacing: 2px; margin-bottom: 60px;
+  }
+  .outro-actions { display: flex; gap: 16px; }
+  .btn {
+    font-family: inherit; padding: 14px 28px;
+    font-size: 12px; font-weight: 800; letter-spacing: 2px;
+    border-radius: 2px; cursor: none;
+    text-decoration: none; border: 1px solid;
+    transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
+  .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+  .btn-gold { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 900; }
+  .btn-gold:hover { background: transparent; color: var(--gold); box-shadow: 0 0 30px rgba(226,199,147,0.4); }
+
+  /* CONTROLS */
+  .controls {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
+    z-index: 40;
+  }
+  .ctrl-left, .ctrl-right { display: flex; align-items: center; gap: 12px; }
+  .ctrl-btn {
+    width: 44px; height: 44px;
+    background: rgba(20,20,20,0.6);
+    border: 1px solid var(--border);
+    color: var(--muted); cursor: none;
+    font-size: 18px;
+    transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
+    backdrop-filter: blur(6px);
+  }
+  .ctrl-btn:hover {
+    background: var(--gold); color: var(--black); border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(226,199,147,0.25);
+  }
+  .ctrl-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted); letter-spacing: 2px;
+  }
+  .ctrl-counter strong { color: var(--gold); }
+  .ctrl-dots { display: flex; gap: 6px; max-width: 40vw; overflow: hidden; }
+  .ctrl-dot {
+    width: 20px; height: 2px; background: var(--dim);
+    cursor: none; transition: all 0.35s;
+  }
+  .ctrl-dot:hover { background: var(--muted); }
+  .ctrl-dot.active {
+    background: var(--gold); width: 40px;
+    box-shadow: 0 0 10px var(--gold);
+  }
+
+  /* THUMBNAIL STRIP */
+  .thumb-strip {
+    position: fixed; left: 0; right: 0;
+    bottom: 80px; height: 0;
+    background: rgba(10,10,10,0.96);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 41;
+  }
+  .thumb-strip.open { height: 110px; }
+  .thumb-strip-inner {
+    display: flex; gap: 12px; padding: 20px 32px;
+    overflow-x: auto;
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--ink);
+  }
+  .thumb-strip-inner::-webkit-scrollbar { height: 4px; }
+  .thumb-strip-inner::-webkit-scrollbar-thumb { background: var(--gold); }
+  .thumb {
+    flex-shrink: 0; width: 120px; height: 68px;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 10px;
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 1.5px; cursor: none;
+    transition: all 0.25s;
+    background: rgba(20,20,20,0.6);
+  }
+  .thumb:hover { border-color: var(--gold); background: rgba(28,26,20,0.9); transform: translateY(-2px); }
+  .thumb.active { border-color: var(--gold); background: rgba(226,199,147,0.08); }
+  .thumb-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold); font-weight: 900; font-size: 11px;
+  }
+  .thumb-label {
+    color: var(--cream); font-weight: 700; font-size: 10px;
+    text-transform: uppercase;
+  }
+  .thumb.active .thumb-label { color: var(--gold); }
+
+  /* HELP OVERLAY */
+  .help-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(16px);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .help-overlay.open { opacity: 1; pointer-events: auto; }
+  .help-box {
+    padding: 50px 60px;
+    background: var(--ink);
+    border: 1px solid var(--gold);
+    max-width: 480px;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.9);
+    transform: scale(0.92);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .help-overlay.open .help-box { transform: scale(1); }
+  .help-box h3 {
+    font-size: 14px; color: var(--gold);
+    letter-spacing: 4px; margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+  .help-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text);
+  }
+  .help-row:last-child { border-bottom: none; }
+  .help-key {
+    display: inline-flex; gap: 4px;
+  }
+  .help-key kbd {
+    background: var(--black);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: 4px 10px; border-radius: 2px;
+    font-family: monospace; font-size: 11px;
+    min-width: 28px; text-align: center;
+  }
+  .help-close {
+    margin-top: 24px; font-size: 10px;
+    color: var(--dim); letter-spacing: 2px;
+    text-align: center;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .section-grid { grid-template-columns: 1fr; gap: 24px; }
+    .section-visual { min-height: 200px; }
+    .infographic { max-width: 480px; }
+  }
+  @media (max-width: 900px) {
+    .slide { padding: 40px 28px 30px; }
+    .slide-cover { padding-left: 28px; padding-right: 28px; }
+    .cover-meta, .cover-hint { left: 28px; right: 28px; bottom: 20px; }
+    .bullet-list li.tilt-card { font-size: 15px; }
+    .topbar { padding: 0 16px; }
+    .nav-arrow { display: none; }
+    body { cursor: auto; }
+    .cursor-dot, .cursor-ring { display: none; }
+    .btn, .ctrl-btn, .ctrl-dot, .thumb { cursor: pointer; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 8강</div>
+  <div class="topbar-center">PART 04 · 팀 세팅</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-05.html">PART 05 ▶</a>
+  </div>
+</div>
+
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" fill="none" stroke="#e2c793" stroke-width="1" transform="rotate(15 50 50)"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><polygon points="50,5 95,30 95,70 50,95 5,70 5,30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">ACT 2 · 스킬</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 04</div>
+    <h1 class="cover-title typewriter-target" data-text="팀 세팅 · 역할 3+1" style="transition-delay:0.3s">&nbsp;</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">공용 작업대 · 4명 자리</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+  <section class="slide slide-section" data-slide="1" data-diagram="meta">
+    <div class="section-head">
+      <div class="section-kicker reveal">META · 파트 메타</div>
+      <div class="section-counter reveal">00 / 04</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">세팅 · 5분 안에</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">🛠 비유 · 공용 작업대 · 4명 자리</span><span class="bullet-arrow">→</span><div class="bullet-detail">팀 공용 폴더 하나에 텍스트·이미지·검수·PM 네 자리를 앉힙니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🎯 목표 · 5분 세팅 + 역할 확정</span><span class="bullet-arrow">→</span><div class="bullet-detail">도구 새로 깔지 않고 5·6·7강 도구 그대로에 공용 폴더 하나만 더합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🧩 도구 · 드라이브·노션·슬랙</span><span class="bullet-arrow">→</span><div class="bullet-detail">팀 공용 작업 공간은 드라이브·노션·슬랙 중 하나만 고릅니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">📌 산출물 · 공용 폴더 링크 1개</span><span class="bullet-arrow">→</span><div class="bullet-detail">슬랙 #수업실습에 공용 폴더 링크 한 개를 올리는 것이 세팅 완료 신호입니다.</div></li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg viewBox="0 0 400 260" class="infographic"><rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="24" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">PART 04 · META</text>
+  <rect x="30" y="40" width="160" height="90" rx="4" fill="#3a3730" opacity="0.5" stroke="#7a7666" stroke-width="1"/>
+  <text x="110" y="60" text-anchor="middle" font-size="10" font-weight="900" fill="#e2c793" letter-spacing="2">🧭 METAPHOR</text>
+  <text x="110" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#F7F0DF">공용 작업대</text>
+  <rect x="210" y="40" width="160" height="90" rx="4" fill="rgba(226,199,147,0.06)" stroke="#e2c793" stroke-width="1.4"/>
+  <text x="290" y="60" text-anchor="middle" font-size="10" font-weight="900" fill="#e2c793" letter-spacing="2">🎯 GOAL</text>
+  <text x="290" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#F7F0DF">5분 세팅</text>
+  <text x="290" y="108" text-anchor="middle" font-size="11" fill="#F7F0DF">역할 확정</text>
+  <rect x="30" y="140" width="340" height="90" rx="4" fill="#3a3730" opacity="0.5" stroke="#7a7666" stroke-width="1"/>
+  <text x="200" y="160" text-anchor="middle" font-size="10" font-weight="900" fill="#e2c793" letter-spacing="2">🛠 TOOLS · 산출물</text>
+  <text x="200" y="186" text-anchor="middle" font-size="12" font-weight="700" fill="#F7F0DF">드라이브·노션·슬랙 중 1</text>
+  <text x="200" y="208" text-anchor="middle" font-size="11" fill="#7a7666">공용 폴더 링크 1개</text>
+</svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">META</div>
+    </div>
+  </section>
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">01 / 04</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">거창한 세팅 필요 없음</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">🧰 도구 · 5·6·7강 그대로</span><span class="bullet-arrow">→</span><div class="bullet-detail">도구를 새로 깔 필요 없이 지난 회차에 쓰던 것을 그대로 씁니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">➕ 추가 · 공용 폴더 1개만</span><span class="bullet-arrow">→</span><div class="bullet-detail">오늘 추가하는 것은 팀 공용 폴더 하나뿐입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">⏱ 시간 · 5분 안에 세팅 끝</span><span class="bullet-arrow">→</span><div class="bullet-detail">세팅은 5분 안에 마치고 바로 본 작업으로 넘어가는 것이 목표입니다.</div></li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg viewBox="0 0 400 260" class="infographic"><rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="28" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2">세팅 5분 · 공용 폴더 1개</text>
+  <circle cx="200" cy="130" r="56" fill="none" stroke="#3a3730" stroke-width="1.4"/>
+  <circle cx="200" cy="130" r="38" fill="none" stroke="#3a3730" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <text x="200" y="138" text-anchor="middle" font-size="34" fill="#e2c793">🧰</text>
+  <text x="200" y="58" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793">거창한 세팅 없음</text>
+  <text x="200" y="210" text-anchor="middle" font-size="11" font-weight="700" fill="#F7F0DF">도구 그대로 · 공용 폴더만 추가</text>
+</svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 공용 작업 공간 3안</div>
+      <div class="section-counter reveal">02 / 04</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">공간 · 셋 중 하나 선택</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">🗂 A · 드라이브 + 시트</span><span class="bullet-arrow">→</span><div class="bullet-detail">구글 드라이브 폴더에 시트·독스·이미지 하위 폴더를 두는 가장 표준적인 구성입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🧠 B · 노션 팀 페이지</span><span class="bullet-arrow">→</span><div class="bullet-detail">노션 팀 페이지에 데이터베이스 캘린더 뷰를 두고 글은 각 DB 항목 본문으로 작성합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">💬 C · 슬랙 채널</span><span class="bullet-arrow">→</span><div class="bullet-detail">슬랙 팀 채널에 파일 업로드로 운영하는 가장 가벼운 구성이며 반나절 작업엔 충분합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🔗 공통 · 링크 1개 슬랙 공유</span><span class="bullet-arrow">→</span><div class="bullet-detail">어떤 옵션이든 공용 링크 한 개를 #수업실습에 공유하면 세팅 완료입니다.</div></li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg viewBox="0 0 400 260" class="infographic"><rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="28" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2">공간 3옵션 · 팀 선호로 선택</text>
+  <line x1="30" y1="210" x2="370" y2="210" stroke="#7a7666" stroke-width="1"/>
+  
+  <rect x="60" y="90" width="80" height="120" rx="3" fill="#3a3730" stroke="#7a7666" stroke-width="1.2"/>
+  <text x="100" y="80" text-anchor="middle" font-size="12" font-weight="900" fill="#7a7666">A 드라이브</text>
+  <text x="100" y="228" text-anchor="middle" font-size="11" fill="#F7F0DF">표준·정리 쉬움</text>
+  <rect x="170" y="70" width="80" height="140" rx="3" fill="rgba(226,199,147,0.15)" stroke="#e2c793" stroke-width="1.8"/>
+  <text x="210" y="60" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793">B 노션</text>
+  <text x="210" y="228" text-anchor="middle" font-size="11" fill="#F7F0DF">DB·캘린더 뷰</text>
+  <rect x="280" y="120" width="80" height="90" rx="3" fill="#3a3730" stroke="#7a7666" stroke-width="1.2"/>
+  <text x="320" y="110" text-anchor="middle" font-size="12" font-weight="900" fill="#7a7666">C 슬랙</text>
+  <text x="320" y="228" text-anchor="middle" font-size="11" fill="#F7F0DF">가벼움·단기</text>
+</svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT</div>
+    </div>
+  </section>
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 역할 3+1</div>
+      <div class="section-counter reveal">03 / 04</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">역할 · 네 자리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">✍️ 텍스트 1~2명 · 글 5건</span><span class="bullet-arrow">→</span><div class="bullet-detail">텍스트 담당은 클로드로 인스타 캡션·블로그 짧은 글·페북 스레드 포스트 5건을 60~70분 안에 씁니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🖼 이미지 1~2명 · 카드 2세트</span><span class="bullet-arrow">→</span><div class="bullet-detail">이미지 담당은 7강 도구로 카드뉴스 2세트와 썸네일 2장을 60~70분 안에 만듭니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🔍 검수 1명 · 톤 책임 겸임</span><span class="bullet-arrow">→</span><div class="bullet-detail">검수 담당은 톤 책임자를 겸임하며 글·이미지 올라올 때마다 톤·오탈자·사실 관계를 확인합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🧑‍✈️ PM · 캘린더·슬랙 보고</span><span class="bullet-arrow">→</span><div class="bullet-detail">PM은 캘린더 1차 초안과 슬랙 #수업실습 진행 보고, 2분 발표 슬라이드 준비를 맡습니다.</div></li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg viewBox="0 0 400 260" class="infographic"><rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="28" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="2">네 자리 · 겹치되 책임은 분리</text>
+  
+  <rect x="130" y="50" width="140" height="40" rx="4" fill="rgba(226,199,147,0.12)" stroke="#e2c793" stroke-width="1.8"/>
+  <text x="200" y="75" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793">팀 역할 3+1</text>
+  <line x1="200" y1="90" x2="72.5" y2="155" stroke="#7a7666" stroke-width="1"/>
+  <rect x="36" y="155" width="73" height="50" rx="4" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
+  <text x="72.5" y="175" text-anchor="middle" font-size="11" font-weight="800" fill="#F7F0DF">✍️ 텍스트</text>
+  <text x="72.5" y="194" text-anchor="middle" font-size="10" fill="#7a7666">1~2명</text>
+  <line x1="200" y1="90" x2="157.5" y2="155" stroke="#7a7666" stroke-width="1"/>
+  <rect x="121" y="155" width="73" height="50" rx="4" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
+  <text x="157.5" y="175" text-anchor="middle" font-size="11" font-weight="800" fill="#F7F0DF">🖼 이미지</text>
+  <text x="157.5" y="194" text-anchor="middle" font-size="10" fill="#7a7666">1~2명</text>
+  <line x1="200" y1="90" x2="242.5" y2="155" stroke="#7a7666" stroke-width="1"/>
+  <rect x="206" y="155" width="73" height="50" rx="4" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
+  <text x="242.5" y="175" text-anchor="middle" font-size="11" font-weight="800" fill="#F7F0DF">🔍 검수</text>
+  <text x="242.5" y="194" text-anchor="middle" font-size="10" fill="#7a7666">톤 책임</text>
+  <line x1="200" y1="90" x2="327.5" y2="155" stroke="#7a7666" stroke-width="1"/>
+  <rect x="291" y="155" width="73" height="50" rx="4" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
+  <text x="327.5" y="175" text-anchor="middle" font-size="11" font-weight="800" fill="#F7F0DF">🧑‍✈️ PM</text>
+  <text x="327.5" y="194" text-anchor="middle" font-size="10" fill="#7a7666">겸임 가능</text>
+  <text x="200" y="244" text-anchor="middle" font-size="10" fill="#7a7666" letter-spacing="1">TREE · 역할 분담</text>
+</svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT</div>
+    </div>
+  </section>
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">04 / 04</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 04 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">🛠 공간 · 드라이브·노션·슬랙 1개</span><span class="bullet-arrow">→</span><div class="bullet-detail">팀 공용 공간은 드라이브·노션·슬랙 중 하나만 골라 운영합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">👥 역할 · 텍스트·이미지·검수·PM</span><span class="bullet-arrow">→</span><div class="bullet-detail">역할은 텍스트·이미지·검수·PM 네 축으로 나누고 검수는 톤 책임자를 겸임 권장합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📣 보고 · 슬랙 한 줄 필수</span><span class="bullet-arrow">→</span><div class="bullet-detail">세팅 5분 안에 마치고 슬랙에 팀장·공용 폴더 링크를 한 줄로 보고합니다.</div></li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg viewBox="0 0 400 260" class="infographic"><rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="28" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2">Part 04 요약</text>
+  <line x1="32" y1="38" x2="368" y2="38" stroke="#3a3730" stroke-width="1"/>
+  
+  <rect x="32" y="50" width="336" height="24" rx="3" fill="rgba(226,199,147,0.08)" opacity="1"/>
+  <rect x="32" y="50" width="4" height="24" rx="1" fill="#e2c793"/>
+  <text x="48" y="66" font-size="11" font-weight="700" fill="#F7F0DF">공용 폴더 1개 생성</text>
+  <text x="356" y="66" text-anchor="end" font-size="11" fill="#e2c793">✓</text>
+  <rect x="32" y="80" width="336" height="24" rx="3" fill="rgba(226,199,147,0.08)" opacity="1"/>
+  <rect x="32" y="80" width="4" height="24" rx="1" fill="#e2c793"/>
+  <text x="48" y="96" font-size="11" font-weight="700" fill="#F7F0DF">역할 3+1 확정</text>
+  <text x="356" y="96" text-anchor="end" font-size="11" fill="#e2c793">✓</text>
+  <rect x="32" y="110" width="336" height="24" rx="3" fill="#3a3730" opacity="0.5"/>
+  <rect x="32" y="110" width="4" height="24" rx="1" fill="#7a7666"/>
+  <text x="48" y="126" font-size="11" font-weight="700" fill="#F7F0DF">슬랙 한 줄 보고</text>
+  <text x="356" y="126" text-anchor="end" font-size="11" fill="#7a7666">✓</text>
+</svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 악장</div>
+      <div class="section-counter reveal">05 / 05</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 05 · 작업 A 70분</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">🎬 다음 · 팀 작업 A 70분</span><span class="bullet-arrow">→</span><div class="bullet-detail">다음은 본격 팀 작업 A로 70분 5구간 운영에 들어갑니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">⏱ 타임박싱 · 중간 점검 5분</span><span class="bullet-arrow">→</span><div class="bullet-detail">70분 중간에 점검 5분이 포함된 5구간 구조로 막힘을 줄입니다.</div></li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg viewBox="0 0 400 260" class="infographic"><rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="30" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2">다음 · 본격 작업 A로</text>
+  <line x1="30" y1="44" x2="370" y2="44" stroke="#3a3730" stroke-width="1"/>
+  
+  <rect x="26" y="110" width="108" height="60" rx="4" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="1.8"/>
+  <text x="80" y="136" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793">세팅</text>
+  <text x="80" y="154" text-anchor="middle" font-size="10" fill="#7a7666">공간·역할</text>
+  <text x="134" y="144" text-anchor="middle" font-size="14" fill="#e2c793">→</text>
+  <rect x="146" y="110" width="108" height="60" rx="4" fill="#3a3730" stroke="#7a7666" stroke-width="1.2"/>
+  <text x="200" y="136" text-anchor="middle" font-size="12" font-weight="700" fill="#F7F0DF">작업 A</text>
+  <text x="200" y="154" text-anchor="middle" font-size="10" fill="#7a7666">70분</text>
+  <text x="254" y="144" text-anchor="middle" font-size="14" fill="#e2c793">→</text>
+  <rect x="266" y="110" width="108" height="60" rx="4" fill="#3a3730" stroke="#7a7666" stroke-width="1.2"/>
+  <text x="320" y="136" text-anchor="middle" font-size="12" font-weight="700" fill="#F7F0DF">작업 B</text>
+  <text x="320" y="154" text-anchor="middle" font-size="10" fill="#7a7666">검수</text>
+</svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">Part 04 · 마무리</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 05 · 팀 작업 A · 70분 5구간</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="./index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-05.html">다음으로 →</a>
+    </div>
+  </section>
+</main>
+
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전 (←)">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음 (→)">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / <span id="totalNum">8</span></div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일 (T)">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말 (?)">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면 (F)">⛶</button>
+  </div>
+</div>
+
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner" id="thumbInner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">META</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">CONCEPT</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">CONCEPT</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<div class="help-overlay" id="helpOverlay" onclick="toggleHelp()">
+  <div class="help-box" onclick="event.stopPropagation()">
+    <h3>KEYBOARD SHORTCUTS</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>Space</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>처음으로</span><span class="help-key"><kbd>Home</kbd></span></div>
+    <div class="help-row"><span>마지막으로</span><span class="help-key"><kbd>End</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 스트립</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-close">아무 곳이나 클릭하면 닫힙니다</div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE NAVIGATION
+   ═══════════════════════════════════════════════════════════════ */
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+const progressEl = document.getElementById('progress');
+const curNumEl = document.getElementById('curNum');
+const thumbStrip = document.getElementById('thumbStrip');
+const helpOverlay = document.getElementById('helpOverlay');
+let current = 0;
+
+slides.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.className = 'ctrl-dot';
+  d.onclick = () => go(i);
+  dotsEl.appendChild(d);
+});
+document.querySelectorAll('.thumb').forEach(t => {
+  t.onclick = () => go(parseInt(t.dataset.idx, 10));
+});
+
+function render() {
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  document.querySelectorAll('.ctrl-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === current));
+  progressEl.style.width = ((current + 1) / slides.length * 100) + '%';
+  curNumEl.textContent = String(current + 1).padStart(2, '0');
+  runCountup();
+}
+function next() { if (current < slides.length - 1) { current++; render(); } }
+function prev() { if (current > 0) { current--; render(); } }
+function go(i) { current = i; render(); }
+function goFirst() { current = 0; render(); }
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+function toggleThumbs() { thumbStrip.classList.toggle('open'); }
+function toggleHelp() { helpOverlay.classList.toggle('open'); }
+
+document.addEventListener('keydown', e => {
+  if (helpOverlay.classList.contains('open') && e.key !== 'Escape' && e.key !== '?') return;
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+  else if (e.key === 'Home') go(0);
+  else if (e.key === 'End') go(slides.length - 1);
+  else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+  else if (e.key === 't' || e.key === 'T') toggleThumbs();
+  else if (e.key === '?' || e.key === '/') toggleHelp();
+  else if (e.key === 'Escape') {
+    helpOverlay.classList.remove('open');
+    thumbStrip.classList.remove('open');
+  }
+});
+
+document.getElementById('deck').addEventListener('click', e => {
+  if (e.target.closest('a, button, .bullet-list, .outro-actions')) return;
+  next();
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPEWRITER ON COVER TITLE
+   ═══════════════════════════════════════════════════════════════ */
+const tw = document.querySelector('.typewriter-target');
+if (tw) {
+  const text = tw.dataset.text;
+  let ti = 0;
+  tw.innerHTML = '<span class="caret"></span>';
+  function typ() {
+    if (ti < text.length) {
+      tw.innerHTML = text.substring(0, ti + 1) + '<span class="caret"></span>';
+      ti++;
+      setTimeout(typ, 55 + Math.random() * 40);
+    }
+  }
+  setTimeout(typ, 600);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COUNTUP ANIMATION FOR STAT NUMBERS
+   ═══════════════════════════════════════════════════════════════ */
+function runCountup() {
+  const active = document.querySelector('.slide.active');
+  if (!active) return;
+  active.querySelectorAll('.svg-countup').forEach(el => {
+    const target = parseInt(el.dataset.target || '100', 10);
+    let v = 0;
+    const step = Math.max(1, Math.ceil(target / 60));
+    const t = setInterval(() => {
+      v += step;
+      if (v >= target) { v = target; clearInterval(t); }
+      el.textContent = v;
+    }, 20);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CUSTOM CURSOR (dot + trailing ring)
+   ═══════════════════════════════════════════════════════════════ */
+const cDot = document.getElementById('cursorDot');
+const cRing = document.getElementById('cursorRing');
+let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+let rx = mx, ry = my;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cDot.style.left = mx + 'px';
+  cDot.style.top = my + 'px';
+});
+function animCursor() {
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  cRing.style.left = rx + 'px';
+  cRing.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+// Hover targets enlarge ring
+document.querySelectorAll('a, button, .ctrl-dot, .tilt-card, .thumb').forEach(el => {
+  el.addEventListener('mouseenter', () => cRing.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cRing.classList.remove('hover'));
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   3D TILT CARDS (mouse-tracked rotateX/Y)
+   ═══════════════════════════════════════════════════════════════ */
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `translateX(6px) translateY(-2px) perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+  card.addEventListener('click', () => {
+    card.classList.toggle('open');
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   ALGORITHMIC-ART BACKGROUND (mode: WAVES, mouse-reactive)
+   ═══════════════════════════════════════════════════════════════ */
+const canvas = document.getElementById('bgcanvas');
+const ctx = canvas.getContext('2d');
+let w, h;
+function resize() {
+  w = canvas.width = window.innerWidth * devicePixelRatio;
+  h = canvas.height = window.innerHeight * devicePixelRatio;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+}
+resize();
+window.addEventListener('resize', resize);
+
+const MODE = 'CONSTELLATION';
+const GOLD = '#e2c793';
+const GOLD2 = '#b8941f';
+
+let seed = 7932;
+function rand() {
+  seed = (seed * 1664525 + 1013904223) | 0;
+  return ((seed >>> 0) / 4294967296);
+}
+
+const noiseTable = new Array(512);
+for (let i = 0; i < 512; i++) noiseTable[i] = rand();
+function noise2(x, y) {
+  const xi = Math.floor(x) & 255;
+  const yi = Math.floor(y) & 255;
+  const xf = x - Math.floor(x);
+  const yf = y - Math.floor(y);
+  const u = xf * xf * (3 - 2 * xf);
+  const v = yf * yf * (3 - 2 * yf);
+  const aa = noiseTable[(xi + yi * 57) & 511];
+  const ba = noiseTable[((xi + 1) + yi * 57) & 511];
+  const ab = noiseTable[(xi + (yi + 1) * 57) & 511];
+  const bb = noiseTable[((xi + 1) + (yi + 1) * 57) & 511];
+  const x1 = aa * (1 - u) + ba * u;
+  const x2 = ab * (1 - u) + bb * u;
+  return x1 * (1 - v) + x2 * v;
+}
+
+let particles = [], nodes = [], cells = [];
+let t = 0;
+let mouseX = w / 2, mouseY = h / 2;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX * devicePixelRatio;
+  mouseY = e.clientY * devicePixelRatio;
+});
+
+function initFlow() {
+  particles = [];
+  for (let i = 0; i < 220; i++) particles.push({ x: rand() * w, y: rand() * h, vx: 0, vy: 0, life: rand() * 200 });
+}
+function drawFlow() {
+  ctx.fillStyle = 'rgba(13,13,13,0.08)';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.6 * devicePixelRatio;
+  for (const p of particles) {
+    const mDx = (p.x - mouseX) / 300;
+    const mDy = (p.y - mouseY) / 300;
+    const n = noise2(p.x * 0.0018, p.y * 0.0018 + t * 0.02) * Math.PI * 4;
+    p.vx = Math.cos(n) * 1.2 * devicePixelRatio + mDx * 0.4;
+    p.vy = Math.sin(n) * 1.2 * devicePixelRatio + mDy * 0.4;
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+    p.x += p.vx; p.y += p.vy;
+    ctx.lineTo(p.x, p.y);
+    ctx.globalAlpha = 0.3;
+    ctx.stroke();
+    p.life--;
+    if (p.life < 0 || p.x < 0 || p.x > w || p.y < 0 || p.y > h) {
+      p.x = rand() * w; p.y = rand() * h; p.life = 120 + rand() * 160;
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+function initNetwork() {
+  nodes = [];
+  for (let i = 0; i < 70; i++) {
+    nodes.push({
+      x: rand() * w, y: rand() * h,
+      vx: (rand() - 0.5) * 0.4 * devicePixelRatio,
+      vy: (rand() - 0.5) * 0.4 * devicePixelRatio
+    });
+  }
+}
+function drawNetwork() {
+  ctx.fillStyle = 'rgba(13,13,13,0.2)';
+  ctx.fillRect(0, 0, w, h);
+  for (const n of nodes) {
+    const dx = mouseX - n.x, dy = mouseY - n.y;
+    const d = Math.sqrt(dx * dx + dy * dy);
+    if (d < 250 * devicePixelRatio) {
+      n.vx += dx / d * 0.02;
+      n.vy += dy / d * 0.02;
+    }
+    n.vx *= 0.98; n.vy *= 0.98;
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < 0 || n.x > w) n.vx *= -1;
+    if (n.y < 0 || n.y > h) n.vy *= -1;
+  }
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.5 * devicePixelRatio;
+  const limit = 180 * devicePixelRatio;
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < limit) {
+        ctx.globalAlpha = (1 - d / limit) * 0.4;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = GOLD;
+  for (const n of nodes) {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, 1.5 * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function initWaves() {
+  cells = [];
+  for (let i = 0; i < 6; i++) {
+    cells.push({ x: rand() * w, y: rand() * h, r: 80 + rand() * 220, phase: rand() * Math.PI * 2, speed: 0.5 + rand() * 1.5 });
+  }
+}
+function drawWaves() {
+  ctx.fillStyle = 'rgba(13,13,13,0.12)';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.6 * devicePixelRatio;
+  const mx = mouseX, my = mouseY;
+  for (const c of cells) {
+    c.x += ((c._ox || c.x) - c.x) * 0.02;
+    if (!c._ox) c._ox = c.x;
+  }
+  for (const c of cells) {
+    for (let k = 0; k < 8; k++) {
+      const radius = (c.r + k * 22 * devicePixelRatio + Math.sin(t * 0.02 * c.speed + c.phase) * 20 * devicePixelRatio);
+      ctx.globalAlpha = 0.12 - k * 0.012;
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, radius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 0.25;
+  for (let k = 0; k < 4; k++) {
+    ctx.beginPath();
+    ctx.arc(mx, my, 30 * devicePixelRatio + k * 20 * devicePixelRatio + Math.sin(t * 0.06) * 6, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function initVoronoi() {
+  nodes = [];
+  for (let i = 0; i < 40; i++) {
+    nodes.push({ x: rand() * w, y: rand() * h, vx: (rand() - 0.5) * 0.3 * devicePixelRatio, vy: (rand() - 0.5) * 0.3 * devicePixelRatio });
+  }
+}
+function drawVoronoi() {
+  ctx.fillStyle = 'rgba(13,13,13,0.35)';
+  ctx.fillRect(0, 0, w, h);
+  for (const n of nodes) {
+    const dx = mouseX - n.x, dy = mouseY - n.y;
+    const d = Math.sqrt(dx * dx + dy * dy);
+    if (d < 200 * devicePixelRatio && d > 1) {
+      n.vx -= dx / d * 0.03;
+      n.vy -= dy / d * 0.03;
+    }
+    n.vx *= 0.97; n.vy *= 0.97;
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < 0 || n.x > w) n.vx *= -1;
+    if (n.y < 0 || n.y > h) n.vy *= -1;
+  }
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.4 * devicePixelRatio;
+  for (let i = 0; i < nodes.length; i++) {
+    const dists = [];
+    for (let j = 0; j < nodes.length; j++) {
+      if (i === j) continue;
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      dists.push({ j, d: dx * dx + dy * dy });
+    }
+    dists.sort((a, b) => a.d - b.d);
+    for (let k = 0; k < 3; k++) {
+      const o = nodes[dists[k].j];
+      ctx.globalAlpha = 0.2 - k * 0.05;
+      ctx.beginPath();
+      ctx.moveTo(nodes[i].x, nodes[i].y);
+      ctx.lineTo(o.x, o.y);
+      ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = GOLD;
+  for (const n of nodes) {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, 1.2 * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function initConstellation() {
+  particles = [];
+  for (let i = 0; i < 120; i++) {
+    const angle = rand() * Math.PI * 2;
+    const dist = rand() * Math.min(w, h) * 0.45;
+    particles.push({
+      x: w / 2 + Math.cos(angle) * dist,
+      y: h / 2 + Math.sin(angle) * dist,
+      angle: angle, dist: dist,
+      speed: 0.0005 + rand() * 0.0012,
+      size: 0.8 + rand() * 1.4
+    });
+  }
+}
+function drawConstellation() {
+  ctx.fillStyle = 'rgba(13,13,13,0.18)';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.35 * devicePixelRatio;
+  const cx = w / 2 + (mouseX - w / 2) * 0.08;
+  const cy = h / 2 + (mouseY - h / 2) * 0.08;
+  for (const p of particles) {
+    p.angle += p.speed;
+    p.x = cx + Math.cos(p.angle) * p.dist;
+    p.y = cy + Math.sin(p.angle) * p.dist;
+  }
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 120 * devicePixelRatio) {
+        ctx.globalAlpha = (1 - d / (120 * devicePixelRatio)) * 0.35;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = GOLD;
+  for (const p of particles) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+if (MODE === 'FLOW') initFlow();
+else if (MODE === 'NETWORK') initNetwork();
+else if (MODE === 'WAVES') initWaves();
+else if (MODE === 'VORONOI') initVoronoi();
+else initConstellation();
+
+function loop() {
+  t++;
+  if (MODE === 'FLOW') drawFlow();
+  else if (MODE === 'NETWORK') drawNetwork();
+  else if (MODE === 'WAVES') drawWaves();
+  else if (MODE === 'VORONOI') drawVoronoi();
+  else drawConstellation();
+  requestAnimationFrame(loop);
+}
+loop();
+
+render();
+</script>
+</body>
+</html>
