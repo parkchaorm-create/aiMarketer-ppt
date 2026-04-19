@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 마케팅 마스터클래스 — 전체 목차</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --ink: #141414;
+    --gold: #e2c793;
+    --gold-dark: #b8941f;
+    --cream: #F7F0DF;
+    --text: #E8E0CC;
+    --muted: #7a7666;
+    --dim: #3a3730;
+    --border: #1f1d19;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    background: var(--black); color: var(--text);
+    letter-spacing: -0.01em;
+    cursor: none;
+  }
+  .cursor-dot, .cursor-ring { position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+  .cursor-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 12px var(--gold); }
+  .cursor-ring { width: 38px; height: 38px; border: 1px solid var(--gold); border-radius: 50%; transition: width 0.2s, height 0.2s; }
+  .cursor-ring.hover { width: 70px; height: 70px; background: rgba(226,199,147,0.08); }
+
+  #bgcanvas { position: fixed; inset: 0; z-index: 0; opacity: 0.45; }
+  .dot-grid {
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+    background-size: 28px 28px; z-index: 1;
+    pointer-events: none; opacity: 0.5;
+  }
+  .vignette {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+    z-index: 2; pointer-events: none;
+  }
+  main { position: relative; z-index: 10; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 100px 32px 80px;
+    position: relative;
+  }
+  .brand-pill {
+    font-size: 12px; letter-spacing: 5px;
+    color: var(--gold); font-weight: 900;
+    margin-bottom: 48px;
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 10px 22px;
+    border: 1px solid var(--gold); border-radius: 30px;
+    background: rgba(226,199,147,0.04);
+    backdrop-filter: blur(6px);
+    animation: brandFade 1.2s ease-out;
+  }
+  @keyframes brandFade { from { opacity: 0; transform: translateY(-12px); } }
+  .brand-pill::before { content: ''; width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); box-shadow: 0 0 8px var(--gold); }
+
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 96px);
+    font-weight: 900; color: var(--cream);
+    line-height: 1.08; letter-spacing: -0.04em;
+    margin-bottom: 32px;
+    max-width: 22ch; word-break: keep-all;
+  }
+  .hero h1 .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: wordIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hero h1 .word.gold { color: var(--gold); }
+  @keyframes wordIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-sub {
+    font-size: 19px; color: var(--muted);
+    max-width: 60ch; line-height: 1.7;
+    margin-bottom: 52px; word-break: keep-all;
+    animation: fadeUp 1s ease-out 1.2s both;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } }
+  .hero-stats {
+    display: flex; gap: 70px;
+    flex-wrap: wrap; justify-content: center;
+    padding: 32px 60px;
+    border: 1px solid var(--border);
+    background: rgba(20,20,20,0.5);
+    backdrop-filter: blur(8px);
+    position: relative;
+    animation: fadeUp 1s ease-out 1.5s both;
+  }
+  .hero-stats::before, .hero-stats::after {
+    content: ''; position: absolute;
+    width: 16px; height: 16px;
+    border: 1px solid var(--gold);
+  }
+  .hero-stats::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .hero-stats::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+  .stat-num {
+    font-size: 42px; font-weight: 900;
+    color: var(--gold); letter-spacing: -0.02em;
+    font-feature-settings: "tnum";
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat-lbl {
+    font-size: 11px; letter-spacing: 3px;
+    color: var(--muted); text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .scroll-hint {
+    position: absolute; bottom: 30px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px; letter-spacing: 3px;
+    color: var(--dim);
+    animation: bounce 2.5s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.4; }
+    50% { transform: translate(-50%, 10px); opacity: 1; }
+  }
+
+  /* ACT BLOCKS */
+  .act-block {
+    padding: 100px 48px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .act-head {
+    display: flex; align-items: center; gap: 24px;
+    margin-bottom: 48px;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .act-head.in { opacity: 1; transform: translateY(0); }
+  .act-line { flex: 1; height: 1px; background: var(--dim); position: relative; }
+  .act-line::before {
+    content: ''; position: absolute;
+    top: 50%; width: 8px; height: 8px;
+    background: var(--gold); border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 10px var(--gold);
+  }
+  .act-head .act-line:first-child::before { right: 0; }
+  .act-head .act-line:last-child::before { left: 0; }
+  .act-title {
+    font-size: 13px; letter-spacing: 5px;
+    color: var(--gold); font-weight: 900;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border: 1px solid var(--gold); border-radius: 30px;
+    background: rgba(226,199,147,0.04);
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    display: block; text-decoration: none; color: inherit;
+    position: relative; opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: none;
+  }
+  .card.in { opacity: 1; transform: translateY(0); }
+  .card-inner {
+    padding: 28px 30px;
+    background: rgba(18,18,18,0.75);
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+    backdrop-filter: blur(4px);
+  }
+  .card-inner::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; width: 0; height: 3px;
+    background: var(--gold);
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card:hover .card-inner {
+    background: rgba(28,26,20,0.95);
+    border-color: var(--gold);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.7), 0 0 40px rgba(226,199,147,0.15);
+  }
+  .card:hover .card-inner::before { width: 100%; }
+  .card-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle 120px at var(--mx, 50%) var(--my, 50%), rgba(226,199,147,0.12), transparent);
+    opacity: 0; transition: opacity 0.35s;
+    pointer-events: none;
+  }
+  .card:hover .card-glow { opacity: 1; }
+  .card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gold);
+    letter-spacing: 3px; font-weight: 800;
+    margin-bottom: 14px;
+  }
+  .card-title {
+    font-size: 19px; font-weight: 800;
+    color: var(--cream); line-height: 1.35;
+    word-break: keep-all; margin-bottom: 22px;
+    min-height: 3em;
+  }
+  .card-meta {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .card-meta .arrow {
+    color: var(--gold); font-size: 18px;
+    transition: transform 0.35s;
+  }
+  .card:hover .arrow { transform: translateX(10px); }
+
+  footer {
+    padding: 80px 32px; text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--dim); font-size: 11px;
+    letter-spacing: 2px;
+  }
+  footer strong { color: var(--gold); }
+
+
+  .card-thumb {
+    margin: 0 -4px 16px;
+    padding: 8px 4px 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    height: 56px; overflow: hidden;
+    opacity: 0.85; transition: opacity 0.4s;
+  }
+  .card:hover .card-thumb { opacity: 1; }
+  .card-thumb-svg { width: 100%; height: 100%; max-width: 220px; }
+
+  @media (max-width: 720px) {
+    .hero-stats { padding: 22px 28px; gap: 32px; }
+    .stat-num { font-size: 32px; }
+    .act-block { padding: 60px 24px; }
+    body { cursor: auto; }
+    .cursor-dot, .cursor-ring { display: none; }
+    .card { cursor: pointer; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<main>
+  <section class="hero">
+    <div class="brand-pill">CLAUDE CODE · MASTERCLASS · KR</div>
+    <h1 id="heroTitle"></h1>
+    <p class="hero-sub">
+      4악장 28파트로 완성되는 1인 사업자용 Claude Code 자동화 마스터클래스.<br>
+      각 파트는 독립된 인터랙티브 슬라이드 덱으로 준비되어 있습니다.
+    </p>
+    <div class="hero-stats">
+      <div><div class="stat-num" data-target="28">0</div><div class="stat-lbl">PARTS</div></div>
+      <div><div class="stat-num" data-target="4">0</div><div class="stat-lbl">ACTS</div></div>
+      <div><div class="stat-num" data-target="260">0</div><div class="stat-lbl">SLIDES</div></div>
+    </div>
+    <div class="scroll-hint">▼ SCROLL FOR PARTS</div>
+  </section>
+
+  <section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">Prologue</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-00.html" style="animation-delay:0.0s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A4"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><line x1="28" y1="28" x2="192" y2="28" stroke="#3a3730" stroke-width="1.5"/><line x1="28" y1="28" x2="110" y2="28" stroke="#e2c793" stroke-width="1.5"/><circle cx="38" cy="28" r="5" fill="#e2c793"/><circle cx="86" cy="28" r="5" fill="#e2c793"/><circle cx="134" cy="28" r="5" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="182" cy="28" r="5" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 00</div>
+          <div class="card-title">오프닝 – 오늘 우리는 나만의 콘텐츠 마케팅 오케스트라를 만듭니다</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">ACT 1 · 기초</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-01.html" style="animation-delay:0.08s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A2"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><rect x="70" y="34" width="18" height="14" fill="#7a7666"/><rect x="98" y="22" width="18" height="26" fill="#e2c793" opacity="0.55"/><rect x="126" y="10" width="18" height="38" fill="#e2c793"/><line x1="62" y1="48" x2="152" y2="48" stroke="#3a3730" stroke-width="1"/></svg></div>
+          <div class="card-num">PART 01</div>
+          <div class="card-title">클로드 코드란? + 요금제 완벽 정리</div>
+          <div class="card-meta"><span>10 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-02.html" style="animation-delay:0.16s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 02</div>
+          <div class="card-title">설치 A to Z + 첫 성공 체험 – 25분 이내 완료!</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-03.html" style="animation-delay:0.24s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 03</div>
+          <div class="card-title">터미널 공포증 완치 + Plan Mode – 삽질 방지 보험</div>
+          <div class="card-meta"><span>9 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-04.html" style="animation-delay:0.32s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 04</div>
+          <div class="card-title">CLAUDE.md + Knowledge 폴더 – 총보 완성 & ACT 1 마무리</div>
+          <div class="card-meta"><span>7 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">ACT 2 · 스킬 빌딩</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-05.html" style="animation-delay:0.4s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 05</div>
+          <div class="card-title">컨텍스트 & 토큰 – 지휘자 책상과 택시 미터기</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-06.html" style="animation-delay:0.0s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 06</div>
+          <div class="card-title">이미지·PDF + 툴 사용 – 악기의 특수 주법</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-07.html" style="animation-delay:0.08s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 07</div>
+          <div class="card-title">첫 번째 악기 – 소셜미디어 콘텐츠 자동화</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-08.html" style="animation-delay:0.16s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 08</div>
+          <div class="card-title">브랜드 보이스 – 나를 AI로 클론하는 피아노</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-09.html" style="animation-delay:0.24s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 09</div>
+          <div class="card-title">리퍼포징 스킬 – URL 하나로 7중주</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-10.html" style="animation-delay:0.32s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 10</div>
+          <div class="card-title">SEO + GEO 감사 – 내 사이트 건강검진 트럼펫</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-11.html" style="animation-delay:0.4s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A6"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g stroke="#e2c793" stroke-width="2" fill="none" stroke-linecap="round"><rect x="52" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 56 26 L 62 32 L 70 20"/><rect x="100" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 104 26 L 110 32 L 118 20"/><rect x="148" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 152 26 L 158 32 L 166 20"/></g></svg></div>
+          <div class="card-num">PART 11</div>
+          <div class="card-title">GA4 분석 – 데이터 읽어주는 드럼</div>
+          <div class="card-meta"><span>3 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-12.html" style="animation-delay:0.0s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A5"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><text x="110" y="42" text-anchor="middle" font-size="36" font-weight="900" fill="#e2c793" font-family="'JetBrains Mono',monospace" letter-spacing="-2">100</text><text x="110" y="52" text-anchor="middle" font-size="7" font-weight="700" fill="#7a7666" letter-spacing="3">METRIC</text></svg></div>
+          <div class="card-num">PART 12</div>
+          <div class="card-title">아웃라이어 리서치 – 터지는 콘텐츠 탐지기</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-13.html" style="animation-delay:0.08s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 13</div>
+          <div class="card-title">허브 콘텐츠 엔진 – 교향곡을 여러 공연장에서</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">ACT 3 · 오케스트라</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-14.html" style="animation-delay:0.16s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 14</div>
+          <div class="card-title">4막 시작 – 독주에서 오케스트라로</div>
+          <div class="card-meta"><span>7 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-15.html" style="animation-delay:0.24s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 15</div>
+          <div class="card-title">단원 배치 – 전문 에이전트 설계하기</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-16.html" style="animation-delay:0.32s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 16</div>
+          <div class="card-title">지휘자 세우기 – 오케스트레이터 구축</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-17.html" style="animation-delay:0.4s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 17</div>
+          <div class="card-title">비주얼 마케팅 팀 – 카드뉴스와 썸네일까지 자동 생성</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-18.html" style="animation-delay:0.0s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 18</div>
+          <div class="card-title">쇼츠 영상 자동 제작 – 영상 팀까지 완성</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-19.html" style="animation-delay:0.08s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 19</div>
+          <div class="card-title">리모션 영상 자동화 – 데이터만 넣으면 영상이 나온다</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-20.html" style="animation-delay:0.16s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 20</div>
+          <div class="card-title">풀 데모 – 전체 오케스트라 라이브 공연</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">ACT 4 · 자동화 시스템</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-21.html" style="animation-delay:0.24s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 21</div>
+          <div class="card-title">하네스 시스템 – 말이 강할수록 마구가 필요하다</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-22.html" style="animation-delay:0.32s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A2"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><rect x="70" y="34" width="18" height="14" fill="#7a7666"/><rect x="98" y="22" width="18" height="26" fill="#e2c793" opacity="0.55"/><rect x="126" y="10" width="18" height="38" fill="#e2c793"/><line x1="62" y1="48" x2="152" y2="48" stroke="#3a3730" stroke-width="1"/></svg></div>
+          <div class="card-num">PART 22</div>
+          <div class="card-title">NotebookLM 연동 – AI에게 영구 기억장치를 달다</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-23.html" style="animation-delay:0.4s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A6"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g stroke="#e2c793" stroke-width="2" fill="none" stroke-linecap="round"><rect x="52" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 56 26 L 62 32 L 70 20"/><rect x="100" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 104 26 L 110 32 L 118 20"/><rect x="148" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 152 26 L 158 32 L 166 20"/></g></svg></div>
+          <div class="card-num">PART 23</div>
+          <div class="card-title">무인 배포 – 9개 SNS에 동시 발행하기</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-24.html" style="animation-delay:0.0s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A6"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g stroke="#e2c793" stroke-width="2" fill="none" stroke-linecap="round"><rect x="52" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 56 26 L 62 32 L 70 20"/><rect x="100" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 104 26 L 110 32 L 118 20"/><rect x="148" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 152 26 L 158 32 L 166 20"/></g></svg></div>
+          <div class="card-num">PART 24</div>
+          <div class="card-title">GitHub Actions – 매주 월요일 자동으로 공연장이 열린다</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-25.html" style="animation-delay:0.08s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 25</div>
+          <div class="card-title">Karpathy 자기 개선 루프 – AI 지휘자가 스스로 실력을 키운다</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-26.html" style="animation-delay:0.16s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A4"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><line x1="28" y1="28" x2="192" y2="28" stroke="#3a3730" stroke-width="1.5"/><line x1="28" y1="28" x2="110" y2="28" stroke="#e2c793" stroke-width="1.5"/><circle cx="38" cy="28" r="5" fill="#e2c793"/><circle cx="86" cy="28" r="5" fill="#e2c793"/><circle cx="134" cy="28" r="5" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="182" cy="28" r="5" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 26</div>
+          <div class="card-title">데이터 자산화 + 한국형 플랫폼 연결</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">Finale</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-27.html" style="animation-delay:0.24s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 27</div>
+          <div class="card-title">앙코르 – 전체 복기, 7일 액션 플랜, 수익화 로드맵</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section>
+
+  <footer>
+    <strong>CLAUDE CODE MASTERCLASS</strong> · 인터랙티브 슬라이드 덱 · <span style="color:var(--muted);">2026</span>
+  </footer>
+</main>
+
+<script>
+/* Hero word-by-word animation */
+const heroTitle = document.getElementById('heroTitle');
+const phrase = [
+  { t: '나만의', gold: false },
+  { t: '콘텐츠', gold: false },
+  { t: '마케팅', gold: false },
+  { t: '\n', gold: false },
+  { t: '오케스트라를', gold: true },
+  { t: '만듭니다', gold: false },
+];
+phrase.forEach((p, i) => {
+  if (p.t === '\n') { heroTitle.appendChild(document.createElement('br')); return; }
+  const sp = document.createElement('span');
+  sp.className = 'word' + (p.gold ? ' gold' : '');
+  sp.textContent = p.t + ' ';
+  sp.style.animationDelay = (0.3 + i * 0.12) + 's';
+  heroTitle.appendChild(sp);
+});
+
+/* Countup for stats */
+document.querySelectorAll('.stat-num').forEach(el => {
+  const tgt = parseInt(el.dataset.target, 10);
+  let v = 0, step = Math.max(1, Math.ceil(tgt / 50));
+  const int = setInterval(() => {
+    v += step;
+    if (v >= tgt) { v = tgt; clearInterval(int); }
+    el.textContent = v;
+  }, 30);
+});
+
+/* Cursor */
+const cDot = document.getElementById('cursorDot');
+const cRing = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cDot.style.left = mx + 'px'; cDot.style.top = my + 'px';
+});
+function animC() {
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px';
+  requestAnimationFrame(animC);
+}
+animC();
+document.querySelectorAll('a, .card').forEach(el => {
+  el.addEventListener('mouseenter', () => cRing.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cRing.classList.remove('hover'));
+});
+
+/* Glow follow for cards */
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+});
+
+/* Intersection Observer reveal */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.card, .act-head').forEach(el => io.observe(el));
+
+/* Background canvas — constellation with mouse gravity */
+const canvas = document.getElementById('bgcanvas');
+const ctx = canvas.getContext('2d');
+let w, h;
+function resize() {
+  w = canvas.width = window.innerWidth * devicePixelRatio;
+  h = canvas.height = window.innerHeight * devicePixelRatio;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+}
+resize();
+window.addEventListener('resize', resize);
+
+let seed = 42;
+function rand() {
+  seed = (seed * 1664525 + 1013904223) | 0;
+  return ((seed >>> 0) / 4294967296);
+}
+const particles = [];
+for (let i = 0; i < 120; i++) {
+  particles.push({
+    x: rand() * w, y: rand() * h,
+    vx: (rand() - 0.5) * 0.3 * devicePixelRatio,
+    vy: (rand() - 0.5) * 0.3 * devicePixelRatio,
+    size: 0.6 + rand() * 1.3
+  });
+}
+let mouseCx = w / 2, mouseCy = h / 2;
+document.addEventListener('mousemove', e => {
+  mouseCx = e.clientX * devicePixelRatio;
+  mouseCy = e.clientY * devicePixelRatio;
+});
+function loop() {
+  ctx.fillStyle = 'rgba(13,13,13,0.18)';
+  ctx.fillRect(0, 0, w, h);
+  for (const p of particles) {
+    const dx = mouseCx - p.x, dy = mouseCy - p.y;
+    const d = Math.sqrt(dx * dx + dy * dy);
+    if (d < 180 * devicePixelRatio && d > 1) {
+      p.vx += dx / d * 0.015;
+      p.vy += dy / d * 0.015;
+    }
+    p.vx *= 0.985; p.vy *= 0.985;
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > w) p.vx *= -1;
+    if (p.y < 0 || p.y > h) p.vy *= -1;
+  }
+  ctx.strokeStyle = '#e2c793';
+  ctx.lineWidth = 0.35 * devicePixelRatio;
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 180 * devicePixelRatio) {
+        ctx.globalAlpha = (1 - d / (180 * devicePixelRatio)) * 0.35;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = '#e2c793';
+  for (const p of particles) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>
