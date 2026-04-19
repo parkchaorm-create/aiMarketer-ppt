@@ -596,7 +596,23 @@
     .cursor-dot, .cursor-ring { display: none; }
     .btn, .ctrl-btn, .ctrl-dot, .thumb { cursor: pointer; }
   }
-</style>
+
+  /* © PajamaBoss 저작권 표기 (2026-04-20 주입) */
+  .copyright-notice {
+    position: fixed;
+    top: 10px;
+    right: 14px;
+    font-size: 10px;
+    color: var(--muted, #7a7666);
+    opacity: 0.55;
+    letter-spacing: 0.02em;
+    z-index: 50;
+    pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none;
+  }
+
+  </style>
 </head>
 <body>
 
@@ -1032,5 +1048,6 @@ loop();
 
 render();
 </script>
+  <div class="copyright-notice">© PajamaBoss</div>
 </body>
 </html>
