@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 07 · RECAP · 30초 짝 교환 · 17강 예고 — AI 마케터 16강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="NETWORK">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 16강</div>
+  <div class="topbar-center">PART 07 · 마무리 · 산출물 업로드 · 17강 예고</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-06.html" title="이전 파트">◀ PART 06</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../../17강_리드수집과_스마트태깅/PPT/part-01.html" title="다음 강의">17강 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">ACT 4 · 정리</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 07 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="악수 한 번 · 9주의 토대" style="transition-delay:0.3s">악수 한 번 · 9주의 토대</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">WRAP-UP · 업로드 · 30초 짝 교환 · 17강 예고</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · 마무리</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 07 · 3줄 구조</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📤 산출물 · 업로드 확인</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">#수업실습에 연결 확인 스크린샷이 올라왔는지 함께 확인. 토큰 청소 완료 업로드도 함께.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔁 30초 짝 교환 · Phase 4 기대</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘 연결한 ghl MCP가 17~25강 중 어디에 기대되는지 옆자리와 30초씩 번갈아 나눕니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">👀 17강 · 예고 짧게 · 감사</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">17강은 리드 수집 & 스마트 태깅. 오늘 만든 GHL 계정을 14일 평가판 기간 내 유지하시면 됩니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- 3 wrap blocks -->
+          <rect x="25" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="78" y="88" font-size="22" text-anchor="middle" fill="#e2c793">📤</text>
+          <text x="78" y="115" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">업로드</text>
+          <line x1="45" y1="125" x2="110" y2="125" stroke="#3a3730" stroke-width="1"/>
+          <text x="78" y="148" font-size="10" text-anchor="middle" fill="#7a7666">#수업실습</text>
+          <text x="78" y="168" font-size="10" text-anchor="middle" fill="#e2c793">스크린샷 2장</text>
+
+          <rect x="147" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="88" font-size="22" text-anchor="middle" fill="#e2c793">🔁</text>
+          <text x="200" y="115" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">30초 교환</text>
+          <line x1="167" y1="125" x2="232" y2="125" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="148" font-size="10" text-anchor="middle" fill="#7a7666">옆자리와</text>
+          <text x="200" y="168" font-size="10" text-anchor="middle" fill="#e2c793">Phase 4 기대</text>
+
+          <rect x="269" y="60" width="105" height="140" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="322" y="88" font-size="22" text-anchor="middle" fill="#e2c793">👀</text>
+          <text x="322" y="115" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">17강 예고</text>
+          <line x1="289" y1="125" x2="354" y2="125" stroke="#3a3730" stroke-width="1"/>
+          <text x="322" y="148" font-size="10" text-anchor="middle" fill="#7a7666">리드 수집</text>
+          <text x="322" y="168" font-size="10" text-anchor="middle" fill="#e2c793">스마트 태깅</text>
+
+          <text x="200" y="235" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">마지막 · 한 호흡에</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">지금 이 한 번의 연결이 · 얼마나 멀리 갈까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🌱 오늘 · 작고 간단한 한 번</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">한 줄 명령어·숫자 한 개 응답. 크게 한 건 없어 보여도 이 한 번이 다음 9주를 움직이는 씨앗이 됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🌳 9주 후 · 팀 파이프라인까지</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">17강 리드 수집 · 18강 예약 발행 · 19강 DM · 20강 Reactivation · 25강 팀 파이프라인 디버깅까지 같은 연결이 계속 확장돼요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎯 감각 하나 · 3가지 남았음</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘 손에 남은 세 가지: 평가판 계정 · 통신 확인 · 보안 감각. 마지막 파트에서 세 가지를 다시 짚습니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- seed to tree growth -->
+          <text x="200" y="30" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">오늘 · 씨앗 · 9주의 나무</text>
+          <!-- seed -->
+          <circle cx="60" cy="180" r="12" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="60" y="185" font-size="14" text-anchor="middle" fill="#e2c793">🌱</text>
+          <text x="60" y="215" font-size="10" text-anchor="middle" fill="#7a7666">오늘</text>
+          <text x="60" y="230" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">연결 1회</text>
+          <!-- arrow -->
+          <path d="M 85 180 L 130 170" stroke="#e2c793" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <!-- growing -->
+          <circle cx="160" cy="160" r="16" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="160" y="165" font-size="16" text-anchor="middle" fill="#e2c793">🌿</text>
+          <text x="160" y="200" font-size="10" text-anchor="middle" fill="#7a7666">17~19강</text>
+          <text x="160" y="215" font-size="10" text-anchor="middle" fill="#e2c793">폼·예약·DM</text>
+          <!-- arrow -->
+          <path d="M 185 150 L 230 130" stroke="#e2c793" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <!-- tree -->
+          <polygon points="290,60 275,110 305,110" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <polygon points="290,90 270,135 310,135" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <polygon points="290,115 265,160 315,160" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <rect x="285" y="160" width="10" height="20" fill="#e2c793"/>
+          <text x="350" y="140" font-size="11" fill="#F7F0DF" font-weight="700">25강</text>
+          <text x="350" y="158" font-size="10" fill="#7a7666">팀 파이프라인</text>
+          <text x="350" y="175" font-size="10" fill="#e2c793">디버깅</text>
+          <line x1="30" y1="240" x2="370" y2="240" stroke="#3a3730"/>
+          <text x="200" y="255" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">한 번의 연결 · 9주의 나무</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 오늘 만든 세 가지 + 5단어 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 오늘 3산출물</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">손에 남은 세 가지 · 용어 5개</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🏢 산출물 1 · GHL 평가판 + Location</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">클라우드에 남는 기반. 17강부터 이어서 쓰실 수 있습니다. 14일 지나기 전에 해지 판단.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📸 산출물 2 · MCP 통신 확인 · 공식</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘의 공식 학습 산출물. 슬랙 #수업실습에 업로드한 list·자연어 응답 스크린샷 두 장이 증거.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🛡️ 산출물 3 · 보안 감각 · 머리와 손</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">PIT 발급 · 즉시 복사 · 사용 후 삭제의 리듬. Phase 4 전체의 기본 자세이자 실무에서도 유용한 습관.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">📚 용어 5개 · 한 문장씩 복기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">GHL(올인원 플랫폼) · CRM 3기둥(연락처·파이프라인·캠페인) · MCP(USB 허브) · PIT(스페어 열쇠) · Location(서브계정).</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- checklist card -->
+          <rect x="40" y="30" width="320" height="200" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
+          <text x="60" y="55" font-size="12" fill="#e2c793" font-weight="800" letter-spacing="2">오늘의 산출물 3가지</text>
+          <line x1="60" y1="65" x2="340" y2="65" stroke="#3a3730" stroke-width="1"/>
+          <rect x="70" y="80" width="14" height="14" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 73 87 L 77 91 L 82 84" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="95" y="92" font-size="12" fill="#F7F0DF">🏢 GHL 계정 · Location</text>
+          <text x="300" y="92" font-size="10" fill="#7a7666">클라우드</text>
+          <rect x="70" y="108" width="14" height="14" fill="rgba(226,199,147,0.2)" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 73 115 L 77 119 L 82 112" fill="none" stroke="#e2c793" stroke-width="2.5"/>
+          <text x="95" y="120" font-size="12" fill="#F7F0DF" font-weight="700">📸 MCP 통신 확인</text>
+          <text x="300" y="120" font-size="10" fill="#e2c793">공식</text>
+          <rect x="70" y="136" width="14" height="14" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 73 143 L 77 147 L 82 140" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="95" y="148" font-size="12" fill="#F7F0DF">🛡️ 보안 감각</text>
+          <text x="300" y="148" font-size="10" fill="#7a7666">습관</text>
+          <line x1="70" y1="165" x2="330" y2="165" stroke="#3a3730" stroke-width="1"/>
+          <text x="60" y="185" font-size="11" fill="#e2c793" font-weight="700">📚 용어 5개</text>
+          <text x="75" y="202" font-size="10" fill="#7a7666">GHL · CRM 3기둥 · MCP</text>
+          <text x="75" y="217" font-size="10" fill="#7a7666">PIT · Location</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 17강 예고 + Phase 4 지도 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 17강 예고</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">다음 주 · 리드 수집 + 스마트 태깅</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📝 17강 · 랜딩 폼 · 자연어 생성</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Claude Code에 자연어로 "랜딩 폼 1개 만들어줘" → 오늘 연결한 MCP가 GHL에 폼을 실제로 생성합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🏷️ 스마트 태깅 · VIP 자동 분류</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">폼에 가상 데이터 3건 입력 후 Claude Code가 입력 내용 읽고 VIP 고객·일반 고객 자동 태그. 팀별 실습으로 진행.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📅 17강 전제 · 14일 안에</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">17강 전제는 오늘 만든 GHL 계정이 14일 평가판 기간 내에 있을 것. 해지하셨다면 새 이메일로 재가입 · 운영진이 안내.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">🗺️ Phase 4 · 10회차 로드맵</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">16 오늘 · 17 리드 · 18 예약 · 19 DM · 20 Reactivation · 21 뉴스레터 · 22 컨텍스트 · 23~25 팀 파이프라인.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="25" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">Phase 4 · 10회차 로드맵</text>
+          <!-- timeline -->
+          <line x1="30" y1="130" x2="370" y2="130" stroke="#3a3730" stroke-width="2"/>
+          <!-- 16 (done) -->
+          <circle cx="50" cy="130" r="8" fill="#e2c793"/>
+          <text x="50" y="115" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="800">16</text>
+          <text x="50" y="155" font-size="9" text-anchor="middle" fill="#7a7666">오늘 ✓</text>
+          <text x="50" y="170" font-size="9" text-anchor="middle" fill="#7a7666">연결</text>
+          <!-- 17 (next) -->
+          <circle cx="110" cy="130" r="10" fill="rgba(226,199,147,0.3)" stroke="#e2c793" stroke-width="2"/>
+          <text x="110" y="115" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800">17</text>
+          <text x="110" y="155" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="700">다음 주</text>
+          <text x="110" y="170" font-size="9" text-anchor="middle" fill="#e2c793">리드·태깅</text>
+          <!-- 18 -->
+          <circle cx="170" cy="130" r="6" fill="none" stroke="#7a7666" stroke-width="1.5"/>
+          <text x="170" y="115" font-size="10" text-anchor="middle" fill="#7a7666">18</text>
+          <text x="170" y="155" font-size="9" text-anchor="middle" fill="#7a7666">예약</text>
+          <!-- 19 -->
+          <circle cx="210" cy="130" r="6" fill="none" stroke="#7a7666" stroke-width="1.5"/>
+          <text x="210" y="115" font-size="10" text-anchor="middle" fill="#7a7666">19</text>
+          <text x="210" y="155" font-size="9" text-anchor="middle" fill="#7a7666">DM</text>
+          <!-- 20-22 -->
+          <circle cx="250" cy="130" r="5" fill="none" stroke="#7a7666"/>
+          <text x="250" y="115" font-size="9" text-anchor="middle" fill="#7a7666">20</text>
+          <circle cx="280" cy="130" r="5" fill="none" stroke="#7a7666"/>
+          <text x="280" y="115" font-size="9" text-anchor="middle" fill="#7a7666">21</text>
+          <circle cx="310" cy="130" r="5" fill="none" stroke="#7a7666"/>
+          <text x="310" y="115" font-size="9" text-anchor="middle" fill="#7a7666">22</text>
+          <!-- 23-25 -->
+          <rect x="330" y="120" width="30" height="20" fill="none" stroke="#7a7666" stroke-dasharray="3,3"/>
+          <text x="345" y="115" font-size="9" text-anchor="middle" fill="#7a7666">23-25</text>
+          <text x="345" y="155" font-size="8" text-anchor="middle" fill="#7a7666">팀</text>
+          <!-- bottom -->
+          <text x="200" y="225" font-size="11" text-anchor="middle" fill="#F7F0DF">오늘 악수 · 9주 내내 유효</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">17강부터 · 실제 사용 시작</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">16강 · 세 줄 전체 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🤝 Phase 4 · 악수의 첫 순간</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">내 컴퓨터 안에서만 움직이던 Claude Code가 외부 시스템 GHL과 손을 맞잡은 첫 수업. Phase 4 10회차의 출발점.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔌 MCP · 한 규격으로 여러 도구</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">MCP(AI와 외부 도구 표준 규약)로 GHL MCP 서버 연결. 자연어 "연락처 수 세어줘"에 숫자 응답 성공.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🛡️ PIT · 오늘 쓰고 오늘 삭제</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">scope 5개로 최소 권한 발급 → 즉시 복사 → 사용 후 세 곳 청소. 실무에도 같은 습관이 안전합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="60" width="105" height="140" fill="rgba(226,199,147,0.1)" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="82" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">01</text>
+          <line x1="50" y1="100" x2="115" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">악수</text>
+          <text x="82" y="150" font-size="18" text-anchor="middle" fill="#e2c793">🤝</text>
+          <text x="82" y="175" font-size="10" text-anchor="middle" fill="#7a7666">Phase 4 시작</text>
+          <text x="82" y="192" font-size="10" text-anchor="middle" fill="#e2c793">첫 회차</text>
+
+          <rect x="147" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">02</text>
+          <line x1="167" y1="100" x2="232" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">MCP</text>
+          <text x="200" y="150" font-size="18" text-anchor="middle" fill="#e2c793">🔌</text>
+          <text x="200" y="175" font-size="10" text-anchor="middle" fill="#7a7666">한 규격 · 여러</text>
+          <text x="200" y="192" font-size="10" text-anchor="middle" fill="#e2c793">숫자 응답 OK</text>
+
+          <rect x="264" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">03</text>
+          <line x1="284" y1="100" x2="349" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">보안</text>
+          <text x="317" y="150" font-size="18" text-anchor="middle" fill="#e2c793">🛡️</text>
+          <text x="317" y="175" font-size="10" text-anchor="middle" fill="#7a7666">scope 5 · 삭제</text>
+          <text x="317" y="192" font-size="10" text-anchor="middle" fill="#e2c793">그날 정리</text>
+
+          <text x="200" y="230" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">16강 · 전체 RECAP</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE (3-line: upload + 17강 + thanks) -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 마무리 3줄</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">업로드 · 예고 · 감사 · 세 줄</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📤 산출물 업로드 · 확인해 주세요</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">#수업실습에 "[16강]" 태그로 연결 확인 스크린샷 + "[16강] 토큰 청소 완료" 한 줄이 올라왔는지 수업 끝나기 전에 확인.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">👀 17강 · 다음 주 · 리드 수집</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">다음 주 17강은 오늘 연결한 ghl MCP로 랜딩 폼 실제 생성 · VIP 자동 태깅. 14일 평가판 유지 권장.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🙏 감사 · 수고 많으셨습니다</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘 한 줄 명령어가 9주의 토대가 됐어요. 질문은 #강사-QnA · 진행 공유는 #수업실습. 다음 주에 뵙겠습니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="30" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">오늘 마무리 · 3줄</text>
+          <!-- line 1: upload -->
+          <rect x="30" y="55" width="340" height="50" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="60" y="85" font-size="20" text-anchor="middle" fill="#e2c793">📤</text>
+          <text x="90" y="78" font-size="11" fill="#F7F0DF" font-weight="700">업로드 확인</text>
+          <text x="90" y="95" font-size="10" fill="#7a7666">#수업실습 · [16강] 태그 · 스크린샷 + 청소 완료</text>
+          <!-- line 2: 17강 -->
+          <rect x="30" y="115" width="340" height="50" fill="rgba(226,199,147,0.1)" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="60" y="145" font-size="20" text-anchor="middle" fill="#e2c793">👀</text>
+          <text x="90" y="138" font-size="11" fill="#F7F0DF" font-weight="700">17강 예고</text>
+          <text x="90" y="155" font-size="10" fill="#7a7666">리드 수집 & 스마트 태깅 · 14일 평가판 유지</text>
+          <!-- line 3: thanks -->
+          <rect x="30" y="175" width="340" height="50" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="60" y="205" font-size="20" text-anchor="middle" fill="#e2c793">🙏</text>
+          <text x="90" y="198" font-size="11" fill="#F7F0DF" font-weight="700">감사 · 마무리</text>
+          <text x="90" y="215" font-size="10" fill="#7a7666">한 줄 명령 · 9주의 토대 · 다음 주에 뵙겠습니다</text>
+          <text x="200" y="248" font-size="10" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="700">#강사-QnA · #수업실습</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF LECTURE 16</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">악수 · 완료 · 9주의 시작</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · 17강 · 리드 수집 & 스마트 태깅</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="../../17강_리드수집과_스마트태깅/PPT/part-01.html">17강 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">3산출물</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">17강 예고</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">3줄 마무리</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

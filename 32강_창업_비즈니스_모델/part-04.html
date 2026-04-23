@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 04 · Pricing 구조 4가지 · 가치 기반 가격 — AI 마케터 32강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="CONSTELLATION">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 32강</div>
+  <div class="topbar-center">PART 04 · Pricing 구조 4가지 · 가치 기반</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-03.html" title="이전 파트">◀ PART 03</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-05.html" title="다음 파트">PART 05 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">PHASE 6 · 이론 · Pricing 구조</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 04 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="숫자 아닌 · 가격 구조" style="transition-delay:0.3s">숫자 아닌 · 가격 구조</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">CONCEPT · 4구조 비교 · 1인 대행사 권장 조합</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · Part 04 만들 것</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">4구조 · 권장 조합 · 세 축</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📐 4구조 · 한 칸씩 비교</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">프로젝트·리테이너·시간제·가치 기반 네 구조의 작동 방식·장단·추천 시점.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎯 1인 대행사 · 권장 조합</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Starter 프로젝트 + Growth 리테이너 + Scale 리테이너+가치 기반 보너스 · 2026 주류 패턴.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🧭 세 축 · 가격 결정의 좌표</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">투입 시간 · 시장 비교 · 가치 기여 · 세 축이 교차하는 지점에 본인 가격이 위치합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="35" width="320" height="190" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
+          <text x="200" y="58" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 04 · 흐름</text>
+          <line x1="60" y1="68" x2="340" y2="68" stroke="#3a3730" stroke-width="1"/>
+          <text x="60" y="92" font-size="11" fill="#e2c793" font-weight="700">①</text>
+          <text x="80" y="92" font-size="12" fill="#F7F0DF">4구조 비교</text>
+          <text x="240" y="92" font-size="11" fill="#7a7666">프로젝트·리테이너 등</text>
+          <line x1="60" y1="105" x2="340" y2="105" stroke="#1f1d19" stroke-width="1"/>
+          <text x="60" y="135" font-size="11" fill="#e2c793" font-weight="700">②</text>
+          <text x="80" y="135" font-size="12" fill="#F7F0DF">권장 조합</text>
+          <text x="240" y="135" font-size="11" fill="#7a7666">초기 1인 대행사</text>
+          <line x1="60" y1="148" x2="340" y2="148" stroke="#1f1d19" stroke-width="1"/>
+          <text x="60" y="178" font-size="11" fill="#e2c793" font-weight="700">③</text>
+          <text x="80" y="178" font-size="12" fill="#F7F0DF">가격 결정 세 축</text>
+          <text x="240" y="178" font-size="11" fill="#7a7666">투입·시장·가치</text>
+          <line x1="60" y1="195" x2="340" y2="195" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="215" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ 실습 A·B로 이어집니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">같은 일도 · 가격 구조 따라 수익이 달라질까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🚫 오늘은 · 숫자를 정하지 않습니다</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">숫자는 사례별 차이가 매우 큰 영역. 오늘은 가격을 정하는 구조 · 그 자체에 집중합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📊 글로벌 · 약 80% 리테이너 기반</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">2026 글로벌 디지털 마케팅 대행사의 약 80%가 Retainer(리테이너 · 월 정기 계약)를 주력/보조로 사용한다고 보고됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🇰🇷 국내 · 프로젝트 단가도 흔함</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">국내 프리랜서 플랫폼(크몽·숨고)에서는 프로젝트 단가가 더 흔한 편 · 사례별 차이가 크다는 점은 동일합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="55" width="160" height="160" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="110" y="80" font-size="11" text-anchor="middle" fill="#7a7666" font-weight="800">시간제로 받기</text>
+          <line x1="50" y1="90" x2="170" y2="90" stroke="#3a3730" stroke-width="1"/>
+          <text x="60" y="115" font-size="10" fill="#F7F0DF">효율 ↑</text>
+          <text x="170" y="115" font-size="10" text-anchor="end" fill="#7a7666">수익 ↓</text>
+          <text x="60" y="138" font-size="10" fill="#F7F0DF">시간 기록</text>
+          <text x="170" y="138" font-size="10" text-anchor="end" fill="#7a7666">부담 ↑</text>
+          <text x="60" y="161" font-size="10" fill="#F7F0DF">관계</text>
+          <text x="170" y="161" font-size="10" text-anchor="end" fill="#7a7666">단속적</text>
+          <line x1="50" y1="175" x2="170" y2="175" stroke="#3a3730" stroke-width="1"/>
+          <text x="110" y="195" font-size="11" text-anchor="middle" fill="#7a7666" font-weight="700">변동 큼</text>
+          <rect x="210" y="55" width="160" height="160" fill="rgba(226,199,147,0.06)" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="290" y="80" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800">월 리테이너로 받기</text>
+          <line x1="230" y1="90" x2="350" y2="90" stroke="#3a3730" stroke-width="1"/>
+          <text x="240" y="115" font-size="10" fill="#F7F0DF">예측성</text>
+          <text x="350" y="115" font-size="10" text-anchor="end" fill="#e2c793">↑</text>
+          <text x="240" y="138" font-size="10" fill="#F7F0DF">관계 지속</text>
+          <text x="350" y="138" font-size="10" text-anchor="end" fill="#e2c793">↑</text>
+          <text x="240" y="161" font-size="10" fill="#F7F0DF">매출 안정</text>
+          <text x="350" y="161" font-size="10" text-anchor="end" fill="#e2c793">↑</text>
+          <line x1="230" y1="175" x2="350" y2="175" stroke="#3a3730" stroke-width="1"/>
+          <text x="290" y="195" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">2026 주류</text>
+          <text x="200" y="240" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">같은 일 · 다른 결과</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · Pricing 4구조 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · Pricing 4구조</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">네 구조 · 한눈에 비교</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📋 ① 프로젝트 · 단발 고정</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">정의된 산출물에 고정 금액 · 범위 명확·예측 쉬움 · 추가 요청 시 재협상 필요. Starter 권장.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔁 ② 리테이너 · 월 정기 묶음</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">매월 고정 금액으로 정해진 묶음 제공 · 매출 예측·관계 지속 · 1인 대행사 본 모델. Growth·Scale 권장.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">⏱ ③ 시간제 · 효율 역설</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">시간당 금액 × 투입 시간 · 효율 올라갈수록 수익 줄어드는 역설 · 컨설팅·진단에만 제한적.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">🎯 ④ 가치 기반 · 성과 연동</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Value-Based(투입 시간이 아닌 고객 가치 기준) · 성과 좋을 때 수익 큼 · 경험 누적 후 도입 권장.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="30" width="340" height="200" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
+          <text x="200" y="50" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">4구조 · 적합도 비교</text>
+          <line x1="50" y1="60" x2="350" y2="60" stroke="#3a3730" stroke-width="1"/>
+          <text x="50" y="78" font-size="10" fill="#7a7666" font-weight="700">구조</text>
+          <text x="180" y="78" font-size="10" fill="#7a7666" font-weight="700" text-anchor="middle">예측성</text>
+          <text x="240" y="78" font-size="10" fill="#7a7666" font-weight="700" text-anchor="middle">상한</text>
+          <text x="320" y="78" font-size="10" fill="#7a7666" font-weight="700" text-anchor="middle">1인 적합도</text>
+          <line x1="50" y1="86" x2="350" y2="86" stroke="#1f1d19" stroke-width="1"/>
+          <text x="50" y="108" font-size="11" fill="#F7F0DF">프로젝트</text>
+          <text x="180" y="108" font-size="10" fill="#7a7666" text-anchor="middle">중</text>
+          <text x="240" y="108" font-size="10" fill="#7a7666" text-anchor="middle">낮음</text>
+          <text x="320" y="108" font-size="10" fill="#e2c793" text-anchor="middle">★★★</text>
+          <line x1="50" y1="118" x2="350" y2="118" stroke="#1f1d19" stroke-width="1"/>
+          <text x="50" y="140" font-size="11" fill="#e2c793" font-weight="800">리테이너</text>
+          <text x="180" y="140" font-size="10" fill="#e2c793" text-anchor="middle">높음</text>
+          <text x="240" y="140" font-size="10" fill="#7a7666" text-anchor="middle">중</text>
+          <text x="320" y="140" font-size="10" fill="#e2c793" text-anchor="middle">★★★★★</text>
+          <line x1="50" y1="150" x2="350" y2="150" stroke="#1f1d19" stroke-width="1"/>
+          <text x="50" y="172" font-size="11" fill="#F7F0DF">시간제</text>
+          <text x="180" y="172" font-size="10" fill="#7a7666" text-anchor="middle">낮음</text>
+          <text x="240" y="172" font-size="10" fill="#7a7666" text-anchor="middle">낮음</text>
+          <text x="320" y="172" font-size="10" fill="#7a7666" text-anchor="middle">★★</text>
+          <line x1="50" y1="182" x2="350" y2="182" stroke="#1f1d19" stroke-width="1"/>
+          <text x="50" y="204" font-size="11" fill="#F7F0DF">가치 기반</text>
+          <text x="180" y="204" font-size="10" fill="#7a7666" text-anchor="middle">낮음</text>
+          <text x="240" y="204" font-size="10" fill="#e2c793" text-anchor="middle">높음</text>
+          <text x="320" y="204" font-size="10" fill="#7a7666" text-anchor="middle">★★★</text>
+          <line x1="50" y1="218" x2="350" y2="218" stroke="#3a3730" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 권장 조합 + 세 축 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 권장 조합·세 축</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">권장 조합 · 가격 정할 세 축</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🚪 Starter · 프로젝트</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">진입 장벽 낮은 단발 · 고객이 일단 손잡아 보게 만드는 관문 역할.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">⭐ Growth · 리테이너</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">매달 예측 가능한 매출의 본류 · 1인 대행사 안정성의 핵심 자리입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎯 Scale · 리테이너 + 가치 보너스</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">월 기본 리테이너 + 합의된 성과 지표 달성 시 추가 보너스 · 경력 누적 후 자연스러운 확장.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">🧭 세 축 · 투입·시장·가치</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">월 투입 시간 · 시장 유사 매물 가격(크몽·숨고) · 고객이 얻는 가치 · 셋의 교차점에 본인 가격이 옵니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="30" width="340" height="80" fill="none" stroke="#3a3730" stroke-width="1.5" rx="4"/>
+          <text x="200" y="50" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">초기 1인 대행사 권장 조합</text>
+          <line x1="50" y1="60" x2="350" y2="60" stroke="#3a3730" stroke-width="1"/>
+          <text x="50" y="82" font-size="10" fill="#F7F0DF" font-weight="700">Starter</text>
+          <text x="115" y="82" font-size="10" fill="#7a7666">→</text>
+          <text x="135" y="82" font-size="10" fill="#e2c793">프로젝트</text>
+          <text x="200" y="82" font-size="10" fill="#F7F0DF" font-weight="700">Growth</text>
+          <text x="260" y="82" font-size="10" fill="#7a7666">→</text>
+          <text x="280" y="82" font-size="10" fill="#e2c793">리테이너 ★</text>
+          <text x="50" y="100" font-size="10" fill="#F7F0DF" font-weight="700">Scale</text>
+          <text x="115" y="100" font-size="10" fill="#7a7666">→</text>
+          <text x="135" y="100" font-size="10" fill="#e2c793">리테이너 + 가치 보너스</text>
+          <text x="200" y="138" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">가격 결정 · 세 축</text>
+          <circle cx="120" cy="195" r="40" fill="rgba(226,199,147,0.06)" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="120" y="190" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">투입</text>
+          <text x="120" y="206" font-size="10" text-anchor="middle" fill="#7a7666">월 시간</text>
+          <circle cx="200" cy="195" r="40" fill="rgba(226,199,147,0.06)" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="200" y="190" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">시장</text>
+          <text x="200" y="206" font-size="10" text-anchor="middle" fill="#7a7666">유사 매물</text>
+          <circle cx="280" cy="195" r="40" fill="rgba(226,199,147,0.06)" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="280" y="190" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">가치</text>
+          <text x="280" y="206" font-size="10" text-anchor="middle" fill="#7a7666">고객 효익</text>
+          <text x="200" y="252" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">교차점 = 내 가격</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 04 · 세 줄 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📐 4구조 · 프로젝트·리테이너·시간제·가치</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">네 구조 모두 유효하지만 · 각각의 추천 시점이 명확합니다. 상황에 맞춰 조합합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎯 권장 조합 · 프로젝트+리테이너+가치</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Starter 프로젝트 · Growth 리테이너 · Scale 리테이너+가치 보너스 · 2026 1인 대행사 주류 패턴.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🧭 세 축 교차 · 내 가격</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">투입 시간 · 시장 비교 · 가치 기여 셋의 교차점이 본인 가격 · 사례별 차이가 큽니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="30" width="320" height="200" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
+          <text x="200" y="56" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="3" font-weight="800">PART 04 · 정리</text>
+          <line x1="80" y1="68" x2="320" y2="68" stroke="#3a3730" stroke-width="1"/>
+          <text x="60" y="98" font-size="14" fill="#F7F0DF" font-weight="700">①</text>
+          <text x="85" y="98" font-size="12" fill="#F7F0DF">4구조 · 각자의 추천 시점</text>
+          <text x="60" y="138" font-size="14" fill="#F7F0DF" font-weight="700">②</text>
+          <text x="85" y="138" font-size="12" fill="#F7F0DF">권장 조합 · 프로젝트+리테이너+가치</text>
+          <text x="60" y="178" font-size="14" fill="#e2c793" font-weight="800">③</text>
+          <text x="85" y="178" font-size="12" fill="#e2c793" font-weight="700">세 축 교차 · 내 가격 위치</text>
+          <line x1="80" y1="200" x2="320" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="220" font-size="10" text-anchor="middle" fill="#7a7666">→ 실습 A · 12칸 카탈로그</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">이론은 여기까지 · 한 장으로 옮길까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📋 실습 A · 12칸 카탈로그</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">3티어 × 네 요소 = 12칸. 노션 템플릿에 빈칸을 채우면 한 장이 완성됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📎 노션 튜토리얼 · 별도 제공</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">상세 단계는 실습_튜토리얼/실습A_패키지카탈로그.md 참조 · 강사는 진행 개요 후 순회 지원.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎯 Part 05 · 실습 A 본격 시작</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Part 05에서 7단계 흐름·합격선·자주 막히는 지점을 짧게 짚고 작업으로 들어갑니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PART 04</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">Pricing 구조</text>
+          <text x="90" y="158" font-size="11" text-anchor="middle" fill="#7a7666">이론 마무리</text>
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">실습 A</text>
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 05</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">실습 A · 카탈로그</text>
+          <text x="310" y="158" font-size="11" text-anchor="middle" fill="#7a7666">12칸 채움</text>
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#7a7666">노션 템플릿 + Claude 보조 + 슬랙 업로드</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ Part 05에서 정리합니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 04</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">구조가 정해지면 · 숫자는 따라옵니다</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 05 · 실습 A · 3종 패키지 카탈로그 작성</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-05.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">4구조</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">권장 조합</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

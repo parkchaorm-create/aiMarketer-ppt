@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 05 · 실습 A · 팀 영상 디버깅+업스케일 — AI 마케터 31강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="FLOW">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 31강</div>
+  <div class="topbar-center">PART 05 · 실습 A · 팀 디버깅 + 업스케일</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-04.html" title="이전 파트">◀ PART 04</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-06.html" title="다음 파트">PART 06 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">PHASE 5 · 마지막 · 실습 A</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 05 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="팀 영상이 · 한 단계 가까워질 때" style="transition-delay:0.3s">팀 영상이 · 한 단계 가까워질 때</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">실습 A · 7단계 + RACI 역할 분담 · 슬랙 업로드</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · Part 05 지도</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">팀 디버깅 · 한 화면에</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎯 목표 · HD 최종본 확정</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">실습 A의 단 하나의 목표 — 우리 팀 영상을 고해상도 최종본으로 확정한다. 34강 포트폴리오 웹사이트에 실릴 자산이 됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📋 7단계 · 점검부터 업로드</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">원본 준비 · 체크리스트 점검 · 분기 결정 · Theia 진입 · 업로드+Generate · 병렬 작업 · 결과 저장+슬랙 업로드.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">👥 3역 RACI · 병렬 처리</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">RACI(라시 · 책임·실행·자문·정보 분담)로 업스케일·체크리스트·업로드 3역할로 나눠 대기 시간 없이 병렬 진행합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="30" width="340" height="22" fill="none" stroke="#e2c793" stroke-width="1.5" rx="2"/>
+          <text x="200" y="46" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800" letter-spacing="2">실습 A · 한 화면</text>
+
+          <rect x="30" y="65" width="105" height="155" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="90" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">목표</text>
+          <text x="82" y="115" font-size="22" text-anchor="middle" fill="#e2c793">🎯</text>
+          <text x="82" y="142" font-size="10" text-anchor="middle" fill="#F7F0DF">HD 최종본</text>
+          <text x="82" y="160" font-size="9" text-anchor="middle" fill="#7a7666">팀 합의</text>
+          <text x="82" y="185" font-size="9" text-anchor="middle" fill="#e2c793">34강 포폴 자산</text>
+
+          <rect x="147" y="65" width="105" height="155" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="90" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">7단계</text>
+          <text x="200" y="115" font-size="22" text-anchor="middle" fill="#e2c793">📋</text>
+          <text x="200" y="142" font-size="10" text-anchor="middle" fill="#F7F0DF">노션 기준</text>
+          <text x="200" y="160" font-size="9" text-anchor="middle" fill="#7a7666">상세 따라가기</text>
+          <text x="200" y="185" font-size="9" text-anchor="middle" fill="#e2c793">PPT는 흐름만</text>
+
+          <rect x="264" y="65" width="105" height="155" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="90" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">3 역할</text>
+          <text x="317" y="115" font-size="22" text-anchor="middle" fill="#e2c793">👥</text>
+          <text x="317" y="142" font-size="10" text-anchor="middle" fill="#F7F0DF">RACI 분담</text>
+          <text x="317" y="160" font-size="9" text-anchor="middle" fill="#7a7666">대기 0</text>
+          <text x="317" y="185" font-size="9" text-anchor="middle" fill="#e2c793">병렬 처리</text>
+
+          <text x="200" y="245" font-size="10" text-anchor="middle" fill="#7a7666">실습 시간 효율 · 팀당 한 사이클</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">완벽 · 합의 중 어느 쪽일까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎯 단 하나의 목표 · HD 확정</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">실습 A는 새 영상을 만드는 시간이 아닙니다. 30강 영상을 한 단계 더 끌어올려 팀이 합의한 최종본을 정하는 시간이에요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🤝 완벽 ≠ 합의 · 후자가 합격선</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">"완벽한 영상"이 아니라 "팀이 합의한 최종본"이 합격 기준. 30강의 완성도보다 합의 원칙을 그대로 이어갑니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📦 34강 포폴 입력 · 미리보기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘 확정한 HD 영상이 Phase 6의 34강 포트폴리오 웹사이트(One Page · 한 페이지 사이트)에 그대로 들어갑니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="35" y="50" width="150" height="80" fill="none" stroke="#7a7666" stroke-width="1" rx="4"/>
+          <text x="110" y="75" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="1">완벽한 영상</text>
+          <text x="110" y="100" font-size="22" text-anchor="middle" fill="#7a7666">❌</text>
+          <text x="110" y="120" font-size="9" text-anchor="middle" fill="#7a7666">합격선 아님</text>
+
+          <rect x="215" y="50" width="150" height="80" fill="none" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="290" y="75" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="1" font-weight="700">팀 합의 최종본</text>
+          <text x="290" y="100" font-size="22" text-anchor="middle" fill="#e2c793">✅</text>
+          <text x="290" y="120" font-size="9" text-anchor="middle" fill="#e2c793">합격선</text>
+
+          <line x1="30" y1="155" x2="370" y2="155" stroke="#3a3730" stroke-width="1"/>
+
+          <rect x="30" y="170" width="160" height="55" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="110" y="190" font-size="10" text-anchor="middle" fill="#F7F0DF">31강 (오늘)</text>
+          <text x="110" y="208" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">HD 영상 확정</text>
+
+          <text x="200" y="200" font-size="13" text-anchor="middle" fill="#e2c793">→</text>
+
+          <rect x="210" y="170" width="160" height="55" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="290" y="190" font-size="10" text-anchor="middle" fill="#F7F0DF">34강 (Phase 6)</text>
+          <text x="290" y="208" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">포트폴리오 입력</text>
+
+          <text x="200" y="248" font-size="10" text-anchor="middle" fill="#7a7666">오늘 자산이 다음 회차 입력</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 7단계 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 실습 A 7단계</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">원본 → 슬랙 업로드</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📁 ① 팀 영상 원본 · 준비</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">30강에서 만든 팀 영상을 팀 대표 PC 다운로드 폴더에 준비. 30강 슬랙 #수업실습 거슬러 올라가면 있습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📋 ② 체크리스트 · ✅·⚠️·❌</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Part 02의 10항목을 팀당 1장 점검표에 표기. 각 항목 옆에 한 줄 코멘트도 함께 적습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🔀 ③ 분기 결정 · 2개 vs 3개</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">⚠️·❌ 2개 이하 → 업스케일 진행 · 3개 이상 → 원본 그대로 확정 + 한계 기록. 둘 다 학습입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">🎯 ④⑤ Theia · 업로드+Generate</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">higgsfield.ai/upscale → Theia 선택 → 원본 업로드 → 옵션 기본값 → Generate 클릭. 시연에서 본 그대로입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.48s">
+            <span class="bullet-num">05</span>
+            <span class="bullet-text">⏳ ⑥ 대기 중 · 병렬 점검</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">처리 대기 시간 동안 다음 팀 체크리스트 작업을 병렬 진행. 한 사람만 묶이지 않도록 RACI 역할 분담을 활용합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.6s">
+            <span class="bullet-num">06</span>
+            <span class="bullet-text">📤 ⑦ 결과 · 슬랙 업로드</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Before/After 확인 → 다운로드 → 슬랙 #수업실습 채널에 업로드. 파일명 [31강][클라이언트태그] 형식 엄수.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="35" width="340" height="22" fill="none" stroke="#e2c793" stroke-width="1.5" rx="2"/>
+          <text x="200" y="51" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800" letter-spacing="2">실습 A · 7단계 흐름</text>
+
+          <rect x="30" y="70" width="50" height="35" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="55" y="92" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">①</text>
+          <text x="55" y="120" font-size="8" text-anchor="middle" fill="#7a7666">원본</text>
+
+          <text x="90" y="92" font-size="11" text-anchor="middle" fill="#7a7666">→</text>
+
+          <rect x="100" y="70" width="50" height="35" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="125" y="92" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">②</text>
+          <text x="125" y="120" font-size="8" text-anchor="middle" fill="#7a7666">체크</text>
+
+          <text x="160" y="92" font-size="11" text-anchor="middle" fill="#7a7666">→</text>
+
+          <rect x="170" y="70" width="50" height="35" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="195" y="92" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">③</text>
+          <text x="195" y="120" font-size="8" text-anchor="middle" fill="#7a7666">분기</text>
+
+          <text x="230" y="92" font-size="11" text-anchor="middle" fill="#7a7666">→</text>
+
+          <rect x="240" y="70" width="50" height="35" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="265" y="92" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">④⑤</text>
+          <text x="265" y="120" font-size="8" text-anchor="middle" fill="#7a7666">Theia</text>
+
+          <text x="300" y="92" font-size="11" text-anchor="middle" fill="#7a7666">→</text>
+
+          <rect x="310" y="70" width="50" height="35" fill="none" stroke="#e2c793" stroke-width="2" rx="3"/>
+          <text x="335" y="92" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">⑥⑦</text>
+          <text x="335" y="120" font-size="8" text-anchor="middle" fill="#e2c793">업로드</text>
+
+          <rect x="30" y="140" width="340" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="162" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800">[31강][A] 푸르트_브랜드영상_HD최종본.mp4</text>
+          <text x="200" y="183" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800">[31강][C] 손결_체크리스트_점검표.pdf</text>
+          <text x="200" y="208" font-size="10" text-anchor="middle" fill="#7a7666">파일명 규칙 엄수 · 후속 회차 재사용</text>
+
+          <text x="200" y="245" font-size="10" text-anchor="middle" fill="#7a7666">노션 튜토리얼 실습A_업스케일.md 기준</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · RACI 역할 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · RACI 3역 분담</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">병렬 처리 · 시간 절약</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎯 RACI · 4강에서 배운 그 표</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">RACI(Responsible·Accountable·Consulted·Informed · 책임·실행·자문·정보)는 누가 무엇을 하는지 명확히 하는 역할 표입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">👤 역할 1 · 업스케일 담당</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">팀 대표 PC에서 업로드 · Generate · 대기 · 다운로드 진행. 한 명이 PC 앞에 앉아 Theia 작업을 끝까지 봅니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">👤 역할 2 · 체크리스트 담당</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">대기 동안 원본 영상을 재생하면서 10항목 점검표 작성. ✅·⚠️·❌ + 한 줄 코멘트. 팀당 1장.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">👤 역할 3 · 파일명·업로드 담당</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">결과 파일 이름 형식 맞추기 + 슬랙 #수업실습 업로드 + 100MB 초과 시 유튜브 비공개·구글 드라이브 대체 검토.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="130" r="42" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="200" y="125" font-size="12" text-anchor="middle" fill="#e2c793" font-weight="800">팀</text>
+          <text x="200" y="142" font-size="10" text-anchor="middle" fill="#7a7666">RACI</text>
+
+          <rect x="30" y="50" width="120" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="90" y="70" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">역할 1</text>
+          <text x="90" y="88" font-size="10" text-anchor="middle" fill="#F7F0DF">업스케일</text>
+
+          <rect x="250" y="50" width="120" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="70" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">역할 2</text>
+          <text x="310" y="88" font-size="10" text-anchor="middle" fill="#F7F0DF">체크리스트</text>
+
+          <rect x="140" y="200" width="120" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="220" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">역할 3</text>
+          <text x="200" y="238" font-size="10" text-anchor="middle" fill="#F7F0DF">파일명·업로드</text>
+
+          <line x1="150" y1="100" x2="170" y2="115" stroke="#3a3730" stroke-width="1"/>
+          <line x1="250" y1="100" x2="230" y2="115" stroke="#3a3730" stroke-width="1"/>
+          <line x1="200" y1="172" x2="200" y2="200" stroke="#3a3730" stroke-width="1"/>
+
+          <text x="80" y="120" font-size="9" fill="#7a7666">병렬</text>
+          <text x="320" y="120" font-size="9" text-anchor="end" fill="#7a7666">병렬</text>
+          <text x="225" y="190" font-size="9" fill="#7a7666">최종</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 05 · 세 줄 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🔄 4단계 핵심 흐름 · 점검·업스·업로드</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">팀 영상 원본 → 체크리스트 점검 → Theia 업스케일 → 슬랙 업로드. 7단계의 핵심 줄기는 이 네 동작입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">👥 RACI 3역 · 병렬 처리</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">업스케일·체크리스트·업로드 3역할 분담으로 대기 시간 없이 진행. 한 사람만 PC에 묶이지 않도록.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📛 파일명 규칙 · 다음 회차 재사용</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">[31강][클라이언트태그] 형식 엄수. 상영회·포트폴리오에서 재사용 용이하고 운영진이 한눈에 식별 가능합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="92" font-size="20" text-anchor="middle" fill="#e2c793">🔄</text>
+          <line x1="50" y1="100" x2="115" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">4 동작</text>
+          <text x="82" y="148" font-size="10" text-anchor="middle" fill="#7a7666">원본·점검</text>
+          <text x="82" y="168" font-size="10" text-anchor="middle" fill="#7a7666">업스·업로드</text>
+
+          <rect x="147" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="92" font-size="20" text-anchor="middle" fill="#e2c793">👥</text>
+          <line x1="167" y1="100" x2="232" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">RACI 3</text>
+          <text x="200" y="148" font-size="10" text-anchor="middle" fill="#7a7666">병렬</text>
+          <text x="200" y="168" font-size="10" text-anchor="middle" fill="#e2c793">대기 0</text>
+
+          <rect x="264" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="92" font-size="20" text-anchor="middle" fill="#e2c793">📛</text>
+          <line x1="284" y1="100" x2="349" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">파일명</text>
+          <text x="317" y="148" font-size="10" text-anchor="middle" fill="#7a7666">[31강][태그]</text>
+          <text x="317" y="168" font-size="10" text-anchor="middle" fill="#e2c793">재사용 용이</text>
+
+          <text x="200" y="230" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 05 · RECAP</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">결과물 · 서로 보여드립니다</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎤 상영회 · 팀당 1분 30초</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Part 06은 팀 상영회. 팀 소개 30초 + 영상 60초 + 동시 피드백 작성 = 한 팀당 1분 30초로 진행합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">💬 교차 피드백 · 한 줄</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">강사가 매칭 공지 (예: A→D · B→A · C→B · D→C). 긍정 1 + 궁금·제안 1로 슬랙 스레드에 한 줄.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📅 Phase 5 회고 · 정점이자 마침표</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">상영회 후 26~31강 여섯 주를 사실만 한 줄씩 회고. Part 06이 오늘의 정점이자 Phase 5 전체의 마침표입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PART 05</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">실습 A</text>
+          <text x="90" y="158" font-size="11" text-anchor="middle" fill="#7a7666">팀 디버깅·업스</text>
+
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">상영회·회고</text>
+
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 06</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">실습 B</text>
+          <text x="310" y="158" font-size="11" text-anchor="middle" fill="#7a7666">상영+피드백+회고</text>
+
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#7a7666">오늘의 정점 · Phase 5의 마침표</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ Part 06에서 이어서 보겠습니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 05</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">팀 영상 · HD 확정</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 06 · 실습 B · 상영회 + 교차 피드백 + Phase 5 회고</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-06.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">7단계</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">RACI 3역</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

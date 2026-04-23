@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 03 · CLAUDE.md · 프로젝트 지식 베이스 — AI 마케터 10강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="WAVES">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 10강</div>
+  <div class="topbar-center">PART 03 · CLAUDE.md · 프로젝트 지식 베이스란</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-02.html" title="이전 파트">◀ PART 02</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-04.html" title="다음 파트">PART 04 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><rect x="18" y="18" width="64" height="64" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><path d="M 25 25 L 75 25 L 75 75 L 25 75 Z" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><path d="M 50 10 L 90 50 L 50 90 L 10 50 Z" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">ACT 3 · 이론 2</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 03 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="AI에게 남기는 · 사전 브리핑" style="transition-delay:0.3s">AI에게 남기는 · 사전 브리핑</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">CLAUDE.md · 개념 카드 3장 · 마케터용 5개 섹션</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · 오늘 만들 것</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 03 · 개념 카드 3장</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📥 자동 로딩 · 구조 이해</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">CLAUDE.md가 Claude Code 대화 시작 시 자동으로 읽히는 구조(홈·프로젝트·하위 폴더 3단)를 짚습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🧱 마케터용 · 5개 섹션</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">개요 · 클라이언트 정보 · 폴더 구조 · 작업 규칙 · AI 응답 스타일. 실습 B에서 그대로 채우실 다섯 조각.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">✨ 있으면 달라지는 것</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">CLAUDE.md가 있으면 모든 명령에 같은 컨텍스트가 자동으로 따라붙어 결과물 톤이 일정해집니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- card 1 -->
+          <rect x="30" y="50" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="78" font-size="24" text-anchor="middle" fill="#e2c793">📥</text>
+          <line x1="50" y1="92" x2="115" y2="92" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="115" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">자동 로딩</text>
+          <text x="82" y="135" font-size="10" text-anchor="middle" fill="#7a7666">3단 계층</text>
+          <text x="82" y="155" font-size="10" text-anchor="middle" fill="#7a7666">~/.claude</text>
+          <text x="82" y="172" font-size="10" text-anchor="middle" fill="#e2c793">프로젝트 ✓</text>
+          <text x="82" y="190" font-size="10" text-anchor="middle" fill="#7a7666">하위 폴더</text>
+
+          <!-- card 2 -->
+          <rect x="147" y="50" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="78" font-size="24" text-anchor="middle" fill="#e2c793">🧱</text>
+          <line x1="167" y1="92" x2="232" y2="92" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="115" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">5 섹션</text>
+          <text x="200" y="135" font-size="9" text-anchor="middle" fill="#7a7666">① 개요</text>
+          <text x="200" y="150" font-size="9" text-anchor="middle" fill="#7a7666">② 클라이언트</text>
+          <text x="200" y="165" font-size="9" text-anchor="middle" fill="#7a7666">③ 폴더 구조</text>
+          <text x="200" y="180" font-size="9" text-anchor="middle" fill="#7a7666">④ 작업 규칙</text>
+          <text x="200" y="195" font-size="9" text-anchor="middle" fill="#7a7666">⑤ 응답 스타일</text>
+
+          <!-- card 3 -->
+          <rect x="264" y="50" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="78" font-size="24" text-anchor="middle" fill="#e2c793">✨</text>
+          <line x1="284" y1="92" x2="349" y2="92" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="115" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">효과</text>
+          <text x="317" y="140" font-size="10" text-anchor="middle" fill="#7a7666">같은 컨텍스트</text>
+          <text x="317" y="155" font-size="10" text-anchor="middle" fill="#7a7666">자동으로 따라붙음</text>
+          <text x="317" y="180" font-size="10" text-anchor="middle" fill="#e2c793">톤 일관</text>
+          <text x="317" y="198" font-size="10" text-anchor="middle" fill="#7a7666">반복 프롬프트 ↓</text>
+
+          <text x="200" y="238" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">개념 카드 3장 · 오늘의 이론 끝</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">새 인턴에게 · 쪽지 한 장 건네셨던 적 있나요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🗒️ 첫날 인턴 · 받던 그 쪽지</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">"이 프로젝트는 이런 곳 · 우리는 이런 말투 · 이런 파일은 이런 위치" 한 장짜리 브리핑 쪽지 · 그 AI 버전이 CLAUDE.md입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🤝 공식 정의 · 한 줄로</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Anthropic 공식 문서는 CLAUDE.md를 "Claude Code가 대화를 시작할 때 자동으로 읽어 들이는 특수 파일"로 정의합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">♻️ 한 번 적어 두면 · 계속 읽힙니다</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">매번 프롬프트(Prompt · AI에게 주는 지시문) 앞에 같은 안내를 붙일 필요 없이 한 번 적어 두면 다음부터 계속 읽힙니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Person handing a note -->
+          <circle cx="80" cy="90" r="22" fill="none" stroke="#7a7666" stroke-width="1.5"/>
+          <text x="80" y="96" font-size="18" text-anchor="middle" fill="#7a7666">🙂</text>
+          <path d="M 58 140 Q 58 115 80 115 Q 102 115 102 140 L 102 180 L 58 180 Z" fill="none" stroke="#7a7666" stroke-width="1.5"/>
+
+          <!-- Note -->
+          <rect x="140" y="85" width="120" height="140" fill="#141414" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="108" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="1" font-weight="800">CLAUDE.md</text>
+          <line x1="150" y1="118" x2="250" y2="118" stroke="#3a3730" stroke-width="1"/>
+          <line x1="150" y1="135" x2="245" y2="135" stroke="#3a3730" stroke-width="1"/>
+          <line x1="150" y1="150" x2="235" y2="150" stroke="#3a3730" stroke-width="1"/>
+          <line x1="150" y1="165" x2="250" y2="165" stroke="#3a3730" stroke-width="1"/>
+          <line x1="150" y1="180" x2="225" y2="180" stroke="#3a3730" stroke-width="1"/>
+          <line x1="150" y1="195" x2="245" y2="195" stroke="#3a3730" stroke-width="1"/>
+          <line x1="150" y1="210" x2="230" y2="210" stroke="#3a3730" stroke-width="1"/>
+
+          <!-- AI receiving -->
+          <rect x="290" y="80" width="70" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
+          <circle cx="307" cy="100" r="4" fill="#e2c793"/>
+          <circle cx="343" cy="100" r="4" fill="#e2c793"/>
+          <path d="M 305 115 L 345 115" stroke="#e2c793" stroke-width="1.5"/>
+          <line x1="325" y1="80" x2="325" y2="68" stroke="#e2c793" stroke-width="1.5"/>
+          <circle cx="325" cy="66" r="3" fill="#e2c793"/>
+          <rect x="295" y="135" width="60" height="40" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="325" y="195" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">Claude Code</text>
+          <text x="325" y="215" font-size="10" text-anchor="middle" fill="#7a7666">자동 로딩</text>
+
+          <!-- bottom -->
+          <line x1="30" y1="235" x2="370" y2="235" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="252" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">한 번 적어 두면 · 매번 다시 읽힙니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 자동 로딩 구조 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 자동 로딩</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">CLAUDE.md는 · 어디에 두느냐</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🏠 ~/.claude/ · 컴퓨터 전체 공통</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">홈 폴더 ~/.claude/CLAUDE.md는 내 컴퓨터의 모든 프로젝트에 공통으로 붙는 기본 안내(내 이름·연락 방식 등).</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📁 프로젝트/CLAUDE.md · 오늘 대상</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">프로젝트 루트의 CLAUDE.md는 이 프로젝트만의 규칙. 홈 폴더 규칙보다 우선순위가 높습니다. 오늘 작성 대상입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📂 하위폴더/CLAUDE.md · 세부</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">특정 하위 폴더에만 적용되는 세부 규칙. 다음 회차 이후 필요할 때 추가하시면 됩니다. 오늘은 안 다룹니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">🎯 오늘 합격선 · 루트에 한 장</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">프로젝트 루트(프로젝트 폴더 최상위)에 CLAUDE.md 한 장 · 그게 오늘의 합격선입니다. 홈·하위 폴더는 나중에.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- 3 levels of CLAUDE.md -->
+          <!-- Home -->
+          <rect x="40" y="40" width="320" height="55" fill="none" stroke="#7a7666" stroke-width="1" rx="4"/>
+          <text x="58" y="65" font-size="14" fill="#7a7666">🏠</text>
+          <text x="85" y="63" font-size="12" fill="#F7F0DF" font-family="monospace">~/.claude/CLAUDE.md</text>
+          <text x="85" y="82" font-size="10" fill="#7a7666">내 컴퓨터 전체 공통 · 우선순위 낮음</text>
+
+          <!-- Project (highlighted) -->
+          <rect x="40" y="105" width="320" height="60" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="58" y="130" font-size="14" fill="#e2c793">📁</text>
+          <text x="85" y="128" font-size="12" fill="#F7F0DF" font-family="monospace">프로젝트/CLAUDE.md</text>
+          <text x="85" y="148" font-size="10" fill="#e2c793" font-weight="700">이 프로젝트 규칙 · 오늘의 작성 대상</text>
+          <text x="325" y="130" font-size="10" fill="#e2c793" font-weight="800">✓</text>
+
+          <!-- Sub -->
+          <rect x="40" y="175" width="320" height="55" fill="none" stroke="#3a3730" stroke-width="1" rx="4"/>
+          <text x="58" y="200" font-size="14" fill="#7a7666">📂</text>
+          <text x="85" y="198" font-size="12" fill="#F7F0DF" font-family="monospace">프로젝트/하위폴더/CLAUDE.md</text>
+          <text x="85" y="217" font-size="10" fill="#7a7666">특정 폴더만 적용 · 더 높은 우선순위</text>
+
+          <text x="200" y="252" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">오늘은 가운데 한 장만 · 잘 채우면 됩니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 5 섹션 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 5개 섹션</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">마케터용 CLAUDE.md · 다섯 조각</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🗂️ 개요 · 이 폴더 뭐하는 곳?</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">프로젝트 개요(Overview). 한두 줄. 예: "A 푸르트 브랜드 매뉴얼·콘텐츠 운영 작업 폴더".</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">👤 클라이언트 · 톤·금지어</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">선택한 클라이언트의 타깃 고객 한 줄 · 톤 앵커(브랜드 말투 기준점) 3개 · 금지어 3개. 3~4강 정리본에서 그대로 복사.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🗃️ 폴더 구조 · 한 줄씩</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">content/ · drafts/ · assets/ 같은 폴더의 용도를 한 줄씩. 일단 세 개로 시작하면 충분합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">📏 작업 규칙 · 내가 지키는 원칙</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">감정 과장어 금지 · 수치 출처 각주 필수 · 맞춤법 검수 후 발행 같은 내가 지키는 원칙을 한국어로 3~5개.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Section stack -->
+          <rect x="60" y="30" width="280" height="30" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="75" y="50" font-size="11" fill="#e2c793" font-weight="800">①</text>
+          <text x="100" y="50" font-size="12" fill="#F7F0DF">프로젝트 개요</text>
+          <text x="330" y="50" font-size="10" text-anchor="end" fill="#7a7666">한두 줄</text>
+
+          <rect x="60" y="62" width="280" height="30" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="75" y="82" font-size="11" fill="#e2c793" font-weight="800">②</text>
+          <text x="100" y="82" font-size="12" fill="#F7F0DF">클라이언트·브랜드 정보</text>
+          <text x="330" y="82" font-size="10" text-anchor="end" fill="#7a7666">3~4강 재활용</text>
+
+          <rect x="60" y="94" width="280" height="30" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="75" y="114" font-size="11" fill="#e2c793" font-weight="800">③</text>
+          <text x="100" y="114" font-size="12" fill="#F7F0DF">폴더 구조</text>
+          <text x="330" y="114" font-size="10" text-anchor="end" fill="#7a7666">3개면 충분</text>
+
+          <rect x="60" y="126" width="280" height="30" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="75" y="146" font-size="11" fill="#e2c793" font-weight="800">④</text>
+          <text x="100" y="146" font-size="12" fill="#F7F0DF">작업 규칙</text>
+          <text x="330" y="146" font-size="10" text-anchor="end" fill="#7a7666">3~5개</text>
+
+          <rect x="60" y="158" width="280" height="30" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="75" y="178" font-size="11" fill="#e2c793" font-weight="800">⑤</text>
+          <text x="100" y="178" font-size="12" fill="#F7F0DF">AI 응답 스타일</text>
+          <text x="330" y="178" font-size="10" text-anchor="end" fill="#7a7666">한두 문장</text>
+
+          <line x1="60" y1="205" x2="340" y2="205" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="225" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">A4 1쪽 · 짧고 명확하게</text>
+          <text x="200" y="245" font-size="10" text-anchor="middle" fill="#7a7666">길다고 좋은 게 아닙니다 (공식 권고)</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 3 · Before/After -->
+  <section class="slide slide-section" data-slide="5" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 달라지는 것</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">매번 같은 말을 · 반복하지 않아도</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🪫 Before · 매번 톤이 달라요</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">CLAUDE.md 없이 "이 블로그 초고 좀 다듬어 줘" → AI가 일반 톤으로 다듬음 → 결과물 톤이 매번 다름 → 수정 반복.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔋 After · 톤이 일정해집니다</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">CLAUDE.md 있으면 "A 푸르트 · 해요체 · 감정 과장어 금지"를 맥락으로 읽고 다듬음 → 결과물 톤이 일정.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">⚠️ 주의 · 민감 정보는 넣지 않기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">CLAUDE.md는 사람도 읽는 파일입니다. 비밀번호·API 키(서비스 접근용 비밀 문자열)·고객 개인정보는 절대 넣지 않습니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Before -->
+          <rect x="25" y="35" width="165" height="200" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="107" y="58" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2" font-weight="800">BEFORE</text>
+          <text x="107" y="78" font-size="10" text-anchor="middle" fill="#7a7666">CLAUDE.md 없음</text>
+          <line x1="45" y1="90" x2="170" y2="90" stroke="#3a3730" stroke-width="1"/>
+          <text x="107" y="115" font-size="11" text-anchor="middle" fill="#F7F0DF">다듬기 1회</text>
+          <rect x="45" y="125" width="40" height="20" fill="#3a3730"/>
+          <rect x="90" y="125" width="40" height="24" fill="#3a3730"/>
+          <rect x="135" y="125" width="35" height="16" fill="#3a3730"/>
+          <text x="107" y="170" font-size="10" text-anchor="middle" fill="#7a7666">톤이 매번 다름</text>
+          <text x="107" y="195" font-size="18" text-anchor="middle" fill="#7a7666">🪫</text>
+          <text x="107" y="220" font-size="10" text-anchor="middle" fill="#7a7666">수정 반복</text>
+
+          <!-- After -->
+          <rect x="210" y="35" width="165" height="200" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="292" y="58" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">AFTER</text>
+          <text x="292" y="78" font-size="10" text-anchor="middle" fill="#e2c793">CLAUDE.md 있음</text>
+          <line x1="230" y1="90" x2="355" y2="90" stroke="#3a3730" stroke-width="1"/>
+          <text x="292" y="115" font-size="11" text-anchor="middle" fill="#F7F0DF">다듬기 1회</text>
+          <rect x="230" y="125" width="40" height="20" fill="#e2c793" opacity="0.6"/>
+          <rect x="275" y="125" width="40" height="20" fill="#e2c793" opacity="0.6"/>
+          <rect x="320" y="125" width="35" height="20" fill="#e2c793" opacity="0.6"/>
+          <text x="292" y="170" font-size="10" text-anchor="middle" fill="#e2c793">톤이 일정</text>
+          <text x="292" y="195" font-size="18" text-anchor="middle" fill="#e2c793">🔋</text>
+          <text x="292" y="220" font-size="10" text-anchor="middle" fill="#e2c793">반복 ↓</text>
+
+          <text x="200" y="252" font-size="11" text-anchor="middle" fill="#F7F0DF">같은 말 · 매번 반복할 필요 없음</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 03</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="6" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 03 · 세 줄 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📥 자동 로딩 · 프로젝트 루트</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">CLAUDE.md는 Claude Code가 대화 시작 시 자동으로 읽는 프로젝트 안내 쪽지. 오늘은 루트에 한 장이 합격선입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🧱 5 섹션 · 마케터 맞춤</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">개요 · 클라이언트 정보 · 폴더 구조 · 작업 규칙 · AI 응답 스타일. 이 다섯만 채우면 초안 완성.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">✨ 있으면 · 톤이 일정</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">같은 컨텍스트가 매번 자동으로 따라붙어 결과물 톤이 일정. 1인 운영자에게 특히 유용합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="40" width="340" height="200" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
+          <text x="200" y="66" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="3" font-weight="800">PART 03 · 핵심 정리</text>
+          <line x1="80" y1="78" x2="320" y2="78" stroke="#3a3730" stroke-width="1"/>
+
+          <text x="50" y="112" font-size="12" fill="#F7F0DF">①</text>
+          <text x="75" y="112" font-size="12" fill="#F7F0DF">대화 시작 시 · 자동 로딩</text>
+          <text x="75" y="128" font-size="10" fill="#7a7666">프로젝트 루트 CLAUDE.md 한 장</text>
+
+          <text x="50" y="158" font-size="12" fill="#F7F0DF">②</text>
+          <text x="75" y="158" font-size="12" fill="#F7F0DF">5 섹션 · 마케터 맞춤</text>
+          <text x="75" y="174" font-size="10" fill="#7a7666">개요·클라이언트·폴더·규칙·응답 스타일</text>
+
+          <text x="50" y="204" font-size="12" fill="#F7F0DF">③</text>
+          <text x="75" y="204" font-size="12" fill="#F7F0DF">결과물 톤 · 일정해집니다</text>
+          <text x="75" y="220" font-size="10" fill="#7a7666">같은 말 반복할 필요 없음</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="7" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">07 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">잠깐 쉬고 · 이제 설치로</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">☕ 휴식 · 손가락 쉬어 가세요</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">짧게 쉬어 갑니다. 이론 두 장(Part 02·03)이 끝났고, 이제부터는 손을 움직이는 시간입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🛬 Part 04 · 안티그래비티 설치</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">휴식 후 Part 04에서 안티그래비티 IDE(Integrated Development Environment · 통합 개발 환경) 설치와 Claude Code 연결을 함께 합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🆘 막힘 대응 · #운영-QnA</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">설치 중 막히는 지점은 슬랙 #운영-QnA에 캡처와 함께 올려 주세요. 조교가 함께 봅니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- theory done -->
+          <rect x="25" y="70" width="100" height="70" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="75" y="95" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">이론</text>
+          <text x="75" y="115" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">Part 02·03</text>
+          <text x="75" y="130" font-size="10" text-anchor="middle" fill="#e2c793">✓ 완료</text>
+
+          <!-- coffee break -->
+          <text x="165" y="108" font-size="30" text-anchor="middle">☕</text>
+          <text x="165" y="145" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">휴식</text>
+
+          <!-- setting next -->
+          <rect x="205" y="70" width="100" height="70" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="255" y="95" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">세팅</text>
+          <text x="255" y="115" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">Part 04</text>
+          <text x="255" y="130" font-size="10" text-anchor="middle" fill="#7a7666">Antigravity</text>
+
+          <!-- practice badge -->
+          <rect x="325" y="70" width="50" height="70" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="350" y="100" font-size="18" text-anchor="middle" fill="#e2c793">🛠️</text>
+          <text x="350" y="122" font-size="10" text-anchor="middle" fill="#e2c793">실습</text>
+          <text x="350" y="135" font-size="9" text-anchor="middle" fill="#7a7666">A·B</text>
+
+          <!-- arrow -->
+          <line x1="125" y1="105" x2="155" y2="105" stroke="#7a7666" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="180" y1="105" x2="200" y2="105" stroke="#e2c793" stroke-width="1.5"/>
+          <line x1="305" y1="105" x2="325" y2="105" stroke="#e2c793" stroke-width="1.5"/>
+
+          <text x="200" y="200" font-size="11" text-anchor="middle" fill="#F7F0DF">이제 · 손을 움직일 차례입니다</text>
+          <text x="200" y="225" font-size="10" text-anchor="middle" fill="#7a7666">막히면 슬랙 #운영-QnA · 캡처와 함께</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="8">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 03</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">쪽지의 모양을 · 알았다면</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 04 · 안티그래비티 IDE 설치 · Claude Code 연결</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-04.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 09</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">자동 로딩</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">5 섹션</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">Before/After</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="8"><span class="thumb-num">09</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

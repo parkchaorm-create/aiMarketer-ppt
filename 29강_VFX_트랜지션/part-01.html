@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 01 · OT · 28강 회상 · Phase 5 지도 — AI 마케터 29강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="FLOW">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 29강</div>
+  <div class="topbar-center">PART 01 · OT · 28강 회상 + Phase 5 지도</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="../../28강_시네마틱_앵글/PPT/part-07.html" title="이전 강의">◀ 28강</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-02.html" title="다음 파트">PART 02 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">PHASE 5 · 4회차 · 기술 스킬 마지막</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 01 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="장면을 잇고, 비틀다" style="transition-delay:0.3s">장면을 잇고, 비틀다</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">OT · 28강 회상 · Phase 5 지도 · 29강 위치</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · 오늘 만들 것</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">트랜지션 1 + VFX 2 = 3편</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎞️ 트랜지션 영상 1편 · 두 컷 잇기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Transition(트랜지션 · 화면 전환)을 걸어 이미지 2장을 잇는 1~1.5초 전환 영상을 생성합니다. Start Frame + End Frame 구조를 씁니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">✨ VFX 적용 영상 2편 · 한 컷 비틀기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">VFX(Visual Effects · 시각 효과)를 두 가지 각각 적용해 영상 2편을 생성합니다. 3D Rotation · Glowshift 기본 2종.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📤 슬랙 업로드 · 3건 · 30강 재료</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">세 산출물을 `#수업실습` 채널에 `[29강][클라이언트태그]` 형식으로 업로드합니다. 오늘 재료가 30강 팀 프로젝트의 자산이 됩니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ov-g1" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#3a3730"/>
+              <stop offset="1" stop-color="#e2c793"/>
+            </linearGradient>
+          </defs>
+          <rect x="30" y="25" width="340" height="22" fill="url(#ov-g1)" opacity="0.18"/>
+          <text x="200" y="41" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PHASE 5 · 4회차 · 29강</text>
+
+          <!-- Output 1 · Transition -->
+          <rect x="30" y="65" width="160" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="110" y="85" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="1" font-weight="700">산출물 1 · 트랜지션</text>
+          <rect x="42" y="100" width="38" height="30" fill="none" stroke="#7a7666" stroke-width="1"/>
+          <text x="93" y="118" font-size="11" text-anchor="middle" fill="#e2c793">→</text>
+          <rect x="107" y="100" width="38" height="30" fill="none" stroke="#7a7666" stroke-width="1"/>
+          <text x="158" y="118" font-size="11" text-anchor="middle" fill="#e2c793">→</text>
+          <rect x="170" y="100" width="18" height="30" fill="none" stroke="#e2c793" stroke-width="1"/>
+          <text x="110" y="142" font-size="9" text-anchor="middle" fill="#7a7666">두 컷 잇기 · 1편</text>
+
+          <!-- Output 2 · VFX -->
+          <rect x="210" y="65" width="160" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="290" y="85" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="1" font-weight="700">산출물 2 · VFX 2편</text>
+          <circle cx="250" cy="115" r="10" fill="none" stroke="#F7F0DF" stroke-width="1"/>
+          <text x="250" y="119" font-size="10" text-anchor="middle" fill="#e2c793">◌</text>
+          <text x="265" y="119" font-size="10" fill="#7a7666">3D</text>
+          <circle cx="310" cy="115" r="10" fill="none" stroke="#F7F0DF" stroke-width="1"/>
+          <text x="310" y="119" font-size="10" text-anchor="middle" fill="#e2c793">✦</text>
+          <text x="325" y="119" font-size="10" fill="#7a7666">Glow</text>
+          <text x="290" y="142" font-size="9" text-anchor="middle" fill="#7a7666">한 컷 비틀기 · 2편</text>
+
+          <!-- Upload band -->
+          <rect x="30" y="165" width="340" height="45" fill="none" stroke="#3a3730" stroke-width="1" rx="4"/>
+          <text x="200" y="187" font-size="11" text-anchor="middle" fill="#e2c793" font-family="monospace">#수업실습 · [29강][클라이언트태그]</text>
+          <text x="200" y="202" font-size="10" text-anchor="middle" fill="#7a7666">30강 팀 프로젝트의 재료로 이어짐</text>
+
+          <line x1="30" y1="225" x2="370" y2="225" stroke="#e2c793" stroke-width="1" opacity="0.4"/>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#7a7666">트랜지션 1 · VFX 2 · 총 3편</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">두 장면을 잇는 1초, 인상이 바뀔까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">👀 릴스 · 처음 1~2초가 전부</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">인스타 릴스·유튜브 쇼츠에서 시선을 붙잡는 건 대개 처음 1~2초입니다. 그 구간을 살리는 장치가 오늘 배우는 트랜지션과 VFX입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎞️ 지금까지 · 한 컷 잘 만들기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">26~28강 내내 "한 컷 안의 움직임"을 다뤘습니다. 인물이 움직이거나 카메라가 움직이거나 — 모두 한 컷 안의 일이었어요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">✂️ 오늘 · 두 장면 잇기 · 한 장면 비틀기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘 29강은 장면과 장면의 관계를 다룹니다. 이어 붙이거나(트랜지션) 강조하거나(VFX). 두 가지가 축입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- BEFORE · one-shot -->
+          <text x="100" y="40" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">26~28강 · 한 컷 안</text>
+          <rect x="60" y="55" width="80" height="55" fill="none" stroke="#7a7666" stroke-width="1" rx="4"/>
+          <circle cx="100" cy="82" r="10" fill="none" stroke="#7a7666" stroke-width="1"/>
+          <path d="M 90 95 Q 100 102 110 95" stroke="#7a7666" stroke-width="1" fill="none"/>
+          <text x="100" y="128" font-size="10" text-anchor="middle" fill="#7a7666">한 컷 움직임</text>
+
+          <!-- arrow -->
+          <path d="M 155 85 L 195 85" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 190 80 L 198 85 L 190 90" stroke="#e2c793" stroke-width="2" fill="none"/>
+
+          <!-- AFTER · two shots or one shot with FX -->
+          <text x="305" y="40" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">29강 · 장면 관계</text>
+          <rect x="220" y="55" width="50" height="55" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="245" y="86" font-size="11" text-anchor="middle" fill="#e2c793">A</text>
+          <path d="M 275 82 L 295 82" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <path d="M 290 77 L 298 82 L 290 87" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <rect x="303" y="55" width="50" height="55" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="328" y="86" font-size="11" text-anchor="middle" fill="#e2c793">B</text>
+          <text x="287" y="128" font-size="10" text-anchor="middle" fill="#e2c793">두 장면 잇기</text>
+
+          <!-- bottom · 2 axes -->
+          <line x1="30" y1="155" x2="370" y2="155" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="177" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">오늘의 두 축</text>
+          <rect x="60" y="195" width="130" height="40" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="125" y="215" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">트랜지션</text>
+          <text x="125" y="228" font-size="9" text-anchor="middle" fill="#7a7666">두 장면 잇기</text>
+          <rect x="210" y="195" width="130" height="40" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="275" y="215" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">VFX</text>
+          <text x="275" y="228" font-size="9" text-anchor="middle" fill="#7a7666">한 장면 비틀기</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 28강까지 누적 자산 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 28강까지 만든 재료</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">지금까지 · 한 컷 중심</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎬 26강 · T2V·I2V 각 1편</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">T2V(Text-to-Video · 텍스트→영상) 1편, I2V(Image-to-Video · 이미지→영상) 1편. 첫 영상 재료를 손에 쥔 날이었습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎭 27강 · 3컷 + 미세 동작</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">동일 캐릭터 3컷 시퀀스 1세트와 미세 동작 제어 영상 1개. 같은 주인공이 여러 컷에 등장하는 감각을 얻으셨습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎥 28강 · 카메라 워킹 4종</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Dolly(돌리)·Pan(팬)·Tilt(틸트)·Crane(크레인) 카메라 워킹 샘플 영상 4종과 쇼트 리스트 문서까지 확보하신 상태입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">🎯 공통점 · 한 컷 안의 움직임</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">26~28강 전부 "한 컷 안에서 일어나는 움직임"이었습니다. 인물·카메라·피사체가 움직여도 모두 한 컷 단위였어요.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="30" width="340" height="200" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
+          <text x="200" y="55" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">26~28강 누적 자산</text>
+          <line x1="60" y1="65" x2="340" y2="65" stroke="#3a3730" stroke-width="1"/>
+
+          <rect x="50" y="80" width="100" height="50" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="100" y="100" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="1">26강</text>
+          <text x="100" y="118" font-size="10" text-anchor="middle" fill="#7a7666">T2V · I2V</text>
+
+          <rect x="160" y="80" width="100" height="50" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="210" y="100" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="1">27강</text>
+          <text x="210" y="118" font-size="10" text-anchor="middle" fill="#7a7666">3컷 + 동작</text>
+
+          <rect x="270" y="80" width="80" height="50" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="310" y="100" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="1">28강</text>
+          <text x="310" y="118" font-size="10" text-anchor="middle" fill="#7a7666">카메라 4종</text>
+
+          <line x1="50" y1="150" x2="350" y2="150" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="172" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">공통 · 한 컷(One Shot) 안의 움직임</text>
+
+          <rect x="50" y="190" width="300" height="30" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="210" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">29강 · 장면과 장면의 관계</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · Phase 5 지도 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · Phase 5 지도</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">29강의 위치 · 기술 스킬 마지막</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📍 29강 · 기술 스킬 마지막 회차</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Phase 5 여섯 회차 중 오늘이 기술 스킬 학습의 마지막입니다. 30·31강은 팀 프로젝트로 완성·상영하는 시간이에요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🧩 오늘 재료 · 30강 자산</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘 만드는 영상 3편은 30강 팀 비주얼 영상의 재료로 그대로 쓰입니다. 버려지는 연습이 아니라 팀 자산 빌드업입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎯 합격선 · 3편 계정에 남기기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘의 합격선은 "트랜지션 영상 1편 · VFX 적용 영상 2편을 힉스필드 계정에 남긴다"입니다. 완성도보다 경험입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- timeline 6 points -->
+          <line x1="30" y1="130" x2="370" y2="130" stroke="#3a3730" stroke-width="1.5"/>
+
+          <circle cx="55" cy="130" r="6" fill="none" stroke="#7a7666" stroke-width="1.5"/>
+          <text x="55" y="110" font-size="10" text-anchor="middle" fill="#7a7666">26</text>
+          <text x="55" y="155" font-size="8" text-anchor="middle" fill="#7a7666">기초</text>
+
+          <circle cx="118" cy="130" r="6" fill="none" stroke="#7a7666" stroke-width="1.5"/>
+          <text x="118" y="110" font-size="10" text-anchor="middle" fill="#7a7666">27</text>
+          <text x="118" y="155" font-size="8" text-anchor="middle" fill="#7a7666">주인공</text>
+
+          <circle cx="181" cy="130" r="6" fill="none" stroke="#7a7666" stroke-width="1.5"/>
+          <text x="181" y="110" font-size="10" text-anchor="middle" fill="#7a7666">28</text>
+          <text x="181" y="155" font-size="8" text-anchor="middle" fill="#7a7666">카메라</text>
+
+          <!-- 29 today -->
+          <circle cx="244" cy="130" r="10" fill="#e2c793" stroke="#e2c793" stroke-width="2"/>
+          <rect x="204" y="60" width="80" height="40" fill="none" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="244" y="78" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="1" font-weight="800">29 · 오늘</text>
+          <text x="244" y="93" font-size="10" text-anchor="middle" fill="#F7F0DF">VFX·트랜지션</text>
+          <text x="244" y="160" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="700">기술 마지막</text>
+
+          <circle cx="307" cy="130" r="6" fill="none" stroke="#7a7666" stroke-width="1.5"/>
+          <text x="307" y="110" font-size="10" text-anchor="middle" fill="#7a7666">30</text>
+          <text x="307" y="155" font-size="8" text-anchor="middle" fill="#7a7666">팀제작</text>
+
+          <circle cx="355" cy="130" r="6" fill="none" stroke="#7a7666" stroke-width="1.5"/>
+          <text x="355" y="110" font-size="10" text-anchor="middle" fill="#7a7666">31</text>
+          <text x="355" y="155" font-size="8" text-anchor="middle" fill="#7a7666">상영회</text>
+
+          <!-- bottom band -->
+          <line x1="30" y1="195" x2="370" y2="195" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="218" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">Phase 5 · 힉스필드 비주얼 스킬 마스터</text>
+          <text x="200" y="238" font-size="10" text-anchor="middle" fill="#7a7666">26 기초 → 27 주인공 → 28 카메라 → 29 오늘 → 30·31 팀</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 01 · 세 줄 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🧭 두 축 · 잇기 + 비틀기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">29강은 두 장면 잇기(트랜지션)와 한 장면 비틀기(VFX) 두 축입니다. 한 컷 중심이던 26~28강과 대상이 달라집니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎯 3편 · 트랜지션 1 + VFX 2</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘 손에 남는 결과는 트랜지션 영상 1편과 VFX 적용 영상 2편. 총 세 편을 슬랙 `#수업실습`에 업로드합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎬 30강 재료 · 팀 자산</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘 3편은 30강 팀 프로젝트에서 그대로 쓰입니다. Phase 5 기술 스킬은 오늘로 마무리되는 구조입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">01</text>
+          <line x1="50" y1="100" x2="115" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">두 축</text>
+          <text x="82" y="150" font-size="10" text-anchor="middle" fill="#7a7666">잇기</text>
+          <text x="82" y="168" font-size="14" text-anchor="middle" fill="#e2c793">+</text>
+          <text x="82" y="188" font-size="10" text-anchor="middle" fill="#7a7666">비틀기</text>
+
+          <rect x="147" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">02</text>
+          <line x1="167" y1="100" x2="232" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">3편</text>
+          <text x="200" y="148" font-size="10" text-anchor="middle" fill="#7a7666">트랜지션 1</text>
+          <text x="200" y="165" font-size="10" text-anchor="middle" fill="#7a7666">· VFX 2</text>
+          <text x="200" y="188" font-size="11" text-anchor="middle" fill="#e2c793">슬랙 업로드</text>
+
+          <rect x="264" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">03</text>
+          <line x1="284" y1="100" x2="349" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">30강 재료</text>
+          <text x="317" y="148" font-size="10" text-anchor="middle" fill="#7a7666">팀 자산</text>
+          <text x="317" y="168" font-size="10" text-anchor="middle" fill="#7a7666">이어짐</text>
+          <text x="317" y="190" font-size="14" text-anchor="middle" fill="#e2c793">☑</text>
+
+          <text x="200" y="230" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 01 · RECAP</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">'전환'과 '효과', 같은 말일까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">❓ 트랜지션 = 효과?</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">일상어로는 "전환"과 "효과"가 비슷해 보이지만, 영상 제작 현장에서는 아주 다른 기능을 가리킵니다. 먼저 이 차이부터 정리합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🧱 Part 02 · 개념 카드 2장</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Transition은 두 장면 잇기, VFX는 한 장면 비틀기. 입력·용도·메뉴 위치가 다릅니다. 카드 두 장으로 구분합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🗺️ 감 잡으면 · 메뉴 찾기 쉬워</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">"두 장면 이을 땐 Transitions, 한 장면 비틀 땐 Effects." 한 줄로 외우시면 힉스필드 UI에서 헤매지 않으셔도 됩니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PART 01</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">OT · 지도</text>
+          <text x="90" y="158" font-size="11" text-anchor="middle" fill="#7a7666">두 축 · 3편</text>
+
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">뭐가 다르지?</text>
+
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 02</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">개념 구분</text>
+          <text x="310" y="158" font-size="11" text-anchor="middle" fill="#7a7666">Transition vs VFX</text>
+
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#7a7666">개념부터 맞추면 실습이 빨라집니다</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ Part 02에서 이어서 보겠습니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 01</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">장면을 잇고, 비틀다 · 시작</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 02 · 트랜지션 vs VFX · 무엇이 다른가</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-02.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">28강회상</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">Phase5지도</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

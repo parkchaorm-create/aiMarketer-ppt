@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 02 · HIGGSFIELD 3대 도구 · Cinema Studio · Shots · DOP — AI 마케터 30강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="WAVES">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 30강</div>
+  <div class="topbar-center">PART 02 · HIGGSFIELD 3대 도구 · Cinema Studio · Shots · DOP</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-01.html" title="이전 파트">◀ PART 01</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-03.html" title="다음 파트">PART 03 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">PHASE 5 · 이론 1 · 도구 지도</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 02 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="세 기능 · 역할이 다릅니다" style="transition-delay:0.3s">세 기능 · 역할이 다릅니다</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">Shots · Cinema Studio · DOP · 크레딧 운영 3원칙</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · Part 02 지도</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">계획 · 본체 · 엔진</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🖼️ 계획 · Shots로 9프레임</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Shots(숏츠 · 1장 이미지에서 9프레임 스토리보드 자동 생성)는 계획 단계의 그림 재료를 만드는 기능입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎬 본체 · Cinema Studio 6-샷</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Cinema Studio(시네마 스튜디오)는 3-모션 스택과 6-샷 시퀀스로 한 번의 생성에 여러 샷을 이어 만드는 본체입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">⚙️ 엔진 · DOP Lite 고정</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">DOP(Director of Photography · 촬영 감독 모델)는 Cinema Studio 안의 엔진 선택지. 오늘은 DOP Lite로 고정합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="40" width="110" height="180" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="85" y="65" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="700">계획</text>
+          <line x1="45" y1="75" x2="125" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <text x="85" y="105" font-size="22" text-anchor="middle" fill="#e2c793">🖼️</text>
+          <text x="85" y="140" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">Shots</text>
+          <text x="85" y="158" font-size="10" text-anchor="middle" fill="#7a7666">9프레임</text>
+          <text x="85" y="175" font-size="10" text-anchor="middle" fill="#7a7666">저비용</text>
+          <text x="85" y="200" font-size="9" text-anchor="middle" fill="#e2c793">스토리보드</text>
+
+          <path d="M 145 130 L 170 130" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <path d="M 165 125 L 173 130 L 165 135" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+
+          <rect x="175" y="40" width="110" height="180" fill="none" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="230" y="65" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="700">본체</text>
+          <line x1="190" y1="75" x2="270" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <text x="230" y="105" font-size="22" text-anchor="middle" fill="#e2c793">🎬</text>
+          <text x="230" y="140" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">Cinema Studio</text>
+          <text x="230" y="158" font-size="10" text-anchor="middle" fill="#7a7666">3-모션 스택</text>
+          <text x="230" y="175" font-size="10" text-anchor="middle" fill="#7a7666">6-샷 시퀀스</text>
+          <text x="230" y="200" font-size="9" text-anchor="middle" fill="#e2c793">오늘 본체</text>
+
+          <path d="M 290 130 L 315 130" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <path d="M 310 125 L 318 130 L 310 135" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+
+          <rect x="320" y="40" width="50" height="180" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="345" y="65" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="700">엔진</text>
+          <line x1="330" y1="75" x2="360" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <text x="345" y="105" font-size="16" text-anchor="middle" fill="#e2c793">⚙️</text>
+          <text x="345" y="140" font-size="10" text-anchor="middle" fill="#F7F0DF">DOP</text>
+          <text x="345" y="160" font-size="9" text-anchor="middle" fill="#7a7666">Lite</text>
+          <text x="345" y="200" font-size="8" text-anchor="middle" fill="#e2c793">무료</text>
+
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#7a7666">계획 → 본체 → 엔진 · 3단계로 기억</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">HIGGSFIELD · 어느 기능인가요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🔍 메뉴 10+ · 어지러우시죠?</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Cinema Studio · Shots · Popcorn · Kling · Sora · Veo · Seedance · WAN … 사이트 첫 화면만 봐도 메뉴가 10종 이상이에요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎯 오늘은 · 세 개만 쓰면 됩니다</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">전부 다룰 수도 없고 다룰 필요도 없어요. 30강에서는 Shots · Cinema Studio · DOP 셋만 쓰시면 충분합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🧭 구분 안 두면 · 팀 토론 엉킴</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">세 기능을 역할 기준으로 미리 구분해 두어야 팀 작업 중 "어디 들어가서 뭘 해야 하나"에서 시간이 새지 않습니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="35" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">HIGGSFIELD 메뉴 · 10+</text>
+          <rect x="30" y="50" width="340" height="80" fill="none" stroke="#7a7666" stroke-width="1" rx="4"/>
+          <text x="60" y="75" font-size="10" fill="#7a7666">Cinema Studio</text>
+          <text x="160" y="75" font-size="10" fill="#7a7666">Shots</text>
+          <text x="220" y="75" font-size="10" fill="#7a7666">Popcorn</text>
+          <text x="290" y="75" font-size="10" fill="#7a7666">Kling</text>
+          <text x="60" y="97" font-size="10" fill="#7a7666">Sora</text>
+          <text x="120" y="97" font-size="10" fill="#7a7666">Veo</text>
+          <text x="170" y="97" font-size="10" fill="#7a7666">Seedance</text>
+          <text x="260" y="97" font-size="10" fill="#7a7666">WAN</text>
+          <text x="310" y="97" font-size="10" fill="#7a7666">DOP</text>
+          <text x="60" y="119" font-size="10" fill="#7a7666">Zephy</text>
+          <text x="120" y="119" font-size="10" fill="#7a7666">…</text>
+
+          <path d="M 200 140 L 200 160" stroke="#e2c793" stroke-width="2"/>
+          <path d="M 195 155 L 200 163 L 205 155" stroke="#e2c793" stroke-width="2" fill="none"/>
+
+          <rect x="50" y="175" width="300" height="55" fill="none" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="200" y="197" font-size="12" text-anchor="middle" fill="#e2c793" font-weight="800">오늘 · 3개만</text>
+          <text x="110" y="218" font-size="10" text-anchor="middle" fill="#F7F0DF">Shots</text>
+          <text x="200" y="218" font-size="10" text-anchor="middle" fill="#F7F0DF">Cinema Studio</text>
+          <text x="290" y="218" font-size="10" text-anchor="middle" fill="#F7F0DF">DOP</text>
+
+          <text x="200" y="252" font-size="10" text-anchor="middle" fill="#e2c793">나머지는 쳐다보지 않아도 OK</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 4 스킬 수렴 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 26~29강 수렴</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">한 화면에 · 네 스킬 동시</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📝 26강 · Prompt 입력칸</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">T2V·I2V 기본 프롬프트는 샷별 Prompt 입력칸에 들어갑니다. 원본 이미지 첨부도 이 자리에서 가능해요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎭 27강 · Character Lock</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Character Lock(캐릭터 고정) 옵션으로 캐릭터 일관성을 유지하고, 피사체 미세 모션은 프롬프트 문장에 병기합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎥 28강 · Camera Motion 3개</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Camera Motion 드롭다운에서 20+ 프리셋 중 한 샷당 최대 3개를 스택(Stack · 겹겹이 쌓기)할 수 있습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">🎞️ 29강 · Transition 드롭다운</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">샷과 샷 사이 Transition(트랜지션 · 화면 전환) 드롭다운과 샷 내 속도 램프(Speed Ramp · 속도 가감 곡선)가 여기 들어갑니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="30" width="340" height="210" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
+          <text x="200" y="55" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">Cinema Studio · 한 화면</text>
+          <line x1="60" y1="65" x2="340" y2="65" stroke="#3a3730" stroke-width="1"/>
+
+          <rect x="50" y="80" width="150" height="50" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="60" y="100" font-size="10" fill="#e2c793" font-weight="700">26강 · Prompt</text>
+          <text x="60" y="120" font-size="9" fill="#7a7666">T2V·I2V 입력칸</text>
+
+          <rect x="210" y="80" width="140" height="50" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="220" y="100" font-size="10" fill="#e2c793" font-weight="700">27강 · Character</text>
+          <text x="220" y="120" font-size="9" fill="#7a7666">Lock·모션 병기</text>
+
+          <rect x="50" y="140" width="150" height="50" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="60" y="160" font-size="10" fill="#e2c793" font-weight="700">28강 · Motion</text>
+          <text x="60" y="180" font-size="9" fill="#7a7666">드롭다운 3개 스택</text>
+
+          <rect x="210" y="140" width="140" height="50" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="220" y="160" font-size="10" fill="#e2c793" font-weight="700">29강 · Transition</text>
+          <text x="220" y="180" font-size="9" fill="#7a7666">샷간 전환·램프</text>
+
+          <rect x="50" y="200" width="300" height="30" fill="none" stroke="#3a3730" stroke-width="1" rx="4"/>
+          <text x="200" y="220" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">한 번의 생성 · 네 스킬 동시 투입</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 크레딧 3원칙 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 크레딧 3원칙</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">무료 플랜 · 성패 좌우</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🖼️ 1 · 스토리보드 먼저</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Shots(저비용)로 구도 합의 먼저. Cinema Studio 정식 생성은 팀 합의가 끝난 최종 1~2회에만. 이 순서가 성패를 가릅니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">👥 2 · 팀당 계정 2~3개</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">한 계정의 크레딧이 고갈돼도 다른 계정으로 이어 갑니다. 팀원 가입 결과를 공유 문서에 기록해 두세요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎞️ 3 · 고갈 시 슬라이드쇼</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">영상이 안 돼도 Shots 9프레임을 캔바 슬라이드쇼로 편집하면 오늘의 합격선입니다. 영상이 없다고 수업이 실패하는 건 아니에요.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="40" width="105" height="180" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="65" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">원칙 1</text>
+          <line x1="45" y1="75" x2="120" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="105" font-size="20" text-anchor="middle" fill="#e2c793">🖼️</text>
+          <text x="82" y="140" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">스토리보드</text>
+          <text x="82" y="158" font-size="10" text-anchor="middle" fill="#F7F0DF">먼저</text>
+          <text x="82" y="185" font-size="9" text-anchor="middle" fill="#7a7666">Shots 저비용</text>
+          <text x="82" y="205" font-size="9" text-anchor="middle" fill="#7a7666">합의 끝낸 뒤</text>
+
+          <rect x="147" y="40" width="105" height="180" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="65" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">원칙 2</text>
+          <line x1="162" y1="75" x2="237" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="105" font-size="20" text-anchor="middle" fill="#e2c793">👥</text>
+          <text x="200" y="140" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">계정 2~3개</text>
+          <text x="200" y="158" font-size="10" text-anchor="middle" fill="#F7F0DF">팀당 분산</text>
+          <text x="200" y="185" font-size="9" text-anchor="middle" fill="#7a7666">한 계정 고갈</text>
+          <text x="200" y="205" font-size="9" text-anchor="middle" fill="#7a7666">→ 다음 계정</text>
+
+          <rect x="264" y="40" width="105" height="180" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="65" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">원칙 3</text>
+          <line x1="279" y1="75" x2="354" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="105" font-size="20" text-anchor="middle" fill="#e2c793">🎞️</text>
+          <text x="317" y="140" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">대체 경로</text>
+          <text x="317" y="158" font-size="10" text-anchor="middle" fill="#F7F0DF">슬라이드쇼</text>
+          <text x="317" y="185" font-size="9" text-anchor="middle" fill="#7a7666">9프레임 → 캔바</text>
+          <text x="317" y="205" font-size="9" text-anchor="middle" fill="#7a7666">오늘 합격선</text>
+
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">영상이 전부 아님 · 경험이 합격선</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 02 · 네 줄 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎯 오늘 쓸 것 · 3 기능만</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Shots(스토리보드 9프레임) · Cinema Studio(영상 본체) · DOP(엔진 선택). 나머지는 오늘 쳐다보지 않아도 됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎬 30초+ · 6-샷 시퀀스로</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Cinema Studio의 6-샷 시퀀스가 30초+ 영상의 주 경로. 한 샷 5~8초 × 3~6개를 한 번의 생성으로 이어 만듭니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎛️ 네 스킬 · 한 화면 수렴</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">26~29강 재료가 Prompt · Character Lock · Motion · Transition 네 자리로 Cinema Studio 한 화면에 자연스럽게 들어옵니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">💰 3원칙 · 스토리보드·계정·대체</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">스토리보드 먼저 · 팀당 계정 2~3개 · 고갈 시 슬라이드쇼. 무료 플랜에서 수업이 성립하려면 이 세 줄이 기준점입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="30" width="340" height="200" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
+          <text x="200" y="55" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 02 · RECAP</text>
+          <line x1="60" y1="65" x2="340" y2="65" stroke="#3a3730" stroke-width="1"/>
+
+          <rect x="50" y="80" width="145" height="45" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="122" y="100" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">3 기능</text>
+          <text x="122" y="117" font-size="9" text-anchor="middle" fill="#7a7666">Shots·Studio·DOP</text>
+
+          <rect x="205" y="80" width="145" height="45" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="277" y="100" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">30초+</text>
+          <text x="277" y="117" font-size="9" text-anchor="middle" fill="#7a7666">6-샷 시퀀스</text>
+
+          <rect x="50" y="135" width="145" height="45" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="122" y="155" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">4 스킬 수렴</text>
+          <text x="122" y="172" font-size="9" text-anchor="middle" fill="#7a7666">한 화면에 모두</text>
+
+          <rect x="205" y="135" width="145" height="45" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="277" y="155" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">3 원칙</text>
+          <text x="277" y="172" font-size="9" text-anchor="middle" fill="#7a7666">크레딧 운영</text>
+
+          <rect x="50" y="190" width="300" height="30" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="200" y="210" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">기능 지도 완성 · 다음은 계획서</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">계획서 한 장 · 어떻게 쓸까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📋 도구는 알았어요 · 무엇을 담나요?</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Cinema Studio에 무엇을 입력할지가 문제입니다. 그 입력의 원고가 촬영 계획서 한 장이에요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🧱 Part 03 · 4블록 구조</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Project Brief · Shot List · Brand Constraints · QC Checkpoint 네 블록의 내용과 작성 순서를 Part 03에서 눈으로 확인합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎨 4강 매뉴얼 · 그대로 이어집니다</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">컬러·톤 앵커·금지어 세 항목이 Brand Constraints 블록에 그대로 들어가요. 매뉴얼을 손에 두고 돌아오시면 편합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PART 02</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">3 기능 지도</text>
+          <text x="90" y="158" font-size="11" text-anchor="middle" fill="#7a7666">도구는 정리</text>
+
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">입력 원고?</text>
+
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 03</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">계획서 4블록</text>
+          <text x="310" y="158" font-size="11" text-anchor="middle" fill="#7a7666">Brief·Shot·Brand·QC</text>
+
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#7a7666">도구 지도 → 입력 원고 한 장으로</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ Part 03에서 이어서 보겠습니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 02</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">3 기능 · 지도 완성</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 03 · 촬영 계획서 4블록 · 브랜드 연결고리</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-03.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">4스킬수렴</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">3원칙</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 03 · CONCEPT · 워크플로우 3요소 — AI 마케터 19강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="WAVES">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 19강</div>
+  <div class="topbar-center">PART 03 · CONCEPT · 3요소 · 캘린더 4종 · 안전망</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-02.html" title="이전 파트">◀ PART 02</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-04.html" title="다음 파트">PART 04 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">PART 03 · CONCEPT · 뼈대</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 03 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="트리거 · 조건 · 액션 · 세 단어" style="transition-delay:0.3s">트리거 · 조건 · 액션 · 세 단어</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">워크플로우 3요소 · 캘린더 4종 · 안전망 3원칙</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · Part 03 구성</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">오늘 쓸 · 세 개의 도구 상자</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🧰 상자 1 · 워크플로우 3요소</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">트리거 · 조건 · 액션 세 단어로 오늘 실습의 모든 화면이 해석됩니다. 첫 번째 상자에 넣어 둡니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📅 상자 2 · 캘린더 4종 중 하나</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">GHL은 Simple · Round Robin · Class · Service 네 종류 캘린더를 제공합니다. 오늘 쓸 것은 Simple 하나뿐입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🛟 상자 3 · 안전망 3원칙</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">가상 데이터 · Draft 먼저 · 취소 안내 한 줄. 세 원칙만 지키면 오늘 실습은 안전하게 돌아갑니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="40" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">세 개의 상자</text>
+          <!-- Box 1 -->
+          <rect x="30" y="60" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="100" font-size="26" text-anchor="middle" fill="#e2c793">🧰</text>
+          <line x1="50" y1="115" x2="115" y2="115" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="140" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">3요소</text>
+          <text x="82" y="163" font-size="10" text-anchor="middle" fill="#7a7666">트리거</text>
+          <text x="82" y="180" font-size="10" text-anchor="middle" fill="#7a7666">조건 · 액션</text>
+          <text x="82" y="205" font-size="11" text-anchor="middle" fill="#e2c793">뼈대</text>
+          <!-- Box 2 -->
+          <rect x="147" y="60" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="100" font-size="26" text-anchor="middle" fill="#e2c793">📅</text>
+          <line x1="167" y1="115" x2="232" y2="115" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="140" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">캘린더 4종</text>
+          <text x="200" y="163" font-size="10" text-anchor="middle" fill="#7a7666">오늘은 Simple</text>
+          <text x="200" y="180" font-size="10" text-anchor="middle" fill="#7a7666">하나만</text>
+          <text x="200" y="205" font-size="11" text-anchor="middle" fill="#e2c793">선택</text>
+          <!-- Box 3 -->
+          <rect x="264" y="60" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="100" font-size="26" text-anchor="middle" fill="#e2c793">🛟</text>
+          <line x1="284" y1="115" x2="349" y2="115" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="140" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">안전망 3</text>
+          <text x="317" y="163" font-size="10" text-anchor="middle" fill="#7a7666">가상 · Draft</text>
+          <text x="317" y="180" font-size="10" text-anchor="middle" fill="#7a7666">· 취소 링크</text>
+          <text x="317" y="205" font-size="11" text-anchor="middle" fill="#e2c793">보호</text>
+
+          <text x="200" y="250" font-size="11" text-anchor="middle" fill="#7a7666">세 상자를 짚은 뒤 · 실습 A로</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 17강 흐름 재해석</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">이미 · 만들어 보셨잖아요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🔁 17강 · 폼 제출 → 태그 추가</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">지난 주 폼 제출 시 태그가 자동으로 붙는 흐름을 만들어 보셨어요. 그 구조가 오늘 세 단어로 분해됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🧩 이미 알고 있음 · 이름만 새로</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">트리거 · 조건 · 액션 세 단어는 17강에서 이미 경험하신 구조에 이름을 붙인 것입니다. 새로운 개념이 아니에요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📣 오늘 · 세 단어로 해석만</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘의 모든 GHL 화면은 이 세 단어로 해석됩니다. 화면이 바뀌어도 구조는 같아요.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- 17 강 equation -->
+          <text x="200" y="50" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">17강 흐름 = ?</text>
+          <!-- Before -->
+          <rect x="30" y="75" width="340" height="50" fill="none" stroke="#7a7666" stroke-width="1" rx="4"/>
+          <text x="200" y="105" font-size="13" text-anchor="middle" fill="#7a7666">폼 제출 → 태그 자동 추가</text>
+
+          <!-- arrow down -->
+          <path d="M 200 130 L 200 150" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 195 145 L 200 153 L 205 145" stroke="#e2c793" stroke-width="2" fill="none"/>
+
+          <!-- decomposed -->
+          <rect x="30" y="160" width="100" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="80" y="180" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">트리거</text>
+          <text x="80" y="198" font-size="10" text-anchor="middle" fill="#7a7666">폼 제출</text>
+
+          <rect x="150" y="160" width="100" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="180" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">조건</text>
+          <text x="200" y="198" font-size="10" text-anchor="middle" fill="#7a7666">(생략)</text>
+
+          <rect x="270" y="160" width="100" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="320" y="180" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">액션</text>
+          <text x="320" y="198" font-size="10" text-anchor="middle" fill="#7a7666">태그 추가</text>
+
+          <!-- connecting -->
+          <line x1="130" y1="185" x2="150" y2="185" stroke="#e2c793" stroke-width="1"/>
+          <line x1="250" y1="185" x2="270" y2="185" stroke="#e2c793" stroke-width="1"/>
+
+          <text x="200" y="240" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">세 단어로 · 모든 워크플로우 해석</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 3요소 상세 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 3요소 상세</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">트리거 · 조건 · 액션 · 낱개로</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎯 트리거 · 언제 · 오늘 4종</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Form Submitted · Contact Tag Added · Customer Booked Appointment · Instagram/Facebook Message Received 네 가지가 오늘 주로 쓰는 트리거입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔀 조건 · 어떤 경우 · If/Else</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">태그 high-intent 보유 여부 · need-nurturing 보유 여부 · 영업 시간 외 같은 기준으로 경로가 갈라집니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">⚙️ 액션 · 무엇을 · 핵심 4종</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Send Message · Interactive Messenger(버튼·퀵리플라이 포함) · Book Appointment · Add/Remove Contact Tag 네 가지가 오늘의 핵심 액션입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- 3 columns vertical flow -->
+          <rect x="30" y="40" width="105" height="190" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="65" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">① 트리거</text>
+          <line x1="40" y1="75" x2="125" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="95" font-size="9" text-anchor="middle" fill="#F7F0DF">Form Submitted</text>
+          <text x="82" y="115" font-size="9" text-anchor="middle" fill="#F7F0DF">Tag Added</text>
+          <text x="82" y="135" font-size="9" text-anchor="middle" fill="#F7F0DF">Appt Booked</text>
+          <text x="82" y="155" font-size="9" text-anchor="middle" fill="#F7F0DF">IG/FB Msg</text>
+          <text x="82" y="200" font-size="11" text-anchor="middle" fill="#7a7666">언제</text>
+
+          <rect x="147" y="40" width="105" height="190" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="65" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">② 조건</text>
+          <line x1="157" y1="75" x2="242" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="95" font-size="9" text-anchor="middle" fill="#F7F0DF">high-intent ?</text>
+          <text x="200" y="115" font-size="9" text-anchor="middle" fill="#F7F0DF">need-nurturing?</text>
+          <text x="200" y="135" font-size="9" text-anchor="middle" fill="#F7F0DF">영업 시간 외?</text>
+          <text x="200" y="165" font-size="13" text-anchor="middle" fill="#e2c793">If / Else</text>
+          <text x="200" y="200" font-size="11" text-anchor="middle" fill="#7a7666">어떤 경우</text>
+
+          <rect x="264" y="40" width="105" height="190" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="65" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">③ 액션</text>
+          <line x1="274" y1="75" x2="359" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="95" font-size="9" text-anchor="middle" fill="#F7F0DF">Send Message</text>
+          <text x="317" y="115" font-size="9" text-anchor="middle" fill="#F7F0DF">Interactive Msgr</text>
+          <text x="317" y="135" font-size="9" text-anchor="middle" fill="#F7F0DF">Book Appt</text>
+          <text x="317" y="155" font-size="9" text-anchor="middle" fill="#F7F0DF">Tag +/−</text>
+          <text x="317" y="200" font-size="11" text-anchor="middle" fill="#7a7666">무엇을</text>
+
+          <!-- arrows between boxes -->
+          <path d="M 135 135 L 147 135" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 143 131 L 149 135 L 143 139" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <path d="M 252 135 L 264 135" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 260 131 L 266 135 L 260 139" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 캘린더 4종 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 캘린더 4종</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">GHL 캘린더 · 오늘 쓸 것은 Simple</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">✅ Simple · 1인 · 1종 서비스</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">1명 담당자 · 1종 서비스 예약에 최적화된 가장 기본 형태. 오늘 실습 B의 주 경로입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">👥 Round Robin · 콜센터 방식</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">여러 담당자에게 자동 배분되는 방식이에요. 콜센터가 돌아가며 응대하는 느낌. 오늘은 개념만 소개합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎓 Class · 단체 수업</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">한 시간대에 여러 명이 동시에 참여하는 단체 클래스·세미나에 맞춰진 캘린더. 오늘은 개념만 소개합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">💇 Service · 조합 선택</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">여러 서비스 + 담당자 조합 선택이 필요한 미용실·병원 스타일. 오늘은 개념만 소개합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="35" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">캘린더 4종 · 오늘 1종</text>
+          <!-- 4 cards -->
+          <rect x="30" y="55" width="170" height="85" fill="none" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="115" y="78" font-size="13" text-anchor="middle" fill="#e2c793" font-weight="800">Simple</text>
+          <text x="115" y="100" font-size="11" text-anchor="middle" fill="#F7F0DF">1인 · 1서비스</text>
+          <text x="115" y="120" font-size="10" text-anchor="middle" fill="#7a7666">오늘 실습 B · 주 경로</text>
+          <circle cx="50" cy="75" r="8" fill="#e2c793" opacity="0.2"/>
+          <text x="50" y="79" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800">✓</text>
+
+          <rect x="210" y="55" width="160" height="85" fill="none" stroke="#7a7666" stroke-width="1" rx="4" stroke-dasharray="3,3"/>
+          <text x="290" y="78" font-size="12" text-anchor="middle" fill="#7a7666" font-weight="700">Round Robin</text>
+          <text x="290" y="100" font-size="11" text-anchor="middle" fill="#7a7666">N인 자동 배분</text>
+          <text x="290" y="120" font-size="10" text-anchor="middle" fill="#7a7666">개념만 · 오늘 안 씀</text>
+
+          <rect x="30" y="150" width="170" height="85" fill="none" stroke="#7a7666" stroke-width="1" rx="4" stroke-dasharray="3,3"/>
+          <text x="115" y="173" font-size="12" text-anchor="middle" fill="#7a7666" font-weight="700">Class / Group</text>
+          <text x="115" y="195" font-size="11" text-anchor="middle" fill="#7a7666">동시 N명</text>
+          <text x="115" y="215" font-size="10" text-anchor="middle" fill="#7a7666">개념만 · 오늘 안 씀</text>
+
+          <rect x="210" y="150" width="160" height="85" fill="none" stroke="#7a7666" stroke-width="1" rx="4" stroke-dasharray="3,3"/>
+          <text x="290" y="173" font-size="12" text-anchor="middle" fill="#7a7666" font-weight="700">Service</text>
+          <text x="290" y="195" font-size="11" text-anchor="middle" fill="#7a7666">조합 선택</text>
+          <text x="290" y="215" font-size="10" text-anchor="middle" fill="#7a7666">개념만 · 오늘 안 씀</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 안전망 3원칙</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 03 · 세 원칙 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🧪 가상 데이터 · 실제 금지</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">테스트 발송 시 이메일은 test-&lt;클라이언트&gt;-01@example.com · 전화는 강사가 안내하는 GHL 샌드박스 번호만 사용합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📝 Save as Draft · 먼저</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">모든 워크플로우는 Draft(초안 · 비공개) 상태로 시작. 테스트 완료 후에만 Publish합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🔗 취소 안내 · 한 줄 필수</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">예약 확정 메시지에 "문의·취소는 이 링크로" 한 줄 포함. 고객 권리 안내는 자동 회신의 기본 예의입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="35" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">안전망 · 3원칙</text>
+          <!-- Checklist card -->
+          <rect x="40" y="55" width="320" height="180" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
+          <!-- row 1 -->
+          <rect x="60" y="75" width="16" height="16" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 63 83 L 68 88 L 74 80" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="90" y="88" font-size="12" fill="#F7F0DF" font-weight="700">가상 데이터 원칙</text>
+          <text x="90" y="105" font-size="10" fill="#7a7666">test-*@example.com · 샌드박스 번호</text>
+
+          <line x1="60" y1="120" x2="340" y2="120" stroke="#3a3730" stroke-width="1"/>
+
+          <!-- row 2 -->
+          <rect x="60" y="135" width="16" height="16" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 63 143 L 68 148 L 74 140" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="90" y="148" font-size="12" fill="#F7F0DF" font-weight="700">Draft → 테스트 → Publish</text>
+          <text x="90" y="165" font-size="10" fill="#7a7666">순서 절대 생략 금지</text>
+
+          <line x1="60" y1="180" x2="340" y2="180" stroke="#3a3730" stroke-width="1"/>
+
+          <!-- row 3 -->
+          <rect x="60" y="195" width="16" height="16" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 63 203 L 68 208 L 74 200" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="90" y="208" font-size="12" fill="#F7F0DF" font-weight="700">취소 링크 한 줄</text>
+          <text x="90" y="225" font-size="10" fill="#7a7666">고객 권리 안내 · 기본 예의</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">세팅 · 다음 · 실제 화면</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🧩 세팅 · GHL + Google Calendar MCP</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Part 04에서 GHL 워크플로우 화면과 선택 심화로 쓸 Google Calendar MCP 연결 지점을 짚습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🏗️ 실습 A 전 · 준비 체크</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">소셜 계정 연동 상태 · 웹챗 위젯 대체 경로 · 샌드박스 번호를 세팅 단계에서 함께 확인합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">⏸️ 짧은 휴식 · 한 호흡</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">개념이 끝났으니 한 호흡 쉬고 실습 구간으로 넘어갑니다. 쉬는 동안 가상 클라이언트를 다시 떠올려 주세요.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- current part -->
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PART 03</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">개념</text>
+          <text x="90" y="158" font-size="11" text-anchor="middle" fill="#7a7666">뼈대 · 안전망</text>
+          <!-- arrow -->
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">세팅</text>
+          <!-- next part -->
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 04</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">세팅</text>
+          <text x="310" y="158" font-size="11" text-anchor="middle" fill="#7a7666">GHL + MCP</text>
+          <!-- footer -->
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#7a7666">짧은 휴식 후 · 실습 구간 입장</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ Part 04 세팅</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 03</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">세 단어가 · 머리에 자리 잡았습니다</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 04 · 세팅 · GHL 워크플로우 + Google Calendar MCP</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-04.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">3요소</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">캘린더 4종</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

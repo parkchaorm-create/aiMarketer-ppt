@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 07 · Phase 5 마무리 · 32강 예고 — AI 마케터 31강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="CONSTELLATION">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 31강</div>
+  <div class="topbar-center">PART 07 · Phase 5 마무리 · 32강 예고</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-06.html" title="이전 파트">◀ PART 06</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../../32강_창업_비즈니스_모델/PPT/part-01.html" title="다음 강의">32강 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">PHASE 5 · 마침표 · Phase 6 신호</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 07 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="Phase 5 · 한 편을 끝까지" style="transition-delay:0.3s">Phase 5 · 한 편을 끝까지</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">업로드 확인 · 30초 짝 교환 · 32강 예고</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · Part 07 지도</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">3줄 · 마무리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📤 산출물 업로드 · 확인</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">영상 HD 최종본 · 체크리스트 점검표 · 교차 피드백 댓글 3종이 슬랙에 올라갔는지 팀별로 확인합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📅 32강 예고 · Phase 6 · 김국희</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">다음 회차부터 Phase 6 시작. 담당 강사 김국희 대표로 전환. 1인 대행사 비즈니스 모델 · 마케팅 패키지 3종 + 가격 전략.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🔄 30초 짝 교환 · 감사</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">옆자리와 30초씩 · 체크리스트에서 가장 어려웠던(또는 의외였던) 항목 + 이유 한 줄 교환. 교실 내 완결 1~2분.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="50" width="100" height="160" fill="none" stroke="#3a3730" stroke-width="1" rx="4"/>
+          <rect x="150" y="50" width="100" height="160" fill="none" stroke="#3a3730" stroke-width="1" rx="4"/>
+          <rect x="270" y="50" width="100" height="160" fill="none" stroke="#3a3730" stroke-width="1" rx="4"/>
+
+          <text x="80" y="100" font-size="26" text-anchor="middle" fill="#e2c793">📤</text>
+          <text x="200" y="100" font-size="26" text-anchor="middle" fill="#e2c793">📅</text>
+          <text x="320" y="100" font-size="26" text-anchor="middle" fill="#e2c793">🔄</text>
+
+          <text x="80" y="145" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">업로드</text>
+          <text x="200" y="145" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">32강</text>
+          <text x="320" y="145" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">짝 교환</text>
+
+          <text x="80" y="170" font-size="10" text-anchor="middle" fill="#7a7666">3종 확인</text>
+          <text x="200" y="170" font-size="10" text-anchor="middle" fill="#7a7666">Phase 6</text>
+          <text x="320" y="170" font-size="10" text-anchor="middle" fill="#7a7666">30초 × 2</text>
+
+          <text x="80" y="192" font-size="10" text-anchor="middle" fill="#e2c793">확정</text>
+          <text x="200" y="192" font-size="10" text-anchor="middle" fill="#e2c793">예고</text>
+          <text x="320" y="192" font-size="10" text-anchor="middle" fill="#e2c793">감사</text>
+
+          <text x="200" y="240" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">수업 내 완결 · 과제 X</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">한 편을 · 끝까지 가 본 적 있나요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🛤️ 재료 → 소스 → 최종본</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Phase 5 여섯 주 동안 영상 한 편을 재료에서 소스로, 소스에서 최종본까지 끝까지 들고 가 보셨습니다. 경로 전체를 걸어 본 경험입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">💎 이 경험이 · 34강 자산</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">이 감각이 Phase 6의 34강 포트폴리오 웹사이트(One Page · 한 페이지 사이트) 제작에서 바로 자산으로 연결됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎬 오늘 팀 영상 · 34강 재등장</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">오늘 확정한 HD 팀 영상이 34강 포트폴리오에 다시 등장합니다. Phase 5의 끝이 아니라 Phase 6의 첫 자재입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="55" width="95" height="55" fill="none" stroke="#7a7666" stroke-width="1" rx="3"/>
+          <text x="77" y="80" font-size="11" text-anchor="middle" fill="#F7F0DF">재료</text>
+          <text x="77" y="98" font-size="9" text-anchor="middle" fill="#7a7666">26~29강</text>
+
+          <text x="135" y="88" font-size="14" text-anchor="middle" fill="#e2c793">→</text>
+
+          <rect x="150" y="55" width="95" height="55" fill="none" stroke="#7a7666" stroke-width="1" rx="3"/>
+          <text x="197" y="80" font-size="11" text-anchor="middle" fill="#F7F0DF">소스</text>
+          <text x="197" y="98" font-size="9" text-anchor="middle" fill="#7a7666">30강</text>
+
+          <text x="255" y="88" font-size="14" text-anchor="middle" fill="#e2c793">→</text>
+
+          <rect x="270" y="55" width="95" height="55" fill="none" stroke="#e2c793" stroke-width="2" rx="3"/>
+          <text x="317" y="80" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">최종본</text>
+          <text x="317" y="98" font-size="9" text-anchor="middle" fill="#e2c793">31강 오늘</text>
+
+          <line x1="30" y1="135" x2="370" y2="135" stroke="#3a3730" stroke-width="1" stroke-dasharray="3 3"/>
+
+          <rect x="30" y="150" width="340" height="70" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="175" font-size="12" text-anchor="middle" fill="#e2c793" font-weight="700">Phase 6 · 34강 입력으로 재등장</text>
+          <text x="200" y="200" font-size="10" text-anchor="middle" fill="#7a7666">Portfolio(포트폴리오 · 작업물 모음) · One Page</text>
+
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">끝이 아니라 · 첫 자재</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 산출물 업로드 확인 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 업로드 확인</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">슬랙 3종 · 팀별 체크</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎬 파일 1 · HD 최종본 영상</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">[31강][클라이언트태그] 팀명_영상_HD최종본.mp4. 용량 커서 슬랙 업로드 안 되면 유튜브 비공개·구글 드라이브 링크 대체.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📋 파일 2 · 체크리스트 점검표</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">[31강][클라이언트태그] 팀명_체크리스트_점검표.pdf. 10항목 각각 ✅·⚠️·❌ + 한 줄 코멘트. 팀당 1장.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">💬 댓글 · 교차 팀 스레드</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">매칭 팀 영상 스레드에 한 줄 피드백 댓글이 달려 있는지. 받은 것·남긴 것 각 1건 이상. 누락된 팀은 지금 손들기.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="35" width="340" height="30" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="55" font-size="12" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">#수업실습</text>
+
+          <rect x="30" y="80" width="340" height="40" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="50" y="105" font-size="10" fill="#e2c793">📎</text>
+          <text x="200" y="100" font-size="10" text-anchor="middle" fill="#F7F0DF" font-family="monospace">[31강][A] 푸르트_영상_HD최종본.mp4</text>
+          <text x="200" y="115" font-size="9" text-anchor="middle" fill="#7a7666">1080p+ · MP4</text>
+
+          <rect x="30" y="130" width="340" height="40" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="50" y="155" font-size="10" fill="#e2c793">📎</text>
+          <text x="200" y="150" font-size="10" text-anchor="middle" fill="#F7F0DF" font-family="monospace">[31강][A] 푸르트_체크리스트_점검표.pdf</text>
+          <text x="200" y="165" font-size="9" text-anchor="middle" fill="#7a7666">10항목 · 팀당 1장</text>
+
+          <rect x="30" y="180" width="340" height="40" fill="none" stroke="#e2c793" stroke-width="1.5" rx="3"/>
+          <text x="50" y="205" font-size="10" fill="#e2c793">💬</text>
+          <text x="200" y="200" font-size="10" text-anchor="middle" fill="#F7F0DF">교차 팀 스레드 · 한 줄 댓글</text>
+          <text x="200" y="215" font-size="9" text-anchor="middle" fill="#7a7666">받은 것 · 남긴 것 각 1건 이상</text>
+
+          <text x="200" y="248" font-size="10" text-anchor="middle" fill="#e2c793">팀별 3종 확인 · 누락 시 손들기</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 32강 예고 · Phase 6 지도 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · Phase 6 지도</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">32~37강 · 6회차</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎯 32강 · 비즈니스 모델</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">다음 시간 Phase 6 시작 · 김국희 대표 진행. 주제: 1인 대행사 비즈니스 모델 · 마케팅 패키지 3종 + 가격 전략.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">💼 33~34강 · 세일즈·포트폴리오</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">33강 세일즈·제안서 · 34강 포트폴리오 웹사이트. 오늘 만든 HD 영상이 34강에서 바로 자산으로 사용됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🚀 35~37강 · 배포·리허설·데이</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">35강 멀티 플랫폼 배포 · 36강 피칭 리허설 · 37강 최종 피칭 데이. 전 회차 자산이 피칭 한 자리에 수렴합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="40" width="340" height="22" fill="none" stroke="#e2c793" stroke-width="1.5" rx="2"/>
+          <text x="200" y="56" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800" letter-spacing="2">PHASE 6 · 6 회차</text>
+
+          <rect x="30" y="75" width="52" height="55" fill="none" stroke="#e2c793" stroke-width="2" rx="3"/>
+          <text x="56" y="95" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">32</text>
+          <text x="56" y="115" font-size="8" text-anchor="middle" fill="#F7F0DF">비즈니스</text>
+
+          <rect x="89" y="75" width="52" height="55" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="115" y="95" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">33</text>
+          <text x="115" y="115" font-size="8" text-anchor="middle" fill="#F7F0DF">세일즈</text>
+
+          <rect x="148" y="75" width="52" height="55" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="174" y="95" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">34</text>
+          <text x="174" y="115" font-size="8" text-anchor="middle" fill="#F7F0DF">포폴</text>
+
+          <rect x="207" y="75" width="52" height="55" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="233" y="95" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">35</text>
+          <text x="233" y="115" font-size="8" text-anchor="middle" fill="#F7F0DF">배포</text>
+
+          <rect x="266" y="75" width="52" height="55" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="292" y="95" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">36</text>
+          <text x="292" y="115" font-size="8" text-anchor="middle" fill="#F7F0DF">리허설</text>
+
+          <rect x="325" y="75" width="45" height="55" fill="none" stroke="#e2c793" stroke-width="2" rx="3"/>
+          <text x="347" y="95" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">37</text>
+          <text x="347" y="115" font-size="8" text-anchor="middle" fill="#e2c793">피칭</text>
+
+          <rect x="30" y="150" width="340" height="45" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="170" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">김국희 대표 · 자산을 수익으로</text>
+          <text x="200" y="187" font-size="9" text-anchor="middle" fill="#7a7666">34강 · 오늘 HD 영상 재등장</text>
+
+          <text x="200" y="225" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">Phase 5 (눈·손) → Phase 6 (비즈니스)</text>
+          <text x="200" y="245" font-size="10" text-anchor="middle" fill="#7a7666">1인 대행사 대표 역할로 전환</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 30초 짝 교환</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">옆자리와 · 30초씩</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🔄 30초 · 내가 옆자리에게</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">체크리스트 10항목 중 가장 어려웠던(또는 의외였던) 항목 1개 + 그 이유 한 줄. 긴 말 없이 핵심만.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔄 30초 · 옆자리가 내게</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">옆자리가 한 줄 감상 또는 짧은 질문 하나. 답변은 10초 이내. 길어지면 다음 교대 순서가 어긋납니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">⏱️ 역할 바꿔 반복 · 1~2분</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">총 1~2분 · 교실 내 완결. 강사가 30초 타이머로 진행 통제. 과제 아니고 지금 이 자리에서 끝냅니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="130" cy="130" r="45" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="130" y="128" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">나</text>
+          <text x="130" y="148" font-size="9" text-anchor="middle" fill="#7a7666">30초</text>
+
+          <circle cx="270" cy="130" r="45" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="270" y="128" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">옆자리</text>
+          <text x="270" y="148" font-size="9" text-anchor="middle" fill="#7a7666">30초</text>
+
+          <path d="M 180 115 C 200 100 220 100 220 115" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <polygon points="217,112 222,117 217,120" fill="#e2c793"/>
+
+          <path d="M 220 145 C 220 160 200 160 180 145" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <polygon points="183,148 178,143 183,140" fill="#e2c793"/>
+
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">체크리스트 어려운 항목 + 이유</text>
+          <text x="200" y="242" font-size="10" text-anchor="middle" fill="#e2c793">교실 내 완결 · 1~2분 · 과제 X</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 32강으로</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">수고하셨습니다 · 감사</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎉 Phase 5 여섯 주 · 수고하셨어요</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">26강 첫 5초 영상부터 오늘 HD 최종본까지 · 여섯 주 동안 한 편을 끝까지 들고 가 보신 그 경험이 다음 Phase의 출발 자산입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">❓ 뒤늦은 질문 · #강사-QnA</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">이해가 어려운 부분이나 뒤늦게 생기는 질문은 슬랙 #강사-QnA 채널에 언제든 남겨 주시면 됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">👋 다음 수업 · 32강에서</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">다음 수업 32강에서 뵙겠습니다. 김국희 대표가 1인 대행사 비즈니스 모델로 맞이합니다. 오늘 자산 잘 간직해 두세요.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PHASE 5</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">마침표</text>
+          <text x="90" y="158" font-size="11" text-anchor="middle" fill="#7a7666">26~31강</text>
+
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">전환</text>
+
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PHASE 6</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">32강 시작</text>
+          <text x="310" y="158" font-size="11" text-anchor="middle" fill="#7a7666">김국희 대표</text>
+
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">눈·손 → 비즈니스</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ 다음 수업에서 뵙겠습니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PHASE 5 · THANK YOU</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">한 편을 · 끝까지</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · 32강 · Phase 6 · 1인 대행사 비즈니스 모델</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="../../32강_창업_비즈니스_모델/PPT/part-01.html">32강 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">업로드</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">32강 예고</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">짝 교환</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">감사</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>
