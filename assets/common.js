@@ -3,6 +3,34 @@
    배경 MODE는 <body data-bg-mode="FLOW|NETWORK|WAVES|VORONOI|CONSTELLATION">로 지정.
    미지정 시 FLOW가 기본값.
    ================================================================ */
+
+/* ─── VIEW PARAM 전파 (2026-04-24) ───
+   현재 URL에 ?view=student 또는 ?view=teacher 가 있으면
+   페이지 내 모든 내부 HTML 링크(nav-arrow · btn · card 등)에 동일 파라미터 자동 추가.
+   이유: 수강생이 프로젝터 뷰 링크로 진입했는데 '다음 파트' 버튼 누르면 강사노트 뜨던 버그 수정.
+   외부 링크·앵커·mailto·js·비HTML은 스킵. */
+(function preserveViewParam() {
+  var params = new URLSearchParams(location.search);
+  var view = params.get('view');
+  if (!view) return;
+  function apply() {
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (!href) return;
+      if (/^(https?:|mailto:|javascript:|#)/.test(href)) return;
+      if (/[?&]view=/.test(href)) return;
+      if (!/\.html?([?#]|$)/.test(href)) return;
+      var sep = href.includes('?') ? '&' : '?';
+      a.setAttribute('href', href + sep + 'view=' + view);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', apply);
+  } else {
+    apply();
+  }
+})();
+
 (function () {
   /* ─── SLIDE NAVIGATION ─── */
   const slides = document.querySelectorAll('.slide');

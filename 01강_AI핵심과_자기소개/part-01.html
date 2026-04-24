@@ -523,6 +523,29 @@
 </div>
 
 <script>
+/* VIEW PARAM 전파 (2026-04-24) · 수강생 뷰 링크 유지 */
+(function preserveViewParam() {
+  var params = new URLSearchParams(location.search);
+  var view = params.get('view');
+  if (!view) return;
+  function apply() {
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (!href) return;
+      if (/^(https?:|mailto:|javascript:|#)/.test(href)) return;
+      if (/[?&]view=/.test(href)) return;
+      if (!/\.html?([?#]|$)/.test(href)) return;
+      var sep = href.includes('?') ? '&' : '?';
+      a.setAttribute('href', href + sep + 'view=' + view);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', apply);
+  } else {
+    apply();
+  }
+})();
+
 const slides = document.querySelectorAll('.slide');
 const dotsEl = document.getElementById('dots');
 const progressEl = document.getElementById('progress');
