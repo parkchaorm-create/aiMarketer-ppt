@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 02 · HOOK · 세일즈 구조 · 정보통신망법 — AI 마케터 33강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="WAVES">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 33강</div>
+  <div class="topbar-center">PART 02 · HOOK · 세일즈 구조 · 정보통신망법</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-01.html" title="이전 파트">◀ PART 01</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-03.html" title="다음 파트">PART 03 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">PHASE 6 · HOOK · 법적 경계</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 02 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="아웃리치 · 어디까지 되나요?" style="transition-delay:0.3s">아웃리치 · 어디까지 되나요?</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">정보통신망법 · 20강 vs 33강 · 안전 범위</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · Part 02 지도</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">법 · 차이 · 안전 범위</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">⚖️ 정보통신망법 · 제50조 환기</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">정보통신망법(정보통신망 이용촉진 및 정보보호 등에 관한 법률) 제50조의 광고성 정보 전송 제한 조항을 다시 확인합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔀 20강 vs 33강 · 비교 표</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">재활성화 메시지(이미 동의)와 B2B 세일즈 아웃리치(공개 연락처) 두 장면의 차이를 한 표로 정리합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">✅ 안전 키워드 · 공개·맞춤·소량</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">B2B 세일즈 아웃리치(Sales Outreach · 영업 첫 접촉)의 안전 범위 세 키워드를 기억합니다. 오늘 실습이 이 안에서만 진행됩니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="35" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">Part 02 · 세 단계</text>
+
+          <rect x="40" y="60" width="100" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="90" y="95" font-size="22" text-anchor="middle" fill="#e2c793">⚖️</text>
+          <text x="90" y="125" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">법 환기</text>
+          <text x="90" y="145" font-size="9" text-anchor="middle" fill="#7a7666">제50조</text>
+          <text x="90" y="165" font-size="9" text-anchor="middle" fill="#7a7666">2026-03 개정</text>
+          <text x="90" y="185" font-size="9" text-anchor="middle" fill="#e2c793">매출 6%</text>
+
+          <rect x="150" y="60" width="100" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="95" font-size="22" text-anchor="middle" fill="#e2c793">🔀</text>
+          <text x="200" y="125" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">20 vs 33</text>
+          <text x="200" y="145" font-size="9" text-anchor="middle" fill="#7a7666">재활성화</text>
+          <text x="200" y="160" font-size="9" text-anchor="middle" fill="#7a7666">vs</text>
+          <text x="200" y="175" font-size="9" text-anchor="middle" fill="#7a7666">아웃리치</text>
+          <text x="200" y="192" font-size="9" text-anchor="middle" fill="#e2c793">차이 정리</text>
+
+          <rect x="260" y="60" width="100" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="95" font-size="22" text-anchor="middle" fill="#e2c793">✅</text>
+          <text x="310" y="125" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">안전 범위</text>
+          <text x="310" y="145" font-size="9" text-anchor="middle" fill="#7a7666">공개</text>
+          <text x="310" y="160" font-size="9" text-anchor="middle" fill="#7a7666">맞춤</text>
+          <text x="310" y="175" font-size="9" text-anchor="middle" fill="#7a7666">소량</text>
+          <text x="310" y="192" font-size="9" text-anchor="middle" fill="#e2c793">3 키워드</text>
+
+          <text x="200" y="230" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">선부터 그리고 · 실습으로</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK · 정보통신망법 박스 -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 정보통신망법 환기</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">콜드메일 · 한국에서 위험할까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">⚠️ 정보통신망법 제50조 · 핵심</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">사전 동의 없이 영리 목적 광고성 이메일을 대량으로 보내면 정보통신망법(정보통신망 이용촉진 및 정보보호 등에 관한 법률) 제50조 위반입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📈 2026-03 · 과징금 매출 6%</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">2026년 3월 본회의 통과한 개정안으로 과징금 상한이 매출액의 6% 이내로 올라가고 전송자격인증 의무화도 도입됐어요. 무겁게 다뤄야 합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🔁 20강 단어 · 재활성화로 바꿨죠</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">20강에서 이 위험 때문에 "콜드메일" 대신 "재활성화 메시지(Reactivation Message · 동의받은 리드 다시 깨우기)"로 단어를 바꿔 썼습니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Law box · headline -->
+          <rect x="30" y="30" width="340" height="50" fill="#3a3730" opacity="0.35" rx="4"/>
+          <rect x="30" y="30" width="340" height="50" fill="none" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="200" y="52" font-size="13" text-anchor="middle" fill="#e2c793" font-weight="800" letter-spacing="1">⚠️ 정보통신망법 제50조</text>
+          <text x="200" y="71" font-size="10" text-anchor="middle" fill="#F7F0DF">영리 목적 광고성 정보 전송 제한</text>
+
+          <!-- Key facts -->
+          <rect x="30" y="95" width="160" height="55" fill="none" stroke="#7a7666" stroke-width="1" rx="4"/>
+          <text x="110" y="115" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">사전 동의 없이</text>
+          <text x="110" y="132" font-size="10" text-anchor="middle" fill="#F7F0DF">대량 발송</text>
+          <text x="110" y="146" font-size="9" text-anchor="middle" fill="#7a7666">→ 위반</text>
+
+          <rect x="210" y="95" width="160" height="55" fill="none" stroke="#7a7666" stroke-width="1" rx="4"/>
+          <text x="290" y="115" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">2026-03 개정</text>
+          <text x="290" y="132" font-size="14" text-anchor="middle" fill="#F7F0DF" font-weight="800">매출 6%</text>
+          <text x="290" y="146" font-size="9" text-anchor="middle" fill="#7a7666">과징금 상한</text>
+
+          <!-- 20강 reminder -->
+          <rect x="30" y="165" width="340" height="55" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="186" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">20강 · "재활성화 메시지"로 우회</text>
+          <text x="200" y="204" font-size="10" text-anchor="middle" fill="#7a7666">동의받은 리드 · 수신거부 · 야간제한 준수</text>
+
+          <text x="200" y="248" font-size="10" text-anchor="middle" fill="#e2c793">출처 · 법제처 · 법률신문 (2026-04 확인)</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · B2B 세일즈 아웃리치 정의 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 정의</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">B2B 세일즈 아웃리치 · 세 키워드</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📖 정의 · 한 줄로</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">B2B 세일즈 아웃리치(Business-to-Business Sales Outreach · 사업자 간 영업 첫 접촉) = 공개된 사업자 연락처에 1:1 맞춤 제안을 소량 보내는 것.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🏷️ 공개 · 사업 용도로 노출된</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">네이버·구글·홈페이지 하단 등에 사업용으로 공개된 연락처. "제휴 문의"·"대표 이메일"이 대표적이에요. 개인 이메일은 해당하지 않습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">✍️ 맞춤 · 1:1 · 한 명씩 다르게</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">같은 메일 복사 100통 일괄 발송은 위반. 한 명씩 브랜드·업종을 언급한 개별 맞춤 제안만 안전 범위 안에 들어와요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">📦 소량 · 하루 5~10건 내외</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">자동 시퀀스로 한꺼번에 가동하지 않습니다. 하루 5~10건 사람이 한 통씩 보내는 분량. 이게 "소량"의 실무적 기준입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="35" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">안전 범위 · 3 키워드</text>
+
+          <!-- 3 circles -->
+          <circle cx="100" cy="130" r="50" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="100" y="125" font-size="14" text-anchor="middle" fill="#e2c793" font-weight="800">공개</text>
+          <text x="100" y="145" font-size="9" text-anchor="middle" fill="#7a7666">사업용 노출</text>
+          <text x="100" y="195" font-size="10" text-anchor="middle" fill="#F7F0DF">네이버·홈피</text>
+
+          <circle cx="200" cy="130" r="50" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="200" y="125" font-size="14" text-anchor="middle" fill="#e2c793" font-weight="800">맞춤</text>
+          <text x="200" y="145" font-size="9" text-anchor="middle" fill="#7a7666">1:1 개별</text>
+          <text x="200" y="195" font-size="10" text-anchor="middle" fill="#F7F0DF">브랜드 언급</text>
+
+          <circle cx="300" cy="130" r="50" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="300" y="125" font-size="14" text-anchor="middle" fill="#e2c793" font-weight="800">소량</text>
+          <text x="300" y="145" font-size="9" text-anchor="middle" fill="#7a7666">5~10건/일</text>
+          <text x="300" y="195" font-size="10" text-anchor="middle" fill="#F7F0DF">자동 X</text>
+
+          <line x1="30" y1="225" x2="370" y2="225" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="245" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">셋 다 만족 → 안전 범위 안</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 20강 vs 33강 비교표 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 20 vs 33 비교</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">두 회차 · 다른 장면입니다</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎯 대상 · 동의 vs 공개</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">20강은 이미 동의받은 리드 중 조용해진 분. 33강은 사전 관계 없는 공개 B2B 연락처. 출발선이 완전히 다릅니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">💌 목적 · 복원 vs 개시</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">20강은 식어 가는 관계 복원. 33강은 새 관계 개시. 그래서 톤도 다르고 CTA(Call to Action · 행동 요청)도 다릅니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📤 방식 · 자동 대량 vs 수동 소량</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">20강은 동의 기반이라 자동·대량 가능(단, 수신거부·야간제한 준수). 33강은 1:1 개별 맞춤·소량으로만.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">🔢 시퀀스 · 단일 vs 3단</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">20강은 단일 템플릿 3종. 33강은 첫 접촉 → 3일 후 → 6~7일 후로 이어지는 3단 시퀀스. 구조 자체가 다릅니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Header -->
+          <rect x="30" y="30" width="340" height="22" fill="#3a3730" opacity="0.4"/>
+          <line x1="200" y1="30" x2="200" y2="220" stroke="#3a3730" stroke-width="1"/>
+          <text x="115" y="46" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2" font-weight="700">20강 · 재활성화</text>
+          <text x="285" y="46" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">33강 · 아웃리치</text>
+
+          <!-- Row 1 · 대상 -->
+          <text x="115" y="75" font-size="10" text-anchor="middle" fill="#F7F0DF">동의 받은 리드</text>
+          <text x="285" y="75" font-size="10" text-anchor="middle" fill="#F7F0DF">공개 B2B 연락처</text>
+          <text x="200" y="92" font-size="9" text-anchor="middle" fill="#7a7666">대상</text>
+          <line x1="40" y1="100" x2="360" y2="100" stroke="#3a3730" stroke-width="1"/>
+
+          <!-- Row 2 · 목적 -->
+          <text x="115" y="115" font-size="10" text-anchor="middle" fill="#F7F0DF">관계 복원</text>
+          <text x="285" y="115" font-size="10" text-anchor="middle" fill="#F7F0DF">관계 개시</text>
+          <text x="200" y="132" font-size="9" text-anchor="middle" fill="#7a7666">목적</text>
+          <line x1="40" y1="140" x2="360" y2="140" stroke="#3a3730" stroke-width="1"/>
+
+          <!-- Row 3 · 방식 -->
+          <text x="115" y="155" font-size="10" text-anchor="middle" fill="#F7F0DF">자동 · 대량 OK</text>
+          <text x="285" y="155" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">1:1 · 소량 한정</text>
+          <text x="200" y="172" font-size="9" text-anchor="middle" fill="#7a7666">방식</text>
+          <line x1="40" y1="180" x2="360" y2="180" stroke="#3a3730" stroke-width="1"/>
+
+          <!-- Row 4 · 시퀀스 -->
+          <text x="115" y="195" font-size="10" text-anchor="middle" fill="#F7F0DF">단일 템플릿</text>
+          <text x="285" y="195" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">3단 시퀀스</text>
+          <text x="200" y="212" font-size="9" text-anchor="middle" fill="#7a7666">시퀀스</text>
+
+          <text x="200" y="248" font-size="10" text-anchor="middle" fill="#e2c793">→ 같은 단어 · 다른 게임</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 02 · 세 줄 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">⚖️ 법 · 사전 동의 + 대량 = 위반</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">정보통신망법 제50조 · 사전 동의 없는 광고성 정보 대량 발송은 위반. 2026-03 개정으로 과징금 매출 6% 이내로 강화됐습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">✅ 안전 · 공개·맞춤·소량</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">B2B 세일즈 아웃리치는 공개된 사업자 연락처에 1:1 맞춤 제안을 하루 5~10건 소량으로 보내는 행위. 셋 다 충족해야 안전합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎯 오늘 범위 · 저장·설계까지</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">실제 외부 발송은 오늘 범위 밖. GHL Email Template 저장과 워크플로우 설계도까지만 진행합니다. 가동은 본인 운영 시 별도 검토.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">01</text>
+          <line x1="50" y1="100" x2="115" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">법적 경계</text>
+          <text x="82" y="148" font-size="10" text-anchor="middle" fill="#7a7666">제50조</text>
+          <text x="82" y="168" font-size="10" text-anchor="middle" fill="#7a7666">매출 6%</text>
+          <text x="82" y="188" font-size="11" text-anchor="middle" fill="#e2c793">⚠️</text>
+
+          <rect x="147" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">02</text>
+          <line x1="167" y1="100" x2="232" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">안전 키워드</text>
+          <text x="200" y="148" font-size="10" text-anchor="middle" fill="#7a7666">공개·맞춤</text>
+          <text x="200" y="168" font-size="10" text-anchor="middle" fill="#7a7666">·소량</text>
+          <text x="200" y="190" font-size="14" text-anchor="middle" fill="#e2c793">✅</text>
+
+          <rect x="264" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">03</text>
+          <line x1="284" y1="100" x2="349" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">오늘 범위</text>
+          <text x="317" y="148" font-size="10" text-anchor="middle" fill="#7a7666">저장·설계</text>
+          <text x="317" y="168" font-size="10" text-anchor="middle" fill="#7a7666">까지만</text>
+          <text x="317" y="190" font-size="14" text-anchor="middle" fill="#e2c793">🛑</text>
+
+          <text x="200" y="230" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 02 · RECAP</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">경계 · 그어졌으니 구조로</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🧩 다음 · 메일 3통의 구조</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Part 03 첫 카드는 콜드메일 3단 시퀀스 T1·T2·T3의 타이밍·길이·CTA를 한 표로 정리합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📑 다음 · 제안서 7~8페이지 뼈대</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">두 번째 카드는 PDF 제안서의 표지·요약·과제·전략·범위·가격·다음 단계 7~8페이지 표준 구조를 살펴봅니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🛠️ 다음 · 3 도구 역할 분담</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">세 번째 카드는 Claude(초안)·GHL(저장)·Canva(디자인) 역할 분담과 가상 클라이언트 4종 재확인입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PART 02</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">법적 경계</text>
+          <text x="90" y="158" font-size="11" text-anchor="middle" fill="#7a7666">3 키워드</text>
+
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">실제 구조?</text>
+
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 03</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">CONCEPT</text>
+          <text x="310" y="158" font-size="11" text-anchor="middle" fill="#7a7666">메일·제안서</text>
+
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#7a7666">선은 그었어요 · 이제 내용으로</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ Part 03에서 두 뼈대 한 번에</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 02</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">공개 · 맞춤 · 소량</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 03 · CONCEPT · 메일 3단 + 제안서 7~8페이지 + 3도구</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-03.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">법환기</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">3키워드</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">20vs33</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

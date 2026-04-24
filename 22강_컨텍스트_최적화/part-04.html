@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 04 · 서브에이전트 · 슬래시 명령 소개 — AI 마케터 22강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="NETWORK">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 22강</div>
+  <div class="topbar-center">PART 04 · 서브에이전트 · 슬래시 명령 소개</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-03.html" title="이전 파트">◀ PART 03</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-05.html" title="다음 파트">PART 05 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">Phase 4 · 이론 4</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 04 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="분신 한 명 · 슬래시 두 줄" style="transition-delay:0.3s">분신 한 명 · 슬래시 두 줄</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">SETUP · 서브에이전트 지도 · /memory · /compact</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · Part 04 지도</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">오늘은 지도만 · 실습은 23강</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🤖 서브에이전트 · 개념 카드 2장</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">서브에이전트(Subagent · 별도 컨텍스트로 작업을 위임받는 AI 분신)가 무엇이고 언제 쓰는지 두 장의 카드로 훑습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">⌨️ 슬래시 명령 · 두 개</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">/memory(로드된 지시문 확인)와 /compact(대화 요약)를 소개합니다. 오늘 실습부터 바로 씁니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🗺️ 오늘은 지도 · 23강부터 실습</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">서브에이전트는 팀 프로젝트 23강에서 본격 실습. 오늘은 3단 구조 위에 분신이 얹힌다는 지도만 챙기시면 됩니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="35" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 04 · 3 BLOCKS</text>
+          <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="95" font-size="26" text-anchor="middle">🤖</text>
+          <text x="82" y="130" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">서브에이전트</text>
+          <text x="82" y="150" font-size="10" text-anchor="middle" fill="#7a7666">카드 2장</text>
+          <text x="82" y="180" font-size="11" text-anchor="middle" fill="#e2c793">개념</text>
+          <rect x="147" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="95" font-size="26" text-anchor="middle">⌨️</text>
+          <text x="200" y="130" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">슬래시 명령</text>
+          <text x="200" y="150" font-size="10" text-anchor="middle" fill="#7a7666">/memory · /compact</text>
+          <text x="200" y="180" font-size="11" text-anchor="middle" fill="#e2c793">도구</text>
+          <rect x="264" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="95" font-size="26" text-anchor="middle">🗺️</text>
+          <text x="317" y="130" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">지도</text>
+          <text x="317" y="150" font-size="10" text-anchor="middle" fill="#7a7666">23강 실습</text>
+          <text x="317" y="180" font-size="11" text-anchor="middle" fill="#e2c793">연결</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">한 명이 · 다 해야 하나요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🧍 지금까지 · AI 한 명 혼자</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">지금까지는 Claude Code 한 명이 모든 작업을 맡는 구조였습니다. 톤 다듬기도 태깅 검토도 한 책상 위에서.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎭 실무 · 서로 섞이면 안 되는 일</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">뉴스레터 톤 다듬기와 리드 태깅 검토는 성격이 완전히 달라요. 서로 다른 책상에서 해야 섞이지 않습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">👥 분신 구조 · 구조적으로 지원</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Claude Code는 이걸 서브에이전트로 구조화합니다. 각 분신이 자기 책상·자기 규칙·자기 권한을 가집니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Before: one desk -->
+          <text x="100" y="40" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">BEFORE · 혼자</text>
+          <rect x="40" y="55" width="120" height="155" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="100" y="95" font-size="28" text-anchor="middle">🧍</text>
+          <text x="100" y="130" font-size="11" text-anchor="middle" fill="#F7F0DF">한 책상</text>
+          <text x="100" y="150" font-size="10" text-anchor="middle" fill="#7a7666">톤·태깅·뉴스레터</text>
+          <text x="100" y="170" font-size="10" text-anchor="middle" fill="#7a7666">모두 섞임</text>
+          <text x="100" y="195" font-size="11" text-anchor="middle" fill="#7a7666" font-weight="700">한 컨텍스트</text>
+          <!-- Arrow -->
+          <path d="M 175 130 L 215 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 210 125 L 218 130 L 210 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <!-- After: multiple subagents -->
+          <text x="305" y="40" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">AFTER · 분신들</text>
+          <rect x="230" y="55" width="65" height="70" fill="none" stroke="#e2c793" stroke-width="1.5" rx="3"/>
+          <text x="262" y="80" font-size="16" text-anchor="middle">✍️</text>
+          <text x="262" y="100" font-size="10" text-anchor="middle" fill="#e2c793">writer</text>
+          <text x="262" y="115" font-size="9" text-anchor="middle" fill="#7a7666">톤 작성</text>
+          <rect x="305" y="55" width="65" height="70" fill="none" stroke="#e2c793" stroke-width="1.5" rx="3"/>
+          <text x="337" y="80" font-size="16" text-anchor="middle">🔍</text>
+          <text x="337" y="100" font-size="10" text-anchor="middle" fill="#e2c793">reviewer</text>
+          <text x="337" y="115" font-size="9" text-anchor="middle" fill="#7a7666">검수</text>
+          <rect x="230" y="135" width="65" height="70" fill="none" stroke="#e2c793" stroke-width="1.5" rx="3"/>
+          <text x="262" y="160" font-size="16" text-anchor="middle">🏷️</text>
+          <text x="262" y="180" font-size="10" text-anchor="middle" fill="#e2c793">operator</text>
+          <text x="262" y="195" font-size="9" text-anchor="middle" fill="#7a7666">리드 태깅</text>
+          <rect x="305" y="135" width="65" height="70" fill="none" stroke="#e2c793" stroke-width="1.5" rx="3"/>
+          <text x="337" y="160" font-size="16" text-anchor="middle">📅</text>
+          <text x="337" y="180" font-size="10" text-anchor="middle" fill="#e2c793">scheduler</text>
+          <text x="337" y="195" font-size="9" text-anchor="middle" fill="#7a7666">예약 발행</text>
+          <text x="200" y="235" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">각자의 책상 · 각자의 권한</text>
+          <text x="200" y="252" font-size="10" text-anchor="middle" fill="#7a7666">섞이지 않습니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 서브에이전트란 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 서브에이전트란</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">분리된 책상에서 · 일하는 AI</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📁 .claude/agents/ · 파일로 정의</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">.claude/agents/ 폴더에 .md 파일로 정의. 각 파일이 자기만의 시스템 프롬프트·허용 도구·모델을 가집니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🪟 독립 컨텍스트 윈도</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">메인 세션과 분리된 책상에서 실행. 도구 권한도 파일별로 제한 가능. 작업 후 요약만 메인에 복귀합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">💬 호출 · "서브에이전트로 해 줘"</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">메인 세션에서 "뉴스레터 검수는 서브에이전트로 해 줘" 한 줄이면 위임 완료. 메인 컨텍스트는 깨끗하게 유지.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="30" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">메인 · vs · 서브에이전트</text>
+          <!-- table-like comparison -->
+          <line x1="50" y1="50" x2="350" y2="50" stroke="#3a3730" stroke-width="1"/>
+          <text x="100" y="68" font-size="10" text-anchor="middle" fill="#7a7666">항목</text>
+          <text x="210" y="68" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">메인 세션</text>
+          <text x="315" y="68" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">서브에이전트</text>
+          <line x1="50" y1="75" x2="350" y2="75" stroke="#3a3730" stroke-width="1"/>
+          <!-- row 1 -->
+          <text x="100" y="95" font-size="10" text-anchor="middle" fill="#7a7666">컨텍스트</text>
+          <text x="210" y="95" font-size="10" text-anchor="middle" fill="#F7F0DF">하나의 책상</text>
+          <text x="315" y="95" font-size="10" text-anchor="middle" fill="#e2c793">독립 책상</text>
+          <line x1="50" y1="105" x2="350" y2="105" stroke="#3a3730" stroke-width="0.5"/>
+          <!-- row 2 -->
+          <text x="100" y="125" font-size="10" text-anchor="middle" fill="#7a7666">도구 권한</text>
+          <text x="210" y="125" font-size="10" text-anchor="middle" fill="#F7F0DF">전체</text>
+          <text x="315" y="125" font-size="10" text-anchor="middle" fill="#e2c793">파일별 제한</text>
+          <line x1="50" y1="135" x2="350" y2="135" stroke="#3a3730" stroke-width="0.5"/>
+          <!-- row 3 -->
+          <text x="100" y="155" font-size="10" text-anchor="middle" fill="#7a7666">호출</text>
+          <text x="210" y="155" font-size="10" text-anchor="middle" fill="#F7F0DF">직접 대화</text>
+          <text x="315" y="155" font-size="10" text-anchor="middle" fill="#e2c793">"분신에게" 한 줄</text>
+          <line x1="50" y1="165" x2="350" y2="165" stroke="#3a3730" stroke-width="0.5"/>
+          <!-- row 4 -->
+          <text x="100" y="185" font-size="10" text-anchor="middle" fill="#7a7666">결과</text>
+          <text x="210" y="185" font-size="10" text-anchor="middle" fill="#F7F0DF">실시간</text>
+          <text x="315" y="185" font-size="10" text-anchor="middle" fill="#e2c793">요약만 회수</text>
+          <line x1="50" y1="195" x2="350" y2="195" stroke="#3a3730" stroke-width="0.5"/>
+          <text x="200" y="225" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">예 · .claude/agents/newsletter-editor.md</text>
+          <text x="200" y="245" font-size="10" text-anchor="middle" fill="#7a7666">"검수만 · Read·Edit만 허용"</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 언제 쓰나 + 슬래시 명령 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 언제 쓰는가</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">서브에이전트 · 적합한 세 장면</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🔍 조사 긴 작업 · 메인 오염 방지</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">여러 파일을 읽으며 결론만 필요한 경우 — 메인 컨텍스트를 오염시키지 않기 위해 분신에게 맡깁니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔒 도구 권한 · 좁혀야 하는 작업</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">예약 발행처럼 외부에 영향 주는 작업은 서브에이전트에 제한된 권한만 부여. 실수로 전체 계정 건드리는 일 방지.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🎭 관점 분리 · 작성 vs 검수</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">작성자와 검수자를 분리하면 메인이 자기 글에 편향되지 않음. 공식 문서의 writer/reviewer 패턴입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="35" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">3 USE CASES</text>
+          <!-- 3 scenarios -->
+          <rect x="30" y="55" width="340" height="55" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="60" y="80" font-size="22" text-anchor="middle">🔍</text>
+          <text x="95" y="77" font-size="11" fill="#F7F0DF" font-weight="700">조사 긴 작업</text>
+          <text x="95" y="95" font-size="10" fill="#7a7666">여러 파일 · 결론만 필요 · 메인 컨텍스트 보호</text>
+          <rect x="30" y="120" width="340" height="55" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="60" y="145" font-size="22" text-anchor="middle">🔒</text>
+          <text x="95" y="142" font-size="11" fill="#F7F0DF" font-weight="700">권한 좁히기</text>
+          <text x="95" y="160" font-size="10" fill="#7a7666">외부 영향 작업 · 제한 권한만 · 사고 방지</text>
+          <rect x="30" y="185" width="340" height="55" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="60" y="210" font-size="22" text-anchor="middle">🎭</text>
+          <text x="95" y="207" font-size="11" fill="#F7F0DF" font-weight="700">관점 분리</text>
+          <text x="95" y="225" font-size="10" fill="#7a7666">writer/reviewer · 자기 글 편향 방지</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 3 · 슬래시 명령 2종 -->
+  <section class="slide slide-section" data-slide="5" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 슬래시 명령</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">/memory · /compact · 두 줄</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📋 /memory · 로드 파일 확인</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">현재 세션에 로드된 CLAUDE.md와 규칙 파일 목록을 보여줍니다. 오늘 실습 후 "제대로 로드됐는지" 확인용.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🗜️ /compact · 대화 요약 압축</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">대화가 길어져 책상이 차오르면 AI가 스스로 지금까지의 대화를 요약해 공간을 비워 줍니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">♻️ /compact 후 · 본체 자동 재로드</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">/compact 이후에도 프로젝트 루트 CLAUDE.md는 자동 재주입. 긴 실습 끝에 써도 오늘 작성한 본체는 살아남습니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="35" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">세션 중 · 슬래시 명령</text>
+          <!-- /memory -->
+          <rect x="30" y="55" width="160" height="170" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="110" y="80" font-size="13" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">/memory</text>
+          <line x1="45" y1="88" x2="175" y2="88" stroke="#3a3730" stroke-width="1"/>
+          <text x="110" y="110" font-size="10" text-anchor="middle" fill="#F7F0DF">현재 로드된 목록</text>
+          <!-- list mock -->
+          <text x="50" y="135" font-size="9" fill="#7a7666" font-family="monospace">• CLAUDE.md</text>
+          <text x="50" y="152" font-size="9" fill="#7a7666" font-family="monospace">• @docs/ghl-…</text>
+          <text x="50" y="169" font-size="9" fill="#7a7666" font-family="monospace">• rules/ghl-deploy</text>
+          <text x="110" y="200" font-size="10" text-anchor="middle" fill="#e2c793">"제대로 읽혔는가"</text>
+          <text x="110" y="216" font-size="10" text-anchor="middle" fill="#7a7666">실습 후 확인용</text>
+          <!-- /compact -->
+          <rect x="210" y="55" width="160" height="170" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="290" y="80" font-size="13" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">/compact</text>
+          <line x1="225" y1="88" x2="355" y2="88" stroke="#3a3730" stroke-width="1"/>
+          <text x="290" y="110" font-size="10" text-anchor="middle" fill="#F7F0DF">대화 요약 → 공간 확보</text>
+          <!-- visual: long bar -> short bar -->
+          <rect x="225" y="128" width="130" height="12" fill="#7a7666" opacity="0.5"/>
+          <text x="290" y="138" font-size="9" text-anchor="middle" fill="#F7F0DF">긴 대화</text>
+          <path d="M 290 145 L 290 157" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 285 152 L 290 159 L 295 152" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <rect x="260" y="163" width="60" height="12" fill="#e2c793" opacity="0.5"/>
+          <text x="290" y="173" font-size="9" text-anchor="middle" fill="#F7F0DF">요약</text>
+          <text x="290" y="200" font-size="10" text-anchor="middle" fill="#e2c793">CLAUDE.md 자동 재로드</text>
+          <text x="290" y="216" font-size="10" text-anchor="middle" fill="#7a7666">본체는 살아남음</text>
+          <text x="200" y="250" font-size="10" text-anchor="middle" fill="#7a7666">외우지 않아도 됨 · 필요할 때 꺼내 쓰기</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 03</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="6" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 04 · 세 줄 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🤖 서브에이전트 · 별도 책상 AI</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">서브에이전트 = 별도 컨텍스트에서 일하는 AI 분신. 23강 팀 프로젝트부터 실습으로 이어집니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📋 /memory · 로드 확인 습관</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">/memory는 현재 로드된 지시문 목록. 오늘 실습 두 번째 체크포인트 — 파일을 만들고 바로 확인합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🗜️ /compact · 본체는 살아남음</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">/compact는 길어진 대화를 AI가 요약. 본체 CLAUDE.md는 자동 재로드되므로 안심하고 쓰세요.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">01</text>
+          <line x1="50" y1="100" x2="115" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">분신</text>
+          <text x="82" y="150" font-size="11" text-anchor="middle" fill="#7a7666">별도 책상</text>
+          <text x="82" y="175" font-size="11" text-anchor="middle" fill="#e2c793">23강 실습</text>
+          <rect x="147" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">02</text>
+          <line x1="167" y1="100" x2="232" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">/memory</text>
+          <text x="200" y="150" font-size="11" text-anchor="middle" fill="#7a7666">로드 확인</text>
+          <text x="200" y="175" font-size="11" text-anchor="middle" fill="#e2c793">습관</text>
+          <rect x="264" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">03</text>
+          <line x1="284" y1="100" x2="349" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">/compact</text>
+          <text x="317" y="150" font-size="11" text-anchor="middle" fill="#7a7666">본체 재로드</text>
+          <text x="317" y="175" font-size="11" text-anchor="middle" fill="#e2c793">안심</text>
+          <text x="200" y="230" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 04 · RECAP</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 04</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">이론은 · 여기까지입니다</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 05 · 실습 A · CLAUDE.md 슬림화 + @imports</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-05.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">분신이란</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">언제</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">슬래시</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

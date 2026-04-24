@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 05 · 실습 B · 리포트 자동 생성 — AI 마케터 15강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="CONSTELLATION">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 15강</div>
+  <div class="topbar-center">PART 05 · 실습 B · 리포트 자동 생성 + 라이브 시연</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-04.html" title="이전 파트">◀ PART 04</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-06.html" title="다음 파트">PART 06 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">ACT 3 · 팀 실습 B</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 05 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="/report · 한 줄이 · 팀 전체를 움직입니다" style="transition-delay:0.3s">/report · 한 줄이 · 팀 전체를 움직입니다</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">지휘봉을 · 한 번 휘둘러 보는 시간</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · 실습 B 개요</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">라이브 1팀 · 나머지 자리 시연</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎤 라이브 시연 · 1팀 · 2~3분</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Part 04 순회 중 강사가 미리 확정한 1팀이 앞에 나와 강사 컴퓨터(또는 화면 공유)에서 `/report`를 실제로 실행합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">💺 자리 시연 · 전 팀 · 업로드</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">나머지 팀은 자리에서 팀원 컴퓨터로 `/report` 실행 후 결과 Markdown을 `#수업실습`에 업로드합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🆘 14강 자산 없음 · 스켈레톤</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">14강 자산이 없는 팀은 강사가 `#공지`에 올린 샘플 명령어 스켈레톤을 복사해 실행합니다. 경험의 흐름은 동일합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ov5-g1" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#3a3730"/>
+              <stop offset="1" stop-color="#e2c793"/>
+            </linearGradient>
+          </defs>
+          <rect x="30" y="60" width="100" height="160" fill="none" stroke="#3a3730" stroke-width="1"/>
+          <rect x="150" y="60" width="100" height="160" fill="none" stroke="#3a3730" stroke-width="1"/>
+          <rect x="270" y="60" width="100" height="160" fill="none" stroke="#3a3730" stroke-width="1"/>
+          <text x="80" y="115" font-size="30" text-anchor="middle" fill="#e2c793">🎤</text>
+          <text x="200" y="115" font-size="30" text-anchor="middle" fill="#e2c793">💺</text>
+          <text x="320" y="115" font-size="30" text-anchor="middle" fill="#e2c793">🆘</text>
+          <text x="80" y="160" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">라이브</text>
+          <text x="200" y="160" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">자리 시연</text>
+          <text x="320" y="160" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">스켈레톤</text>
+          <text x="80" y="180" font-size="11" text-anchor="middle" fill="#7a7666">1팀 · 2~3분</text>
+          <text x="200" y="180" font-size="11" text-anchor="middle" fill="#7a7666">나머지 전체</text>
+          <text x="320" y="180" font-size="11" text-anchor="middle" fill="#7a7666">#공지 샘플</text>
+          <text x="80" y="210" font-size="11" text-anchor="middle" fill="#e2c793">①</text>
+          <text x="200" y="210" font-size="11" text-anchor="middle" fill="#e2c793">②</text>
+          <text x="320" y="210" font-size="11" text-anchor="middle" fill="#e2c793">③</text>
+          <rect x="30" y="25" width="340" height="22" fill="url(#ov5-g1)" opacity="0.18"/>
+          <text x="200" y="41" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 05 · /report 시연</text>
+          <line x1="30" y1="240" x2="370" y2="240" stroke="#e2c793" stroke-width="1" opacity="0.4"/>
+          <text x="200" y="255" font-size="11" text-anchor="middle" fill="#7a7666">한 줄 명령 · 4블록 자동 출력</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">터미널에 · 단 한 줄 · 어떤가요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎯 결정적 장면 · /report 한 줄</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">실습 B의 핵심은 단 한 줄입니다. 터미널에 `/report`라고 치는 그 순간, 팀이 만든 엔진이 움직이기 시작합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔁 흐르는 과정 · 읽고 쓰고 저장</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">CLAUDE.md 읽기 → CSV 더미 데이터 읽기 → 4블록 작성 → `reports/` 폴더에 저장 — 한 번에 흘러갑니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">✨ 오늘의 · 결정적인 장면</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">지휘봉 한 번에 팀 전체가 동시에 움직이는 그림. 15강이 Phase 3의 마침표가 되는 결정적 장면입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- terminal -->
+          <rect x="30" y="50" width="340" height="70" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <circle cx="42" cy="62" r="3" fill="#7a7666"/>
+          <circle cx="52" cy="62" r="3" fill="#7a7666"/>
+          <circle cx="62" cy="62" r="3" fill="#7a7666"/>
+          <text x="42" y="92" font-size="14" fill="#e2c793" font-family="monospace" font-weight="800">$ /report</text>
+          <text x="160" y="92" font-size="11" fill="#7a7666" font-family="monospace">← 한 줄</text>
+          <!-- flow arrows down -->
+          <path d="M 80 130 L 80 155" stroke="#3a3730" stroke-width="1.2"/>
+          <path d="M 75 150 L 80 158 L 85 150" stroke="#3a3730" stroke-width="1.2" fill="none"/>
+          <path d="M 200 130 L 200 155" stroke="#3a3730" stroke-width="1.2"/>
+          <path d="M 195 150 L 200 158 L 205 150" stroke="#3a3730" stroke-width="1.2" fill="none"/>
+          <path d="M 320 130 L 320 155" stroke="#3a3730" stroke-width="1.2"/>
+          <path d="M 315 150 L 320 158 L 325 150" stroke="#3a3730" stroke-width="1.2" fill="none"/>
+          <!-- 3 results -->
+          <rect x="40" y="165" width="80" height="50" fill="none" stroke="#7a7666" stroke-width="1.2" rx="3"/>
+          <text x="80" y="185" font-size="11" text-anchor="middle" fill="#F7F0DF">📖</text>
+          <text x="80" y="202" font-size="10" text-anchor="middle" fill="#7a7666">CSV 읽기</text>
+          <rect x="160" y="165" width="80" height="50" fill="none" stroke="#7a7666" stroke-width="1.2" rx="3"/>
+          <text x="200" y="185" font-size="11" text-anchor="middle" fill="#F7F0DF">✍️</text>
+          <text x="200" y="202" font-size="10" text-anchor="middle" fill="#7a7666">4블록 작성</text>
+          <rect x="280" y="165" width="80" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="3"/>
+          <text x="320" y="185" font-size="11" text-anchor="middle" fill="#e2c793">💾</text>
+          <text x="320" y="202" font-size="10" text-anchor="middle" fill="#e2c793">reports/ 저장</text>
+          <!-- bottom -->
+          <line x1="30" y1="230" x2="370" y2="230" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="250" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">한 줄 · 팀 전체 자동 움직임</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · /report 명령어 구조 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · report.md 구조</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">명령어 파일 한 장 · 전부입니다</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📋 프런트매터 · 기본 설정 2줄</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">`description`(명령 설명) + `allowed-tools: Read, Write, Bash`(허용 도구) — 이 두 줄이 명령어의 등록 정보입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📜 본문 · 다섯 단계 지시문</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">① CLAUDE.md 읽기 ② CSV 2개 읽기 ③ 4블록 Markdown 작성 ④ reports/ 저장 ⑤ 경로 알려주기 — 사람 말로 나열합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">✨ 기본만으로도 · 오늘은 성공</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">14강 자산이 있으면 여기에 정교한 규칙을 더할 수 있지만, 오늘은 이 기본 구조만 움직여도 오늘 목표 달성입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Markdown file -->
+          <rect x="40" y="30" width="320" height="200" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="55" y="50" font-size="11" fill="#e2c793" font-weight="800" font-family="monospace">report.md</text>
+          <line x1="50" y1="58" x2="350" y2="58" stroke="#3a3730" stroke-width="0.8"/>
+          <!-- frontmatter -->
+          <text x="55" y="78" font-size="10" fill="#7a7666" font-family="monospace">---</text>
+          <text x="55" y="92" font-size="10" fill="#F7F0DF" font-family="monospace">description: 주간 리포트 생성</text>
+          <text x="55" y="106" font-size="10" fill="#F7F0DF" font-family="monospace">allowed-tools: Read, Write, Bash</text>
+          <text x="55" y="120" font-size="10" fill="#7a7666" font-family="monospace">---</text>
+          <!-- steps -->
+          <text x="55" y="144" font-size="10" fill="#e2c793" font-family="monospace">1. CLAUDE.md 읽기</text>
+          <text x="55" y="160" font-size="10" fill="#e2c793" font-family="monospace">2. data/*.csv 읽기</text>
+          <text x="55" y="176" font-size="10" fill="#e2c793" font-family="monospace">3. 4블록 Markdown 작성</text>
+          <text x="55" y="192" font-size="10" fill="#e2c793" font-family="monospace">4. reports/ 저장</text>
+          <text x="55" y="208" font-size="10" fill="#e2c793" font-family="monospace">5. 경로 알려주기</text>
+          <text x="200" y="225" font-size="10" text-anchor="middle" fill="#7a7666">기본 구조 · 오늘은 이것으로 충분</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 진행 순서 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 진행 순서</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">선정 · 라이브 · 자리 · 업로드</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">1️⃣ 1팀 선정 · Part 04 순회 중</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">강사가 Part 04 순회 시점에 라이브 시연 팀 한 곳을 미리 확정합니다. 팀에 미리 귀띔합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">2️⃣ 강사 화면 · 라이브 2~3분</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">강사 컴퓨터에서 `/report` 실행 → 30초~1분 대기 → 결과물 열어 4블록 확인. 팀원 1명이 앞에서 진행 설명합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">3️⃣ 자리 시연 · 팀별 동시 실행</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">각 팀은 자리 컴퓨터에서 `/report`를 실행합니다. 팀원끼리 화면을 같이 보며 대기 시간에 흐름을 확인합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">4️⃣ 업로드 · #수업실습 확인</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">생성된 리포트 Markdown을 `[15강][클라이언트태그] 리포트_[팀명]` 형식으로 업로드합니다. Part 06 발표 자료가 됩니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- 4-step vertical timeline -->
+          <line x1="50" y1="40" x2="50" y2="230" stroke="#3a3730" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="50" cy="55" r="12" fill="#e2c793"/>
+          <text x="50" y="59" font-size="12" text-anchor="middle" fill="#0D0D0D" font-weight="800">1</text>
+          <text x="75" y="50" font-size="12" fill="#F7F0DF" font-weight="700">1팀 선정</text>
+          <text x="75" y="66" font-size="10" fill="#7a7666">Part 04 순회 중</text>
+
+          <circle cx="50" cy="105" r="12" fill="#e2c793"/>
+          <text x="50" y="109" font-size="12" text-anchor="middle" fill="#0D0D0D" font-weight="800">2</text>
+          <text x="75" y="100" font-size="12" fill="#F7F0DF" font-weight="700">라이브 시연</text>
+          <text x="75" y="116" font-size="10" fill="#7a7666">강사 화면 · 2~3분</text>
+
+          <circle cx="50" cy="155" r="12" fill="#e2c793"/>
+          <text x="50" y="159" font-size="12" text-anchor="middle" fill="#0D0D0D" font-weight="800">3</text>
+          <text x="75" y="150" font-size="12" fill="#F7F0DF" font-weight="700">자리 시연</text>
+          <text x="75" y="166" font-size="10" fill="#7a7666">팀별 동시 /report</text>
+
+          <circle cx="50" cy="205" r="12" fill="#e2c793"/>
+          <text x="50" y="209" font-size="12" text-anchor="middle" fill="#0D0D0D" font-weight="800">4</text>
+          <text x="75" y="200" font-size="12" fill="#F7F0DF" font-weight="700">업로드</text>
+          <text x="75" y="216" font-size="10" fill="#7a7666">#수업실습 확인</text>
+
+          <text x="300" y="240" font-size="10" text-anchor="middle" fill="#e2c793">Part 06 발표 자료</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 3 · 대기 + 실패 대응 -->
+  <section class="slide slide-section" data-slide="5" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 대기 + 대응</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">30초 대기 · 막히면 3단계</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">⏳ 대기 · 30초~1분 · 자연스러운 일</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">CSV를 읽고 CLAUDE.md 맥락을 반영해 본문을 작성하는 시간입니다. 30초~1분 대기는 정상입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🗣️ 대기 중 · 팀원 한 문장 교환</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">대기 시간에 팀원끼리 "방금 실행한 명령어가 어떤 흐름으로 동작하는지" 한 문장으로 설명을 주고받습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🆘 막힘 3단계 · 복사→재확인→순회</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">1단계 터미널 오류 전체 복사해 `#강사-QnA` 공유 → 2단계 report.md 위치·내용 재확인 → 3단계 강사 순회 시 손 들기.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- clock + 3 steps -->
+          <circle cx="80" cy="80" r="34" fill="none" stroke="#e2c793" stroke-width="1.8"/>
+          <line x1="80" y1="80" x2="80" y2="55" stroke="#e2c793" stroke-width="2"/>
+          <line x1="80" y1="80" x2="100" y2="80" stroke="#e2c793" stroke-width="2"/>
+          <circle cx="80" cy="80" r="3" fill="#e2c793"/>
+          <text x="80" y="130" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">30초~1분</text>
+          <text x="80" y="145" font-size="10" text-anchor="middle" fill="#7a7666">정상 대기</text>
+          <!-- arrow -->
+          <path d="M 130 90 L 170 90" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <path d="M 165 85 L 173 90 L 165 95" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <!-- SOS box -->
+          <rect x="180" y="50" width="190" height="120" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="275" y="70" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800">막힘 시 · 3단계</text>
+          <line x1="195" y1="78" x2="355" y2="78" stroke="#3a3730" stroke-width="0.8"/>
+          <text x="195" y="98" font-size="10" fill="#F7F0DF">1. 오류 복사 → #강사-QnA</text>
+          <text x="195" y="120" font-size="10" fill="#F7F0DF">2. report.md 위치 · 내용 확인</text>
+          <text x="195" y="142" font-size="10" fill="#F7F0DF">3. 강사 순회 시 손 들기</text>
+          <text x="195" y="162" font-size="10" fill="#7a7666">(확률적 결과물 · 재실행 OK)</text>
+          <!-- bottom -->
+          <line x1="30" y1="195" x2="370" y2="195" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="218" font-size="11" text-anchor="middle" fill="#7a7666">대기 중 · 팀원 한 문장 교환</text>
+          <text x="200" y="240" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">오류는 편하게 · 질문해 주세요</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 03</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">시연 끝 · 이제 · 발표입니다</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">✅ 결과 확인 · 업로드 마감</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">모든 팀의 리포트 Markdown이 `#수업실습`에 올라갔는지 확인 후 Part 06 발표로 이동합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎤 Part 06 · 팀당 · 2분 이내</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">자랑 자리가 아니라 "우리 팀 엔진은 이렇게 움직입니다"의 공유 자리입니다. 팀당 2분 이내 진행입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">💬 피드백 · PNI 프레임</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Praise(좋았던 점) · Nuance(궁금한 점) · Idea(제안) 세 관점으로 피드백을 주고받습니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PART 05</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">/report 시연</text>
+          <text x="90" y="158" font-size="11" text-anchor="middle" fill="#7a7666">실습 B</text>
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">발표</text>
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 06</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">팀별 발표</text>
+          <text x="310" y="158" font-size="11" text-anchor="middle" fill="#7a7666">팀당 2분 · PNI</text>
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#7a7666">시연 후 · 공유 자리</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ Part 06에서 Phase 3 졸업 발표</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 05</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">엔진이 · 실제로 · 움직였습니다</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 06 · 팀별 발표 · 피드백</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-06.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">report.md</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">진행 순서</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">대기·대응</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

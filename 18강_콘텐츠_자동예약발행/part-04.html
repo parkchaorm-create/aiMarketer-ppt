@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 04 · 세팅 · 채널 연결 + 콘텐츠 준비 — AI 마케터 18강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="NETWORK">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 18강</div>
+  <div class="topbar-center">PART 04 · 세팅 · 채널 연결 + 콘텐츠 1건 준비</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-03.html" title="이전 파트">◀ PART 03</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-05.html" title="다음 파트">PART 05 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">ACT 4 · 실습 A</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 04 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="세팅 · 채널 연결 + 재료 준비" style="transition-delay:0.3s">세팅 · 채널 연결 + 재료 준비</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">실습 A · 4단계 · 3채널 변형 3벌 확보</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · 실습 A 4단계</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">4단계 · 재료 준비까지</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">👤 가상 클라이언트 확인 · A/B/C/D</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">1강에서 선택한 A 푸르트 / B 슬로우템포 / C 손결 / D 링크드마인드 중 하나. 오늘 톤은 그 브랜드에 맞춥니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔗 채널 연결 · OAuth 플로우</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Social Planner Settings에서 페이스북 페이지 + 인스타그램 비즈니스 계정 OAuth(외부 서비스 연결 인증) 승인을 돌립니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📦 자산 + 변형 · 3벌 확보</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">7·8강 자산 1건 선택 → 클로드 코드 프롬프트 1회 → 인스타·페이스북·블로그 3벌 초안. 없는 분은 대체 프롬프트로 즉석 생성.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- 4-step flow -->
+          <rect x="25" y="90" width="75" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="62" y="115" font-size="22" text-anchor="middle" fill="#e2c793">👤</text>
+          <text x="62" y="140" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">클라이언트</text>
+          <text x="62" y="158" font-size="9" text-anchor="middle" fill="#7a7666">A/B/C/D</text>
+
+          <path d="M 105 130 L 120 130" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 116 126 L 123 130 L 116 134" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+
+          <rect x="125" y="90" width="75" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="162" y="115" font-size="22" text-anchor="middle" fill="#e2c793">🔗</text>
+          <text x="162" y="140" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">채널 연결</text>
+          <text x="162" y="158" font-size="9" text-anchor="middle" fill="#7a7666">OAuth</text>
+
+          <path d="M 205 130 L 220 130" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 216 126 L 223 130 L 216 134" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+
+          <rect x="225" y="90" width="75" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="262" y="115" font-size="22" text-anchor="middle" fill="#e2c793">📦</text>
+          <text x="262" y="140" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">자산 선택</text>
+          <text x="262" y="158" font-size="9" text-anchor="middle" fill="#7a7666">7·8강</text>
+
+          <path d="M 305 130 L 320 130" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 316 126 L 323 130 L 316 134" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+
+          <rect x="325" y="86" width="75" height="88" fill="rgba(226,199,147,0.1)" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="362" y="113" font-size="22" text-anchor="middle" fill="#e2c793">📝</text>
+          <text x="362" y="138" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">3벌 초안</text>
+          <text x="362" y="156" font-size="9" text-anchor="middle" fill="#e2c793">완료 지점</text>
+
+          <!-- numbering -->
+          <text x="62" y="80" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="800">①</text>
+          <text x="162" y="80" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="800">②</text>
+          <text x="262" y="80" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="800">③</text>
+          <text x="362" y="80" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="800">④</text>
+
+          <rect x="25" y="195" width="375" height="30" fill="rgba(226,199,147,0.06)" stroke="#3a3730" stroke-width="1" rx="3"/>
+          <text x="212" y="215" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">실습 A 완료 = Part 05 예약 실행 준비 완료</text>
+
+          <text x="212" y="250" font-size="10" text-anchor="middle" fill="#7a7666">세부 단계는 노션 튜토리얼 참조</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">실 계정 · 꼭 있어야만 할까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🔑 정상 경로 · 페이스북 페이지 + IG Business</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">정상 경로는 페이스북 페이지 1개 + 인스타그램 비즈니스/크리에이터 계정이 OAuth로 Social Planner에 연결된 상태입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🛡️ 안전망 · 시뮬레이션 경로</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">실 계정이 없거나 연동이 안 되면 Social Planner에서 Save for Later(초안 저장)로 진행. 달력에 회색 Draft 블록으로 표시됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📸 산출물 판정 · Draft 블록도 인정</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">시뮬레이션 경로여도 달력 스냅샷에 Draft 블록이 찍혀 있으면 학습 산출물 완료로 인정합니다. 편한 마음으로 따라와 주세요.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Two paths fork -->
+          <circle cx="200" cy="50" r="22" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="200" y="57" font-size="14" text-anchor="middle" fill="#e2c793">👤</text>
+          <text x="200" y="87" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">수강생</text>
+
+          <!-- left path: normal -->
+          <path d="M 195 95 L 110 135" stroke="#e2c793" stroke-width="2"/>
+          <rect x="35" y="140" width="140" height="70" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="105" y="162" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800">정상 경로</text>
+          <line x1="50" y1="170" x2="160" y2="170" stroke="#3a3730" stroke-width="1"/>
+          <text x="105" y="188" font-size="9" text-anchor="middle" fill="#F7F0DF">FB Page + IG Business</text>
+          <text x="105" y="202" font-size="9" text-anchor="middle" fill="#7a7666">실제 예약 슬롯</text>
+
+          <!-- right path: simulation -->
+          <path d="M 205 95 L 290 135" stroke="#e2c793" stroke-width="2" stroke-dasharray="4,4"/>
+          <rect x="225" y="140" width="140" height="70" fill="none" stroke="#e2c793" stroke-width="1.5" stroke-dasharray="3,3" rx="4"/>
+          <text x="295" y="162" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800">시뮬레이션</text>
+          <line x1="240" y1="170" x2="350" y2="170" stroke="#3a3730" stroke-width="1"/>
+          <text x="295" y="188" font-size="9" text-anchor="middle" fill="#F7F0DF">Save for Later</text>
+          <text x="295" y="202" font-size="9" text-anchor="middle" fill="#7a7666">Draft 블록 = 인정</text>
+
+          <!-- bottom -->
+          <line x1="30" y1="230" x2="370" y2="230" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="250" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">두 경로 모두 · 산출물 도달</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 채널별 변형 규칙 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 채널별 변형 규칙</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">3채널 · 권장 길이 · 읽기 호흡</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📷 인스타 · 캡션 150~300자</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">이미지 중심 · 해시태그 5~10개 활용(한글+영문 혼합 · 지역·제품·브랜드 관련). 이미지 1장 이상 · 짧은 읽기 호흡.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📘 페이스북 · 텍스트 200~400자</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">텍스트와 링크가 공존. 읽기 중심. 링크 1개 + 이미지는 선택. 인스타보다 조금 더 긴 설명 허용.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📰 블로그 · 본문 800~1500자</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">롱폼 · 검색 유입 기대. 제목·부제·본문·SEO 메타(description·keywords·alt text). 길이는 권장 범위 · 브랜드에 맞게 조정.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- 3-channel length comparison -->
+          <text x="30" y="45" font-size="11" fill="#e2c793" letter-spacing="2" font-weight="800">채널별 길이</text>
+
+          <!-- IG -->
+          <text x="35" y="80" font-size="11" fill="#F7F0DF">📷 IG</text>
+          <rect x="85" y="68" width="90" height="18" fill="rgba(226,199,147,0.15)" stroke="#e2c793" stroke-width="1" rx="2"/>
+          <text x="130" y="81" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">150~300자</text>
+          <text x="185" y="80" font-size="9" fill="#7a7666">+ 해시태그 5~10</text>
+
+          <!-- FB -->
+          <text x="35" y="128" font-size="11" fill="#F7F0DF">📘 FB</text>
+          <rect x="85" y="116" width="140" height="18" fill="rgba(226,199,147,0.15)" stroke="#e2c793" stroke-width="1" rx="2"/>
+          <text x="155" y="129" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">200~400자</text>
+          <text x="235" y="128" font-size="9" fill="#7a7666">+ 링크 1개</text>
+
+          <!-- Blog -->
+          <text x="35" y="180" font-size="11" fill="#F7F0DF">📰 Blog</text>
+          <rect x="85" y="168" width="260" height="18" fill="rgba(226,199,147,0.15)" stroke="#e2c793" stroke-width="1" rx="2"/>
+          <text x="215" y="181" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">800~1500자 + SEO 메타</text>
+
+          <!-- footer -->
+          <line x1="30" y1="210" x2="370" y2="210" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="230" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">복붙 금지 · 채널별 변형</text>
+          <text x="200" y="250" font-size="10" text-anchor="middle" fill="#7a7666">길이는 · 채널이 기대하는 · 읽기 호흡</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 클로드 코드 프롬프트 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 프롬프트 한 장</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">프롬프트 1회 · 3벌 초안</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🧾 조건 블록 · 4가지 재료</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">클라이언트 · 오늘 주제 · 브랜드 톤(담백·차분 등) · 포함 정보(시작일·구성·링크). 이 4가지만 [대괄호] 부분에 채워 넣습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📋 출력 형식 · 3섹션 고정</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">섹션 1 인스타(캡션+해시태그+이미지 제안) · 섹션 2 페이스북(텍스트+링크) · 섹션 3 블로그(제목·부제·본문·SEO 메타).</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">✍️ 마무리 · 브랜드 톤 재확인</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">초안을 그대로 쓰지 말고 · 브랜드 톤 최종 확인 후 GHL UI에 옮겨 붙이기. "AI 초안 + 사람 마무리"가 오늘의 원칙입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- terminal mock -->
+          <rect x="25" y="30" width="350" height="205" fill="#141414" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <rect x="25" y="30" width="350" height="24" fill="#1f1d19"/>
+          <circle cx="40" cy="42" r="3" fill="#7a7666"/>
+          <circle cx="52" cy="42" r="3" fill="#7a7666"/>
+          <circle cx="64" cy="42" r="3" fill="#7a7666"/>
+          <text x="365" y="46" font-size="9" text-anchor="end" fill="#7a7666" font-family="monospace">claude</text>
+
+          <!-- prompt lines -->
+          <text x="40" y="75" font-size="10" fill="#e2c793" font-family="monospace">› 아래 조건으로 3채널 초안 요청</text>
+
+          <text x="40" y="98" font-size="10" fill="#7a7666" font-family="monospace">  - 클라이언트: [A · 푸르트]</text>
+          <text x="40" y="114" font-size="10" fill="#7a7666" font-family="monospace">  - 오늘 주제: [5월 꽃 구독 오픈]</text>
+          <text x="40" y="130" font-size="10" fill="#7a7666" font-family="monospace">  - 브랜드 톤: 담백·차분</text>
+          <text x="40" y="146" font-size="10" fill="#7a7666" font-family="monospace">  - 포함 정보: 시작일·구성·링크</text>
+
+          <text x="40" y="172" font-size="10" fill="#e2c793" font-family="monospace">› 출력 형식:</text>
+          <text x="40" y="188" font-size="9" fill="#F7F0DF" font-family="monospace">  1. 인스타 캡션 (150~300자)</text>
+          <text x="40" y="202" font-size="9" fill="#F7F0DF" font-family="monospace">  2. 페이스북 텍스트 (200~400자)</text>
+          <text x="40" y="216" font-size="9" fill="#F7F0DF" font-family="monospace">  3. 블로그 (800~1500자 + SEO)</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 3 · 막힘 지점 -->
+  <section class="slide slide-section" data-slide="5" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 자주 막히는 5</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">자주 막힘 · 1차 조치 · 메모</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📘 페이스북 페이지 · 안 보임</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">원인: 페이지 관리자 권한 없음. 조치: Facebook Business Suite에서 페이지 역할 확인 후 관리자로 재연결합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">📷 인스타 · Professional 전환 필요</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">원인: 개인 계정 상태. 조치: 인스타그램 앱에서 Business/Creator(프로페셔널) 계정으로 전환 후 재시도합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🪟 Connect 팝업 · 안 뜸</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">원인: 브라우저 팝업 차단. 조치: 주소창 오른쪽 팝업 차단 아이콘 해제 후 재시도.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">📝 Blog 메뉴 · 비활성</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">원인: Sub-account에 Blogs 미활성. 조치: Sites → Blogs → New Blog로 빈 블로그 1개 즉석 생성.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Top alert header -->
+          <rect x="30" y="25" width="340" height="28" fill="rgba(226,199,147,0.1)" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="44" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">⚠️ 자주 막히는 지점 · 1차 조치</text>
+
+          <!-- 5 rows -->
+          <rect x="30" y="65" width="340" height="28" fill="none" stroke="#3a3730" stroke-width="1" rx="3"/>
+          <text x="45" y="84" font-size="10" fill="#7a7666">①</text>
+          <text x="65" y="84" font-size="10" fill="#F7F0DF">FB 페이지 안 보임</text>
+          <text x="360" y="84" font-size="9" text-anchor="end" fill="#e2c793">→ 관리자 권한</text>
+
+          <rect x="30" y="98" width="340" height="28" fill="none" stroke="#3a3730" stroke-width="1" rx="3"/>
+          <text x="45" y="117" font-size="10" fill="#7a7666">②</text>
+          <text x="65" y="117" font-size="10" fill="#F7F0DF">IG 연결 실패</text>
+          <text x="360" y="117" font-size="9" text-anchor="end" fill="#e2c793">→ Professional 전환</text>
+
+          <rect x="30" y="131" width="340" height="28" fill="none" stroke="#3a3730" stroke-width="1" rx="3"/>
+          <text x="45" y="150" font-size="10" fill="#7a7666">③</text>
+          <text x="65" y="150" font-size="10" fill="#F7F0DF">Connect 팝업 안 뜸</text>
+          <text x="360" y="150" font-size="9" text-anchor="end" fill="#e2c793">→ 팝업 차단 해제</text>
+
+          <rect x="30" y="164" width="340" height="28" fill="none" stroke="#3a3730" stroke-width="1" rx="3"/>
+          <text x="45" y="183" font-size="10" fill="#7a7666">④</text>
+          <text x="65" y="183" font-size="10" fill="#F7F0DF">클로드 출력 너무 긺</text>
+          <text x="360" y="183" font-size="9" text-anchor="end" fill="#e2c793">→ 길이 제약 한 줄 추가</text>
+
+          <rect x="30" y="197" width="340" height="28" fill="none" stroke="#3a3730" stroke-width="1" rx="3"/>
+          <text x="45" y="216" font-size="10" fill="#7a7666">⑤</text>
+          <text x="65" y="216" font-size="10" fill="#F7F0DF">Blog 메뉴 안 보임</text>
+          <text x="360" y="216" font-size="9" text-anchor="end" fill="#e2c793">→ New Blog 생성</text>
+
+          <text x="200" y="250" font-size="10" text-anchor="middle" fill="#7a7666">2026-04 기준 · 버튼명은 업데이트로 달라질 수 있음</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 03</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="6" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 실습 A 정리</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 04 · 네 줄 · 남기기</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🔗 연결 · OAuth 또는 시뮬레이션</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">OAuth 플로우로 페이스북·인스타그램 연결. 안 되면 시뮬레이션 경로(Draft)로 대체 가능.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">✂️ 변형 · 복붙 금지 · 의무</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">채널별 변형은 의무. 길이·해시태그·링크를 채널 호흡에 맞춰 다듬습니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🧾 프롬프트 1회 · 3벌 확보</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">클로드 코드 프롬프트 1회로 3채널 초안 3벌 확보. 그 후 브랜드 톤 최종 확인.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">♻️ 자산 재활용 · 별도 프롬프트</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">7·8강 자산 보유자는 재활용 프롬프트 별도 제공. 원본 붙여넣기만 하면 3채널 변형 결과 반환.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="30" width="340" height="210" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
+          <text x="200" y="56" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="3" font-weight="800">Part 04 · 네 줄 체크</text>
+          <line x1="80" y1="68" x2="320" y2="68" stroke="#3a3730" stroke-width="1"/>
+
+          <rect x="55" y="85" width="14" height="14" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 58 92 L 62 96 L 67 89" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="80" y="97" font-size="11" fill="#F7F0DF">OAuth 연결 (또는 시뮬레이션)</text>
+
+          <rect x="55" y="115" width="14" height="14" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 58 122 L 62 126 L 67 119" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="80" y="127" font-size="11" fill="#F7F0DF">채널별 변형 · 복붙 금지</text>
+
+          <rect x="55" y="145" width="14" height="14" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 58 152 L 62 156 L 67 149" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="80" y="157" font-size="11" fill="#F7F0DF">프롬프트 1회 → 3벌 초안</text>
+
+          <rect x="55" y="175" width="14" height="14" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <path d="M 58 182 L 62 186 L 67 179" fill="none" stroke="#e2c793" stroke-width="2"/>
+          <text x="80" y="187" font-size="11" fill="#F7F0DF">브랜드 톤 최종 확인</text>
+
+          <line x1="80" y1="210" x2="320" y2="210" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="228" font-size="10" text-anchor="middle" fill="#7a7666">완료 → Part 05 · 실습 B · 예약 실행</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 04</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">재료 준비 · 끝 · 예약으로</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 05 · 실습 B · Social Planner 예약 실행</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-05.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">변형 규칙</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">프롬프트</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">막힘 5</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 06 · 실습 B · URL 3개 합산 + GEO 체크 — AI 마케터 13강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="FLOW">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 13강</div>
+  <div class="topbar-center">PART 06 · 실습 B · URL 3개 합산 + GEO 친화도</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-05.html" title="이전 파트">◀ PART 05</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-07.html" title="다음 파트">PART 07 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">ACT 3 · 실습 B</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 06 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="페이지 3개 · 한눈에 · 합산" style="transition-delay:0.3s">페이지 3개 · 한눈에 · 합산</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">PRACTICE B · 프롬프트 2개 + GEO 매트릭스</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · 이 파트 지도</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">실습 B · 5단계 흐름</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎯 1단계 · URL 3개 선택</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">같은 클라이언트(A/B/C/D)의 URL 3개를 #공지 샘플 세트에서 선택. 1개 선택이었던 실습 A에서 스케일 업.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🚀 2단계 · 프롬프트 2-1 · 합산</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">공통점·차이점·전체 패턴 분석. 7블록(요약·지표표·공통 가설·플랜·GEO 매트릭스·할루시네이션·발송전 체크).</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🔄 3단계 · 프롬프트 2-2 · 자기 비판</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">AI에게 방금 쓴 가설의 약점 2개를 지적시키고 · 고친 가설 3개 세트를 다시 생성. 품질이 한 단계 올라갑니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">📋 4단계 · GEO 5문항 · 수동 체크</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">AI 판단과 사람 눈 판단이 다를 수 있는 영역. 각 페이지별 5문항을 본인이 직접 O/X로 눈으로 확인합니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="26" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">실습 B · 5단계 흐름</text>
+          <!-- timeline -->
+          <line x1="40" y1="90" x2="360" y2="90" stroke="#3a3730" stroke-width="1.5"/>
+          <!-- stops -->
+          <circle cx="65" cy="90" r="8" fill="#0D0D0D" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="65" y="94" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">1</text>
+          <text x="65" y="75" font-size="9" text-anchor="middle" fill="#7a7666">URL 3</text>
+          <text x="65" y="110" font-size="9" text-anchor="middle" fill="#7a7666">선택</text>
+
+          <circle cx="130" cy="90" r="9" fill="rgba(226,199,147,0.2)" stroke="#e2c793" stroke-width="2"/>
+          <text x="130" y="94" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">2</text>
+          <text x="130" y="75" font-size="9" text-anchor="middle" fill="#F7F0DF">프롬프트</text>
+          <text x="130" y="110" font-size="9" text-anchor="middle" fill="#7a7666">2-1 합산</text>
+
+          <circle cx="200" cy="90" r="9" fill="rgba(226,199,147,0.2)" stroke="#e2c793" stroke-width="2"/>
+          <text x="200" y="94" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">3</text>
+          <text x="200" y="75" font-size="9" text-anchor="middle" fill="#F7F0DF">프롬프트</text>
+          <text x="200" y="110" font-size="9" text-anchor="middle" fill="#7a7666">2-2 비판</text>
+
+          <circle cx="270" cy="90" r="8" fill="#0D0D0D" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="270" y="94" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">4</text>
+          <text x="270" y="75" font-size="9" text-anchor="middle" fill="#7a7666">GEO 5문항</text>
+          <text x="270" y="110" font-size="9" text-anchor="middle" fill="#7a7666">수동 체크</text>
+
+          <circle cx="340" cy="90" r="8" fill="#0D0D0D" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="340" y="94" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">5</text>
+          <text x="340" y="75" font-size="9" text-anchor="middle" fill="#7a7666">저장 +</text>
+          <text x="340" y="110" font-size="9" text-anchor="middle" fill="#7a7666">슬랙</text>
+
+          <!-- output -->
+          <rect x="50" y="145" width="300" height="75" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="167" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800">산출물 · report-{날짜}-{클}-3urls.md</text>
+          <line x1="70" y1="175" x2="330" y2="175" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="193" font-size="9" text-anchor="middle" fill="#F7F0DF">요약·지표표·공통 가설·플랜·GEO 매트릭스</text>
+          <text x="200" y="209" font-size="9" text-anchor="middle" fill="#F7F0DF">+ 할루시네이션 · 발송 전 체크리스트 5항목</text>
+
+          <text x="200" y="248" font-size="10" text-anchor="middle" fill="#7a7666">오늘 수업의 · 하이라이트</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">한 페이지씩 · 보실 건가요 · 한눈에?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🧩 URL 1개 · 개별 문제 파편</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">페이지를 한 장씩 보면 "이 페이지는 이래서 부족"이라는 개별 진단은 됩니다. 단 사이트 전체 흐름은 안 보여요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🧵 URL 3개 합치면 · 공통 패턴</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">3개에 공통으로 나타나는 구조적 문제 = 페이지 템플릿 이슈일 확률이 큽니다. 고치면 효과 배수로 퍼집니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📬 실무 리포트 · 이 형식입니다</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">1인 대행사가 신규 클라이언트에게 보내는 초진 리포트가 바로 이 형식. 오늘 수업에서 완성형을 함께 만듭니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="26" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">개별 · vs · 합산</text>
+          <!-- LEFT: 3 individual -->
+          <rect x="25" y="50" width="150" height="170" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="100" y="72" font-size="11" text-anchor="middle" fill="#7a7666" font-weight="700">개별 리포트 3장</text>
+          <line x1="40" y1="80" x2="160" y2="80" stroke="#7a7666" stroke-width="1"/>
+          <rect x="40" y="92" width="120" height="22" fill="none" stroke="#7a7666" stroke-width="1" rx="2"/>
+          <text x="100" y="107" font-size="9" text-anchor="middle" fill="#7a7666">📄 URL 1 리포트</text>
+          <rect x="40" y="120" width="120" height="22" fill="none" stroke="#7a7666" stroke-width="1" rx="2"/>
+          <text x="100" y="135" font-size="9" text-anchor="middle" fill="#7a7666">📄 URL 2 리포트</text>
+          <rect x="40" y="148" width="120" height="22" fill="none" stroke="#7a7666" stroke-width="1" rx="2"/>
+          <text x="100" y="163" font-size="9" text-anchor="middle" fill="#7a7666">📄 URL 3 리포트</text>
+          <text x="100" y="190" font-size="10" text-anchor="middle" fill="#7a7666">파편 정보</text>
+          <text x="100" y="207" font-size="9" text-anchor="middle" fill="#7a7666">흐름 안 보임</text>
+
+          <path d="M 185 130 L 215 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 210 125 L 218 130 L 210 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="200" y="120" font-size="9" text-anchor="middle" fill="#e2c793">합산</text>
+
+          <!-- RIGHT: merged -->
+          <rect x="220" y="50" width="155" height="170" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="297" y="72" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">합산 리포트 1장</text>
+          <line x1="235" y1="80" x2="360" y2="80" stroke="#e2c793" stroke-width="1"/>
+          <text x="235" y="100" font-size="9" fill="#F7F0DF">• 공통 패턴 추출</text>
+          <text x="235" y="116" font-size="9" fill="#F7F0DF">• 페이지별 차이</text>
+          <text x="235" y="132" font-size="9" fill="#F7F0DF">• 사이트 전체 플랜</text>
+          <text x="235" y="148" font-size="9" fill="#F7F0DF">• GEO 매트릭스</text>
+          <text x="297" y="180" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="800">사이트 흐름</text>
+          <text x="297" y="197" font-size="9" text-anchor="middle" fill="#7a7666">= 초진 리포트</text>
+
+          <text x="200" y="248" font-size="10" text-anchor="middle" fill="#7a7666">실무에서 클라이언트 발송 기준</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · 프롬프트 2-1 -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 프롬프트 2-1</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">합산 진단 · 7블록 구조</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📝 ①~② 요약 4줄 + 지표 요약표</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">3페이지 공통 현재 상태 · 공통 가장 큰 문제 · 페이지별 고유 이슈 1줄씩 3줄 · 3개월 기대치. 그리고 URL별 지표 표 1개.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔍 ③ 공통 원인 가설 3가지</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">3개 페이지에 공통으로 관찰되는 구조적 문제 3가지. "템플릿 레벨 이슈" 추출의 핵심 블록입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📅 ④~⑤ 사이트 단위 플랜 + GEO 매트릭스</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">3개월 공통 작업 + 페이지별 작업 + 측정 방법. 그리고 페이지 × 5문항 GEO 매트릭스 표 1개.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">⚠️ ⑥~⑦ 할루시네이션 + 발송 전 5체크</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">AI 추정값 · 확인 필요 목록. 그리고 클라이언트 발송 전 체크리스트(수치 일치·고유 상황·과장어·난이도·문의처) 5항목.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="24" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">합산 리포트 · 7블록</text>
+          <!-- doc mockup -->
+          <rect x="40" y="36" width="320" height="205" fill="none" stroke="#3a3730" stroke-width="1.5" rx="4"/>
+          <!-- blocks -->
+          <rect x="55" y="46" width="290" height="22" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="1"/>
+          <text x="65" y="61" font-size="9" fill="#F7F0DF" font-weight="700">① 전체 요약 (4줄)</text>
+          <rect x="55" y="72" width="290" height="22" fill="none" stroke="#3a3730" stroke-width="1"/>
+          <text x="65" y="87" font-size="9" fill="#F7F0DF" font-weight="700">② 페이지별 지표 요약표</text>
+          <rect x="55" y="98" width="290" height="22" fill="none" stroke="#3a3730" stroke-width="1"/>
+          <text x="65" y="113" font-size="9" fill="#F7F0DF" font-weight="700">③ 공통 원인 가설 (3가지)</text>
+          <rect x="55" y="124" width="290" height="22" fill="none" stroke="#3a3730" stroke-width="1"/>
+          <text x="65" y="139" font-size="9" fill="#F7F0DF" font-weight="700">④ 3개월 액션 플랜 (사이트 단위)</text>
+          <rect x="55" y="150" width="290" height="22" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="1"/>
+          <text x="65" y="165" font-size="9" fill="#e2c793" font-weight="700">⑤ GEO 친화도 매트릭스 (3 × 5)</text>
+          <rect x="55" y="176" width="290" height="22" fill="none" stroke="#3a3730" stroke-width="1"/>
+          <text x="65" y="191" font-size="9" fill="#F7F0DF" font-weight="700">⑥ 할루시네이션 주의 · 확인 필요</text>
+          <rect x="55" y="202" width="290" height="28" fill="rgba(226,199,147,0.12)" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="65" y="217" font-size="9" fill="#e2c793" font-weight="800">⑦ 클라이언트 발송 전 체크리스트 (5)</text>
+          <text x="65" y="226" font-size="8" fill="#7a7666">수치·고유성·과장어·난이도·문의처</text>
+
+          <text x="200" y="255" font-size="10" text-anchor="middle" fill="#7a7666">CLAUDE.md 출력 규칙 준수 · 과장어 금지</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · 프롬프트 2-2 -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 프롬프트 2-2 · 자기 비판</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">AI에게 · 자기 글을 · 비판하게</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎭 방법 · "약점 2개를 짚어 줘"</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">방금 쓴 "공통 원인 가설"의 약점 2가지를 지적하게 합니다. AI에게 자기 비판을 시키는 방식은 6강 블로그 실습에서도 썼던 기법.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎯 판단 기준 · 3중 하나에 연결</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">가설은 "페이지 구조" / "키워드 전략" / "E-E-A-T" 중 하나에 연결되어야 통과. "글이 짧음" 같은 막연한 표현은 제외 지시.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">🔁 결과 · 고친 가설 3세트 재생성</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">약점을 짚은 뒤 그 약점을 고친 가설 3개 세트를 다시 만들어 달라고 요청. 품질이 한 단계 올라갑니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="24" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">품질 점프 · 자기 비판 루프</text>
+          <!-- step 1 -->
+          <rect x="25" y="45" width="95" height="90" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="72" y="68" font-size="16" text-anchor="middle" fill="#7a7666">📝</text>
+          <text x="72" y="90" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">① 1차 가설</text>
+          <text x="72" y="108" font-size="9" text-anchor="middle" fill="#7a7666">프롬프트 2-1</text>
+          <text x="72" y="124" font-size="9" text-anchor="middle" fill="#7a7666">의 결과</text>
+          <!-- arrow -->
+          <path d="M 122 90 L 152 90" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 147 85 L 155 90 L 147 95" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <!-- step 2 -->
+          <rect x="155" y="45" width="95" height="90" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="202" y="68" font-size="16" text-anchor="middle" fill="#e2c793">🎭</text>
+          <text x="202" y="90" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">② 자기 비판</text>
+          <text x="202" y="108" font-size="9" text-anchor="middle" fill="#e2c793">약점 2개 지적</text>
+          <text x="202" y="124" font-size="9" text-anchor="middle" fill="#7a7666">프롬프트 2-2</text>
+          <!-- arrow -->
+          <path d="M 252 90 L 282 90" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 277 85 L 285 90 L 277 95" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <!-- step 3 -->
+          <rect x="285" y="45" width="95" height="90" fill="rgba(226,199,147,0.12)" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="332" y="68" font-size="16" text-anchor="middle" fill="#e2c793">🏆</text>
+          <text x="332" y="90" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">③ 2차 가설</text>
+          <text x="332" y="108" font-size="9" text-anchor="middle" fill="#e2c793">3세트 재생성</text>
+          <text x="332" y="124" font-size="9" text-anchor="middle" fill="#7a7666">품질 ↑</text>
+
+          <!-- criteria -->
+          <rect x="30" y="155" width="340" height="80" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="45" y="175" font-size="10" fill="#e2c793" font-weight="800">통과 기준 · 3중 하나에 연결</text>
+          <text x="55" y="193" font-size="10" fill="#F7F0DF">• 페이지 구조 (H2 수·메타 설명·본문 길이)</text>
+          <text x="55" y="208" font-size="10" fill="#F7F0DF">• 키워드 전략 (검색 의도·롱테일)</text>
+          <text x="55" y="223" font-size="10" fill="#F7F0DF">• E-E-A-T (경험·전문·권위·신뢰)</text>
+
+          <text x="200" y="255" font-size="10" text-anchor="middle" fill="#7a7666">"글이 짧음" 같은 막연한 표현 → 제외</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 3 · GEO 5문항 -->
+  <section class="slide slide-section" data-slide="5" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · GEO 친화도 5문항</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">GEO 친화도 · 사람 눈으로 확인</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📦 Q1~2 · 자립 단락 + 구체 수치</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">소제목 아래 단락이 떼어도 의미가 통하는가. 본문에 구체적 수치·연도·고유명사가 3개 이상 있는가.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔗 Q3~4 · 출처 링크 + Q&amp;A</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">출처·참고 링크가 본문 또는 말미에 최소 1개 있는가. "질문 문장 + 답변 단락" 구조가 한 번 이상 등장하는가.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📋 Q5 · TL;DR · 상단 요약</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">상단에 요약·TL;DR(Too Long; Didn't Read · 한 줄 요약) 박스가 있는가. 2026년 현재 간이 체크이지 공식 지표 아님.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="24" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">GEO 매트릭스 · 페이지 × 5문항</text>
+          <!-- matrix -->
+          <rect x="30" y="40" width="340" height="180" fill="none" stroke="#3a3730" stroke-width="1"/>
+          <!-- columns -->
+          <line x1="80" y1="40" x2="80" y2="220" stroke="#3a3730" stroke-width="1"/>
+          <line x1="140" y1="40" x2="140" y2="220" stroke="#3a3730" stroke-width="1"/>
+          <line x1="200" y1="40" x2="200" y2="220" stroke="#3a3730" stroke-width="1"/>
+          <line x1="260" y1="40" x2="260" y2="220" stroke="#3a3730" stroke-width="1"/>
+          <line x1="320" y1="40" x2="320" y2="220" stroke="#3a3730" stroke-width="1"/>
+          <!-- header row -->
+          <rect x="30" y="40" width="340" height="26" fill="rgba(226,199,147,0.08)"/>
+          <text x="55" y="57" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">PAGE</text>
+          <text x="110" y="57" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">Q1 자립</text>
+          <text x="170" y="57" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">Q2 수치</text>
+          <text x="230" y="57" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">Q3 출처</text>
+          <text x="290" y="57" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">Q4 Q&amp;A</text>
+          <text x="345" y="57" font-size="9" text-anchor="middle" fill="#e2c793" font-weight="800">Q5 TL;DR</text>
+          <!-- rows -->
+          <line x1="30" y1="66" x2="370" y2="66" stroke="#3a3730" stroke-width="1"/>
+          <text x="55" y="90" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">URL 1</text>
+          <text x="110" y="90" font-size="12" text-anchor="middle" fill="#e2c793">O</text>
+          <text x="170" y="90" font-size="12" text-anchor="middle" fill="#e2c793">O</text>
+          <text x="230" y="90" font-size="12" text-anchor="middle" fill="#7a7666">X</text>
+          <text x="290" y="90" font-size="12" text-anchor="middle" fill="#e2c793">O</text>
+          <text x="345" y="90" font-size="12" text-anchor="middle" fill="#7a7666">X</text>
+          <line x1="30" y1="100" x2="370" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="55" y="125" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">URL 2</text>
+          <text x="110" y="125" font-size="12" text-anchor="middle" fill="#e2c793">O</text>
+          <text x="170" y="125" font-size="12" text-anchor="middle" fill="#7a7666">X</text>
+          <text x="230" y="125" font-size="12" text-anchor="middle" fill="#e2c793">O</text>
+          <text x="290" y="125" font-size="12" text-anchor="middle" fill="#7a7666">X</text>
+          <text x="345" y="125" font-size="12" text-anchor="middle" fill="#7a7666">X</text>
+          <line x1="30" y1="135" x2="370" y2="135" stroke="#3a3730" stroke-width="1"/>
+          <text x="55" y="160" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">URL 3</text>
+          <text x="110" y="160" font-size="12" text-anchor="middle" fill="#7a7666">X</text>
+          <text x="170" y="160" font-size="12" text-anchor="middle" fill="#e2c793">O</text>
+          <text x="230" y="160" font-size="12" text-anchor="middle" fill="#7a7666">X</text>
+          <text x="290" y="160" font-size="12" text-anchor="middle" fill="#e2c793">O</text>
+          <text x="345" y="160" font-size="12" text-anchor="middle" fill="#e2c793">O</text>
+          <line x1="30" y1="170" x2="370" y2="170" stroke="#3a3730" stroke-width="1"/>
+          <text x="55" y="195" font-size="9" text-anchor="middle" fill="#7a7666" font-style="italic">예시</text>
+          <text x="200" y="200" font-size="9" text-anchor="middle" fill="#7a7666">3개 페이지 공통 O = 강점 / 공통 X = 개선 1순위</text>
+
+          <text x="200" y="245" font-size="10" text-anchor="middle" fill="#7a7666">2026 현재 · 간이 체크 (공식 지표 아님)</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 03</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="6" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">실습 B · 세 줄 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📄 결과물 · 합산 리포트 1장</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">URL 3개 합산 리포트 + GEO 친화도 매트릭스 + 발송 전 체크리스트 5항목. 7블록 모두 채워지면 완료.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🧩 방법 · 프롬프트 2개 조합</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">① 합산 진단 · 7블록 구조 출력. ② 약점 지적 · 가설 재구성. 자기 비판 루프가 품질을 한 단계 올립니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">👁️ GEO 5문항 · 사람 눈으로</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">AI 판단과 사람 판단이 다를 수 있어요. 각 페이지별로 본인이 직접 O/X 체크. 공식 지표 아니라 간이 체크.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">01</text>
+          <line x1="50" y1="100" x2="115" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">합산 리포트</text>
+          <text x="82" y="150" font-size="10" text-anchor="middle" fill="#7a7666">URL 3</text>
+          <text x="82" y="168" font-size="10" text-anchor="middle" fill="#7a7666">7블록</text>
+
+          <rect x="147" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">02</text>
+          <line x1="167" y1="100" x2="232" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">프롬프트 2</text>
+          <text x="200" y="150" font-size="10" text-anchor="middle" fill="#7a7666">합산 + 비판</text>
+          <text x="200" y="168" font-size="10" text-anchor="middle" fill="#e2c793">품질 ↑</text>
+
+          <rect x="264" y="60" width="105" height="140" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="317" y="90" font-size="24" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">03</text>
+          <line x1="284" y1="100" x2="349" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="125" font-size="12" text-anchor="middle" fill="#F7F0DF" font-weight="700">GEO 5</text>
+          <text x="317" y="150" font-size="10" text-anchor="middle" fill="#7a7666">사람 눈</text>
+          <text x="317" y="168" font-size="10" text-anchor="middle" fill="#e2c793">간이 체크</text>
+
+          <text x="200" y="230" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 06 · RECAP</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="7" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">07 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">두 리포트 · 슬랙에 · 올라갔을까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">📤 Part 07 · 업로드 확인</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">수업을 마치기 전, 슬랙 #수업실습 채널에 실습 A·B 두 리포트가 올라갔는지 함께 확인합니다. 실습 B까지 완료가 우선 목표.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔁 30초 짝 교환 · 복습</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">옆자리 수강생과 30초씩 번갈아 "가장 눈에 띈 숫자 1개 + 먼저 시도하고 싶은 작업" 1분 교환.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">👀 14강 예고 · 오늘 리포트 = 재료</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">14강 콘텐츠 자동 생성 에이전트에서 오늘의 "3개월 액션 플랜"을 그대로 재료로 씁니다. 같은 클라이언트끼리 팀 편성.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PART 06</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">실습 B</text>
+          <text x="90" y="158" font-size="11" text-anchor="middle" fill="#7a7666">합산 리포트</text>
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">마무리</text>
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 07</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">정리 · 예고</text>
+          <text x="310" y="158" font-size="11" text-anchor="middle" fill="#7a7666">업로드 · 14강</text>
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#7a7666">오늘 리포트 = 14강 재료</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ 같은 클라이언트끼리 팀</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="8">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 06</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">합산 리포트 · 손에 · 쥐셨습니다</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 07 · 마무리 · 업로드 · 14강 예고</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-07.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 09</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">7블록</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">자기 비판</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">GEO 매트릭스</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="8"><span class="thumb-num">09</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 05 · 실습 A · 팬 · 틸트 샘플 — AI 마케터 28강</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="../assets/common.css">
+<style>
+  .copyright-notice {
+    position: fixed; top: 70px; right: 32px;
+    bottom: auto; left: auto; transform: none;
+    font-size: 10px; color: var(--muted, #7a7666);
+    opacity: 0.55; letter-spacing: 0.02em;
+    z-index: 60; pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none; white-space: nowrap;
+  }
+</style>
+</head>
+<body data-bg-mode="CONSTELLATION">
+
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="topbar">
+  <div class="brand">AI 마케터 · 28강</div>
+  <div class="topbar-center">PART 05 · 실습 A · 팬 · 틸트</div>
+  <div class="topbar-right">
+    <a class="nav-arrow" href="./part-04.html" title="이전 파트">◀ PART 04</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="./part-06.html" title="다음 파트">PART 06 ▶</a>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide slide-cover" data-slide="0">
+    <div class="cover-bg-shapes">
+      <svg class="float-shape fs1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs2" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs3" viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+      <svg class="float-shape fs4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
+    </div>
+    <div class="cover-kicker reveal">PHASE 5 · 28강 실습 A</div>
+    <div class="cover-number reveal" style="transition-delay:0.15s">PART 05 / 07</div>
+    <h1 class="cover-title reveal typewriter-target" data-text="고개 좌우 · 고개 끄덕" style="transition-delay:0.3s">고개 좌우 · 고개 끄덕</h1>
+    <p class="cover-sub reveal" style="transition-delay:0.5s">팬 · 틸트 샘플 영상 + 쇼트 리스트 기록</p>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
+    <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head">
+      <div class="section-kicker reveal">OVERVIEW · 이번 파트 지도</div>
+      <div class="section-counter reveal">01 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">두 샘플 · 한 호흡에 완성</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎥 샘플 1 · Pan Left/Right</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Image-to-Video 모드에 소스 이미지 업로드 → Pan Left 또는 Pan Right 프리셋 선택 → 3~5초 설정 → Generate. 피사체 옆 공간이 좌우로 흘러가면 성공.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🎥 샘플 2 · Tilt Up/Down</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">같은 소스 이미지로 Tilt Up(피사체가 크면) 또는 Tilt Down 프리셋 선택 → 3~5초 생성. 아랫부분이나 윗부분이 보이다가 점차 이동하면 성공.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📋 즉시 기록 · 쇼트 리스트 2줄</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">샘플 2개 완성과 동시에 쇼트 리스트에 컷 번호·프리셋 이름·시각 의도·길이 2줄을 기입합니다. 오늘 핵심 습관입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="25" width="340" height="22" fill="none" stroke="#3a3730" stroke-width="1" rx="2"/>
+          <text x="200" y="41" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">실습 A · 2 샘플 · 3~5초</text>
+
+          <!-- Sample 1 · Pan -->
+          <rect x="30" y="60" width="160" height="110" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="110" y="82" font-size="12" text-anchor="middle" fill="#e2c793" font-weight="800">샘플 1 · PAN</text>
+          <line x1="50" y1="90" x2="170" y2="90" stroke="#3a3730" stroke-width="1"/>
+          <circle cx="110" cy="120" r="18" fill="none" stroke="#F7F0DF" stroke-width="1.5"/>
+          <path d="M 75 120 L 145 120" stroke="#e2c793" stroke-width="1.5" stroke-dasharray="2 2"/>
+          <path d="M 70 115 L 72 120 L 70 125" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <path d="M 148 115 L 150 120 L 148 125" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <text x="110" y="158" font-size="10" text-anchor="middle" fill="#7a7666">Pan Left · Pan Right</text>
+
+          <!-- Sample 2 · Tilt -->
+          <rect x="210" y="60" width="160" height="110" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="290" y="82" font-size="12" text-anchor="middle" fill="#e2c793" font-weight="800">샘플 2 · TILT</text>
+          <line x1="230" y1="90" x2="350" y2="90" stroke="#3a3730" stroke-width="1"/>
+          <circle cx="290" cy="120" r="18" fill="none" stroke="#F7F0DF" stroke-width="1.5"/>
+          <path d="M 290 100 L 290 140" stroke="#e2c793" stroke-width="1.5" stroke-dasharray="2 2"/>
+          <path d="M 285 104 L 290 100 L 295 104" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <path d="M 285 138 L 290 142 L 295 138" stroke="#e2c793" stroke-width="1.5" fill="none"/>
+          <text x="290" y="158" font-size="10" text-anchor="middle" fill="#7a7666">Tilt Up · Tilt Down</text>
+
+          <!-- shot list entry -->
+          <rect x="30" y="185" width="340" height="45" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
+          <text x="200" y="205" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">쇼트 리스트 · 샘플 생성 즉시 기입</text>
+          <text x="200" y="222" font-size="9" text-anchor="middle" fill="#7a7666">컷# · 움직임 · 프리셋 · 시각 의도 · 초</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">OVERVIEW</div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="slide slide-section" data-slide="2" data-diagram="hook">
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">02 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">결과가 달라도 · 실패일까요?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎲 매번 다른 결과 · 정상입니다</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">AI 영상 생성은 확률적 결과물(Stochastic Output · 같은 입력에도 매번 조금씩 다른 출력)이라 기대와 다르게 나오더라도 정상입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">🔁 한두 번 더 · 재시도 OK</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">처음 결과가 이상하면 재시도 1~2회 정도 해 보시면 됩니다. 크레딧이 모자라면 그 자리에서 받아들이고 다음으로 넘어가도 충분합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📝 재시도 메모 · 리스트에 남김</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">크레딧이 모자라 재시도 못 하면 쇼트 리스트 메모란에 "다시 시도 필요" 한 줄만 남기세요. 그것도 훌륭한 기록입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- dice row · stochastic -->
+          <text x="200" y="45" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">같은 입력 · 다른 결과</text>
+
+          <rect x="50" y="70" width="40" height="40" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="70" y="98" font-size="22" text-anchor="middle" fill="#e2c793">🎲</text>
+          <text x="70" y="125" font-size="9" text-anchor="middle" fill="#7a7666">시도 1</text>
+
+          <text x="115" y="95" font-size="14" text-anchor="middle" fill="#e2c793">→</text>
+
+          <rect x="140" y="70" width="40" height="40" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="160" y="98" font-size="22" text-anchor="middle" fill="#e2c793">🎲</text>
+          <text x="160" y="125" font-size="9" text-anchor="middle" fill="#7a7666">시도 2</text>
+
+          <text x="205" y="95" font-size="14" text-anchor="middle" fill="#e2c793">→</text>
+
+          <rect x="230" y="70" width="40" height="40" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="250" y="98" font-size="22" text-anchor="middle" fill="#e2c793">🎲</text>
+          <text x="250" y="125" font-size="9" text-anchor="middle" fill="#7a7666">시도 3</text>
+
+          <text x="295" y="95" font-size="14" text-anchor="middle" fill="#e2c793">→</text>
+
+          <rect x="320" y="70" width="40" height="40" fill="none" stroke="#e2c793" stroke-width="2" rx="4"/>
+          <text x="340" y="102" font-size="18" text-anchor="middle" fill="#e2c793">✓</text>
+          <text x="340" y="125" font-size="9" text-anchor="middle" fill="#e2c793">채택</text>
+
+          <!-- guidance -->
+          <line x1="30" y1="155" x2="370" y2="155" stroke="#3a3730" stroke-width="1"/>
+          <rect x="30" y="170" width="340" height="60" fill="none" stroke="#e2c793" stroke-width="1" rx="4"/>
+          <text x="200" y="195" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">크레딧 부족 시</text>
+          <text x="200" y="215" font-size="10" text-anchor="middle" fill="#7a7666">메모란에 "다시 시도 필요" 한 줄 → 그대로 다음 단계</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 1 · Pan sample steps -->
+  <section class="slide slide-section" data-slide="3" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 샘플 1 · 팬</div>
+      <div class="section-counter reveal">03 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">5단계 · 20~60초 대기</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">1️⃣ I2V 모드 · 진입</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Higgsfield 화면에서 Image-to-Video(이미지→영상) 모드를 선택합니다. 오늘 실습은 이 모드로 통일됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">2️⃣ 소스 이미지 · 업로드</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Part 04에서 준비한 소스 이미지를 업로드합니다. 드래그·드롭 또는 업로드 버튼 클릭. 업로드 완료까지 10~20초 소요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">3️⃣ 프리셋 · Pan Left/Right</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">카메라 움직임 섹션에서 Pan Left 또는 Pan Right 프리셋을 클릭. 원하는 방향 택 1. Duration(길이)을 3~5초로 설정.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">4️⃣ Generate · 20~60초</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Generate(생성) 버튼 클릭. 20~60초 대기. 미리보기 영상에서 피사체 옆 공간이 좌우로 흘러가면 성공입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Steps 1-4 timeline -->
+          <line x1="40" y1="130" x2="360" y2="130" stroke="#3a3730" stroke-width="1.5"/>
+
+          <!-- Step 1 -->
+          <circle cx="70" cy="130" r="16" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="70" y="136" font-size="13" text-anchor="middle" fill="#e2c793" font-weight="800">1</text>
+          <text x="70" y="80" font-size="10" text-anchor="middle" fill="#F7F0DF">I2V</text>
+          <text x="70" y="95" font-size="9" text-anchor="middle" fill="#7a7666">모드 진입</text>
+          <text x="70" y="168" font-size="9" text-anchor="middle" fill="#7a7666">~5초</text>
+
+          <!-- Step 2 -->
+          <circle cx="165" cy="130" r="16" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="165" y="136" font-size="13" text-anchor="middle" fill="#e2c793" font-weight="800">2</text>
+          <text x="165" y="80" font-size="10" text-anchor="middle" fill="#F7F0DF">업로드</text>
+          <text x="165" y="95" font-size="9" text-anchor="middle" fill="#7a7666">소스 이미지</text>
+          <text x="165" y="168" font-size="9" text-anchor="middle" fill="#7a7666">10~20초</text>
+
+          <!-- Step 3 -->
+          <circle cx="260" cy="130" r="16" fill="none" stroke="#e2c793" stroke-width="1.5"/>
+          <text x="260" y="136" font-size="13" text-anchor="middle" fill="#e2c793" font-weight="800">3</text>
+          <text x="260" y="80" font-size="10" text-anchor="middle" fill="#F7F0DF">프리셋</text>
+          <text x="260" y="95" font-size="9" text-anchor="middle" fill="#7a7666">Pan L/R · 3~5초</text>
+          <text x="260" y="168" font-size="9" text-anchor="middle" fill="#7a7666">클릭</text>
+
+          <!-- Step 4 -->
+          <circle cx="355" cy="130" r="18" fill="#e2c793" stroke="#e2c793" stroke-width="2"/>
+          <text x="355" y="137" font-size="14" text-anchor="middle" fill="#0D0D0D" font-weight="800">▶</text>
+          <text x="355" y="80" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="800">Generate</text>
+          <text x="355" y="95" font-size="9" text-anchor="middle" fill="#7a7666">20~60초 대기</text>
+
+          <!-- success signal -->
+          <line x1="30" y1="195" x2="370" y2="195" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="215" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">✅ 성공 신호</text>
+          <text x="200" y="232" font-size="10" text-anchor="middle" fill="#7a7666">피사체 옆 공간이 좌우로 흘러감</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 01</div>
+    </div>
+  </section>
+
+  <!-- CONCEPT 2 · Tilt + Shot List entry -->
+  <section class="slide slide-section" data-slide="4" data-diagram="concept">
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 샘플 2 + 리스트 기록</div>
+      <div class="section-counter reveal">04 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">틸트 · 기록 · 즉시</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🙇 같은 소스 · Tilt 프리셋</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">같은 소스 이미지로 Image-to-Video 모드 재진입. 프리셋에서 Tilt Up(피사체가 큰 경우) 또는 Tilt Down 선택.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">✅ 성공 신호 · 부분 → 전체</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">영상 시작 시 피사체의 아랫부분(또는 윗부분)이 보이다가 점차 다른 쪽으로 이동하면 성공. 전체가 한꺼번에 보이면 상하 여백 부족일 수 있어요.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📋 쇼트 리스트 · 2줄 기입</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">컷1 팬 | Pan Left/Right | 시각 의도 | 5초. 컷2 틸트 | Tilt Up/Down | 시각 의도 | 4초. 생성과 동시에 기록하는 것이 핵심.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
+            <span class="bullet-num">04</span>
+            <span class="bullet-text">🏪 시각 의도 · 클라이언트 구체</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">시각 의도 열에 "A 푸르트 매장 라인업 전체 소개" 같은 선택한 클라이언트의 구체 장면을 써 넣는 것이 Part 06과 연결됩니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- shot list table -->
+          <rect x="25" y="25" width="350" height="210" fill="none" stroke="#3a3730" stroke-width="1.5" rx="4"/>
+
+          <line x1="25" y1="55" x2="375" y2="55" stroke="#3a3730" stroke-width="1"/>
+          <text x="50" y="46" font-size="10" fill="#e2c793" font-weight="800">컷#</text>
+          <text x="95" y="46" font-size="10" fill="#e2c793" font-weight="800">움직임</text>
+          <text x="170" y="46" font-size="10" fill="#e2c793" font-weight="800">프리셋</text>
+          <text x="245" y="46" font-size="10" fill="#e2c793" font-weight="800">시각 의도</text>
+          <text x="345" y="46" font-size="10" fill="#e2c793" font-weight="800">초</text>
+
+          <line x1="75" y1="25" x2="75" y2="235" stroke="#3a3730" stroke-width="1"/>
+          <line x1="150" y1="25" x2="150" y2="235" stroke="#3a3730" stroke-width="1"/>
+          <line x1="225" y1="25" x2="225" y2="235" stroke="#3a3730" stroke-width="1"/>
+          <line x1="325" y1="25" x2="325" y2="235" stroke="#3a3730" stroke-width="1"/>
+
+          <!-- Row 1 · Pan -->
+          <line x1="25" y1="100" x2="375" y2="100" stroke="#3a3730" stroke-width="1"/>
+          <text x="50" y="78" font-size="10" fill="#F7F0DF">1</text>
+          <text x="85" y="78" font-size="10" fill="#e2c793" font-weight="700">팬 우</text>
+          <text x="160" y="78" font-size="10" fill="#F7F0DF">Pan Right</text>
+          <text x="238" y="78" font-size="9" fill="#e2c793">라인업</text>
+          <text x="238" y="92" font-size="9" fill="#e2c793">소개</text>
+          <text x="345" y="78" font-size="10" fill="#F7F0DF">5</text>
+
+          <!-- Row 2 · Tilt -->
+          <line x1="25" y1="150" x2="375" y2="150" stroke="#3a3730" stroke-width="1"/>
+          <text x="50" y="128" font-size="10" fill="#F7F0DF">2</text>
+          <text x="85" y="128" font-size="10" fill="#e2c793" font-weight="700">틸트 상</text>
+          <text x="160" y="128" font-size="10" fill="#F7F0DF">Tilt Up</text>
+          <text x="238" y="128" font-size="9" fill="#e2c793">주인</text>
+          <text x="238" y="142" font-size="9" fill="#e2c793">인사</text>
+          <text x="345" y="128" font-size="10" fill="#F7F0DF">4</text>
+
+          <!-- Row 3 · Pending -->
+          <line x1="25" y1="195" x2="375" y2="195" stroke="#3a3730" stroke-width="1"/>
+          <text x="50" y="175" font-size="10" fill="#7a7666">3</text>
+          <text x="85" y="175" font-size="10" fill="#7a7666">...</text>
+          <text x="160" y="175" font-size="10" fill="#7a7666">...</text>
+          <text x="238" y="175" font-size="9" fill="#7a7666">(Part 06)</text>
+          <text x="345" y="175" font-size="10" fill="#7a7666">...</text>
+
+          <!-- Row 4 · Pending -->
+          <text x="50" y="220" font-size="10" fill="#7a7666">4</text>
+          <text x="85" y="220" font-size="10" fill="#7a7666">...</text>
+          <text x="160" y="220" font-size="10" fill="#7a7666">...</text>
+          <text x="238" y="220" font-size="9" fill="#7a7666">(Part 06)</text>
+          <text x="345" y="220" font-size="10" fill="#7a7666">...</text>
+
+          <text x="200" y="252" font-size="10" text-anchor="middle" fill="#e2c793">2줄 먼저 채움 · Part 06에서 2줄 더</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT · 02</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="slide slide-section" data-slide="5" data-diagram="recap">
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">05 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">Part 05 · 세 줄 정리</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🙆 팬·틸트 · 머리만 움직임</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">두 샘플 모두 카메라 머리만 움직이는 가장 기본 움직임입니다. Higgsfield 프리셋 버튼 클릭 한 번으로 생성됩니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">✅ 성공 = 공간이 흘러가는 느낌</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">팬은 옆 공간이 좌우로 흐르면 성공. 틸트는 부분에서 전체로 이동해 가면 성공. 기대와 조금 달라도 재시도 1~2회면 충분합니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📋 기록 습관 · 즉시 2줄</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">샘플 완성 즉시 쇼트 리스트 2줄 기입. 컷#·프리셋·시각 의도·길이. 이 기록이 오늘 수업의 핵심 습관입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="50" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="82" y="80" font-size="22" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">01</text>
+          <line x1="50" y1="90" x2="115" y2="90" stroke="#3a3730" stroke-width="1"/>
+          <text x="82" y="115" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">머리만</text>
+          <text x="82" y="140" font-size="10" text-anchor="middle" fill="#7a7666">팬 · 틸트</text>
+          <text x="82" y="160" font-size="10" text-anchor="middle" fill="#7a7666">프리셋 1클릭</text>
+
+          <rect x="147" y="50" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="200" y="80" font-size="22" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">02</text>
+          <line x1="167" y1="90" x2="232" y2="90" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="115" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">성공 신호</text>
+          <text x="200" y="140" font-size="10" text-anchor="middle" fill="#7a7666">공간이 흘러</text>
+          <text x="200" y="160" font-size="10" text-anchor="middle" fill="#7a7666">부분→전체</text>
+
+          <rect x="264" y="50" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="317" y="80" font-size="22" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">03</text>
+          <line x1="284" y1="90" x2="349" y2="90" stroke="#3a3730" stroke-width="1"/>
+          <text x="317" y="115" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">기록</text>
+          <text x="317" y="140" font-size="10" text-anchor="middle" fill="#7a7666">즉시 2줄</text>
+          <text x="317" y="160" font-size="10" text-anchor="middle" fill="#7a7666">핵심 습관</text>
+
+          <text x="200" y="240" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 05 · RECAP</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
+  </section>
+
+  <!-- BRIDGE -->
+  <section class="slide slide-section" data-slide="6" data-diagram="bridge">
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 파트</div>
+      <div class="section-counter reveal">06 / 07</div>
+    </div>
+    <div class="section-grid">
+      <div class="section-body">
+        <h2 class="section-title">다음은 · 더 헷갈리는 둘?</h2>
+        <ul class="bullet-list">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
+            <span class="bullet-num">01</span>
+            <span class="bullet-text">🎬 Part 06 · 돌리·줌 실습</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">이제 조금 더 헷갈리는 두 개 돌리와 줌을 해 봅니다. Part 02에서 공부한 "배경 관찰 포인트"를 실제 영상에서 확인할 시간입니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
+            <span class="bullet-num">02</span>
+            <span class="bullet-text">👀 눈으로 · 차이 확인</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">결과 영상 두 편을 나란히 놓고 배경의 움직임을 비교합니다. 같이 흘러가면 돌리, 그대로면 줌. 직접 눈으로 보셔야 머릿속에 박힙니다.</div>
+          </li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
+            <span class="bullet-num">03</span>
+            <span class="bullet-text">📋 쇼트 리스트 · 네 줄 완성</span>
+            <span class="bullet-arrow">→</span>
+            <div class="bullet-detail">Part 06 끝나면 쇼트 리스트가 네 줄로 완성됩니다. 오늘의 필수 산출물이 손에 남는 순간입니다.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="section-visual reveal" style="transition-delay:0.3s">
+        <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
+          <text x="90" y="118" font-size="11" text-anchor="middle" fill="#7a7666" letter-spacing="2">PART 05</text>
+          <text x="90" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">팬·틸트</text>
+          <text x="90" y="158" font-size="10" text-anchor="middle" fill="#7a7666">2 샘플 완성</text>
+
+          <path d="M 160 130 L 235 130" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <path d="M 230 125 L 240 130 L 230 135" stroke="#e2c793" stroke-width="2" fill="none"/>
+          <text x="197" y="120" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">실습 B</text>
+
+          <rect x="250" y="90" width="120" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
+          <text x="310" y="118" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 06</text>
+          <text x="310" y="140" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">돌리·줌</text>
+          <text x="310" y="158" font-size="10" text-anchor="middle" fill="#7a7666">리스트 4줄</text>
+
+          <line x1="30" y1="200" x2="370" y2="200" stroke="#3a3730" stroke-width="1"/>
+          <text x="200" y="222" font-size="11" text-anchor="middle" fill="#7a7666">배경 관찰 포인트 · 눈으로 확인</text>
+          <text x="200" y="245" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">→ Part 06에서 이어서 보겠습니다</text>
+        </svg>
+      </div>
+    </div>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide slide-outro" data-slide="7">
+    <div class="outro-radial"></div>
+    <div class="outro-kicker reveal">END OF PART 05</div>
+    <h2 class="outro-title reveal" style="transition-delay:0.15s">2 샘플 · 완성 · 기록</h2>
+    <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 06 · 실습 B · 돌리 · 줌</div>
+    <div class="outro-actions reveal" style="transition-delay:0.5s">
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
+      <a class="btn btn-gold" href="./part-06.html">다음으로 →</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" onclick="prev()" title="이전">◀</button>
+    <button class="ctrl-btn" onclick="next()" title="다음">▶</button>
+    <div class="ctrl-counter"><strong id="curNum">01</strong> / 08</div>
+  </div>
+  <div class="ctrl-dots" id="dots"></div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn" onclick="toggleThumbs()" title="썸네일">▦</button>
+    <button class="ctrl-btn" onclick="toggleHelp()" title="도움말">?</button>
+    <button class="ctrl-btn" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+  </div>
+</div>
+
+<!-- THUMBNAILS -->
+<div class="thumb-strip" id="thumbStrip">
+  <div class="thumb-strip-inner">
+    <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
+    <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">팬 5단계</span></div>
+    <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">틸트·기록</span></div>
+    <div class="thumb" data-idx="5"><span class="thumb-num">06</span><span class="thumb-label">RECAP</span></div>
+    <div class="thumb" data-idx="6"><span class="thumb-num">07</span><span class="thumb-label">BRIDGE</span></div>
+    <div class="thumb" data-idx="7"><span class="thumb-num">08</span><span class="thumb-label">END</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-box">
+    <h3>키보드 단축키</h3>
+    <div class="help-row"><span>다음 슬라이드</span><span class="help-key"><kbd>→</kbd><kbd>SPACE</kbd></span></div>
+    <div class="help-row"><span>이전 슬라이드</span><span class="help-key"><kbd>←</kbd></span></div>
+    <div class="help-row"><span>전체화면</span><span class="help-key"><kbd>F</kbd></span></div>
+    <div class="help-row"><span>썸네일 열기</span><span class="help-key"><kbd>T</kbd></span></div>
+    <div class="help-row"><span>도움말 토글</span><span class="help-key"><kbd>?</kbd></span></div>
+    <div class="help-row"><span>닫기</span><span class="help-key"><kbd>ESC</kbd></span></div>
+    <div class="help-close">클릭 또는 ESC로 닫기</div>
+  </div>
+</div>
+
+<div class="copyright-notice">© PajamaBoss</div>
+
+<script src="../assets/common.js"></script>
+</body>
+</html>
