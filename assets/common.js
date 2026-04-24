@@ -227,17 +227,19 @@
     });
   }
 
-  /* ─── TYPEWRITER ON COVER TITLE ─── */
+  /* ─── TYPEWRITER ON COVER TITLE (2026-04-25 · 번쩍임 제거) ───
+     이전: innerHTML 전체 교체 + caret span → 폭 재계산으로 텍스트 흔들림·깜빡임.
+     이후: textContent로 글자만 append · caret 제거 · 속도 일정 (랜덤 제거). */
   const tw = document.querySelector('.typewriter-target');
   if (tw) {
-    const text = tw.dataset.text;
+    const text = tw.dataset.text || '';
+    tw.textContent = '';
     let ti = 0;
-    tw.innerHTML = '<span class="caret"></span>';
     (function typ() {
       if (ti < text.length) {
-        tw.innerHTML = text.substring(0, ti + 1) + '<span class="caret"></span>';
+        tw.textContent = text.substring(0, ti + 1);
         ti++;
-        setTimeout(typ, 55 + Math.random() * 40);
+        setTimeout(typ, 70);  // 일정 속도 · 랜덤 없음
       }
     })();
   }
