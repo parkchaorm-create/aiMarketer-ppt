@@ -51,15 +51,80 @@
   window.toggleThumbs = toggleThumbs;
   window.toggleHelp = toggleHelp;
 
+  // CRITICAL FIX (2026-04-24 · Space 버그): 포커스된 button에서 Space/Enter가
+  // browser-default로 onclick 트리거 · ctrl-btn(next/prev) 포커스 시 Space → 슬라이드 이동.
+  // 해결: keydown 시 활성 요소 blur + keyup·keypress도 잡아서 stopPropagation.
+  function blurActiveIfButton() {
+    var ae = document.activeElement;
+    if (ae && (ae.tagName === 'BUTTON' || ae.tagName === 'A') && typeof ae.blur === 'function') {
+      ae.blur();
+    }
+  }
+
+  // Space·Backspace의 keyup·keypress도 차단 (button 활성화 방지)
+  document.addEventListener('keyup', function(e) {
+    if (e.key === ' ' || e.key === 'Backspace' || e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+  document.addEventListener('keypress', function(e) {
+    if (e.key === ' ' || e.key === 'Backspace') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+
   document.addEventListener('keydown', e => {
     if (helpOverlay && helpOverlay.classList.contains('open') && e.key !== 'Escape' && e.key !== '?') return;
-    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
-    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+
+    // 골든 Part 01 정책 · 키 역할 엄격 분리
+    // ArrowRight/PageDown: 다음 슬라이드
+    // ArrowLeft/PageUp: 이전 슬라이드
+    // Space/ArrowDown: 문장 다음 (슬라이드 이동 절대 X)
+    // Backspace/ArrowUp: 문장 이전
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+      e.preventDefault(); next();
+    }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault(); prev();
+    }
+    else if (e.key === ' ' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      e.stopPropagation();
+      blurActiveIfButton(); // 포커스된 button의 Space-click 차단
+      var slide = document.querySelector('.slide.active');
+      if (!slide || typeof window.setSentenceIdx !== 'function') return;
+      var ss = slide.querySelectorAll('.teacher-note .sentence');
+      if (ss.length === 0) return;
+      var aid = -1;
+      ss.forEach(function(s, i) { if (s.classList.contains('active')) aid = i; });
+      if (aid < ss.length - 1) window.setSentenceIdx(aid + 1, slide);
+      // 문장 끝이어도 슬라이드 이동 안 함
+    }
+    else if (e.key === 'Backspace' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      e.stopPropagation();
+      blurActiveIfButton();
+      var slide2 = document.querySelector('.slide.active');
+      if (!slide2 || typeof window.setSentenceIdx !== 'function') return;
+      var ss2 = slide2.querySelectorAll('.teacher-note .sentence');
+      if (ss2.length === 0) return;
+      var aid2 = -1;
+      ss2.forEach(function(s, i) { if (s.classList.contains('active')) aid2 = i; });
+      if (aid2 > 0) window.setSentenceIdx(aid2 - 1, slide2);
+      // 문장 처음이어도 슬라이드 이동 안 함
+    }
     else if (e.key === 'Home') go(0);
     else if (e.key === 'End') go(slides.length - 1);
     else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
     else if (e.key === 't' || e.key === 'T') toggleThumbs();
     else if (e.key === '?' || e.key === '/') toggleHelp();
+    else if (e.key === 'n' || e.key === 'N') {
+      document.querySelectorAll('details.teacher-note').forEach(function(d) {
+        if (d.open) d.removeAttribute('open'); else d.setAttribute('open', '');
+      });
+    }
     else if (e.key === 'Escape') {
       helpOverlay && helpOverlay.classList.remove('open');
       thumbStrip && thumbStrip.classList.remove('open');
@@ -415,4 +480,246 @@
   })();
 
   render();
+})();
+
+/* ================================================================
+   📝 강사 노트 시스템 (2026-04-24 공통 에셋 추가)
+   · 뷰 분리 (?view=student = 프로젝터 · 기본 = 강사 뷰)
+   · 노래방 모드 (문장 split + past/active/future 하이라이트)
+   · 4중 채널 동기화 (BroadcastChannel·postMessage·localStorage·MutationObserver)
+   · Presenter View 듀얼 창 (📺 버튼)
+   ================================================================ */
+
+(function initViewMode() {
+  if (!document.body.classList.contains('teacher-view') &&
+      !document.body.classList.contains('student-view')) {
+    document.body.classList.add('teacher-view');
+  }
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('view') === 'student') {
+    document.body.classList.remove('teacher-view');
+    document.body.classList.add('student-view');
+  }
+})();
+
+(function initTeacherNotes() {
+  function setup() {
+    document.querySelectorAll('.teacher-note .note-script-text').forEach(function(scriptEl) {
+      if (scriptEl.querySelector('.sentence')) return;
+      var raw = scriptEl.innerHTML;
+      var paras = raw.split(/<br\s*\/?>\s*<br\s*\/?>/i);
+      var html = paras.map(function(p) {
+        var stripped = p.replace(/<br\s*\/?>/gi, ' ').trim();
+        if (!stripped) return '';
+        var tokens = stripped.match(/[^.?!]+[.?!]?\s*/g) || [stripped];
+        return tokens.map(function(s) {
+          var t = s.trim();
+          return t ? '<span class="sentence future">' + t + '</span>' : '';
+        }).filter(Boolean).join(' ');
+      }).filter(Boolean).join('<span class="note-para-break"></span>');
+      scriptEl.innerHTML = html;
+    });
+
+    document.querySelectorAll('.teacher-note .sentence').forEach(function(s) {
+      if (s.__clickBound) return;
+      s.__clickBound = true;
+      s.addEventListener('click', function() {
+        var slide = s.closest('.slide');
+        if (!slide) return;
+        var sentences = Array.prototype.slice.call(slide.querySelectorAll('.teacher-note .sentence'));
+        var idx = sentences.indexOf(s);
+        if (typeof window.setSentenceIdx === 'function') window.setSentenceIdx(idx, slide);
+      });
+    });
+
+    if (typeof window.setSentenceIdx !== 'function') {
+      window.setSentenceIdx = function(idx, slideEl) {
+        slideEl = slideEl || document.querySelector('.slide.active');
+        if (!slideEl) return;
+        var sentences = slideEl.querySelectorAll('.teacher-note .sentence');
+        sentences.forEach(function(s, i) {
+          s.classList.remove('past', 'active', 'future');
+          if (i < idx) s.classList.add('past');
+          else if (i === idx) s.classList.add('active');
+          else s.classList.add('future');
+        });
+        setTimeout(function() {
+          var active = slideEl.querySelector('.teacher-note .sentence.active');
+          if (active && typeof active.scrollIntoView === 'function') {
+            try { active.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch(e) {}
+          }
+        }, 50);
+      };
+    }
+
+    document.querySelectorAll('.slide').forEach(function(s) {
+      if (s.__sentenceObs) return;
+      s.__sentenceObs = true;
+      new MutationObserver(function() {
+        if (s.classList.contains('active') && typeof window.setSentenceIdx === 'function') {
+          window.setSentenceIdx(0, s);
+        }
+      }).observe(s, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    var initActive = document.querySelector('.slide.active');
+    if (initActive && typeof window.setSentenceIdx === 'function') {
+      window.setSentenceIdx(0, initActive);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup);
+  } else {
+    setup();
+  }
+})();
+
+window.openProjectorWindow = function() {
+  var base = window.location.href.split('?')[0];
+  var projUrl = base + '?view=student';
+  var proj = window.open(projUrl, 'projector-' + base,
+    'width=1920,height=1080,menubar=no,toolbar=no,location=no,status=no,resizable=yes');
+  if (!proj) {
+    alert('팝업이 차단되었습니다. 주소창 옆 팝업 아이콘에서 허용해 주세요.');
+    return;
+  }
+  window.__projector = proj;
+  proj.focus();
+};
+
+(function initSlideSync() {
+  var SYNC_KEY = 'aimarketer-slide-sync';
+  var channel = null;
+  try {
+    if (typeof BroadcastChannel !== 'undefined') {
+      channel = new BroadcastChannel(SYNC_KEY);
+    }
+  } catch(e) { channel = null; }
+
+  function broadcast(msg) {
+    if (window.__skipBroadcast) return;
+    try { if (channel) channel.postMessage(msg); } catch(e) {}
+    try { if (window.__projector && !window.__projector.closed) window.__projector.postMessage(msg, '*'); } catch(e) {}
+    try { if (window.opener && !window.opener.closed) window.opener.postMessage(msg, '*'); } catch(e) {}
+    try { localStorage.setItem(SYNC_KEY, JSON.stringify(Object.assign({}, msg, { ts: Date.now() }))); } catch(e) {}
+  }
+
+  function handle(msg) {
+    if (!msg || !msg.type) return;
+    if (msg.type === 'goto' && typeof window.go === 'function') {
+      window.__skipBroadcast = true;
+      window.go(msg.index);
+      setTimeout(function() { window.__skipBroadcast = false; }, 120);
+    } else if (msg.type === 'sentence' && typeof window.setSentenceIdx === 'function') {
+      window.__skipBroadcast = true;
+      window.setSentenceIdx(msg.index);
+      setTimeout(function() { window.__skipBroadcast = false; }, 120);
+    } else if (msg.type === 'tab') {
+      // 책갈피 탭(bullet-list tilt-card) open/close 동기화
+      var slides = document.querySelectorAll('.slide');
+      if (!slides[msg.slide]) return;
+      var cards = slides[msg.slide].querySelectorAll('.bullet-list li.tilt-card');
+      if (!cards[msg.card]) return;
+      window.__skipBroadcast = true;
+      if (msg.open) cards[msg.card].classList.add('open');
+      else cards[msg.card].classList.remove('open');
+      setTimeout(function() { window.__skipBroadcast = false; }, 120);
+    } else if (msg.type === 'navigate') {
+      var curPath = window.location.pathname;
+      if (curPath !== msg.path) {
+        var viewParam = new URLSearchParams(window.location.search).get('view');
+        window.location.href = msg.path + (viewParam ? '?view=' + viewParam : '');
+      }
+    } else if (msg.type === 'thumbs') {
+      var strip = document.getElementById('thumbStrip');
+      if (strip) {
+        window.__skipBroadcast = true;
+        if (msg.open) strip.classList.add('open'); else strip.classList.remove('open');
+        setTimeout(function() { window.__skipBroadcast = false; }, 120);
+      }
+    } else if (msg.type === 'help') {
+      var ov = document.getElementById('helpOverlay');
+      if (ov) {
+        window.__skipBroadcast = true;
+        if (msg.open) ov.classList.add('open'); else ov.classList.remove('open');
+        setTimeout(function() { window.__skipBroadcast = false; }, 120);
+      }
+    }
+  }
+
+  if (channel) channel.onmessage = function(e) { handle(e.data); };
+  window.addEventListener('message', function(e) { if (e.data) handle(e.data); });
+  window.addEventListener('storage', function(e) {
+    if (e.key === SYNC_KEY && e.newValue) {
+      try { handle(JSON.parse(e.newValue)); } catch(err) {}
+    }
+  });
+
+  function observeAll() {
+    document.querySelectorAll('.slide').forEach(function(s, idx) {
+      if (s.__syncObs) return;
+      s.__syncObs = true;
+      new MutationObserver(function() {
+        if (s.classList.contains('active')) {
+          broadcast({ type: 'goto', index: idx });
+        }
+      }).observe(s, { attributes: true, attributeFilter: ['class'] });
+
+      // 책갈피 탭(bullet-list tilt-card) open/close 동기화
+      s.querySelectorAll('.bullet-list li.tilt-card').forEach(function(card, cardIdx) {
+        if (card.__syncObs) return;
+        card.__syncObs = true;
+        new MutationObserver(function() {
+          broadcast({
+            type: 'tab',
+            slide: idx,
+            card: cardIdx,
+            open: card.classList.contains('open')
+          });
+        }).observe(card, { attributes: true, attributeFilter: ['class'] });
+      });
+    });
+
+    var thumbStrip = document.getElementById('thumbStrip');
+    if (thumbStrip && !thumbStrip.__syncObs) {
+      thumbStrip.__syncObs = true;
+      new MutationObserver(function() {
+        broadcast({ type: 'thumbs', open: thumbStrip.classList.contains('open') });
+      }).observe(thumbStrip, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    var helpOverlay = document.getElementById('helpOverlay');
+    if (helpOverlay && !helpOverlay.__syncObs) {
+      helpOverlay.__syncObs = true;
+      new MutationObserver(function() {
+        broadcast({ type: 'help', open: helpOverlay.classList.contains('open') });
+      }).observe(helpOverlay, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
+  var origSetSentence = window.setSentenceIdx;
+  if (typeof origSetSentence === 'function') {
+    window.setSentenceIdx = function(idx, slideEl) {
+      origSetSentence(idx, slideEl);
+      broadcast({ type: 'sentence', index: idx });
+    };
+  }
+
+  document.querySelectorAll('a.nav-arrow[href], a.btn[href]').forEach(function(a) {
+    a.addEventListener('click', function() {
+      var href = a.getAttribute('href');
+      if (!href || href === '#') return;
+      try {
+        var absolute = new URL(href, window.location.href);
+        broadcast({ type: 'navigate', path: absolute.pathname });
+      } catch (err) {}
+    });
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', observeAll);
+  } else {
+    observeAll();
+  }
 })();

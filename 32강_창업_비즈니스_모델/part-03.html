@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="VORONOI">
+<body data-bg-mode="VORONOI" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 32강</div>
   <div class="topbar-center">PART 03 · 3종 패키지 프레임 · Good-Better-Best</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-02.html" title="이전 파트">◀ PART 02</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-04.html" title="다음 파트">PART 04 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">커피숍 메뉴판을 떠올려 보세요. Tall · Grande · Venti. 사이즈 세 종류. 왜 두 개도 네 개도 아닌 세 개일까요?<br><br>답은 선택 심리학에 있습니다. 사람은 두 개 앞에 서면 싸구려·비싼 것으로 인식하고, 네 개 이상이면 피로해서 결정을 미룹니다. 세 개일 때 가장 편하게 고릅니다. 실제로 마케팅 업계에서 Good-Better-Best(좋음·더 나음·최고)로 불리는 이 3단 프레임은 중간 옵션 선택률이 40~70%로 가장 높은 것으로 관찰됩니다[^T2-3].<br><br>3단 티어를 만들면 자연스럽게 생기는 현상이 있어요 — 고객의 60% 정도가 중간 옵션을 선택합니다[^T2-3]. 이걸 업계에서 골디락스 효과(Goldilocks Effect · 너무 뜨겁지도 차갑지도 않은 중간을 선호)라고 부릅니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -65,29 +85,28 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">3티어 · 세 축 · 한 표</h2>
+      <h2 class="section-title">3티어 · 세 축 · 한 표</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📊 Good-Better-Best · 3티어 프레임</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Starter·Growth·Scale 세 Tier 구조 · 중간 옵션 선택률 40~70%로 보고된 골디락스 효과를 활용합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🪜 차이 만드는 세 축</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">티어 차이는 양 · 범위 · 자동화 세 축의 조합으로. 양만 두 배 늘린다고 Scale이 되지 않습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📋 37회 자산 → 3종 매핑</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">1~31강 자산이 자연스럽게 3종 패키지에 매핑되는 템플릿. 실습 A의 출발점입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="40" y="35" width="320" height="190" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
@@ -113,7 +132,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">이 원리를 1인 대행사에 적용하면:<br><br>Starter(가장 저렴 · 진입용)<br><br>Growth(중간 · 주력 상품) ← 여기서 매출의 대부분 발생<br><br>Scale(심화 · 고가)</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -122,29 +161,28 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">세 개 패키지, 꼭 세 개여야 할까요?</h2>
+      <h2 class="section-title">세 개 패키지, 꼭 세 개여야 할까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">☕ 커피 사이즈 · Tall·Grande·Venti</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">사이즈 셋 · 거의 모든 카페 표준입니다. 두 개 카페·네 개 카페는 보기 드물어요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🧠 둘 = 싸·비쌈 · 넷 = 피로</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">선택지 두 개 앞에선 싸구려·비싼 것으로 보이고 · 네 개 이상은 결정 피로로 미루게 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 셋 · 가장 편한 선택</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Good-Better-Best(좋음·더 나음·최고) 3단 프레임 · 중간 옵션 선택률 40~70%로 관찰됩니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <text x="80" y="60" font-size="11" text-anchor="middle" fill="#7a7666" font-weight="800">선택지 2</text>
@@ -173,7 +211,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">Starter는 고객이 처음 일해 보는 관문이고, Growth가 본류, Scale은 선택지가 있다는 것만으로 Growth의 가치를 높이는 앵커(Anchor · 기준점) 역할을 합니다.<br><br>이 표가 완성되면 카탈로그 1장이 되는 거예요. 오늘 실습 A에서 각 수강생이 직접 자기가 선택한 클라이언트 기준으로 이 표를 채웁니다.<br><br>같은 서비스라도 티어 간 차별화를 만드는 축이 있습니다.<br><br>1. 양 차이: 콘텐츠 수 · 제작 편수 · 채널 수 2. 범위 차이: 제작만 / 기획+제작 / 기획+제작+배포+분석 3. 품질·자동화 차이: 수동 / 반자동 / 풀 자동화</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 1 · Good-Better-Best -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -182,38 +240,36 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">관문 · 본류 · 앵커 · 셋의 역할</h2>
+      <h2 class="section-title">관문 · 본류 · 앵커 · 셋의 역할</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🚪 Starter · 진입 관문</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">고객이 처음 손잡아 보는 단발 진입 상품 · 가볍게 일해 본 경험을 만드는 역할입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">⭐ Growth · 매출 본류</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">중간 옵션이자 매출의 60% 내외 발생 위치 · 1인 대행사의 주력 상품 자리입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔝 Scale · 가치 앵커</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Scale은 선택지가 있다는 것만으로 Growth의 가치를 높이는 앵커(Anchor · 기준점) 역할을 합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🪜 차이 · 양 · 범위 · 자동화</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">티어 사이 차이는 콘텐츠 양 · 작업 범위 · 자동화 정도 세 축. 양만 두 배 늘린다고 Scale이 되지 않습니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="35" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">Good · Better · Best</text>
           <rect x="40" y="160" width="100" height="60" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
           <text x="90" y="183" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">Starter</text>
           <text x="90" y="202" font-size="10" text-anchor="middle" fill="#7a7666">관문 · 단발</text>
@@ -239,7 +295,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">이 세 축을 조합하면 세 개의 티어가 자연스럽게 그려집니다.<br><br>37회 과정에서 여러분이 쌓은 자산을 그대로 3종에 매핑하면 이렇게 됩니다.<br><br>포함: 브랜드 이름·슬로건·무드보드(2강 자산) · 브랜드 매뉴얼 미니 버전(4강 자산)<br><br>미포함: 콘텐츠 제작 · 자동화 · 영상</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 2 · 37회 자산 매핑 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -248,35 +324,34 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">배운 것을 · 그대로 상품으로</h2>
+      <h2 class="section-title">배운 것을 · 그대로 상품으로</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎨 Starter · 브랜드 매뉴얼 미니</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">2강 자산 + 4강 매뉴얼 미니 버전 · 창업 초기 클라이언트의 정체성 정립을 위한 2~3주 프로젝트.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📱 Growth · 콘텐츠 + 자동화</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Starter + SNS 콘텐츠(7~9강) + 블로그 SEO(6강) + GHL 자동화 기초(16~22강) · 월 정기 리테이너 본류.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎬 Scale · 비주얼·풀스택</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Growth + 힉스필드 영상(26~31강) + 포트폴리오 웹사이트(34강) · 초기 셋업 4주 + 월 리테이너.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">📋 실습 A · 이 표가 템플릿</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">이 세 줄을 그대로 복사해 본인의 가상 클라이언트(A/B/C/D)에 맞게 조정 · 실습 A 출발점입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="40" width="350" height="190" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
@@ -305,7 +380,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">대상: 창업 초기 클라이언트 · 정체성 정립 단계<br><br>Turnaround: 2~3주 프로젝트<br><br>포함: Package 1 + SNS 콘텐츠(7~9강) + 블로그 SEO(6강) + GHL 자동화 기초(16~22강)<br><br>미포함: 영상 · 풀 스택 포트폴리오</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="5" data-diagram="recap">
@@ -314,29 +409,28 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Part 03 · 세 줄 정리</h2>
+      <h2 class="section-title">Part 03 · 세 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📊 3티어 · Good-Better-Best</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Starter·Growth·Scale 셋이 표준 · 중간 옵션 선택률 40~70%로 보고됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🪜 차이 세 축 · 양·범위·자동화</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">티어 차이는 양만이 아닌 범위 + 자동화 차이 조합으로 만들어야 자연스러운 Scale이 나옵니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📋 37회 자산 · 자연스럽게 매핑</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Starter 브랜드 · Growth 콘텐츠+자동화 · Scale 비주얼+풀스택 · 실습 A의 출발 템플릿입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="40" y="30" width="320" height="200" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
@@ -357,7 +451,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">대상: 월 정기 마케팅 운영 필요한 클라이언트<br><br>Turnaround: 월 리테이너<br><br>포함: Package 2 + 힉스필드 영상(26~31강) + 포트폴리오 웹사이트(34강 자산) + 팀 에이전트 자동화(14~15강)<br><br>대상: 브랜드 리뉴얼 + 미디어 확장 단계 클라이언트</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- BRIDGE -->
   <section class="slide slide-section" data-slide="6" data-diagram="bridge">
@@ -366,29 +480,28 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">같은 일도 · 가격 구조 따라 수익이 달라질까요?</h2>
+      <h2 class="section-title">같은 일도 · 가격 구조 따라 수익이 달라질까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">⏱ 시간제 vs 월 리테이너</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">같은 콘텐츠를 시간제로 받는 것과 월 리테이너로 받는 것은 수익률·관계·일 강도가 전혀 다릅니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📦 Pricing 4구조 · 정리</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">프로젝트·리테이너·시간제·가치 기반 네 가지 구조와 각각의 장단·추천 시점.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 Part 04 · 1인 대행사 권장 조합</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">초기 권장 조합 · 가격 정할 때 세 축 · 휴식 후 본격 실습으로 이어집니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -412,7 +525,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">Turnaround: 초기 셋업 4주 + 월 리테이너<br><br>오늘 실습 중 흔히 나오는 실수를 미리 공유합니다.<br><br>1. Starter가 너무 무거움 · "체험 수준"이어야 하는 Starter에 월 리테이너급 업무량이 들어가면 고객이 진입을 포기합니다. 2. Growth와 Scale의 차이가 양뿐 · 양만 두 배로 늘린다고 Scale이 되지 않습니다. 범위 차이(자동화·영상 등 AI 레버리지 추가)가 들어가야 해요. 3. Scale이 비현실적으로 거대함 · "모든 걸 다 해 드려요"는 Scale이 아니라 불안입니다. Scale도 명확한 Scope이 있어야 합니다.<br><br>3종 패키지 = Good-Better-Best · 중간 옵션 선택률 60% 내외[^T2-3].</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -421,11 +554,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">셋이 가장 · 잘 팔리는 구조</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 04 · Pricing 4구조 · 가치 기반 가격</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-04.html">다음으로 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">티어 차이를 만드는 세 축 = 양 · 범위 · 자동화.<br><br>37회 과정 자산이 자연스럽게 3종에 매핑됨 (Starter 브랜드 · Growth 콘텐츠+자동화 · Scale 비주얼+풀스택).<br><br>티어 구조를 이해하셨으면, 이제 가격 구조로 들어갑니다. Part 04에서 Pricing 4가지 구조(프로젝트·리테이너·시간제·가치 기반)와 각 구조의 장단점을 정리하겠습니다. 여기까지 들으시고 짧게 휴식하겠습니다.<br><br>*(여기서 휴식 시간)*</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 

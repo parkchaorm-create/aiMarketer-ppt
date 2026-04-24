@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="FLOW">
+<body data-bg-mode="FLOW" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 30강</div>
   <div class="topbar-center">PART 01 · OT · 26~29강 회고 · 30강 지도</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="../../29강_VFX_트랜지션/PPT/part-07.html" title="이전 강의">◀ 29강</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-02.html" title="다음 파트">PART 02 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">반갑습니다. 다시 최미혜입니다. Phase 5의 첫 팀 프로젝트 회차, 30강에 오신 것을 환영해요. 먼저 한 가지 여쭤볼게요. 지난 네 회차 동안 26강부터 29강까지 배운 영상 스킬 네 가지가 서로 어떻게 연결되는지, 머릿속에 한 편의 영상으로 그려지시나요?<br><br>26강에서 텍스트에서 영상으로(T2V · Text-to-Video · 텍스트를 영상으로 바꾸는 기술), 이미지에서 영상으로(I2V · Image-to-Video · 한 장의 이미지를 영상으로 바꾸는 기술) 가는 기본 프롬프트를 익혔어요. 27강에서 동일 캐릭터를 여러 샷에서 일관되게 유지하는 방법과 피사체의 미세 모션을 익혔고, 28강에서 줌·팬·틸트·돌리 네 가지 가상 카메라 워킹을, 29강에서 샷과 샷 사이 트랜지션(화면 전환)과 VFX(Visual Effects · 시각 효과)를 다뤘습니다. 재료는 네 덩어리로 쌓였어요.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -65,29 +85,28 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">산출물 2종 · 30초+ 영상</h2>
+      <h2 class="section-title">산출물 2종 · 30초+ 영상</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📋 촬영 계획서 1장 · 4블록</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Shooting Plan(슈팅 플랜 · 촬영 계획서)은 Project Brief · Shot List · Brand Constraints · QC Checkpoint 네 블록으로 구성됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎬 팀 비주얼 영상 1편 · 30초+</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Cinema Studio(시네마 스튜디오 · 다중 모션 합성 영상 스튜디오)의 6-샷 시퀀스로 한 편의 초안 영상을 생성합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📤 슬랙 업로드 · 팀당 4건</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">계획서·프롬프트 모음·영상·QC 리포트를 `#수업실습` 채널에 `[30강][클라이언트태그]` 형식으로 올립니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -97,7 +116,6 @@
             </linearGradient>
           </defs>
           <rect x="30" y="25" width="340" height="22" fill="url(#ov1-g1)" opacity="0.18"/>
-          <text x="200" y="41" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PHASE 5 · 첫 팀 프로젝트</text>
 
           <!-- Output 1 · Plan -->
           <rect x="30" y="65" width="160" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -132,7 +150,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">오늘은 그 네 덩어리 재료를 "우리 팀 클라이언트 한 편의 비주얼 영상"으로 합치는 자리예요. 편집자가 아니라 연출가가 되시는 수업이라고 생각하시면 편합니다. 고해상도 렌더링은 31강, 창업 실무 연결은 32강부터. 오늘은 30초 이상의 초안 영상 한 편까지.<br><br>[강사 선택: 개인 경험 삽입 지점 — "1인 대행사에서 영상 제작을 맡았을 때, 혼자 카메라·연기·편집을 모두 하려다 한 장면도 제대로 못 찍고 하루를 보낸 경험"을 짧게. 결과·수익 보장 표현 금지.]<br><br>이 기조는 이미 익숙하실 거예요. 23강 팀 프로젝트에서 한 번 쓰셨던 원칙 그대로입니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -141,29 +179,28 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">네 덩어리 재료 · 한 편이 되나요?</h2>
+      <h2 class="section-title">네 덩어리 재료 · 한 편이 되나요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎬 26~29강 · 네 스킬 쌓였어요</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">T2V·I2V(Text/Image-to-Video · 텍스트·이미지를 영상으로) · 캐릭터·모션 · 시네마틱 앵글 · VFX(Visual Effects · 시각 효과) 네 재료가 손에 있습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">❓ 머릿속에 · 한 편으로 그려지나요?</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">네 회차를 개별로 익혔다면, 오늘은 그 재료가 어떻게 이어져 한 편이 되는지 구조로 보시게 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎥 편집자가 아니라 · 연출가로</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘은 팀 한 편의 영상을 설계하고 지휘하는 연출가 자리에 서 보시는 회차예요. 완성도보다 합의가 핵심입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- Four materials stacked left -->
@@ -200,7 +237,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">완성도보다 합의 — 오늘 영상이 완벽할 필요는 없습니다. 팀이 합의한 한 편이 있다는 것이 중요합니다. 31강에서 품질을 올립니다.<br><br>개인보다 구조 — 팀원 네 명이 각자의 샷을 만들면 톤이 어긋납니다. 한 명의 촬영 감독이 구도를 지휘하고 나머지가 역할대로 움직이는 감각을 씁니다. 실무 영상 제작 현장에서도 이 감각이 기본이에요.<br><br>23강에서 CRM 파이프라인을, 오늘 30강에서는 영상 한 편으로 이어 갑니다. 31강 고해상도 렌더링까지 합치면 Phase 5의 한 덩어리가 완성돼요.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 1 · 23강과 같은 원칙 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -209,29 +266,28 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">23강과 같은 원칙 · 두 줄</h2>
+      <h2 class="section-title">23강과 같은 원칙 · 두 줄</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🤝 완성도보다 · 팀 합의</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘 영상이 완벽하지 않아도 괜찮습니다. 팀이 한 편에 합의했다는 사실이 남는 것이 중요해요. 31강에서 고해상도로 다듬습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎼 개인보다 · 구조</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">네 명이 각자 샷을 만들면 톤이 어긋납니다. 한 명의 촬영 감독이 구도를 지휘하고 나머지가 역할대로 움직이는 감각을 씁니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 오늘은 초안 · 완결은 31강</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">30강은 초안 영상 한 편까지. 4K 업스케일과 최종본 정리는 31강에서 이어집니다. 오늘의 부담은 여기까지예요.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="340" height="200" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
@@ -256,7 +312,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">오늘 수업이 끝나면 팀별로 다음 두 가지가 완성됩니다.<br><br>고해상도 업스케일은 오늘이 아니라 31강에서. 30강은 초안까지.<br><br>팀이 네 명이면 팀 리더 · 촬영 감독 · 프롬프트 라이터 · 편집/QC 한 명씩. 다섯 명이면 프롬프트 라이터를 두 분이 나누거나, 한 분이 Shots 스토리보드 담당을 맡아 주셔도 됩니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 2 · 산출물 2종 + 4역 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -265,29 +341,28 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">산출물 2종 · 역할 4명</h2>
+      <h2 class="section-title">산출물 2종 · 역할 4명</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📋 촬영 계획서 · 촬영 감독 주도</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">`shooting_plan_v1.md` 한 장. 마크다운·노션 어느 쪽이든 가능합니다. 네 블록을 채우면 Part 06의 원고가 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎬 30초+ 영상 · 편집/QC 주도</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">mp4 또는 공유 링크. 한 샷 5~8초 × 3~6개 = 20~48초. 30초가 실제로 해 보시면 짧지 않은 길이예요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">👥 4역 · 23강 팀 그대로</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">팀 리더 · 촬영 감독(DoP) · 프롬프트 라이터 · 편집/QC. 5인 팀이면 프롬프트를 둘이 나누거나 Shots 스토리보드 담당을 두면 됩니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- center hub -->
@@ -326,7 +401,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">26~29강 네 가지 스킬이 Cinema Studio 한 화면에 수렴되는 이유를 설명할 수 있습니다.<br><br>팀 클라이언트용 촬영 계획서 4블록(프로젝트 브리프·샷 리스트·브랜드 제약·QC 체크포인트)을 완성합니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="5" data-diagram="recap">
@@ -335,29 +430,28 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Part 01 · 세 줄 정리</h2>
+      <h2 class="section-title">Part 01 · 세 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎬 오늘 · Phase 5 첫 팀 프로젝트</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">26~29강에서 개별로 익힌 네 스킬을 팀 한 편의 영상으로 합치는 자리입니다. 개별 연습이 오늘 한 덩어리로 수렴돼요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📋 산출물 · 계획서 + 영상 30초+</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">손에 남는 결과는 촬영 계획서 1장과 30초 이상의 비주얼 영상 1편. 두 산출물이 31강 고해상도 작업의 입력이 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">✅ 합격선 · 완성도보다 합의</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">완벽하지 않아도 팀이 한 편에 합의했다는 사실이 오늘의 합격선입니다. 조급하지 않으셔도 돼요.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -392,7 +486,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">Shots 기능으로 시각 레퍼런스 9프레임을 확보합니다.<br><br>Cinema Studio의 3-모션 스택과 6-샷 시퀀스로 30초 이상의 영상 1편을 제작합니다.<br><br>무료 플랜 크레딧 운영 원칙(스토리보드 먼저, 정식 영상은 마지막)을 팀 단위로 실천합니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- BRIDGE -->
   <section class="slide slide-section" data-slide="6" data-diagram="bridge">
@@ -401,29 +515,28 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">HIGGSFIELD · 어느 기능 쓰나요?</h2>
+      <h2 class="section-title">HIGGSFIELD · 어느 기능 쓰나요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎛️ HIGGSFIELD · 메뉴 10종 이상</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">HIGGSFIELD(히그스필드) 사이트에 들어가시면 Cinema Studio · Shots · Popcorn · Kling · Sora 등 기능이 많습니다. 전부 다룰 순 없어요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎯 오늘은 · 세 기능만</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Shots(스토리보드) · Cinema Studio(영상 본체) · DOP(엔진). 이 셋을 구분해 두지 않으면 팀 토론에서 엉킵니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🗺️ Part 02 · 기능 지도 정리</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 02에서 세 기능의 역할과 오늘 수업에서 어디에 쓰는지, 무료 플랜 크레딧 운영 원칙까지 한 번에 정리합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -450,7 +563,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">팀 작업을 시작하기 전에 개인 재료가 손에 있어야 합니다. 짧게 점검하겠습니다.<br><br>오늘은 Phase 5 첫 팀 프로젝트 — 26~29강 재료를 팀 비주얼 영상 한 편으로 합치는 자리입니다.<br><br>산출물 2종: 촬영 계획서 + 30초+ 영상.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -459,11 +592,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">네 재료 · 한 편으로</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 02 · HIGGSFIELD 3대 도구 · Cinema Studio · Shots · DOP</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-02.html">다음으로 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">기조: 완성도보다 합의 · 개인보다 구조.<br><br>고해상도 렌더링은 31강, 창업 실무 연결은 32강부터 이어집니다.<br><br>오늘의 주 도구는 HIGGSFIELD입니다. 그런데 HIGGSFIELD 안에는 여러 기능이 있어서, 오늘 수업에서 어느 기능을 쓸지 먼저 정리하고 가야 팀 작업 중 헤매지 않아요. Part 02에서 세 가지 핵심 기능부터 짚겠습니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 

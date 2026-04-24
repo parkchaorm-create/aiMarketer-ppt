@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="VORONOI">
+<body data-bg-mode="VORONOI" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 21강</div>
   <div class="topbar-center">PART 03 · CONCEPT · 뉴스레터·알림·웹훅</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-02.html" title="이전 파트">◀ PART 02</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-04.html" title="다음 파트">PART 04 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">뉴스레터(Newsletter)는 "정해진 주기로 구독자에게 발송되는 이메일 묶음"을 뜻합니다[^1]. GHL에서는 이걸 두 가지 경로로 만들 수 있어요. 헷갈리기 쉬운 지점이라 먼저 구분하겠습니다.<br><br>경로 A · 이메일 캠페인(Email Campaigns): Marketing → Email → Campaigns에서 만드는 1회성 또는 일정 예약 발송 단위예요. 세그먼트(Segment · 조건으로 잘라낸 수신자 그룹)를 수신자로 지정하고, 즉시 또는 지정 일시에 발송합니다. 월간 뉴스레터처럼 "매달 첫째 주 월요일" 같은 반복 일정은 이 경로를 씁니다[^2].<br><br>경로 B · 워크플로우(Workflow) 내 이메일 액션: Automation → Workflows에서 "조건 → 동작" 흐름 중 한 단계로 이메일을 보내는 방식이에요. "폼 제출 시 즉시 환영 메일" 같은 트리거 기반 1회 발송에 적합합니다.<br><br>오늘 우리가 만드는 건 경로 A입니다. 경로 B는 18강·19강에서 이미 다루었으니 오늘은 건너뛸게요.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -65,32 +85,30 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">개념 카드 3장 + 관계도 1장</h2>
+      <h2 class="section-title">개념 카드 3장 + 관계도 1장</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📬 카드 1 · 뉴스레터 + 두 경로</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Email Campaigns(이메일 캠페인 경로 A · 정기 예약 발송)와 Workflow 이메일 액션(경로 B · 트리거 기반) 구분을 먼저 그립니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔔 카드 2 · 내부 알림 4채널</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">이메일·SMS·Slack·웹훅 네 채널 비교. 오늘 수업의 현실적 선택이 왜 Slack+웹훅인지 이유를 공유합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🪝 카드 3 · 웹훅 양 끝</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Outbound Webhook(나가는 · GHL 쪽)과 Incoming Webhook(들어오는 · Slack 쪽)이 같은 URL의 양 끝임을 풀어 드립니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="28" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 03 · 3카드 + 관계도</text>
           <!-- card 1 -->
           <rect x="30" y="50" width="105" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
           <text x="82" y="80" font-size="22" text-anchor="middle" fill="#e2c793">📬</text>
@@ -121,7 +139,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">뉴스레터를 전체 리드에게 뿌리는 것이 아니라, 지금 단계에 맞는 메시지가 필요한 리드에게만 보내는 것이 실무의 기본기예요. 예를 들어:<br><br>✅ 보낼 곳: `need-nurturing`(정보 수집 단계) + `high-intent`(높은 의향) 태그 보유자 → 관계 유지 메시지가 도움 됨<br><br>❌ 보내지 말 곳: `budget-low`에 이미 20강 Reactivation 캠페인 대상이 된 리드 → 중복 피로 방지<br><br>내부 알림은 고객에게 가는 메시지가 아니라 담당자(나 또는 팀)에게 가는 메시지입니다. 리드 한 명의 행동 중 우리가 놓치면 안 되는 순간만 골라 즉시 알려 주는 용도예요.<br><br>대표 용도 3가지:</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -130,32 +168,30 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">"웹훅" · 어려운 단어인가요?</h2>
+      <h2 class="section-title">"웹훅" · 어려운 단어인가요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🌱 처음이어도 · 한 줄 개념</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"내 시스템에 일이 생기면 · 네가 정한 URL로 · 그 요약을 JSON으로 자동 전송." 이 한 줄이 웹훅(Webhook) 전체예요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📮 비유 · 자동 배달원 1명</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">GHL에 "이 주소로 이 쪽지 전달"이라고 적힌 자동 배달원을 하나 둔 것과 같아요. 이벤트가 생기면 배달원이 즉시 출발합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔑 핵심 · 두 URL 아닌 한 URL</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Slack이 발급한 Incoming Webhook URL 한 개를 GHL Outbound Webhook 목적지로 등록합니다. "양 끝"이 같은 URL이에요.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="28" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">웹훅 한 줄 이해</text>
           <!-- sender -->
           <rect x="30" y="90" width="100" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
           <text x="80" y="120" font-size="20" text-anchor="middle" fill="#e2c793">📤</text>
@@ -182,7 +218,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">고의향 리드가 폼을 제출한 순간 (`vip-candidate` 태그 추가 시)<br><br>기존 고객이 해지 의사를 표명한 순간<br><br>결제 실패·환불 요청이 접수된 순간<br><br>GHL은 내부 알림을 보낼 수 있는 채널을 여러 개 제공합니다[^3]:</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 1 · Card 1 · 뉴스레터 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -191,38 +247,36 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Newsletter · 두 경로 분기</h2>
+      <h2 class="section-title">Newsletter · 두 경로 분기</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📬 Newsletter · 정기 이메일 묶음</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">뉴스레터(Newsletter · 정해진 주기로 구독자에게 발송되는 이메일 묶음). 오늘 만들 것은 "월 1회 반복 발송"입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🅰️ 경로 A · Email Campaigns</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Marketing → Email → Campaigns. 세그먼트(Segment · 조건으로 잘라 낸 수신자 그룹) 대상 1회성 또는 예약 발송 단위. 오늘 경로가 이쪽입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🅱️ 경로 B · Workflow 이메일 액션</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Automation → Workflows. "폼 제출 시 즉시 환영 메일" 같은 트리거 기반 1회 발송. 18~19강에서 다뤘으니 오늘은 건너뜁니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🎯 세그먼트 · 지금 단계에 맞게</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">전체 발송 대신 `need-nurturing`+`high-intent` 대상만. 20강 Reactivation 대상인 `budget-low`는 중복 피로 방지로 제외합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="26" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">뉴스레터 · 두 경로</text>
           <!-- top circle -->
           <rect x="130" y="45" width="140" height="35" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
           <text x="200" y="68" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">GHL Marketing</text>
@@ -249,7 +303,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">이메일: 담당자 이메일로 직접 발송 (가장 단순)<br><br>SMS: 담당자 휴대폰으로 문자 발송 (국내 발송은 통신사 승인 필요 · 오늘은 개념만)<br><br>Slack: 팀 메시지 채널에 자동 게시 (오늘의 실습 대상)<br><br>웹훅(Webhook): 외부 시스템으로 데이터 전송 (Slack을 연결하는 기술적 다리)<br><br>공공 강의에서 "알림 채널" 하면 가장 현실적인 조합은 Slack + 웹훅입니다. 외부 시스템 승인 없이 수업 안에서 작동 확인까지 가능하거든요.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 2 · Card 2 · 내부 알림 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -258,38 +332,36 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Internal Notification · 4채널</h2>
+      <h2 class="section-title">Internal Notification · 4채널</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📧 이메일 · 담당자 직메 가장 단순</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">담당자 이메일로 직접 발송. 가장 단순하지만 실시간성이 낮아 "지금 당장" 반응용으로는 부족합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📱 SMS · 국내 통신사 승인</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">담당자 휴대폰 문자. 국내 발송은 통신사 사전 승인이 필요해 오늘은 개념만 짚고 실제 구성에선 제외합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">💬 Slack · 팀 채널 자동 게시</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">팀 Slack 채널에 자동 메시지. 즉시성·가독성·검색성까지 실무 요건을 가장 균형 있게 만족시켜 오늘의 선택이 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🪝 웹훅 · Slack 연결용 기술 다리</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">페이로드(Payload · 웹훅이 실어 보내는 데이터 묶음)를 외부 시스템으로 전달. 오늘은 Slack을 붙이는 "기술 다리"로 씁니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="26" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">내부 알림 · 4채널 비교</text>
           <!-- col 1 email -->
           <rect x="25" y="50" width="82" height="175" fill="none" stroke="#3a3730" stroke-width="1.5" rx="4"/>
           <text x="66" y="75" font-size="18" text-anchor="middle" fill="#7a7666">📧</text>
@@ -330,7 +402,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">웹훅(Webhook)은 오늘 처음 나오는 단어지만 개념 자체는 단순해요. 한 줄로 하면 이렇습니다.<br><br>그림으로 그리면 이렇게 돼요.<br><br>[GHL 워크플로우] └─ 트리거: vip-candidate 태그 추가됨 └─ 동작: 웹훅 전송 └─ 목적지: https://hooks.slack.com/services/T.../B.../xxx └─ 페이로드(Payload · 웹훅이 실어 보내는 데이터 묶음): { "text": "🔔 새 VIP 후보 리드\n이름: 김지연\n이메일: ..." }<br><br>[Slack 서버] └─ 위 URL 수신 → 지정 채널에 메시지 자동 게시</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 3 · Card 3 · 웹훅 양 끝 + 관계도 -->
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
@@ -339,38 +431,36 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Outbound ↔ Incoming · 같은 URL</h2>
+      <h2 class="section-title">Outbound ↔ Incoming · 같은 URL</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📤 Outbound · GHL 나가는 쪽</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Outbound Webhook(나가는 웹훅 · GHL 워크플로우에서 외부로 데이터를 보내는 동작). Action 메뉴에서 목적지 URL 지정.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📥 Incoming · Slack 받는 쪽</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Incoming Webhook(들어오는 웹훅 · Slack 앱 설정에서 발급하는 공식 수신 URL). 채널 하나에 연결되어 메시지를 자동 게시합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔗 한 URL · 두 각도</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">두 URL이 다른 게 아니에요. Slack이 발급한 Incoming URL을 GHL Outbound 목적지로 등록 — 같은 URL을 양 끝에서 부르는 구조입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🗺️ 관계도 · 두 장치 + 태그 풀</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">폼 → 태깅 엔진(17강) → 위쪽 가지 뉴스레터(경로 A) · 아래쪽 가지 Slack 알림(Workflow→Outbound→Slack URL). 한 지도에 담습니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="26" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">오늘 만들 두 장치 관계도</text>
           <!-- form -->
           <rect x="140" y="42" width="120" height="28" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
           <text x="200" y="60" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">리드 · 폼 제출</text>
@@ -399,7 +489,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 03</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">이 흐름에서 두 구간을 구별하는 것이 중요해요.<br><br>Outbound Webhook (나가는 웹훅): GHL이 보내는 쪽. 워크플로우 동작(Action)으로 설정[^4].<br><br>Incoming Webhook (들어오는 웹훅): Slack이 받는 쪽. Slack 앱 설정에서 공식 제공하는 공개 URL[^5].<br><br>두 URL이 같은 것을 서로 다른 각도에서 부르는 것이 아니라, Slack이 발급해 준 Incoming Webhook URL을 GHL의 Outbound Webhook 목적지로 등록하는 구조입니다.<br><br>한 그림으로 정리하면 이렇게 됩니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
@@ -408,35 +518,34 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Part 03 · 네 줄 정리</h2>
+      <h2 class="section-title">Part 03 · 네 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📬 뉴스레터 = Email Campaigns</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘 만들 뉴스레터는 Marketing → Email → Campaigns 경로. 세그먼트에 예약 발송하는 단위입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔔 내부 알림 = 담당자용 신호</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">고객이 아닌 담당자에게 가는 메시지. 오늘은 Slack 채널 수신을 선택합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🪝 웹훅 = 이벤트→URL 자동 전송</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">이벤트 발생 시 외부 URL로 JSON 페이로드 전송. 오늘은 Slack에 붙이는 기술 다리 용도예요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🔗 양 끝 · 같은 URL 한 개</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Outbound(GHL)와 Incoming(Slack)은 "URL 한 개"의 양 끝. Slack 발급 URL을 GHL 목적지로 등록하는 구조입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="40" width="340" height="190" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
@@ -466,7 +575,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">[리드가 폼을 제출함] │ ▼ [GHL 태깅 엔진 (17강에서 만든 것)] ├─ 태그가 'need-nurturing' 또는 'high-intent' ──▶ 매월 첫째 주 뉴스레터 수신 │                                                 (경로: Email Campaigns) └─ 태그가 'vip-candidate' 새로 추가됨        ──▶ Slack 채널에 요약 알림 즉시 (경로: Workflow → Outbound Webhook → Slack Incoming Webhook URL)<br><br>실습 A가 위쪽(뉴스레터), 실습 B가 아래쪽(Slack 알림)입니다.<br><br>두 장치 모두 17강에서 만든 태그를 기준 삼아 동작해요. 17강이 없으면 오늘이 안 돌아갑니다.<br><br>뉴스레터 = 정기 이메일 발송, GHL Email Campaigns로 만듦</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -475,11 +604,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">용어 셋 · 준비 · 완료</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 04 · 세팅 · 뉴스레터와 Slack 준비물</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-04.html">다음으로 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">내부 알림 = 담당자용 신호, 오늘은 Slack 채널로 받기<br><br>웹훅 = 이벤트 발생 시 외부 URL로 데이터 자동 전송하는 기술 다리<br><br>Outbound(GHL) ↔ Incoming(Slack) 한 쌍의 URL로 연결<br><br>개념은 정리됐으니 직접 만들어 볼 차례예요. 먼저 뉴스레터부터 세팅하겠습니다.<br><br>`[강사 선택: 짧은 쉬는 시간 안내 · 운영 상황에 맞춰]`</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 

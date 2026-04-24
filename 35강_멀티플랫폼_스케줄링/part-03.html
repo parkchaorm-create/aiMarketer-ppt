@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="VORONOI">
+<body data-bg-mode="VORONOI" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 35강</div>
   <div class="topbar-center">PART 03 · CONCEPT · 4축 지도 + UTM + 재활용</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-02.html" title="이전 파트">◀ PART 02</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-04.html" title="다음 파트">PART 04 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">18강에서 3축(Social Planner · Blog · MCP)을 다뤘습니다. 35강은 거기에 하나를 더합니다 — Advanced CSV 업로드입니다.<br><br>18강에서는 3채널 × 1건 = 총 3개 예약 슬롯이었어요. 오늘은 7일 × 3채널 = 최대 21개 슬롯입니다. UI로 21개를 단건 입력하면 한 회차에 끝나지 않아요. 그래서 CSV 업로드 한 번에 5~15개를 한꺼번에 예약합니다.<br><br>공식 CSV는 두 종류입니다[^4]:<br><br>Basic CSV: Date · Content · OG Meta URL · Image/Video Links · GIF (5개 칼럼)</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -65,29 +85,28 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">5장의 · 개념 카드</h2>
+      <h2 class="section-title">5장의 · 개념 카드</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🗺️ 카드 1~2 · 4축 + UTM</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘의 4축(Social Planner UI · Blog · CSV · MCP) + UTM 3요소 표준 공식. 네 단어와 한 공식이 오늘 내내 반복됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">♻️ 카드 3~4 · 재활용 + 요일</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">재활용 인벤토리(신규 ≤ 7건)와 7일 요일 매트릭스(권장 템플릿). 팀별 조정 가능한 출발점을 제공합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🧩 카드 5 · 하이브리드 원칙</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">초안은 AI(명령어·MCP), 확정은 사람(GHL UI·CSV 업로드). 18강·24강에서 이어지는 원칙을 35강에서도 유지합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="35" width="340" height="195" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
@@ -122,7 +141,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">Advanced CSV: 플랫폼별 포스트 타입 · 워터마크 · 태그 · 카테고리 · 팔로업 댓글 · GBP 설정 · YouTube 메타 · TikTok · LinkedIn PDF · Pinterest 보드 (20+ 칼럼)<br><br>오늘 실습 B는 Basic CSV로 시작합니다. Advanced CSV는 템플릿만 훑어보고, 팀별로 필요할 때 나중에 확장하시면 됩니다.<br><br>"포트폴리오 URL을 게시물마다 CTA로 넣는다"고만 하면 몇 명이 어느 채널에서 들어왔는지 구분이 안 됩니다. 그래서 URL에 UTM 파라미터(UTM Parameter · 유입 경로 추적용 쿼리스트링)를 붙입니다.<br><br>https://[포트폴리오URL]/?utm_source=instagram&amp;utm_medium=social&amp;utm_campaign=launch-week1</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT · 카드 1 · 4축 -->
   <section class="slide slide-section" data-slide="2" data-diagram="concept">
@@ -131,35 +170,34 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">18강 3축 · 오늘 4축</h2>
+      <h2 class="section-title">18강 3축 · 오늘 4축</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🧭 축1 · Social Planner UI</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">GHL Social Planner(소셜 플래너 · 다채널 단건 예약) UI로 Facebook·Instagram·LinkedIn·TikTok·GBP·YouTube·Pinterest에 단건 예약. 오늘 3~5건.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📝 축2 · Blog 모듈</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Sites 메뉴 안의 Blog 모듈(롱폼 콘텐츠 예약)입니다. 18강 학습분. 오늘 Blog 단건 예약 1건(3~5건에 포함).</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📊 축3 · Advanced CSV</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Advanced CSV Bulk Schedule(고급 CSV 대량 예약 · 엑셀 파일로 여러 게시물 × 여러 플랫폼 한 번에 업로드). 오늘 1건(행 5~15개).</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">⌨️ 축4 · MCP·슬래시 명령어</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Claude Code MCP 연결 + `.claude/commands/` 재사용 프롬프트 엔진. 24강 `/schedule-post` 재호출 + 신규 1건 추가.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="340" height="200" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
@@ -192,7 +230,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">? 뒤에 파라미터 시작<br><br>&amp; 로 요소 연결<br><br>값은 소문자·영문·하이픈만 사용 (한글·공백 금지)<br><br>utm_campaign은 팀당 한 가지로 고정: 가상 클라이언트 A(푸르트) → `purut-launch` · B(슬로우템포) → `slowtempo-launch` · C(손결) → `sonkyul-launch` · D(링크드마인드) → `linkedmind-launch`</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT · 카드 2 · UTM -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -201,38 +259,36 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">source · medium · campaign</h2>
+      <h2 class="section-title">source · medium · campaign</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🔍 utm_source · 어디에서</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">어디에서 왔는가(플랫폼)입니다. `instagram` · `facebook` · `blog` 같은 채널 이름이 값으로 들어갑니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📡 utm_medium · 어떤 방식</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">어떤 매체 종류인가입니다. `social`(SNS) · `organic`(블로그·검색) · `email` 같은 큰 카테고리가 값입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🏷️ utm_campaign · 묶음 이름</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">어떤 캠페인 묶음인가입니다. 팀당 한 가지로 고정: `purut-launch` · `slowtempo-launch` · `sonkyul-launch` · `linkedmind-launch`.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">⚠️ 규칙 · 소문자·영문·하이픈</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">값은 소문자·영문·하이픈만 사용합니다. 한글·공백 금지. `?`로 시작 · `&`로 연결. GA4·GHL Sites Analytics가 자동 집계합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="35" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">UTM · 표준 공식</text>
           <line x1="60" y1="48" x2="340" y2="48" stroke="#3a3730" stroke-width="1"/>
 
           <rect x="30" y="62" width="340" height="42" fill="none" stroke="#3a3730" stroke-width="1" rx="4"/>
@@ -262,7 +318,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">utm_source는 채널별 변경<br><br>utm_medium은 전부 `social` (단, 블로그는 `organic`)<br><br>이 세 요소가 일관되게 붙으면 36강 피칭 때 "런칭 후 첫 7일 · 어느 채널에서 몇 명 유입" 증빙이 가능합니다.<br><br>오늘 신규로 만드는 것은 최대 7건입니다. 나머지 14건은 재활용이에요.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT · 카드 3 · 재활용 인벤토리 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -271,38 +347,36 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">신규 최대 7 · 재활용 14</h2>
+      <h2 class="section-title">신규 최대 7 · 재활용 14</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🖼️ 7강 · 카드뉴스 원본 재활용</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">팀원별 1세트 · 팀 전체 3~5세트의 카드뉴스가 인스타그램 게시물 원본 + 캡션으로 그대로 재활용됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📆 8강 · 글 5건 + 캘린더</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">글 5건 + 카드뉴스 2세트 + 캘린더 1장이 페이스북 글 원본과 채널별 변형 기초로 쓰입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📂 9강 · 포트폴리오 PDF</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">포트폴리오 패키지 PDF/웹을 블로그 롱폼 재가공과 핵심 발췌 재료로 사용합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">✨ 신규 ≤ 7건 · 상한</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">포트폴리오 URL 리마인드·팀 소개·롱폼·하이라이트·서비스 3종·팀 크레딧·Behind the Scenes. 7건이 상한입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="38" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">인벤토리 매트릭스</text>
           <line x1="60" y1="50" x2="340" y2="50" stroke="#3a3730" stroke-width="1"/>
 
           <!-- re-use stack -->
@@ -333,7 +407,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 03</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">인스타그램 스토리형 · 포트폴리오 URL 리마인드 1건<br><br>페이스북 · 팀 소개 및 포트폴리오 링크 1건<br><br>블로그 · "첫 1주일 우리가 만든 것" 롱폼 1건<br><br>인스타그램 피드 · 포트폴리오 하이라이트 이미지 1건</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT · 카드 4 · 요일 매트릭스 -->
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
@@ -342,38 +436,36 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">7일 × 3채널 · 권장 템플릿</h2>
+      <h2 class="section-title">7일 × 3채널 · 권장 템플릿</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📆 월·목 · 중량 콘텐츠</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">월요일 · 목요일에 중량 콘텐츠 집중 배치. 7강 카드뉴스 재활용 + 신규 서비스 3종 요약을 메인 슬롯에 올립니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📝 화·금·일 · 블로그 롱폼</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">블로그는 주 3회(화·금·일) 롱폼만 배치합니다. 9강 PDF 재가공 · 첫 1주일 롱폼 · BTS 숏폼이 기본 구성입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🌿 토·일 · 가벼움 + 스토리</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">토·일은 가볍게 운영합니다. 인스타 스토리형 URL 리마인드와 팀 크레딧 캐러셀처럼 부담 없는 콘텐츠로 주말을 덮습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🎯 휴지일 0 · URL 3건 이상</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">휴지일은 0일로 유지하고, 포트폴리오 URL은 최소 3건 게시물에 UTM 포함으로 들어가면 측정이 유의미해집니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="30" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">7일 · 요일 권장 매트릭스</text>
           <line x1="60" y1="42" x2="340" y2="42" stroke="#3a3730" stroke-width="1"/>
 
           <!-- header row -->
@@ -417,7 +509,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 04</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">페이스북 · 클라이언트 서비스 3종 요약 1건<br><br>인스타그램 캐러셀 · 포트폴리오 팀 크레딧 1건<br><br>블로그 · 포트폴리오 뒷이야기(Behind the Scenes) 숏폼 1건<br><br>팀이 7일을 어떻게 채울지 막막하면 아래 매트릭스를 출발점으로 쓰시면 됩니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP · 카드 5 · 하이브리드 원칙 -->
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
@@ -426,29 +538,28 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">초안 AI · 확정 사람</h2>
+      <h2 class="section-title">초안 AI · 확정 사람</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🧠 엔진 · 명령어·MCP</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Claude Code MCP·슬래시 명령어는 카피·캡션·CSV 행·블로그 초안을 찍어 주는 엔진입니다. 재료를 만드는 단계까지가 AI 몫입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎛️ 무대 · Social Planner</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">GHL Social Planner UI와 Advanced CSV 업로드는 예약 슬롯을 확정하는 무대입니다. 확정 클릭은 사람이 합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚠️ MCP · 직접 예약 여부</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">공식 문서는 MCP Create Post가 Social Planner 예약 슬롯에 직접 꽂히는지 세부 동작을 명시하지 않았습니다. 하이브리드 유지합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="60" width="130" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -480,7 +591,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP · CONCEPT</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">재활용 ≥ 6건, 신규 ≤ 7건, 휴지일 0일<br><br>블로그는 주 3회(화·금·일)로 롱폼만 배치<br><br>토·일은 가볍게, 월·목에 중량 콘텐츠 집중<br><br>Claude Code MCP·슬래시 명령어 = 카피·캡션·CSV 행·블로그 초안 엔진</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -489,11 +620,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">지도 완성 · 실습으로</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 04 · 실습 A · 팀 세팅 + 7일 캘린더 초안</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-04.html">다음으로 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">GHL Social Planner UI / CSV 업로드 = 예약 슬롯 확정 무대<br><br>→ 명령어가 재료를 써 주고, 수강생이 GHL에 복사·붙여넣기 또는 업로드로 확정<br><br>"슬래시 명령어가 버튼 한 번으로 Social Planner에 직접 꽂히나요?" 라는 질문이 종종 나옵니다. 공식 문서는 MCP의 "Create Post"가 Social Planner 예약 슬롯에 직접 꽂히는지 세부 동작을 명시하지 않았습니다[^5]. 그래서 오늘도 하이브리드 원칙을 유지합니다 — 초안은 AI에게, 확정은 사람이.<br><br>지도를 다 그렸습니다. 이제 실습으로 넘어갑니다. 실습 A에서 7일 캘린더 초안을 만들고, UI로 3~5건을 단건 예약해 볼게요. 실습 B에서 CSV 업로드 1건과 신규 슬래시 명령어 1건을 추가합니다.<br><br>*짧은 쉬는 시간 · 음료·스트레칭 후 재개*</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 

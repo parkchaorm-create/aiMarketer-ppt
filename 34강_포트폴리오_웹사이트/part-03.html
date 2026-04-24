@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="NETWORK">
+<body data-bg-mode="NETWORK" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 34강</div>
   <div class="topbar-center">PART 03 · 3도구 연결 파이프라인 한 장</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-02.html" title="이전 파트">◀ PART 02</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-04.html" title="다음 파트">PART 04 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">도구가 세 개나 등장합니다. Stitch · Claude Code · GHL. 이 세 개가 따로 움직이면 수강생은 혼란에 빠집니다. 오늘 수업의 성패는 이 세 개가 한 줄의 파이프라인에 들어가는 그림이 머릿속에 그려지느냐에 달렸어요. Part 03은 그 그림을 확정하는 시간입니다.<br><br>도구별로 한 줄씩 풀면 아래와 같습니다.<br><br>도구: Stitch (스티치 · AI UI 디자인 도구)</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -65,35 +85,34 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">한 장 · 네 단계 · 한 줄 URL</h2>
+      <h2 class="section-title">한 장 · 네 단계 · 한 줄 URL</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎨 단계 1 · Stitch 시안</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Stitch(스티치 · AI UI 디자인 도구)로 Home·Works·Services·Contact 4페이지 시안을 한 번에 생성합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">⚙️ 단계 2 · Claude Code 수정</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">export된 HTML을 Claude Code가 읽어 텍스트 교체 · iframe 삽입 · Git 배포까지 한 자리에서 수행합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📩 단계 3 · GHL 임베드</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">GHL(GoHighLevel · 마케팅 CRM 올인원)에서 발급한 iframe 임베드 코드가 Contact 블록에 들어갑니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🌐 단계 4 · GitHub Pages 라이브</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Web Deploy(웹 배포) · `git push` 후 GitHub Pages가 무료로 `{계정명}.github.io/portfolio/` URL을 공개합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- 4 step horizontal flow -->
@@ -125,8 +144,6 @@
           <text x="351" y="112" font-size="16" text-anchor="middle" fill="#e2c793">🌐</text>
           <text x="351" y="132" font-size="10" text-anchor="middle" fill="#F7F0DF" font-weight="700">GitHub</text>
           <text x="351" y="145" font-size="9" text-anchor="middle" fill="#7a7666">Pages</text>
-
-          <text x="200" y="45" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">4 STEPS · 한 줄 URL</text>
           <line x1="30" y1="180" x2="370" y2="180" stroke="#3a3730" stroke-width="1"/>
           <text x="200" y="205" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">https://{계정명}.github.io/portfolio/</text>
           <text x="200" y="230" font-size="10" text-anchor="middle" fill="#7a7666">한 줄 · 라이브 · 무료 호스팅</text>
@@ -137,7 +154,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">접속: &lt;https://stitch.withgoogle.com/&gt;<br><br>역할: 팀 브랜드 기반으로 3~5개 페이지를 동시에 생성[^S1-1]<br><br>산출물: HTML/CSS 코드 export 파일 (Tailwind CSS 포함 옵션)[^S1-2]<br><br>담당: Designer</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -146,29 +183,28 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">세 도구가 한 줄에 모이는 그림 · 그려지세요?</h2>
+      <h2 class="section-title">세 도구가 한 줄에 모이는 그림 · 그려지세요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🤯 도구 3개 · 따로 움직이면 혼란</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Stitch·Claude Code·GHL 세 개가 각자 놀면 "어느 창에서 뭐 하고 있었지?" 상황이 반복됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🗺️ 한 장 그림 · 오늘의 승부처</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">세 도구가 한 줄에 모이는 그림이 머리에 그려지는 순간부터 실습이 부드러워집니다. Part 03이 그 그림을 확정.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 한 문장 요약 · 외워두기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"Stitch 시안 → Claude Code 수정·배포 → GHL 임베드." 이 한 문장이 오늘 내내 북극성이 됩니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- Before: scattered tools -->
@@ -186,7 +222,6 @@
           <path d="M 215 95 L 223 100 L 215 105" stroke="#e2c793" stroke-width="2" fill="none"/>
 
           <!-- After: aligned pipeline -->
-          <text x="320" y="30" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">AFTER</text>
           <circle cx="260" cy="85" r="16" fill="none" stroke="#e2c793" stroke-width="1.5"/>
           <text x="260" y="91" font-size="13" text-anchor="middle" fill="#e2c793">🎨</text>
           <path d="M 278 85 L 292 85" stroke="#e2c793" stroke-width="1.5" fill="none"/>
@@ -207,7 +242,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">2026년 3월 업데이트 이후 Stitch는 "Vibe Design"(바이브 디자인 · 자연어 한 문장으로 여러 화면을 한 번에 만드는 기능)이라는 이름으로 최대 5개 연결 스크린을 한 번에 생성할 수 있게 되었습니다[^S1-1][^S2-1]. 오늘 수업에서는 이 기능을 활용해 Home · Works · Services · Contact 4페이지를 한 번에 뽑는 시도를 합니다.<br><br>도구: Claude Code (클로드 코드 · CLI 에이전트 코딩 도구)<br><br>역할: Stitch export HTML을 읽고, 텍스트 교체, GHL 임베드 삽입, Git 배포까지 지휘<br><br>주요 명령:</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 1 · 도구별 역할 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -216,35 +271,34 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Stitch · Claude Code · GHL</h2>
+      <h2 class="section-title">Stitch · Claude Code · GHL</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎨 Stitch · Vibe Design 5스크린</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Vibe Design(바이브 디자인 · 자연어 한 문장으로 여러 화면 동시 생성) · 최대 5개 연결 스크린을 한 번에 뽑습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📦 Stitch 산출물 · HTML/Tailwind</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">HTML + CSS export(Tailwind CSS 옵션) · 이 파일이 Claude Code 입력이 됩니다. Designer가 담당.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚙️ Claude Code · /plan · Git</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">/plan(읽기 전용 계획)으로 먼저 "어디를 어떻게" 잡고 · Git 명령도 직접 실행 · Integrator가 담당.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">📩 GHL · Get Embed Code</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Sites > Forms 또는 Calendars > Get Embed Code → iframe 코드 복사. Content가 복사 · Integrator가 붙여넣기.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- 3 tool rows -->
@@ -277,7 +331,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">`/plan` — 읽기 전용 계획 수립 (파일 수정 없이 "어디를 어떻게 고칠지"만)[^C1-1][^C1-2]<br><br>`/memory` — 22강에서 만든 `.claude/rules/ghl-deploy.md` 규칙 로드 확인<br><br>Git 명령 직접 실행 (권한 부여 시)[^C1-3]</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 2 · 파이프라인 다이어그램 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -286,35 +360,34 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">네 박스 · 세 화살표 · 한 URL</h2>
+      <h2 class="section-title">네 박스 · 세 화살표 · 한 URL</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">➡️ Stitch HTML export · Claude로</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Stitch 다운로드 폴더 → 팀 프로젝트 폴더(`~/portfolio-{팀이름}/`) → Claude Code가 그 폴더를 읽기 시작.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📝 GHL iframe · HTML에 붙여넣기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Content가 복사한 iframe 코드를 Claude Code에게 전달 · Claude Code가 Contact 섹션에 통째로 삽입.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🚀 Git push → GitHub Pages</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">`git push`가 오류 없이 끝나면 · Settings > Pages > Branch `main` Save → 잠시 뒤 라이브 URL 접속 가능.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🎯 한 URL · 모든 길이 여기로</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">이메일 서명 · 제안서 마지막 장 · 36강 피칭 슬라이드 · 모든 곳에 같은 URL 한 줄이 반복됩니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- Box 1: Stitch -->
@@ -366,7 +439,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">담당: Integrator<br><br>도구: GoHighLevel (고하이레벨 · 마케팅 CRM 올인원 플랫폼)<br><br>접속: &lt;https://app.gohighlevel.com/&gt;<br><br>역할: 문의 폼 또는 예약 캘린더의 임베드 코드(embed code · 외부 페이지에 삽입하는 iframe/script) 제공[^G1-1]</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 3 · 왜 GitHub Pages -->
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
@@ -375,35 +468,34 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">왜 Firebase Studio 아닌 · GitHub Pages</h2>
+      <h2 class="section-title">왜 Firebase Studio 아닌 · GitHub Pages</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">♻️ 계정 재사용 · 9·22강에서 이미</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">GitHub은 9·22강에서 이미 가입·사용 경험이 있습니다. 새 계정 만들 시간이 수업 안에서 녹습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">💸 무료 · 퍼블릭 100GB 대역폭</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">GitHub Pages 퍼블릭 저장소는 월 100GB까지 무료. Firebase Studio는 일부 기능에 결제 카드 등록이 필요할 수 있음.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🤝 Claude Code 적합성 · Git 기반</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Claude Code가 가장 잘 다루는 배포 경로가 Git push 기반. 오늘 흐름과 자연스럽게 맞물립니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">📎 Firebase · 36강 이후 심화 탐색</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Firebase Studio 경로도 공식 지원. 36강 리허설 이후 심화 탐색 재료로 더 적합합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- Two columns compare -->
@@ -441,7 +533,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 03</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">경로: 대시보드 &gt; Sites &gt; Forms 또는 Calendars &gt; Get Embed Code<br><br>담당: Content (복사) → Integrator (붙여넣기)<br><br>도구: GitHub Pages (깃허브 페이지스 · 무료 정적 호스팅)<br><br>접속: &lt;https://github.com/&gt;</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
@@ -450,35 +562,34 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Part 03 · 네 줄 정리</h2>
+      <h2 class="section-title">Part 03 · 네 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📝 한 문장 · 북극성</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"Stitch 시안 → Claude Code 수정·배포 → GHL 임베드." 오늘 내내 머리 위에 떠 있을 한 문장.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎨 Stitch · Vibe Design 5스크린</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">최대 5개 연결 스크린 동시 생성. 오늘은 Home·Works·Services·Contact 4페이지로 시도.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🌐 GitHub Pages · 단일 경로</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">9·22강 계정 재사용 · 무료 · Git 친화. Firebase Studio 경로는 36강 이후 심화로.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🎭 3역할 분담 · 그림에 박히기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Designer · Integrator · Content가 파이프라인 어느 박스를 만지는지 · 머리에 자리잡으면 됩니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="50" width="87" height="80" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -512,7 +623,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">역할: 팀 GitHub 저장소(repository)에 `git push`된 HTML 파일을 무료로 라이브 URL로 공개[^G2-1]<br><br>URL 형식: `https://{계정명}.github.io/{저장소명}/`<br><br>담당: Integrator (git 명령은 Claude Code가 실행)</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- BRIDGE -->
   <section class="slide slide-section" data-slide="7" data-diagram="bridge">
@@ -521,29 +652,28 @@
       <div class="section-counter reveal">07 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">휴식 · 그리고 세 역할 동시 출발</h2>
+      <h2 class="section-title">휴식 · 그리고 세 역할 동시 출발</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">☕ 휴식 · 이론은 여기까지</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">잠시 쉬어가겠습니다. 이제부터는 도구를 실제로 여는 실습 구간. 한 문장 북극성을 다시 상기하며 복귀하세요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎨 Designer · 곧 Stitch 열기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 04 실습 A에서 Designer가 Stitch로 4페이지 시안 생성을 시작합니다. 프롬프트 템플릿 준비.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚙️📦 동시 · 환경·임베드 점검</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Integrator는 Claude Code 환경 5줄 점검 · Content는 GHL 임베드 코드 준비. 세 역할이 병렬로 움직입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -570,7 +700,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">┌─────────┐  HTML   ┌─────────────┐  commit   ┌──────────────┐ │ Stitch  │ ──────▶ │ Claude Code │ ────────▶ │ GitHub Pages │ └─────────┘ export  └─────────────┘  push     └──────────────┘ │   ▲                       │ paste      │   │ embed code            ▼ ▼   │                  🌐 라이브 URL ┌─────────┐                   ↑ │   GHL   │ ──────────────────┘ └─────────┘ 폼·캘린더 iframe<br><br>심화 궁금증에 답하는 박스 하나. Stitch는 공식적으로 Firebase Studio(파이어베이스 스튜디오 · Google의 클라우드 개발 환경)로도 바로 export 가능합니다[^S2-2]. 그런데 오늘 수업은 GitHub Pages를 표준 경로로 고정했습니다. 이유는 세 가지입니다.<br><br>1. 계정 재사용: GitHub은 9·22강에서 이미 가입·사용 경험이 있습니다. 신규 계정 생성 시간이 수업 안에 녹습니다. 2. 비용: GitHub Pages 퍼블릭 저장소는 월 100GB 대역폭까지 무료[^G2-1]. Firebase Studio는 일부 기능에 결제 카드 등록이 필요할 수 있습니다. 3. Claude Code 적합성: Claude Code가 가장 잘 다루는 배포 경로가 Git push 기반입니다.<br><br>3도구 연결 한 문장: Stitch 시안 → Claude Code 수정·배포 → GHL 임베드 삽입.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="8">
@@ -579,11 +729,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">한 문장 · 머리에 · 박혔습니다</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 04 · 실습 A · Stitch 팀 시안 생성</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-04.html">다음으로 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">Stitch Vibe Design은 최대 5개 스크린 동시 생성.<br><br>배포 경로는 GitHub Pages로 단일화. 9·22강 계정 재사용.<br><br>각 도구의 담당자: Designer · Integrator · Content.<br><br>여기서 잠시 쉬어가겠습니다. 휴식 후 Part 04에서 Designer 역할이 Stitch로 4페이지 시안을 뽑기 시작합니다. Integrator·Content는 Designer의 첫 결과물을 기다리며, 각각 Claude Code 환경 점검과 GHL 임베드 코드 준비에 들어갑니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 

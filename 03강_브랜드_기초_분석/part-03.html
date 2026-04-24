@@ -3,636 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Part 03 · 경쟁사 분석 프레임 — AI 마케터 양성 과정</title>
+<title>Part 03 · 경쟁사 분석 프레임 — AI 마케터 과정</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<style>
-  :root {
-    --black: #0D0D0D;
-    --ink: #141414;
-    --gold: #e2c793;
-    --gold-soft: #b8941f;
-    --cream: #F7F0DF;
-    --text: #E8E0CC;
-    --muted: #7a7666;
-    --dim: #3a3730;
-    --border: #1f1d19;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { height: 100%; }
-  body {
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--black);
-    color: var(--text);
-    overflow: hidden;
-    letter-spacing: -0.01em;
-    cursor: none;
-  }
-  #bgcanvas {
-    position: fixed; inset: 0; width: 100%; height: 100%;
-    z-index: 0; opacity: 0.5;
-  }
-  .dot-grid {
-    position: fixed; inset: 0;
-    background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
-    background-size: 28px 28px;
-    z-index: 1; pointer-events: none; opacity: 0.5;
-  }
-  .vignette {
-    position: fixed; inset: 0;
-    background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.78) 100%);
-    z-index: 2; pointer-events: none;
-  }
-  /* Custom cursor */
-  .cursor-dot, .cursor-ring {
-    position: fixed; pointer-events: none; z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: opacity 0.2s;
-  }
-  .cursor-dot {
-    width: 6px; height: 6px; background: var(--gold);
-    border-radius: 50%;
-    box-shadow: 0 0 12px var(--gold);
-  }
-  .cursor-ring {
-    width: 38px; height: 38px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), width 0.2s, height 0.2s;
-  }
-  .cursor-ring.hover { width: 70px; height: 70px; background: rgba(226,199,147,0.08); }
+<link rel="stylesheet" href="../assets/common.css">
 
-  /* TOP BAR */
-  .topbar {
-    position: fixed; top: 0; left: 0; right: 0;
-    height: 56px; padding: 0 32px;
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(10,10,10,0.7);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    z-index: 50;
-  }
-  .brand {
-    display: flex; align-items: center; gap: 12px;
-    font-size: 12px; font-weight: 900; letter-spacing: 3px; color: var(--gold);
-  }
-  .brand::before {
-    content: ''; width: 10px; height: 10px;
-    background: var(--gold); transform: rotate(45deg);
-    box-shadow: 0 0 12px var(--gold);
-    animation: brandPulse 3s infinite;
-  }
-  @keyframes brandPulse {
-    0%, 100% { transform: rotate(45deg) scale(1); }
-    50% { transform: rotate(225deg) scale(1.2); }
-  }
-  .topbar-center { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
-  .topbar-right { display: flex; gap: 12px; align-items: center; }
-  .nav-arrow {
-    font-size: 11px; color: var(--muted); text-decoration: none;
-    letter-spacing: 1px; padding: 6px 12px; border: 1px solid var(--border);
-    border-radius: 2px; transition: all 0.25s;
-    position: relative; overflow: hidden;
-  }
-  .nav-arrow::before {
-    content: ''; position: absolute; inset: 0;
-    background: var(--gold);
-    transform: translateX(-101%);
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .nav-arrow:hover { color: var(--black); border-color: var(--gold); }
-  .nav-arrow:hover::before { transform: translateX(0); }
-  .nav-arrow span, .nav-arrow { position: relative; z-index: 1; }
-  .nav-arrow.disabled { opacity: 0.3; pointer-events: none; }
-
-  /* PROGRESS */
-  .progress {
-    position: fixed; top: 56px; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--gold), var(--gold-soft));
-    width: 0%; z-index: 55;
-    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 0 0 14px var(--gold);
-  }
-
-  /* DECK */
-  .deck {
-    position: relative; width: 100%; height: 100vh;
-    padding-top: 56px; z-index: 10;
-  }
-  .slide {
-    position: absolute; inset: 56px 0 80px 0;
-    padding: 50px 80px 30px;
-    opacity: 0;
-    transform: translateY(30px) scale(0.985);
-    filter: blur(8px);
-    pointer-events: none;
-    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-                filter 0.5s ease;
-    display: flex; flex-direction: column;
-  }
-  .slide.active {
-    opacity: 1; transform: translateY(0) scale(1); filter: blur(0);
-    pointer-events: auto;
-  }
-
-  /* Reveal items */
-  .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .slide.active .reveal { opacity: 1; transform: translateY(0); }
-
-  /* COVER */
-  .slide-cover { justify-content: center; align-items: flex-start; padding-left: 10vw; padding-right: 10vw; }
-  .cover-bg-shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-  .float-shape {
-    position: absolute; opacity: 0.18;
-    animation: floatShape 18s ease-in-out infinite;
-  }
-  .float-shape.fs1 { width: 180px; height: 180px; top: 8%; right: 8%; animation-delay: 0s; }
-  .float-shape.fs2 { width: 120px; height: 120px; bottom: 20%; right: 22%; animation-delay: -4s; }
-  .float-shape.fs3 { width: 100px; height: 100px; top: 40%; right: 18%; animation-delay: -9s; }
-  .float-shape.fs4 { width: 140px; height: 140px; bottom: 10%; right: 6%; animation-delay: -13s; }
-  @keyframes floatShape {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    33%      { transform: translate(-25px, 18px) rotate(20deg); }
-    66%      { transform: translate(18px, -12px) rotate(-15deg); }
-  }
-  .cover-kicker {
-    font-size: 11px; letter-spacing: 4px; font-weight: 800;
-    color: var(--gold); padding: 8px 16px;
-    border: 1px solid var(--gold); border-radius: 30px;
-    display: inline-block; margin-bottom: 36px;
-    text-transform: uppercase;
-    background: rgba(226,199,147,0.04);
-    backdrop-filter: blur(6px);
-  }
-  .cover-number {
-    font-size: 13px; color: var(--muted); letter-spacing: 6px;
-    margin-bottom: 18px; font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .cover-title {
-    font-size: clamp(40px, 5.5vw, 82px);
-    font-weight: 900; line-height: 1.1;
-    color: var(--cream); letter-spacing: -0.03em;
-    word-break: keep-all; max-width: 18ch;
-    margin-bottom: 28px; position: relative;
-    min-height: 1.2em;
-  }
-  .cover-title::after {
-    content: ''; display: block;
-    width: 0; height: 3px;
-    background: var(--gold); margin-top: 36px;
-    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s;
-  }
-  .slide-cover.active .cover-title::after { width: 120px; }
-  .cover-title .caret {
-    display: inline-block; width: 3px; height: 0.85em;
-    background: var(--gold); margin-left: 4px;
-    animation: caretBlink 0.7s steps(2) infinite;
-    vertical-align: text-bottom;
-  }
-  @keyframes caretBlink { 50% { opacity: 0; } }
-  .cover-sub {
-    font-size: 18px; color: var(--muted);
-    letter-spacing: 2px; font-weight: 600;
-    text-transform: uppercase;
-  }
-  .cover-meta {
-    position: absolute; bottom: 40px; left: 10vw;
-    display: flex; align-items: center; gap: 12px;
-    font-size: 12px; color: var(--muted); letter-spacing: 1px;
-  }
-  .meta-dot {
-    display: inline-block; width: 6px; height: 6px;
-    background: var(--gold); border-radius: 50%;
-    animation: dotPulse 2s infinite;
-  }
-  @keyframes dotPulse {
-    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(226,199,147,0.6); }
-    50% { opacity: 0.5; transform: scale(1.5); box-shadow: 0 0 0 8px rgba(226,199,147,0); }
-  }
-  .cover-hint {
-    position: absolute; bottom: 40px; right: 10vw;
-    font-size: 11px; color: var(--dim); letter-spacing: 1px;
-  }
-  .cover-hint kbd {
-    background: var(--ink); border: 1px solid var(--border);
-    color: var(--gold); padding: 2px 6px; border-radius: 2px;
-    font-family: monospace; font-size: 10px;
-  }
-
-  /* SECTION SLIDE */
-  .section-head {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 32px;
-  }
-  .section-kicker {
-    font-size: 11px; letter-spacing: 4px; font-weight: 800;
-    color: var(--gold); text-transform: uppercase;
-    padding: 6px 14px; border: 1px solid var(--gold);
-    border-radius: 20px; background: rgba(226,199,147,0.04);
-  }
-  .section-counter {
-    font-size: 11px; color: var(--muted); letter-spacing: 3px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .section-grid {
-    flex: 1; display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 48px; align-items: center;
-    max-width: 1400px;
-  }
-  .section-body { display: flex; flex-direction: column; justify-content: center; }
-  .section-title {
-    font-size: clamp(28px, 3.4vw, 48px);
-    font-weight: 900; color: var(--cream);
-    line-height: 1.15; margin-bottom: 32px;
-    word-break: keep-all; max-width: 22ch;
-    position: relative; padding-left: 28px;
-  }
-  .section-title::before {
-    content: ''; position: absolute;
-    left: 0; top: 8px;
-    width: 10px; height: calc(100% - 12px);
-    background: linear-gradient(180deg, var(--gold), transparent);
-  }
-  .bullet-list {
-    list-style: none; display: flex; flex-direction: column;
-    gap: 14px; max-width: 62ch;
-  }
-  .bullet-list li.tilt-card {
-    display: flex; gap: 18px; align-items: flex-start;
-    flex-wrap: wrap; cursor: pointer;
-    font-size: 17px; color: var(--text);
-    line-height: 1.5; word-break: keep-all;
-    padding: 14px 20px;
-    background: rgba(20,20,20,0.55);
-    border: 1px solid var(--border);
-    border-left: 2px solid var(--dim);
-    backdrop-filter: blur(6px);
-    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    transform-style: preserve-3d;
-    position: relative;
-  }
-  .bullet-list li.tilt-card::before {
-    content: ''; position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(226,199,147,0.08) 0%, transparent 50%);
-    opacity: 0;
-    transition: opacity 0.35s;
-    pointer-events: none;
-  }
-  .bullet-list li.tilt-card:hover {
-    border-left-color: var(--gold);
-    border-color: var(--gold);
-    transform: translateX(6px) translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-  }
-  .bullet-list li.tilt-card:hover::before { opacity: 1; }
-  .bullet-list li.tilt-card:hover .bullet-arrow { opacity: 1; transform: translateX(0); }
-  .bullet-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: var(--gold);
-    font-weight: 800; letter-spacing: 1px;
-    padding-top: 4px; min-width: 26px;
-  }
-  .bullet-text { flex: 1; }
-  .bullet-arrow {
-    font-size: 16px; color: var(--gold);
-    opacity: 0; transform: translateX(-8px);
-    transition: all 0.3s;
-    align-self: center;
-  }
-  .tilt-card.open .bullet-arrow { opacity: 1; transform: rotate(90deg); }
-  .tilt-card.open { border-left-color: var(--gold); background: rgba(226,199,147,0.06); }
-  .bullet-detail {
-    width: 100%; max-height: 0; overflow: hidden;
-    transition: max-height 0.45s cubic-bezier(0.22,1,0.36,1), padding 0.35s, opacity 0.3s;
-    font-size: 14px; color: var(--muted); line-height: 1.75;
-    padding: 0 0 0 44px; opacity: 0;
-    word-break: keep-all;
-  }
-  .tilt-card.open .bullet-detail {
-    max-height: 500px; padding: 10px 0 6px 44px;
-    opacity: 1; border-top: 1px solid var(--border); margin-top: 10px;
-  }
-
-  .section-visual {
-    display: flex; align-items: center; justify-content: center;
-    padding: 24px;
-    min-height: 360px;
-  }
-  .infographic {
-    width: 100%; max-width: 620px;
-    height: auto;
-    filter: drop-shadow(0 0 20px rgba(226,199,147,0.15));
-  }
-
-  /* SVG Animations */
-  .svg-pulse { animation: svgPulse 3s ease-in-out infinite; transform-origin: center; }
-  .svg-pulse2 { animation: svgPulse 3s ease-in-out infinite 0.5s; transform-origin: center; }
-  @keyframes svgPulse {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.08); }
-  }
-  .svg-rotate-slow { animation: svgRotate 24s linear infinite; transform-origin: center; transform-box: fill-box; }
-  @keyframes svgRotate { to { transform: rotate(360deg); } }
-  .svg-twinkle { animation: svgTwinkle 2.5s ease-in-out infinite; }
-  @keyframes svgTwinkle {
-    0%, 100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.6); }
-  }
-  .slide.active .svg-draw {
-    stroke-dasharray: 1000; stroke-dashoffset: 1000;
-    animation: svgDraw 2s ease-out forwards 0.3s;
-  }
-  @keyframes svgDraw { to { stroke-dashoffset: 0; } }
-  .slide.active .svg-draw-path {
-    stroke-dasharray: 500; stroke-dashoffset: 500;
-    animation: svgDraw 1.5s ease-out forwards 0.6s;
-  }
-  .slide.active .svg-stagger {
-    opacity: 0; transform: translateY(10px);
-    animation: svgStagger 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
-  }
-  @keyframes svgStagger { to { opacity: 1; transform: translateY(0); } }
-  .slide.active .svg-check-mark {
-    stroke-dasharray: 30; stroke-dashoffset: 30;
-    animation: svgDraw 0.5s ease-out forwards 0.6s;
-  }
-  .slide.active .svg-check-row {
-    opacity: 0; transform: translateX(-12px);
-    animation: svgSlide 0.55s ease-out forwards 0.4s;
-  }
-  @keyframes svgSlide { to { opacity: 1; transform: translateX(0); } }
-  .slide.active .svg-progress {
-    stroke-dasharray: 565; stroke-dashoffset: 565;
-    animation: svgProgress 2s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.5s;
-  }
-  @keyframes svgProgress { to { stroke-dashoffset: 282; } }
-  .slide.active .svg-line-fill {
-    stroke-dasharray: 400; stroke-dashoffset: 400;
-    animation: svgDraw 1.8s ease-out forwards 0.4s;
-  }
-  .svg-spin { animation: svgRotate 12s linear infinite; transform-origin: 200px 130px; }
-  .svg-ripple { animation: svgRipple 2.4s ease-out infinite; transform-origin: center; transform-box: fill-box; }
-  @keyframes svgRipple {
-    0% { opacity: 0.8; transform: scale(0.6); }
-    100% { opacity: 0; transform: scale(1.1); }
-  }
-  .svg-button-pulse { animation: svgBtnPulse 2.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
-  @keyframes svgBtnPulse {
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.3); }
-  }
-  .svg-countup { font-feature-settings: "tnum"; }
-
-  /* Section foot — audio bar visualizer */
-  .section-foot {
-    display: flex; justify-content: space-between;
-    align-items: center; padding-top: 12px;
-  }
-  .audio-bars {
-    display: flex; gap: 3px; align-items: flex-end;
-    height: 18px;
-  }
-  .audio-bars span {
-    display: block; width: 3px;
-    background: var(--gold);
-    border-radius: 1px;
-    animation: audioBar 1.2s ease-in-out infinite;
-  }
-  .audio-bars span:nth-child(1) { height: 60%; animation-delay: 0s; }
-  .audio-bars span:nth-child(2) { height: 30%; animation-delay: 0.1s; }
-  .audio-bars span:nth-child(3) { height: 80%; animation-delay: 0.2s; }
-  .audio-bars span:nth-child(4) { height: 45%; animation-delay: 0.3s; }
-  .audio-bars span:nth-child(5) { height: 90%; animation-delay: 0.4s; }
-  .audio-bars span:nth-child(6) { height: 55%; animation-delay: 0.5s; }
-  .audio-bars span:nth-child(7) { height: 70%; animation-delay: 0.6s; }
-  .audio-bars span:nth-child(8) { height: 35%; animation-delay: 0.7s; }
-  @keyframes audioBar {
-    0%, 100% { transform: scaleY(0.5); }
-    50% { transform: scaleY(1); }
-  }
-  .foot-tag {
-    font-size: 10px; color: var(--dim);
-    letter-spacing: 2px; text-transform: uppercase;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* OUTRO */
-  .slide-outro {
-    justify-content: center; align-items: center; text-align: center;
-    position: relative;
-  }
-  .outro-radial {
-    position: absolute; inset: 0;
-    background: radial-gradient(circle at center, rgba(226,199,147,0.12) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .outro-kicker {
-    font-size: 11px; letter-spacing: 6px;
-    color: var(--gold); margin-bottom: 32px; font-weight: 800;
-  }
-  .outro-title {
-    font-size: clamp(48px, 6vw, 88px);
-    font-weight: 900; color: var(--cream);
-    letter-spacing: -0.02em; margin-bottom: 24px;
-    word-break: keep-all;
-  }
-  .outro-sub {
-    font-size: 18px; color: var(--muted);
-    letter-spacing: 2px; margin-bottom: 60px;
-  }
-  .outro-actions { display: flex; gap: 16px; }
-  .btn {
-    font-family: inherit; padding: 14px 28px;
-    font-size: 12px; font-weight: 800; letter-spacing: 2px;
-    border-radius: 2px; cursor: none;
-    text-decoration: none; border: 1px solid;
-    transition: all 0.25s;
-    position: relative; overflow: hidden;
-  }
-  .btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
-  .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
-  .btn-gold { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 900; }
-  .btn-gold:hover { background: transparent; color: var(--gold); box-shadow: 0 0 30px rgba(226,199,147,0.4); }
-
-  /* CONTROLS */
-  .controls {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 80px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 32px;
-    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
-    z-index: 40;
-  }
-  .ctrl-left, .ctrl-right { display: flex; align-items: center; gap: 12px; }
-  .ctrl-btn {
-    width: 44px; height: 44px;
-    background: rgba(20,20,20,0.6);
-    border: 1px solid var(--border);
-    color: var(--muted); cursor: none;
-    font-size: 18px;
-    transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
-    backdrop-filter: blur(6px);
-  }
-  .ctrl-btn:hover {
-    background: var(--gold); color: var(--black); border-color: var(--gold);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(226,199,147,0.25);
-  }
-  .ctrl-counter {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--muted); letter-spacing: 2px;
-  }
-  .ctrl-counter strong { color: var(--gold); }
-  .ctrl-dots { display: flex; gap: 6px; max-width: 40vw; overflow: hidden; }
-  .ctrl-dot {
-    width: 20px; height: 2px; background: var(--dim);
-    cursor: none; transition: all 0.35s;
-  }
-  .ctrl-dot:hover { background: var(--muted); }
-  .ctrl-dot.active {
-    background: var(--gold); width: 40px;
-    box-shadow: 0 0 10px var(--gold);
-  }
-
-  /* THUMBNAIL STRIP */
-  .thumb-strip {
-    position: fixed; left: 0; right: 0;
-    bottom: 80px; height: 0;
-    background: rgba(10,10,10,0.96);
-    border-top: 1px solid var(--border);
-    backdrop-filter: blur(20px);
-    overflow: hidden;
-    transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: 41;
-  }
-  .thumb-strip.open { height: 110px; }
-  .thumb-strip-inner {
-    display: flex; gap: 12px; padding: 20px 32px;
-    overflow-x: auto;
-    height: 100%;
-    scrollbar-width: thin;
-    scrollbar-color: var(--gold) var(--ink);
-  }
-  .thumb-strip-inner::-webkit-scrollbar { height: 4px; }
-  .thumb-strip-inner::-webkit-scrollbar-thumb { background: var(--gold); }
-  .thumb {
-    flex-shrink: 0; width: 120px; height: 68px;
-    border: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    justify-content: space-between;
-    padding: 8px 10px;
-    font-size: 9px; color: var(--muted);
-    letter-spacing: 1.5px; cursor: none;
-    transition: all 0.25s;
-    background: rgba(20,20,20,0.6);
-  }
-  .thumb:hover { border-color: var(--gold); background: rgba(28,26,20,0.9); transform: translateY(-2px); }
-  .thumb.active { border-color: var(--gold); background: rgba(226,199,147,0.08); }
-  .thumb-num {
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--gold); font-weight: 900; font-size: 11px;
-  }
-  .thumb-label {
-    color: var(--cream); font-weight: 700; font-size: 10px;
-    text-transform: uppercase;
-  }
-  .thumb.active .thumb-label { color: var(--gold); }
-
-  /* HELP OVERLAY */
-  .help-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.92);
-    backdrop-filter: blur(16px);
-    z-index: 100;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.35s;
-  }
-  .help-overlay.open { opacity: 1; pointer-events: auto; }
-  .help-box {
-    padding: 50px 60px;
-    background: var(--ink);
-    border: 1px solid var(--gold);
-    max-width: 480px;
-    box-shadow: 0 40px 120px rgba(0,0,0,0.9);
-    transform: scale(0.92);
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .help-overlay.open .help-box { transform: scale(1); }
-  .help-box h3 {
-    font-size: 14px; color: var(--gold);
-    letter-spacing: 4px; margin-bottom: 32px;
-    text-transform: uppercase;
-  }
-  .help-row {
-    display: flex; justify-content: space-between;
-    align-items: center; padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px; color: var(--text);
-  }
-  .help-row:last-child { border-bottom: none; }
-  .help-key {
-    display: inline-flex; gap: 4px;
-  }
-  .help-key kbd {
-    background: var(--black);
-    border: 1px solid var(--border);
-    color: var(--gold);
-    padding: 4px 10px; border-radius: 2px;
-    font-family: monospace; font-size: 11px;
-    min-width: 28px; text-align: center;
-  }
-  .help-close {
-    margin-top: 24px; font-size: 10px;
-    color: var(--dim); letter-spacing: 2px;
-    text-align: center;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 1100px) {
-    .section-grid { grid-template-columns: 1fr; gap: 24px; }
-    .section-visual { min-height: 200px; }
-    .infographic { max-width: 480px; }
-  }
-  @media (max-width: 900px) {
-    .slide { padding: 40px 28px 30px; }
-    .slide-cover { padding-left: 28px; padding-right: 28px; }
-    .cover-meta, .cover-hint { left: 28px; right: 28px; bottom: 20px; }
-    .bullet-list li.tilt-card { font-size: 15px; }
-    .topbar { padding: 0 16px; }
-    .nav-arrow { display: none; }
-    body { cursor: auto; }
-    .cursor-dot, .cursor-ring { display: none; }
-    .btn, .ctrl-btn, .ctrl-dot, .thumb { cursor: pointer; }
-  }
-
-  /* © PajamaBoss 저작권 표기 (2026-04-20 주입) */
-  .copyright-notice {
-    position: fixed;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 10px;
-    color: var(--muted, #7a7666);
-    opacity: 0.55;
-    letter-spacing: 0.02em;
-    z-index: 50;
-    pointer-events: none;
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
-    user-select: none;
-    white-space: nowrap;
-  }
-
-  </style>
 </head>
-<body>
+<body class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -645,7 +21,7 @@
   <div class="topbar-center">PART 03 · 경쟁사 분석 프레임</div>
   <div class="topbar-right">
     <a class="nav-arrow" href="part-02.html" title="이전 파트">◀ PART 02</a>
-    <a class="nav-arrow" href="index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="part-04.html" title="다음 파트">PART 04 ▶</a>
   </div>
 </div>
@@ -654,7 +30,6 @@
 
 <main class="deck" id="deck">
 
-  <!-- SLIDE 0: COVER -->
   <section class="slide slide-cover" data-slide="0">
     <div class="cover-bg-shapes">
       <svg class="float-shape fs1" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
@@ -671,24 +46,24 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
+    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">Part 03 · 경쟁사 분석 프레임입니다. 3C와 약식 SWOT을 함께 다룹니다.</div></div>
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div></details>
   </section>
 
-  <!-- SLIDE 1: META -->
-  <section class="slide slide-section" data-slide="1" data-diagram="meta">
-    <div class="section-head">
-      <div class="section-kicker reveal">META · 파트 메타</div>
-      <div class="section-counter reveal">00 / 00</div>
-    </div>
+  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+    <div class="section-head"><div class="section-kicker reveal">OVERVIEW · 한눈 요약</div><div class="section-counter reveal">00 / 00</div></div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">파트 메타 · 3C + SWOT</h2>
+      <h2 class="section-title">이 파트에서 이해할 것 · 3줄</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">⏱️ 이론 파트 · 짧고 단단하게 정리</span><span class="bullet-arrow">→</span><div class="bullet-detail">이 파트는 이론 정리 위주로 구성돼요. 두 프레임의 정의와 사용 순서를 빠르게 잡아 둡니다.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🗺️ 비유 · 내 자리를 비워 두는 지도</span><span class="bullet-arrow">→</span><div class="bullet-detail">경쟁사 분석은 상대를 이기는 게임이 아니에요. 시장에서 내 브랜드가 놓일 자리를 먼저 비워 두는 작업이거든요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🎯 목표 · 3C·SWOT 두 프레임 + 순서</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C(자사·고객·경쟁사)와 약식 SWOT, 두 프레임의 역할과 사용 순서를 이해하는 것이 이 파트의 목표예요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">➡️ 다음 · Part 04 페르소나 예고</span><span class="bullet-arrow">→</span><div class="bullet-detail">이 파트 다음에는 페르소나 — 누가 내 고객인가를 한 사람의 인물 카드로 그리는 방법을 다뤄요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🔍 3C · 자사·고객·경쟁사</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C(Company·Customer·Competitor · 자사·고객·경쟁사)는 시장을 세 축으로 나누어 보는 기본 분석 프레임입니다.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🧭 약식 SWOT · 강·약·기·위</span><span class="bullet-arrow">→</span><div class="bullet-detail">SWOT(Strengths·Weaknesses·Opportunities·Threats · 강점·약점·기회·위협)을 축약해 한 페이지로 정리하는 연습입니다.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🗺️ 사용 순서 · 3C 보고 SWOT 정리</span><span class="bullet-arrow">→</span><div class="bullet-detail">먼저 3C로 시장 지형을 조망한 뒤, 약식 SWOT로 한 장 요약해 내 브랜드 자리를 비워 둡니다.</div></li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic" xmlns="http://www.w3.org/2000/svg">
   <rect width="400" height="260" fill="#0D0D0D" opacity="0.75" rx="4"/>
@@ -709,27 +84,25 @@
 </svg>
       </div>
     </div>
-    <div class="section-foot">
-      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="foot-tag">META</div>
-    </div>
+    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">OVERVIEW</div></div>
+    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">이 파트의 요약 세 줄입니다. 3C는 자사·고객·경쟁사 세 꼭짓점. SWOT은 강점·약점·기회·위협 네 칸. 3C로 수집하고 SWOT으로 판단합니다.</div></div>
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div></details>
   </section>
 
-  <!-- SLIDE 2: HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
-    <div class="section-head">
-      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
-      <div class="section-counter reveal">01 / 07</div>
-    </div>
+    <div class="section-head"><div class="section-kicker reveal">HOOK · 오프닝 훅</div><div class="section-counter reveal">01 / 07</div></div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">경쟁사, 꼭 이겨야만 하는 상대일까요?</h2>
+      <h2 class="section-title">경쟁사, 꼭 이겨야만 하는 상대일까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🚫 경쟁사 분석 · 이기는 게임이 맞나요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">경쟁사 분석은 '누가 이기는가'를 가리는 게임이 아닙니다. 내 브랜드가 앉을 '빈 의자'를 찾기 위한 작업에 가깝습니다.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📍 같은 자리 싸움 · 굳이 그래야 할까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">비슷한 포지션이 이미 가득 찬 자리에 억지로 끼어들면 체력만 빠집니다. 다른 각도로 들어가는 편이 훨씬 덜 소모적입니다.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🗂️ 1인 창업 · 어떤 프레임을 써야 할까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">1인 창업·소형 에이전시에게 가장 실용적인 두 프레임이 3C(Company·Customer·Competitor · 자사·고객·경쟁사)와 약식 SWOT(강점·약점·기회·위협)입니다. 이 파트에서 둘을 함께 정리합니다.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🚫 경쟁사 분석 · 이기는 게임이 맞나요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">경쟁사 분석은 '누가 이기는가'를 가리는 게임이 아닙니다. 내 브랜드가 앉을 '빈 의자'를 찾기 위한 작업에 가깝습니다.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📍 같은 자리 싸움 · 굳이 그래야 할까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">비슷한 포지션이 이미 가득 찬 자리에 억지로 끼어들면 체력만 빠집니다. 다른 각도로 들어가는 편이 훨씬 덜 소모적입니다.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🗂️ 1인 창업 · 어떤 프레임을 써야 할까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">1인 창업·소형 에이전시에게 가장 실용적인 두 프레임이 3C(Company·Customer·Competitor · 자사·고객·경쟁사)와 약식 SWOT(강점·약점·기회·위협)입니다. 이 파트에서 둘을 함께 정리합니다.</div></li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic" xmlns="http://www.w3.org/2000/svg">
   <rect width="400" height="260" fill="#0D0D0D" opacity="0.75" rx="4"/>
@@ -756,33 +129,30 @@
 </svg>
       </div>
     </div>
-    <div class="section-foot">
-      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="foot-tag">HOOK</div>
-    </div>
+    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">HOOK</div></div>
+    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">경쟁사 분석은 '누가 이기는가'를 가리는 게임이 아니에요. 내 브랜드가 놓일 자리를 비워 두기 위한 작업입니다. 시장에 이미 비슷한 포지션이 가득 차 있다면, 내 브랜드는 다른 각도로 들어가는 편이 덜 소모적이거든요.</div></div>
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div></details>
   </section>
 
-  <!-- SLIDE 3: CONCEPT #1 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
-    <div class="section-head">
-      <div class="section-kicker reveal">CONCEPT · 개념</div>
-      <div class="section-counter reveal">02 / 07</div>
-    </div>
+    <div class="section-head"><div class="section-kicker reveal">CONCEPT · 개념</div><div class="section-counter reveal">02 / 07</div></div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">3C · 전략 삼각형 점검표</h2>
+      <h2 class="section-title">3C · 전략 삼각형 점검표</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📖 출처 · 오마에 겐이치 1982 전략 삼각형</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C(Company·Customer·Competitor · 자사·고객·경쟁사)는 1982년 오마에 겐이치가 『The Mind of the Strategist』에서 제안한 프레임이에요. 구조가 단순해서 지금도 가장 먼저 그려 보는 기본 삼각형이에요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🏢 Company · 내 강점·자원·브랜드 자산</span><span class="bullet-arrow">→</span><div class="bullet-detail">자사(Company)는 내가 가진 강점·자원·브랜드 자산이 무엇인지 점검하는 꼭짓점이에요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">👤 Customer · 원하는 것·고민하는 것</span><span class="bullet-arrow">→</span><div class="bullet-detail">고객(Customer)은 내 고객이 원하는 것과 고민하는 것이 무엇인지 살피는 꼭짓점이에요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🔍 Competitor · 같은 고객 노리는 브랜드</span><span class="bullet-arrow">→</span><div class="bullet-detail">경쟁사(Competitor)는 같은 고객을 대상으로 움직이는 다른 브랜드가 누구이고 어떻게 움직이는지 보는 꼭짓점이에요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.48s"><span class="bullet-num">05</span><span class="bullet-text">⚠️ 점검표 · 하나 빠지면 전략이 기운다</span><span class="bullet-arrow">→</span><div class="bullet-detail">오마에의 핵심은 세 꼭짓점 중 하나라도 빠지면 전략이 한쪽으로 기운다는 거예요. 3C는 균형 점검표에 가깝습니다.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📖 출처 · 오마에 겐이치 1982 전략 삼각형</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C(Company·Customer·Competitor · 자사·고객·경쟁사)는 1982년 오마에 겐이치가 『The Mind of the Strategist』에서 제안한 프레임이에요. 구조가 단순해서 지금도 가장 먼저 그려 보는 기본 삼각형이에요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🏢 Company · 내 강점·자원·브랜드 자산</span><span class="bullet-arrow">→</span><div class="bullet-detail">자사(Company)는 내가 가진 강점·자원·브랜드 자산이 무엇인지 점검하는 꼭짓점이에요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">👤 Customer · 원하는 것·고민하는 것</span><span class="bullet-arrow">→</span><div class="bullet-detail">고객(Customer)은 내 고객이 원하는 것과 고민하는 것이 무엇인지 살피는 꼭짓점이에요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🔍 Competitor · 같은 고객 노리는 브랜드</span><span class="bullet-arrow">→</span><div class="bullet-detail">경쟁사(Competitor)는 같은 고객을 대상으로 움직이는 다른 브랜드가 누구이고 어떻게 움직이는지 보는 꼭짓점이에요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.48s"><span class="bullet-num">05</span><span class="bullet-text">⚠️ 점검표 · 하나 빠지면 전략이 기운다</span><span class="bullet-arrow">→</span><div class="bullet-detail">오마에의 핵심은 세 꼭짓점 중 하나라도 빠지면 전략이 한쪽으로 기운다는 거예요. 3C는 균형 점검표에 가깝습니다.</div></li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic" xmlns="http://www.w3.org/2000/svg">
   <rect width="400" height="260" fill="#0D0D0D" opacity="0.75" rx="4"/>
-  <text x="200" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2" font-family="Pretendard Variable, sans-serif">3C TRIANGLE</text>
   <polygon points="200,46 52,214 348,214" fill="none" stroke="#3a3730" stroke-width="1.5"/>
   <line x1="200" y1="46" x2="200" y2="163" stroke="#3a3730" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
   <line x1="52" y1="214" x2="200" y2="163" stroke="#3a3730" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
@@ -799,33 +169,30 @@
 </svg>
       </div>
     </div>
-    <div class="section-foot">
-      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="foot-tag">CONCEPT</div>
-    </div>
+    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">CONCEPT</div></div>
+    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">3C는 1982년 오마에 겐이치가 제안한 프레임입니다. 구조가 단순해서 1인 창업·소형 팀에서 지금도 가장 먼저 그려 보는 기본 삼각형이에요. Company는 자사의 강점과 자원, Customer는 고객이 원하는 것, Competitor는 같은 고객을 대상으로 움직이는 다른 브랜드입니다.</div></div>
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div></details>
   </section>
 
-  <!-- SLIDE 4: CONCEPT #2 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
-    <div class="section-head">
-      <div class="section-kicker reveal">CONCEPT · 개념</div>
-      <div class="section-counter reveal">03 / 07</div>
-    </div>
+    <div class="section-head"><div class="section-kicker reveal">CONCEPT · 개념</div><div class="section-counter reveal">03 / 07</div></div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">약식 SWOT · 한 장 평가표</h2>
+      <h2 class="section-title">약식 SWOT · 한 장 평가표</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📚 출처 · 험프리 SRI · SOFT→SWOT 정착</span><span class="bullet-arrow">→</span><div class="bullet-detail">SWOT(Strength·Weakness·Opportunity·Threat · 강점·약점·기회·위협)은 1960~70년대 스탠퍼드 연구소(SRI · Stanford Research Institute · 미국의 비영리 연구기관)에서 앨버트 험프리가 이끈 연구 프로젝트에서 정리된 틀이에요. 초기 명칭은 SOFT였다가 SWOT으로 자리 잡았어요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🏠 내부 · 강점(S)·약점(W) — 내가 가진 것</span><span class="bullet-arrow">→</span><div class="bullet-detail">강점(S)과 약점(W)은 내부 요소예요. 내가 가진 것과 부족한 것을 솔직하게 살피는 칸이에요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🌐 외부 · 기회(O)·위협(T) — 환경이 주는 것</span><span class="bullet-arrow">→</span><div class="bullet-detail">기회(O)와 위협(T)은 외부 요소예요. 시장과 환경이 내 브랜드에 주는 기회와 위협을 정리하는 칸이에요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">✏️ 약식 · 칸당 한 문장 두 개면 충분</span><span class="bullet-arrow">→</span><div class="bullet-detail">이 과정에서는 약식 SWOT만 써요. 각 칸에 한 문장씩 두 개 이하를 쓰는 수준으로 충분해요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.48s"><span class="bullet-num">05</span><span class="bullet-text">🟦 빈 칸도 정보 · 다 채우지 않아도 OK</span><span class="bullet-arrow">→</span><div class="bullet-detail">칸을 꼭 다 채우지 않아도 괜찮아요. 비어 있는 칸도 그 자체로 정보이거든요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📚 출처 · 험프리 SRI · SOFT→SWOT 정착</span><span class="bullet-arrow">→</span><div class="bullet-detail">SWOT(Strength·Weakness·Opportunity·Threat · 강점·약점·기회·위협)은 1960~70년대 스탠퍼드 연구소(SRI · Stanford Research Institute · 미국의 비영리 연구기관)에서 앨버트 험프리가 이끈 연구 프로젝트에서 정리된 틀이에요. 초기 명칭은 SOFT였다가 SWOT으로 자리 잡았어요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🏠 내부 · 강점(S)·약점(W) — 내가 가진 것</span><span class="bullet-arrow">→</span><div class="bullet-detail">강점(S)과 약점(W)은 내부 요소예요. 내가 가진 것과 부족한 것을 솔직하게 살피는 칸이에요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🌐 외부 · 기회(O)·위협(T) — 환경이 주는 것</span><span class="bullet-arrow">→</span><div class="bullet-detail">기회(O)와 위협(T)은 외부 요소예요. 시장과 환경이 내 브랜드에 주는 기회와 위협을 정리하는 칸이에요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">✏️ 약식 · 칸당 한 문장 두 개면 충분</span><span class="bullet-arrow">→</span><div class="bullet-detail">이 과정에서는 약식 SWOT만 써요. 각 칸에 한 문장씩 두 개 이하를 쓰는 수준으로 충분해요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.48s"><span class="bullet-num">05</span><span class="bullet-text">🟦 빈 칸도 정보 · 다 채우지 않아도 OK</span><span class="bullet-arrow">→</span><div class="bullet-detail">칸을 꼭 다 채우지 않아도 괜찮아요. 비어 있는 칸도 그 자체로 정보이거든요.</div></li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic" xmlns="http://www.w3.org/2000/svg">
   <rect width="400" height="260" fill="#0D0D0D" opacity="0.75" rx="4"/>
-  <text x="200" y="20" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2" font-family="Pretendard Variable, sans-serif">SWOT 약식 평가표</text>
   <text x="200" y="38" text-anchor="middle" font-size="11" fill="#7a7666" font-family="Pretendard Variable, sans-serif">내부 ← → 외부</text>
   <rect x="24" y="44" width="352" height="202" rx="3" fill="none" stroke="#3a3730" stroke-width="1.2"/>
   <line x1="24" y1="145" x2="376" y2="145" stroke="#3a3730" stroke-width="1.2"/>
@@ -839,32 +206,29 @@
 </svg>
       </div>
     </div>
-    <div class="section-foot">
-      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="foot-tag">CONCEPT</div>
-    </div>
+    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">CONCEPT</div></div>
+    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">SWOT은 1960~70년대 스탠퍼드 연구소에서 정리된 틀입니다. S와 W는 내부 — 내가 가진 것과 부족한 것. O와 T는 외부 — 시장과 환경이 주는 것. 오늘은 약식 SWOT만 씁니다. 각 칸에 한 문장씩 두 개 이하로 충분해요. 비어 있는 칸도 정보입니다.</div></div>
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div></details>
   </section>
 
-  <!-- SLIDE 5: CONCEPT #3 -->
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
-    <div class="section-head">
-      <div class="section-kicker reveal">CONCEPT · 개념</div>
-      <div class="section-counter reveal">04 / 07</div>
-    </div>
+    <div class="section-head"><div class="section-kicker reveal">CONCEPT · 개념</div><div class="section-counter reveal">04 / 07</div></div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">3C·SWOT · 조사 → 판단 흐름</h2>
+      <h2 class="section-title">3C·SWOT · 조사 → 판단 흐름</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🗺️ 3C · 어디를 볼지 정하는 조사 지도</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C는 어디를 볼 것인가를 정하는 조사 지도예요. 경쟁사 조사의 출발점으로 쓰이죠.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📋 SWOT · 본 것을 판단으로 정리하는 표</span><span class="bullet-arrow">→</span><div class="bullet-detail">SWOT은 무엇을 평가할 것인가를 정하는 평가표예요. 조사한 내용을 판단으로 압축하는 역할이에요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">➡️ 흐름 · 3C 수집 → SWOT 판단 순서로</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C로 자료를 수집해서 SWOT으로 판단을 압축하는 흐름이 자연스러워요. 두 프레임은 같은 재료를 다른 방식으로 정리하는 거예요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">⚠️ 수치 주의 · 공개 정보 범위에서만</span><span class="bullet-arrow">→</span><div class="bullet-detail">경쟁사 점유율·매출 같은 수치는 공개 정보 범위에서만 다뤄요. AI가 단정적으로 숫자를 내놓더라도 출처가 없다면 '확인 필요'로 표기합니다.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🗺️ 3C · 어디를 볼지 정하는 조사 지도</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C(Company·Customer·Competitor · 자사·고객·경쟁사)는 어디를 볼 것인가를 정하는 조사 지도예요. 경쟁사 조사의 출발점으로 쓰이죠.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📋 SWOT · 본 것을 판단으로 정리하는 표</span><span class="bullet-arrow">→</span><div class="bullet-detail">SWOT(Strengths·Weaknesses·Opportunities·Threats · 강점·약점·기회·위협)은 무엇을 평가할 것인가를 정하는 평가표예요. 조사한 내용을 판단으로 압축하는 역할이에요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">➡️ 흐름 · 3C 수집 → SWOT 판단 순서로</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C로 자료를 수집해서 SWOT으로 판단을 압축하는 흐름이 자연스러워요. 두 프레임은 같은 재료를 다른 방식으로 정리하는 거예요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">⚠️ 수치 주의 · 공개 정보 범위에서만</span><span class="bullet-arrow">→</span><div class="bullet-detail">경쟁사 점유율·매출 같은 수치는 공개 정보 범위에서만 다뤄요. AI가 단정적으로 숫자를 내놓더라도 출처가 없다면 '확인 필요'로 표기합니다.</div></li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic" xmlns="http://www.w3.org/2000/svg">
   <rect width="400" height="260" fill="#0D0D0D" opacity="0.75" rx="4"/>
-  <text x="200" y="20" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2" font-family="Pretendard Variable, sans-serif">FLOW · 조사 → 판단</text>
   <rect x="18" y="36" width="120" height="150" rx="4" fill="#141414" stroke="#e2c793" stroke-width="1.5"/>
   <text x="78" y="82" text-anchor="middle" font-size="28" font-weight="900" fill="#e2c793" font-family="Pretendard Variable, sans-serif">3C</text>
   <text x="78" y="112" text-anchor="middle" font-size="12" fill="#e2c793" font-family="Pretendard Variable, sans-serif">조사 지도</text>
@@ -883,27 +247,25 @@
 </svg>
       </div>
     </div>
-    <div class="section-foot">
-      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="foot-tag">CONCEPT</div>
-    </div>
+    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">CONCEPT</div></div>
+    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">두 프레임은 같은 재료를 다른 방식으로 정리합니다. 3C는 어디를 볼 것인가 — 조사 지도. SWOT은 무엇을 평가할 것인가 — 평가표. 즉, 3C로 자료를 수집해서 SWOT으로 판단을 압축하는 흐름이 자연스럽습니다. 공공 맥락에서 경쟁사 점유율·매출 같은 수치는 공개 정보 범위에서만 다룹니다. AI가 단정적으로 숫자를 내놓더라도 출처가 없다면 '확인 필요'로 표기합니다.</div></div>
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div></details>
   </section>
 
-  <!-- SLIDE 6: RECAP -->
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
-    <div class="section-head">
-      <div class="section-kicker reveal">RECAP · 복습</div>
-      <div class="section-counter reveal">05 / 07</div>
-    </div>
+    <div class="section-head"><div class="section-kicker reveal">RECAP · 복습</div><div class="section-counter reveal">05 / 07</div></div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">RECAP · 3C+SWOT 요약</h2>
+      <h2 class="section-title">RECAP · 3C+SWOT 요약</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🔺 3C · 자사·고객·경쟁사 균형 점검표</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C는 자사·고객·경쟁사 세 꼭짓점의 점검표예요. 오마에 겐이치 1982 제안이고, 하나라도 빠지면 전략이 기울어요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📊 SWOT · 내부·외부 한 장으로 정리</span><span class="bullet-arrow">→</span><div class="bullet-detail">SWOT은 내부(강점·약점)와 외부(기회·위협)를 한 장으로 정리하는 평가표예요. 험프리의 SRI 연구에서 비롯됐어요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🔄 순서 · 3C로 수집 → SWOT으로 판단</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C는 어디를 볼지 정하고, SWOT은 무엇으로 판단할지 정해요. 두 프레임은 이 순서대로 씁니다.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🔺 3C · 자사·고객·경쟁사 균형 점검표</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C(Company·Customer·Competitor · 자사·고객·경쟁사)는 세 꼭짓점의 균형 점검표예요. 오마에 겐이치 1982 제안이고, 하나라도 빠지면 전략이 기울어요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">📊 SWOT · 내부·외부 한 장으로 정리</span><span class="bullet-arrow">→</span><div class="bullet-detail">SWOT(Strengths·Weaknesses·Opportunities·Threats · 강점·약점·기회·위협)은 내부(강점·약점)와 외부(기회·위협)를 한 장으로 정리하는 평가표예요. 험프리의 SRI 연구에서 비롯됐어요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🔄 순서 · 3C로 수집 → SWOT으로 판단</span><span class="bullet-arrow">→</span><div class="bullet-detail">3C는 어디를 볼지 정하고, SWOT은 무엇으로 판단할지 정해요. 두 프레임은 이 순서대로 씁니다.</div></li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic" xmlns="http://www.w3.org/2000/svg">
   <rect width="400" height="260" fill="#0D0D0D" opacity="0.75" rx="4"/>
@@ -919,26 +281,24 @@
 </svg>
       </div>
     </div>
-    <div class="section-foot">
-      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="foot-tag">RECAP</div>
-    </div>
+    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">RECAP</div></div>
+    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">Part 03 정리입니다. 3C는 자사·고객·경쟁사 세 꼭짓점의 점검표입니다. SWOT은 내부와 외부를 한 장으로 정리하는 평가표입니다. 3C는 어디를 볼지, SWOT은 무엇으로 판단할지 — 순서대로 씁니다.</div></div>
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div></details>
   </section>
 
-  <!-- SLIDE 7: BRIDGE -->
   <section class="slide slide-section" data-slide="7" data-diagram="bridge">
-    <div class="section-head">
-      <div class="section-kicker reveal">BRIDGE · 다음 악장</div>
-      <div class="section-counter reveal">06 / 07</div>
-    </div>
+    <div class="section-head"><div class="section-kicker reveal">BRIDGE · 다음 악장</div><div class="section-counter reveal">06 / 07</div></div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">BRIDGE · Part 04 페르소나</h2>
+      <h2 class="section-title">BRIDGE · Part 04 페르소나</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">☕ 잠시 휴식 · 이어서 Part 04로</span><span class="bullet-arrow">→</span><div class="bullet-detail">여기서 잠시 쉬어가겠습니다. 휴식 시간 뒤 Part 04로 이어져요.</div></li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">👤 Part 04 · 누가 내 고객인가 탐구</span><span class="bullet-arrow">→</span><div class="bullet-detail">다음 파트 주제는 누가 내 고객인가예요. 한 사람의 인물 카드로 그리는 방법인 페르소나를 다뤄요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">☕ 잠시 휴식 · 이어서 Part 04로</span><span class="bullet-arrow">→</span><div class="bullet-detail">여기서 잠시 쉬어가겠습니다. 휴식 시간 뒤 Part 04로 이어져요.</div></li>
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">👤 Part 04 · 누가 내 고객인가 탐구</span><span class="bullet-arrow">→</span><div class="bullet-detail">다음 파트 주제는 누가 내 고객인가예요. 한 사람의 인물 카드로 그리는 방법인 페르소나(Persona · 여러 고객 데이터를 합성한 가상의 1인 인물 카드)를 다뤄요.</div></li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic" xmlns="http://www.w3.org/2000/svg">
   <rect width="400" height="260" fill="#0D0D0D" opacity="0.75" rx="4"/>
@@ -955,13 +315,15 @@
 </svg>
       </div>
     </div>
-    <div class="section-foot">
-      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="foot-tag">BRIDGE</div>
-    </div>
+    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">BRIDGE</div></div>
+    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">여기서 잠시 쉬어가겠습니다. 휴식 시간 뒤 Part 04에서는 '누가 내 고객인가'를 한 사람의 인물 카드로 그리는 방법 — 페르소나 — 를 다루겠습니다.</div></div>
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div></details>
   </section>
 
-  <!-- SLIDE 8: OUTRO -->
   <section class="slide slide-outro" data-slide="8">
     <div class="outro-radial"></div>
     <div class="outro-kicker reveal">END OF PART</div>
@@ -981,6 +343,7 @@
     <button class="ctrl-btn" onclick="prev()" title="이전 (←)">◀</button>
     <button class="ctrl-btn" onclick="next()" title="다음 (→)">▶</button>
     <div class="ctrl-counter"><strong id="curNum">01</strong> / <span id="totalNum">9</span></div>
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터 수강생 창 열기">📺 프로젝터</button>
   </div>
   <div class="ctrl-dots" id="dots"></div>
   <div class="ctrl-right">
@@ -993,7 +356,7 @@
 <div class="thumb-strip" id="thumbStrip">
   <div class="thumb-strip-inner" id="thumbInner">
     <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
-    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">META</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
     <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
     <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">CONCEPT</span></div>
     <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">CONCEPT</span></div>
@@ -1019,9 +382,6 @@
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   SLIDE NAVIGATION
-   ═══════════════════════════════════════════════════════════════ */
 const slides = document.querySelectorAll('.slide');
 const dotsEl = document.getElementById('dots');
 const progressEl = document.getElementById('progress');
@@ -1029,419 +389,138 @@ const curNumEl = document.getElementById('curNum');
 const thumbStrip = document.getElementById('thumbStrip');
 const helpOverlay = document.getElementById('helpOverlay');
 let current = 0;
-
-slides.forEach((s, i) => {
-  const d = document.createElement('div');
-  d.className = 'ctrl-dot';
-  d.onclick = () => go(i);
-  dotsEl.appendChild(d);
-});
-document.querySelectorAll('.thumb').forEach(t => {
-  t.onclick = () => go(parseInt(t.dataset.idx, 10));
-});
-
-function render() {
-  slides.forEach((s, i) => s.classList.toggle('active', i === current));
-  document.querySelectorAll('.ctrl-dot').forEach((d, i) => d.classList.toggle('active', i === current));
-  document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === current));
-  progressEl.style.width = ((current + 1) / slides.length * 100) + '%';
-  curNumEl.textContent = String(current + 1).padStart(2, '0');
-  runCountup();
-}
+slides.forEach((s, i) => { const d = document.createElement('div'); d.className = 'ctrl-dot'; d.onclick = () => go(i); dotsEl.appendChild(d); });
+document.querySelectorAll('.thumb').forEach(t => { t.onclick = () => go(parseInt(t.dataset.idx, 10)); });
+function render() { slides.forEach((s, i) => s.classList.toggle('active', i === current)); document.querySelectorAll('.ctrl-dot').forEach((d, i) => d.classList.toggle('active', i === current)); document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === current)); progressEl.style.width = ((current + 1) / slides.length * 100) + '%'; curNumEl.textContent = String(current + 1).padStart(2, '0'); runCountup(); }
 function next() { if (current < slides.length - 1) { current++; render(); } }
 function prev() { if (current > 0) { current--; render(); } }
 function go(i) { current = i; render(); }
 function goFirst() { current = 0; render(); }
-function toggleFullscreen() {
-  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
-  else document.exitFullscreen();
-}
+window.go = go; window.next = next; window.prev = prev;
+function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
 function toggleThumbs() { thumbStrip.classList.toggle('open'); }
 function toggleHelp() { helpOverlay.classList.toggle('open'); }
-
 document.addEventListener('keydown', e => {
   if (helpOverlay.classList.contains('open') && e.key !== 'Escape' && e.key !== '?') return;
-  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); next(); }
   else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
   else if (e.key === 'Home') go(0);
   else if (e.key === 'End') go(slides.length - 1);
   else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
   else if (e.key === 't' || e.key === 'T') toggleThumbs();
   else if (e.key === '?' || e.key === '/') toggleHelp();
-  else if (e.key === 'Escape') {
-    helpOverlay.classList.remove('open');
-    thumbStrip.classList.remove('open');
-  }
+  else if (e.key === 'Escape') { helpOverlay.classList.remove('open'); thumbStrip.classList.remove('open'); }
 });
-
-document.getElementById('deck').addEventListener('click', e => {
-  if (e.target.closest('a, button, .bullet-list, .outro-actions')) return;
-  next();
-});
-
-/* ═══════════════════════════════════════════════════════════════
-   TYPEWRITER ON COVER TITLE
-   ═══════════════════════════════════════════════════════════════ */
+document.getElementById('deck').addEventListener('click', e => { if (e.target.closest('a, button, .bullet-list, .outro-actions, .teacher-note')) return; next(); });
 const tw = document.querySelector('.typewriter-target');
-if (tw) {
-  const text = tw.dataset.text;
-  let ti = 0;
-  tw.innerHTML = '<span class="caret"></span>';
-  function typ() {
-    if (ti < text.length) {
-      tw.innerHTML = text.substring(0, ti + 1) + '<span class="caret"></span>';
-      ti++;
-      setTimeout(typ, 55 + Math.random() * 40);
-    }
-  }
-  setTimeout(typ, 600);
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   COUNTUP ANIMATION FOR STAT NUMBERS
-   ═══════════════════════════════════════════════════════════════ */
-function runCountup() {
-  const active = document.querySelector('.slide.active');
-  if (!active) return;
-  active.querySelectorAll('.svg-countup').forEach(el => {
-    const target = parseInt(el.dataset.target || '100', 10);
-    let v = 0;
-    const step = Math.max(1, Math.ceil(target / 60));
-    const t = setInterval(() => {
-      v += step;
-      if (v >= target) { v = target; clearInterval(t); }
-      el.textContent = v;
-    }, 20);
-  });
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   CUSTOM CURSOR (dot + trailing ring)
-   ═══════════════════════════════════════════════════════════════ */
+if (tw) { const text = tw.dataset.text; let ti = 0; tw.innerHTML = '<span class="caret"></span>'; function typ() { if (ti < text.length) { tw.innerHTML = text.substring(0, ti + 1) + '<span class="caret"></span>'; ti++; setTimeout(typ, 55 + Math.random() * 40); } } setTimeout(typ, 600); }
+function runCountup() { const active = document.querySelector('.slide.active'); if (!active) return; active.querySelectorAll('.svg-countup').forEach(el => { const target = parseInt(el.dataset.target || '100', 10); let v = 0; const step = Math.max(1, Math.ceil(target / 60)); const t = setInterval(() => { v += step; if (v >= target) { v = target; clearInterval(t); } el.textContent = v; }, 20); }); }
 const cDot = document.getElementById('cursorDot');
 const cRing = document.getElementById('cursorRing');
 let mx = window.innerWidth / 2, my = window.innerHeight / 2;
 let rx = mx, ry = my;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cDot.style.left = mx + 'px';
-  cDot.style.top = my + 'px';
-});
-function animCursor() {
-  rx += (mx - rx) * 0.14;
-  ry += (my - ry) * 0.14;
-  cRing.style.left = rx + 'px';
-  cRing.style.top = ry + 'px';
-  requestAnimationFrame(animCursor);
-}
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cDot.style.left = mx + 'px'; cDot.style.top = my + 'px'; });
+function animCursor() { rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14; cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px'; requestAnimationFrame(animCursor); }
 animCursor();
-// Hover targets enlarge ring
-document.querySelectorAll('a, button, .ctrl-dot, .tilt-card, .thumb').forEach(el => {
-  el.addEventListener('mouseenter', () => cRing.classList.add('hover'));
-  el.addEventListener('mouseleave', () => cRing.classList.remove('hover'));
-});
-
-/* ═══════════════════════════════════════════════════════════════
-   3D TILT CARDS (mouse-tracked rotateX/Y)
-   ═══════════════════════════════════════════════════════════════ */
+document.querySelectorAll('a, button, .ctrl-dot, .tilt-card, .thumb').forEach(el => { el.addEventListener('mouseenter', () => cRing.classList.add('hover')); el.addEventListener('mouseleave', () => cRing.classList.remove('hover')); });
 document.querySelectorAll('.tilt-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    card.style.transform = `translateX(6px) translateY(-2px) perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
-  card.addEventListener('click', () => {
-    card.classList.toggle('open');
-  });
+  card.addEventListener('mousemove', e => { const r = card.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width - 0.5; const y = (e.clientY - r.top) / r.height - 0.5; card.style.transform = `translateX(6px) translateY(-2px) perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`; });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  card.addEventListener('click', () => { card.classList.toggle('open'); });
 });
-
-/* ═══════════════════════════════════════════════════════════════
-   ALGORITHMIC-ART BACKGROUND (mode: WAVES, mouse-reactive)
-   ═══════════════════════════════════════════════════════════════ */
 const canvas = document.getElementById('bgcanvas');
 const ctx = canvas.getContext('2d');
 let w, h;
-function resize() {
-  w = canvas.width = window.innerWidth * devicePixelRatio;
-  h = canvas.height = window.innerHeight * devicePixelRatio;
-  canvas.style.width = window.innerWidth + 'px';
-  canvas.style.height = window.innerHeight + 'px';
-}
+function resize() { w = canvas.width = window.innerWidth * devicePixelRatio; h = canvas.height = window.innerHeight * devicePixelRatio; canvas.style.width = window.innerWidth + 'px'; canvas.style.height = window.innerHeight + 'px'; }
 resize();
 window.addEventListener('resize', resize);
-
-const MODE = 'WAVES';
 const GOLD = '#e2c793';
-const GOLD2 = '#b8941f';
-
 let seed = 7932;
-function rand() {
-  seed = (seed * 1664525 + 1013904223) | 0;
-  return ((seed >>> 0) / 4294967296);
-}
-
-const noiseTable = new Array(512);
-for (let i = 0; i < 512; i++) noiseTable[i] = rand();
-function noise2(x, y) {
-  const xi = Math.floor(x) & 255;
-  const yi = Math.floor(y) & 255;
-  const xf = x - Math.floor(x);
-  const yf = y - Math.floor(y);
-  const u = xf * xf * (3 - 2 * xf);
-  const v = yf * yf * (3 - 2 * yf);
-  const aa = noiseTable[(xi + yi * 57) & 511];
-  const ba = noiseTable[((xi + 1) + yi * 57) & 511];
-  const ab = noiseTable[(xi + (yi + 1) * 57) & 511];
-  const bb = noiseTable[((xi + 1) + (yi + 1) * 57) & 511];
-  const x1 = aa * (1 - u) + ba * u;
-  const x2 = ab * (1 - u) + bb * u;
-  return x1 * (1 - v) + x2 * v;
-}
-
-let particles = [], nodes = [], cells = [];
+function rand() { seed = (seed * 1664525 + 1013904223) | 0; return ((seed >>> 0) / 4294967296); }
+let cells = [];
 let t = 0;
 let mouseX = w / 2, mouseY = h / 2;
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX * devicePixelRatio;
-  mouseY = e.clientY * devicePixelRatio;
-});
-
-function initFlow() {
-  particles = [];
-  for (let i = 0; i < 220; i++) particles.push({ x: rand() * w, y: rand() * h, vx: 0, vy: 0, life: rand() * 200 });
-}
-function drawFlow() {
-  ctx.fillStyle = 'rgba(13,13,13,0.08)';
-  ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = GOLD;
-  ctx.lineWidth = 0.6 * devicePixelRatio;
-  for (const p of particles) {
-    const mDx = (p.x - mouseX) / 300;
-    const mDy = (p.y - mouseY) / 300;
-    const n = noise2(p.x * 0.0018, p.y * 0.0018 + t * 0.02) * Math.PI * 4;
-    p.vx = Math.cos(n) * 1.2 * devicePixelRatio + mDx * 0.4;
-    p.vy = Math.sin(n) * 1.2 * devicePixelRatio + mDy * 0.4;
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-    p.x += p.vx; p.y += p.vy;
-    ctx.lineTo(p.x, p.y);
-    ctx.globalAlpha = 0.3;
-    ctx.stroke();
-    p.life--;
-    if (p.life < 0 || p.x < 0 || p.x > w || p.y < 0 || p.y > h) {
-      p.x = rand() * w; p.y = rand() * h; p.life = 120 + rand() * 160;
-    }
-  }
-  ctx.globalAlpha = 1;
-}
-
-function initNetwork() {
-  nodes = [];
-  for (let i = 0; i < 70; i++) {
-    nodes.push({
-      x: rand() * w, y: rand() * h,
-      vx: (rand() - 0.5) * 0.4 * devicePixelRatio,
-      vy: (rand() - 0.5) * 0.4 * devicePixelRatio
-    });
-  }
-}
-function drawNetwork() {
-  ctx.fillStyle = 'rgba(13,13,13,0.2)';
-  ctx.fillRect(0, 0, w, h);
-  for (const n of nodes) {
-    const dx = mouseX - n.x, dy = mouseY - n.y;
-    const d = Math.sqrt(dx * dx + dy * dy);
-    if (d < 250 * devicePixelRatio) {
-      n.vx += dx / d * 0.02;
-      n.vy += dy / d * 0.02;
-    }
-    n.vx *= 0.98; n.vy *= 0.98;
-    n.x += n.vx; n.y += n.vy;
-    if (n.x < 0 || n.x > w) n.vx *= -1;
-    if (n.y < 0 || n.y > h) n.vy *= -1;
-  }
-  ctx.strokeStyle = GOLD;
-  ctx.lineWidth = 0.5 * devicePixelRatio;
-  const limit = 180 * devicePixelRatio;
-  for (let i = 0; i < nodes.length; i++) {
-    for (let j = i + 1; j < nodes.length; j++) {
-      const dx = nodes[i].x - nodes[j].x;
-      const dy = nodes[i].y - nodes[j].y;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < limit) {
-        ctx.globalAlpha = (1 - d / limit) * 0.4;
-        ctx.beginPath();
-        ctx.moveTo(nodes[i].x, nodes[i].y);
-        ctx.lineTo(nodes[j].x, nodes[j].y);
-        ctx.stroke();
-      }
-    }
-  }
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = GOLD;
-  for (const n of nodes) {
-    ctx.beginPath();
-    ctx.arc(n.x, n.y, 1.5 * devicePixelRatio, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
-function initWaves() {
-  cells = [];
-  for (let i = 0; i < 6; i++) {
-    cells.push({ x: rand() * w, y: rand() * h, r: 80 + rand() * 220, phase: rand() * Math.PI * 2, speed: 0.5 + rand() * 1.5 });
-  }
-}
+document.addEventListener('mousemove', e => { mouseX = e.clientX * devicePixelRatio; mouseY = e.clientY * devicePixelRatio; });
+for (let i = 0; i < 6; i++) { cells.push({ x: rand() * w, y: rand() * h, r: 80 + rand() * 220, phase: rand() * Math.PI * 2, speed: 0.5 + rand() * 1.5 }); }
 function drawWaves() {
-  ctx.fillStyle = 'rgba(13,13,13,0.12)';
-  ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = GOLD;
-  ctx.lineWidth = 0.6 * devicePixelRatio;
-  const mx = mouseX, my = mouseY;
-  for (const c of cells) {
-    c.x += ((c._ox || c.x) - c.x) * 0.02;
-    if (!c._ox) c._ox = c.x;
-  }
-  for (const c of cells) {
-    for (let k = 0; k < 8; k++) {
-      const radius = (c.r + k * 22 * devicePixelRatio + Math.sin(t * 0.02 * c.speed + c.phase) * 20 * devicePixelRatio);
-      ctx.globalAlpha = 0.12 - k * 0.012;
-      ctx.beginPath();
-      ctx.arc(c.x, c.y, radius, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-  }
+  ctx.fillStyle = 'rgba(13,13,13,0.12)'; ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 0.6 * devicePixelRatio;
+  for (const c of cells) { c.x += ((c._ox || c.x) - c.x) * 0.02; if (!c._ox) c._ox = c.x; }
+  for (const c of cells) { for (let k = 0; k < 8; k++) { const radius = (c.r + k * 22 * devicePixelRatio + Math.sin(t * 0.02 * c.speed + c.phase) * 20 * devicePixelRatio); ctx.globalAlpha = 0.12 - k * 0.012; ctx.beginPath(); ctx.arc(c.x, c.y, radius, 0, Math.PI * 2); ctx.stroke(); } }
   ctx.globalAlpha = 0.25;
-  for (let k = 0; k < 4; k++) {
-    ctx.beginPath();
-    ctx.arc(mx, my, 30 * devicePixelRatio + k * 20 * devicePixelRatio + Math.sin(t * 0.06) * 6, 0, Math.PI * 2);
-    ctx.stroke();
-  }
+  for (let k = 0; k < 4; k++) { ctx.beginPath(); ctx.arc(mouseX, mouseY, 30 * devicePixelRatio + k * 20 * devicePixelRatio + Math.sin(t * 0.06) * 6, 0, Math.PI * 2); ctx.stroke(); }
   ctx.globalAlpha = 1;
 }
-
-function initVoronoi() {
-  nodes = [];
-  for (let i = 0; i < 40; i++) {
-    nodes.push({ x: rand() * w, y: rand() * h, vx: (rand() - 0.5) * 0.3 * devicePixelRatio, vy: (rand() - 0.5) * 0.3 * devicePixelRatio });
-  }
-}
-function drawVoronoi() {
-  ctx.fillStyle = 'rgba(13,13,13,0.35)';
-  ctx.fillRect(0, 0, w, h);
-  for (const n of nodes) {
-    const dx = mouseX - n.x, dy = mouseY - n.y;
-    const d = Math.sqrt(dx * dx + dy * dy);
-    if (d < 200 * devicePixelRatio && d > 1) {
-      n.vx -= dx / d * 0.03;
-      n.vy -= dy / d * 0.03;
-    }
-    n.vx *= 0.97; n.vy *= 0.97;
-    n.x += n.vx; n.y += n.vy;
-    if (n.x < 0 || n.x > w) n.vx *= -1;
-    if (n.y < 0 || n.y > h) n.vy *= -1;
-  }
-  ctx.strokeStyle = GOLD;
-  ctx.lineWidth = 0.4 * devicePixelRatio;
-  for (let i = 0; i < nodes.length; i++) {
-    const dists = [];
-    for (let j = 0; j < nodes.length; j++) {
-      if (i === j) continue;
-      const dx = nodes[i].x - nodes[j].x;
-      const dy = nodes[i].y - nodes[j].y;
-      dists.push({ j, d: dx * dx + dy * dy });
-    }
-    dists.sort((a, b) => a.d - b.d);
-    for (let k = 0; k < 3; k++) {
-      const o = nodes[dists[k].j];
-      ctx.globalAlpha = 0.2 - k * 0.05;
-      ctx.beginPath();
-      ctx.moveTo(nodes[i].x, nodes[i].y);
-      ctx.lineTo(o.x, o.y);
-      ctx.stroke();
-    }
-  }
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = GOLD;
-  for (const n of nodes) {
-    ctx.beginPath();
-    ctx.arc(n.x, n.y, 1.2 * devicePixelRatio, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
-function initConstellation() {
-  particles = [];
-  for (let i = 0; i < 120; i++) {
-    const angle = rand() * Math.PI * 2;
-    const dist = rand() * Math.min(w, h) * 0.45;
-    particles.push({
-      x: w / 2 + Math.cos(angle) * dist,
-      y: h / 2 + Math.sin(angle) * dist,
-      angle: angle, dist: dist,
-      speed: 0.0005 + rand() * 0.0012,
-      size: 0.8 + rand() * 1.4
-    });
-  }
-}
-function drawConstellation() {
-  ctx.fillStyle = 'rgba(13,13,13,0.18)';
-  ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = GOLD;
-  ctx.lineWidth = 0.35 * devicePixelRatio;
-  const cx = w / 2 + (mouseX - w / 2) * 0.08;
-  const cy = h / 2 + (mouseY - h / 2) * 0.08;
-  for (const p of particles) {
-    p.angle += p.speed;
-    p.x = cx + Math.cos(p.angle) * p.dist;
-    p.y = cy + Math.sin(p.angle) * p.dist;
-  }
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < 120 * devicePixelRatio) {
-        ctx.globalAlpha = (1 - d / (120 * devicePixelRatio)) * 0.35;
-        ctx.beginPath();
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.stroke();
-      }
-    }
-  }
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = GOLD;
-  for (const p of particles) {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size * devicePixelRatio, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
-if (MODE === 'FLOW') initFlow();
-else if (MODE === 'NETWORK') initNetwork();
-else if (MODE === 'WAVES') initWaves();
-else if (MODE === 'VORONOI') initVoronoi();
-else initConstellation();
-
-function loop() {
-  t++;
-  if (MODE === 'FLOW') drawFlow();
-  else if (MODE === 'NETWORK') drawNetwork();
-  else if (MODE === 'WAVES') drawWaves();
-  else if (MODE === 'VORONOI') drawVoronoi();
-  else drawConstellation();
-  requestAnimationFrame(loop);
-}
+function loop() { t++; drawWaves(); requestAnimationFrame(loop); }
 loop();
-
 render();
+
+/* TEACHER NOTE SYSTEM · 2026-04-24 */
+(function(){ var p = new URLSearchParams(location.search); if (p.get('view') === 'student') { document.body.classList.remove('teacher-view'); document.body.classList.add('student-view'); } else { document.body.classList.add('teacher-view'); } })();
+(function(){
+  function setup(){
+    document.querySelectorAll('.teacher-note .note-script-text').forEach(function(el){
+      if (el.querySelector('.sentence')) return;
+      var paras = el.innerHTML.split(/<br\s*\/?>\s*<br\s*\/?>/i);
+      el.innerHTML = paras.map(function(p){
+        var s = p.replace(/<br\s*\/?>/gi,' ').trim(); if (!s) return '';
+        var t = s.match(/[^.?!]+[.?!]?\s*/g) || [s];
+        return t.map(function(x){var y=x.trim();return y?'<span class="sentence future">'+y+'</span>':'';}).filter(Boolean).join(' ');
+      }).filter(Boolean).join('<span class="note-para-break"></span>');
+    });
+    window.setSentenceIdx = function(idx, slide){
+      slide = slide || document.querySelector('.slide.active'); if (!slide) return;
+      slide.querySelectorAll('.teacher-note .sentence').forEach(function(s,i){
+        s.classList.remove('past','active','future');
+        if (i<idx) s.classList.add('past'); else if (i===idx) s.classList.add('active'); else s.classList.add('future');
+      });
+    };
+    document.querySelectorAll('.slide').forEach(function(s){
+      new MutationObserver(function(){ if(s.classList.contains('active')) window.setSentenceIdx(0,s); }).observe(s,{attributes:true,attributeFilter:['class']});
+    });
+    var a = document.querySelector('.slide.active'); if (a) window.setSentenceIdx(0,a);
+    document.addEventListener('keydown',function(e){
+      if (!document.body.classList.contains('teacher-view')) return;
+      if (e.key !== ' ' && e.key !== 'Backspace') return;
+      var slide = document.querySelector('.slide.active'); if (!slide) return;
+      var ss = slide.querySelectorAll('.teacher-note .sentence');
+      var aid = -1; ss.forEach(function(x,i){ if(x.classList.contains('active')) aid=i; });
+      if (e.key === ' ') { if (aid < ss.length-1 && ss.length > 0) { e.preventDefault(); window.setSentenceIdx(aid+1, slide); e.stopImmediatePropagation(); } }
+      else if (e.key === 'Backspace') { if (aid > 0) { e.preventDefault(); window.setSentenceIdx(aid-1, slide); e.stopImmediatePropagation(); } }
+    }, true);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
+})();
+window.openProjectorWindow = function(){ var base = location.href.split('?')[0]; var proj = window.open(base+'?view=student', 'projector-'+base, 'width=1920,height=1080'); if (!proj) { alert('팝업이 차단되었습니다.'); return; } window.__projector = proj; proj.focus(); };
+(function(){ function show(){ var b = document.getElementById('projectorBtn'); if (b && document.body.classList.contains('teacher-view')) b.style.display='inline-flex'; } if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', show); else show(); })();
+(function(){
+  var KEY = 'aimarketer-3gang-slide-sync', ch = null;
+  try { if (typeof BroadcastChannel !== 'undefined') ch = new BroadcastChannel(KEY); } catch(e){}
+  function bc(m){ if (window.__skipBroadcast) return;
+    try { if (ch) ch.postMessage(m); } catch(e){}
+    try { if (window.__projector && !window.__projector.closed) window.__projector.postMessage(m,'*'); } catch(e){}
+    try { if (window.opener && !window.opener.closed) window.opener.postMessage(m,'*'); } catch(e){}
+    try { localStorage.setItem(KEY, JSON.stringify(Object.assign({},m,{ts:Date.now()}))); } catch(e){}
+  }
+  function h(m){
+    if (!m || !m.type) return;
+    if (m.type === 'goto' && typeof window.go === 'function') { window.__skipBroadcast = true; window.go(m.index); setTimeout(function(){ window.__skipBroadcast=false; }, 120); }
+    else if (m.type === 'sentence' && typeof window.setSentenceIdx === 'function') { window.__skipBroadcast = true; window.setSentenceIdx(m.index); setTimeout(function(){ window.__skipBroadcast=false; }, 120); }
+  }
+  if (ch) ch.onmessage = function(e){ h(e.data); };
+  window.addEventListener('message', function(e){ if (e.data) h(e.data); });
+  window.addEventListener('storage', function(e){ if (e.key === KEY && e.newValue) try { h(JSON.parse(e.newValue)); } catch(err){} });
+  function obs(){
+    document.querySelectorAll('.slide').forEach(function(s, idx){
+      new MutationObserver(function(){ if (s.classList.contains('active')) bc({type:'goto', index:idx}); }).observe(s, {attributes:true, attributeFilter:['class']});
+    });
+    var o = window.setSentenceIdx;
+    if (typeof o === 'function') { window.setSentenceIdx = function(i, el){ o(i, el); bc({type:'sentence', index:i}); }; }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', obs); else obs();
+})();
 </script>
   <div class="copyright-notice">© PajamaBoss</div>
+<script src="../assets/common.js"></script>
 </body>
 </html>

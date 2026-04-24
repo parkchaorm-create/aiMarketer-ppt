@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="FLOW">
+<body data-bg-mode="FLOW" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 22강</div>
   <div class="topbar-center">PART 06 · 실습 B · .claude/rules/ghl-deploy.md</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-05.html" title="이전 파트">◀ PART 05</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-07.html" title="다음 파트">PART 07 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">실습 B에서는 `.claude/rules/` 폴더에 `ghl-deploy.md` 파일을 한 장 만듭니다. 17~20강에서 설정한 리드 태깅·예약 발행·재활성화 규칙을 선택한 클라이언트 기준으로 5~7줄의 한국어 규칙으로 요약합니다. 이 파일은 `content/` 또는 `newsletters/` 폴더의 파일을 편집할 때만 자동 로드됩니다[^T1-1].<br><br>1. `.claude/rules/` 폴더 만들기: 터미널에서 `mkdir -p .claude/rules` (없으면 생성, 있으면 그대로 통과). 2. 새 파일 만들기: 좌측 파일 탐색기에서 `.claude/rules` 폴더 우클릭 → `New File` → 이름 `ghl-deploy.md`. 3. 상단 YAML 프론트매터 붙여넣기:<br><br>--- paths:<br><br>"content/**/*.md"<br><br>"newsletters/**/*.md"</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -65,32 +85,30 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">실습 B · 한 장짜리 규칙 파일</h2>
+      <h2 class="section-title">실습 B · 한 장짜리 규칙 파일</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📂 .claude/rules/ · 폴더 신설</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">터미널에서 mkdir -p .claude/rules. 기존 파일 덮어쓰지 않는 새 폴더라 안전합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📝 ghl-deploy.md · 5~7줄 본문</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">17~20강 리드 태깅·예약 발행·재활성화 규칙을 선택한 클라이언트 기준으로 한국어 5~7줄 압축.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 YAML · 경로 한정 로드</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">상단 YAML 프론트매터의 paths에 content/** · newsletters/** 글로브(glob · 경로 패턴) 지정. 해당 폴더 편집 시만 활성화.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="30" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">실습 B · 결과물 1개</text>
           <!-- central file -->
           <rect x="90" y="55" width="220" height="180" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
           <text x="200" y="78" font-size="12" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">.claude/rules/</text>
@@ -111,7 +129,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">"drafts/**/*.md"<br><br>이 세 줄이 "이 규칙은 저 경로의 파일을 건드릴 때만 나타나라" 는 지시입니다[^T1-1]. 4. 본문 5~7줄 채우기: 선택한 클라이언트 기준으로 17~20강에서 만든 규칙을 한국어 한 줄씩. 5. 저장: `Ctrl+S` (Mac은 `Cmd+S`). 6. 로드 확인: `content/` 폴더 안의 아무 `.md` 파일을 열어 Claude Code에게 "이 파일 다듬어 줘"라고 요청 → `/memory` 실행 → `ghl-deploy.md` 가 목록에 포함되는지 확인 → 캡처.<br><br>아래는 노션 튜토리얼에서 복사해 쓰실 뼈대입니다. 본문 5~7줄은 선택한 클라이언트 기준으로 채우세요.<br><br>--- paths:<br><br>"content/**/*.md"</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -120,32 +158,30 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">규칙 · 항상 켜 두어야 할까요?</h2>
+      <h2 class="section-title">규칙 · 항상 켜 두어야 할까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">💡 경로 한정 · 필요할 때만</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">이 파일은 content/ · newsletters/ 폴더의 파일을 편집할 때만 자동 로드됩니다. 평소에는 책상 위에 없어요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🛟 새 파일 · 실패 안전망</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">기존 CLAUDE.md와 다르게 새로 만드는 파일이라 기존 내용을 지우지 않습니다. 부담 없이 작성하셔도 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔮 23강 재료 · 서브에이전트에 위임</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘 만든 한 장이 23강 서브에이전트 .claude/agents/ghl-operator.md 의 규칙 입력으로 사용됩니다. 오늘의 한 장이 내일의 재료.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="35" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">경로 한정 · 자동 활성</text>
           <!-- Scenario A: editing content/ -->
           <rect x="30" y="55" width="165" height="85" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
           <text x="112" y="78" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="700">content/ 편집 중</text>
@@ -170,7 +206,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">"newsletters/**/*.md"<br><br>"drafts/**/*.md"<br><br>VIP 기준:<br><br>관심 기준:<br><br>잠재 기준:</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 1 · 6단계 흐름 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -179,32 +235,30 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">6단계 · 폴더부터 로드 확인까지</h2>
+      <h2 class="section-title">6단계 · 폴더부터 로드 확인까지</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📁 ①~② 폴더 · 새 파일 생성</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">터미널에 mkdir -p .claude/rules → 좌측 파일 탐색기에서 해당 폴더 우클릭 → New File → 이름 ghl-deploy.md.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📋 ③~④ YAML · 본문 5~7줄</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">상단 YAML 프론트매터 3줄(paths 글로브 3개) 붙여넣기 → 본문에 선택한 클라이언트 기준 규칙 5~7줄.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">💾 ⑤~⑥ 저장 · /memory 캡처</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Ctrl+S(Mac은 Cmd+S) 저장 → content/ 폴더 아무 파일 열고 다듬어 달라 요청 → /memory 실행 → ghl-deploy.md 목록 확인 캡처.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="30" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">6-STEP · 실습 B</text>
           <!-- steps -->
           <rect x="30" y="45" width="340" height="26" fill="none" stroke="#e2c793" stroke-width="1"/>
           <text x="50" y="63" font-size="11" fill="#e2c793" font-weight="700">①</text>
@@ -232,7 +286,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">요일·시간대:<br><br>채널별 우선순위:<br><br>대상 조건:<br><br>메시지 톤 한 줄:<br><br>발송 주기:</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 2 · 작성 템플릿 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -241,32 +315,30 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">뼈대 · 네 섹션 · 복사해 쓰기</h2>
+      <h2 class="section-title">뼈대 · 네 섹션 · 복사해 쓰기</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📌 네 섹션 · 고정 순서</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">리드 태깅 → 예약 발행 원칙 → 재활성화 → 뉴스레터 발송. 섹션 제목은 고정이고 내용만 클라이언트 기준으로 채움.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎨 톤 · 규칙 한 줄에 녹이기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">A 푸르트 = 담담·계절감, B 슬로우템포·C 손결·D 링크드마인드는 각자 톤 앵커. 한 줄 규칙에 정체성이 녹아야 재현성 확보.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📝 예시 · A 푸르트 기준</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">VIP = 주문 3회+·누적 15만원+ / 발행 = 화목 10시·일 18시 / 재활성화 = 90일 무반응 + "계절 바뀌었어요" 톤.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="25" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">ghl-deploy.md · 뼈대</text>
           <rect x="30" y="38" width="340" height="215" fill="none" stroke="#3a3730" stroke-width="1.5" rx="4"/>
           <rect x="40" y="48" width="320" height="35" fill="#3a3730" opacity="0.3"/>
           <text x="50" y="62" font-size="9" fill="#e2c793" font-family="monospace">---</text>
@@ -288,7 +360,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">피해야 할 표현:<br><br>VIP 기준: 주문 3회 이상 또는 누적 15만 원 이상<br><br>관심 기준: 기념일(어버이날·밸런타인) 문의 또는 정기 구독 검토<br><br>잠재 기준: 신규 DM 또는 네이버 플레이스 방문<br><br>요일·시간대: 화·목 오전 10시 (출근 직후) · 일요일 오후 6시</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 3 · 체크포인트 + 자주 겪는 어려움 -->
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
@@ -297,32 +389,30 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">막히는 세 지점 · 먼저 짚기</h2>
+      <h2 class="section-title">막히는 세 지점 · 먼저 짚기</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">⚠️ YAML · 파일 1줄째에 시작</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">YAML 프론트매터의 --- 앞에 빈 줄이 있으면 인식 안 됨. 반드시 파일 맨 첫 줄에 시작해야 합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔣 글로브 · 따옴표로 감싸기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">paths 아래 "content/**/*.md" 처럼 따옴표 권고. 공백 포함 경로에서도 안정성이 높아집니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚙️ 점 누락 · rules/ X · .claude/rules/</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">.claude/rules/ 의 점(.)을 빠뜨리면 일반 폴더가 되어 규칙으로 인식되지 않습니다. 점 잊지 마세요.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-          <text x="200" y="30" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">CHECKPOINT · 4</text>
           <rect x="40" y="45" width="320" height="185" fill="none" stroke="#3a3730" stroke-width="1.5" rx="4"/>
           <rect x="55" y="60" width="14" height="14" fill="none" stroke="#e2c793" stroke-width="1.5"/>
           <path d="M 58 67 L 62 71 L 67 64" fill="none" stroke="#e2c793" stroke-width="2"/>
@@ -347,7 +437,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 03</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">채널별: 인스타 스토리 &gt; 피드 &gt; 네이버 플레이스 사진<br><br>대상 조건: 최근 90일간 DM·주문 없음<br><br>메시지 톤 한 줄: "계절 바뀌었어요 · 이번 주 꽃 소식만 살짝"<br><br>발송 주기: 월 1회 · 첫째 주 목요일<br><br>피해야 할 표현: 과장 어휘·감정 남발·할인 과시</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
@@ -356,29 +466,28 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Part 06 · 세 줄 정리</h2>
+      <h2 class="section-title">Part 06 · 세 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📝 한 장 · 실습 B 핵심 결과물</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">.claude/rules/ghl-deploy.md 한 장이 실습 B의 핵심 결과물. 오늘 저녁 슬랙 업로드 대상입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎯 YAML paths · 경로 한정 로드</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">상단 YAML의 paths가 이 규칙을 언제 켤지 결정. content/ · newsletters/ 편집 시만 활성화됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📋 /memory · 로드 확인까지</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">본문 5~7줄에 16~21강 규칙 한국어 압축 → content/ 열어 /memory → ghl-deploy.md 목록 확인까지가 합격선.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -407,7 +516,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">YAML 프론트매터 세 줄(`---` 포함)이 파일 맨 위에 정확히 위치했는가?<br><br>`paths` 목록에 최소 1개 이상의 글로브 패턴이 있는가?<br><br>본문 5~7줄이 한국어로 채워졌고, 선택한 클라이언트의 톤이 반영되는가?<br><br>`/memory` 실행 결과에 `ghl-deploy.md` 가 포함되는가?<br><br>완성도보다 경로 한정 규칙의 동작 원리를 한 번 체험한 것이 오늘 실습 B의 합격선입니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -416,11 +545,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">두 실습 · 끝까지 · 돌리셨습니다</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 07 · 마무리 · 업로드 확인 · 23강 예고</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-07.html">다음으로 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">오늘 만든 `ghl-deploy.md` 는 23강부터 서브에이전트 `.claude/agents/ghl-operator.md` 의 규칙 입력으로 사용됩니다. 즉, 오늘 규칙을 한 번 잘 써 두면 23강에서 "서브에이전트에게 GHL 배포 규칙은 `.claude/rules/ghl-deploy.md` 를 따르라"고 한 줄로 위임할 수 있어요. 오늘의 한 장이 내일의 재료입니다.<br><br>`.claude/rules/ghl-deploy.md` 한 장이 실습 B의 핵심 결과물.<br><br>상단 YAML `paths:` 로 경로 한정 로드 설정.<br><br>본문 5~7줄에 16~21강 규칙을 한국어로 압축.<br><br>`/memory` 로 로드 확인까지가 합격선.<br><br>두 실습이 끝났습니다. 마지막 Part 07에서 오늘 산출물을 슬랙에 업로드하고, 23강 예고와 30초 짝 교환을 이어가겠습니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 

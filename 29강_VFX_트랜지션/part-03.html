@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="VORONOI">
+<body data-bg-mode="VORONOI" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 29강</div>
   <div class="topbar-center">PART 03 · Start + End · 두 장면 쌍 고르기</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-02.html" title="이전 파트">◀ PART 02</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-04.html" title="다음 파트">PART 04 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">힉스필드 Transitions 앱의 기본 작업 흐름은 단순해요[^T1-4].<br><br>1. Start Frame(시작 프레임 · 첫 장면 이미지) 1장 업로드 2. End Frame(끝 프레임 · 끝 장면 이미지) 1장 업로드 3. 트랜지션 프리셋 1개 선택 4. `Generate(생성)` 클릭 → 약 20~60초 대기 → 1~1.5초 전환 영상 출력<br><br>여기서 많이들 하시는 질문이 이것입니다. "아무 이미지 2장 넣어도 되나요?" 답은 "원칙적으로는 되지만, 결과물 품질이 크게 달라집니다". 오늘 Part 03에서는 좋은 Start/End Frame 쌍을 고르는 기준을 정리하겠습니다.<br><br>Higgsfield 공식 권고 기준[^T1-4]입니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -65,33 +85,31 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">좋은 쌍 · 3가지 축</h2>
+      <h2 class="section-title">좋은 쌍 · 3가지 축</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📐 좋은 쌍 4조건 · 품질 기준</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">색감 일관성·조명 방향·피사체 위치·스타일 통일 네 가지가 잘 맞을수록 AI가 중간을 상상하기 쉬워집니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🧺 3가지 조달 경로 · 준비</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">28강 산출물 프레임 캡처가 1순위, 클라이언트 사례집 2순위, 수업 중 생성 3순위. 오늘은 1순위 권장입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎛️ 프리셋 3종 · 시작점</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">17개 트랜지션 프리셋 중 오늘은 Morph·Seamless·Roll 3종을 살펴보고, 실습엔 Morph 또는 Seamless 중 1개를 씁니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="340" height="22" fill="#3a3730" opacity="0.3"/>
-          <text x="200" y="46" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 03 · 3가지 축</text>
 
           <rect x="30" y="65" width="105" height="155" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
           <text x="82" y="90" font-size="22" text-anchor="middle" fill="#e2c793" font-weight="800" font-family="monospace">4</text>
@@ -129,7 +147,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">이 네 가지가 잘 맞을수록 AI가 "중간 과정"을 상상하기 쉬워지고, 그 결과 전환이 매끄러워집니다. 반대로 차이가 크면 AI가 억지로 이어 붙이느라 중간에 이상한 이미지가 생길 수 있어요.<br><br>오늘 수업에서 Start/End Frame으로 쓸 이미지는 세 가지 경로 중 하나로 준비합니다.<br><br>① 28강 산출물 재활용 (1순위 · 권장) 지난 회차(28강)에서 만든 카메라 워킹 영상 4종 중 1편을 골라, 첫 프레임과 마지막 프레임을 스크린샷으로 저장하여 각각 Start·End로 사용.<br><br>장점: 이미 색감·조명·스타일이 일관됨 → 4가지 조건 자동 충족<br><br>방법: 영상 재생 중 정지 → 우클릭 "이미지 저장" 또는 OS 스크린샷</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -138,29 +176,28 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">아무 2장 넣어도, 잘 이어질까요?</h2>
+      <h2 class="section-title">아무 2장 넣어도, 잘 이어질까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🤷 정답 · 되긴 되는데</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">원칙적으론 어떤 이미지 2장을 넣어도 결과는 나옵니다. 다만 품질이 크게 달라집니다. 차이가 크면 중간에 이상한 이미지가 낄 수 있어요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🤖 AI · "중간"을 상상</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">AI는 Start에서 End로 넘어가는 중간 프레임을 스스로 그립니다. 두 장이 비슷할수록 상상이 쉽고, 결과가 매끄러워집니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">✅ 그래서 · 4조건 기준</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">힉스필드 공식 권고 기준이 있습니다. 색감·조명·위치·스타일 네 가지. 이걸 확인한 뒤에 Generate를 누르면 성공률이 확 올라가요.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- Bad pair -->
@@ -178,7 +215,6 @@
           <text x="200" y="85" font-size="10" text-anchor="middle" fill="#e2c793">조정</text>
 
           <!-- Good pair -->
-          <text x="300" y="38" font-size="10" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">GOOD · 비슷한 쌍</text>
           <rect x="245" y="50" width="50" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="3"/>
           <circle cx="270" cy="75" r="10" fill="none" stroke="#e2c793" stroke-width="1.2"/>
           <rect x="305" y="50" width="50" height="50" fill="none" stroke="#e2c793" stroke-width="1.5" rx="3"/>
@@ -197,7 +233,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">② 클라이언트 사례집 이미지 (2순위) 선택한 가상 클라이언트의 무드보드(Mood Board · 색·분위기 참고 이미지 모음)에서 비슷한 톤의 사진 2장 선택.<br><br>장점: 브랜드 톤 일관성 유지<br><br>주의: 피사체 위치·크기가 지나치게 다르지 않도록 선별<br><br>③ 수업 중 생성 (3순위 · 백업) 26강에서 써 본 T2V로 비슷한 장면 2컷을 동일 프롬프트 + 주인공 상태만 변형해 생성. 예: 꽃봉오리 / 활짝 핀 꽃.<br><br>장점: 완벽히 맞춘 페어 가능</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 1 · 4 conditions -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -206,35 +262,34 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">색감 · 조명 · 위치 · 스타일</h2>
+      <h2 class="section-title">색감 · 조명 · 위치 · 스타일</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎨 색감 일관성 · 같은 톤</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">두 장이 같은 톤이어야 합니다. 둘 다 크림 베이지처럼 한 방향으로 잡혀 있으면 좋고, 한쪽 블루·한쪽 오렌지는 피하시는 게 좋아요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">💡 조명 방향 · 빛 오는 쪽</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">빛이 비슷한 방향에서 들어와야 합니다. 둘 다 창가 측광이면 최적. 한쪽 역광·한쪽 정면 조명은 AI가 맞추기 어려워요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 피사체 위치 · 중앙 유지</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">주인공의 화면 내 위치가 크게 다르지 않도록. 둘 다 중앙에 두는 게 안전합니다. 한쪽 왼쪽 끝·한쪽 오른쪽 끝은 피하세요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🖌️ 스타일 통일 · 한 종류</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">실사 사진과 3D 렌더·일러스트풍이 섞이지 않도록. 둘 다 실사, 둘 다 일러스트 — 같은 종류로 맞추시면 중간이 자연스러워집니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- 2x2 grid -->
@@ -279,7 +334,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">단점: 크레딧 추가 소모<br><br>수강생 별 참고용입니다.<br><br>A · 푸르트 (꽃집)<br><br>Start: 꽃봉오리 클로즈업 · End: 활짝 핀 같은 꽃<br><br>Start: 빈 꽃꽂이 용기 · End: 완성된 꽃다발</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 2 · 조달 + 프리셋 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -288,39 +363,37 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">어디서 2장을 · 어떤 프리셋을</h2>
+      <h2 class="section-title">어디서 2장을 · 어떤 프리셋을</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🥇 1순위 · 28강 프레임 캡처</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">28강 카메라 워킹 영상의 첫 프레임과 마지막 프레임을 스크린샷으로 저장해 Start·End로 씁니다. 색감·조명·스타일이 자동으로 일관됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🥈 2순위 · 클라이언트 사례집</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">선택한 가상 클라이언트의 Mood Board(무드보드 · 색·분위기 참고 이미지 모음)에서 비슷한 톤 2장을 고르시면 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🥉 3순위 · 수업 중 T2V 생성</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">26강 T2V로 동일 프롬프트 + 상태만 바꿔 2컷 생성. 완벽한 쌍은 가능하지만 크레딧 추가 소모라 백업으로 두세요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🎛️ 프리셋 · Morph·Seamless·Roll</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Morph(변형 · 한 이미지가 다른 이미지로 모프)·Seamless(심리스 · 이음새 없는 기본값)·Roll(롤 · 회전 전환) 3종. 실습엔 앞 두 개 권장.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="340" height="22" fill="#3a3730" opacity="0.3"/>
-          <text x="200" y="46" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">2장 조달 + 프리셋 선택</text>
 
           <!-- 3 sources tier -->
           <rect x="40" y="65" width="100" height="35" fill="none" stroke="#e2c793" stroke-width="2" rx="4"/>
@@ -361,7 +434,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">B · 슬로우템포 (브런치 카페)<br><br>Start: 빈 접시 · End: 음식이 담긴 같은 접시<br><br>Start: 커피 원두 · End: 추출된 커피 한 잔<br><br>C · 손결 (공방 강사)</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="5" data-diagram="recap">
@@ -370,29 +463,28 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Part 03 · 세 줄 정리</h2>
+      <h2 class="section-title">Part 03 · 세 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📐 4조건 · 색감·조명·위치·스타일</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">좋은 Start/End Frame 쌍은 네 가지가 비슷합니다. 차이가 클수록 AI가 맞추기 어려워 중간이 이상해져요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🥇 1순위 · 28강 프레임 캡처</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">28강 카메라 워킹 영상의 첫·끝 프레임이 가장 편한 재료 조달 경로입니다. 색감·조명이 자동 맞춤이라 유리해요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎛️ 오늘 · Morph 또는 Seamless</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">실습에선 Morph 또는 Seamless 중 1개 선택. Roll은 여유되시는 수강생의 추가 시도용으로 남겨 둡니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -427,7 +519,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">Start: 작업 초기 흙덩이 · End: 완성된 도자기<br><br>Start: 빈 작업대 · End: 완성품이 놓인 작업대<br><br>D · 링크드마인드 (지식 서비스)<br><br>Start: 백지 노트 · End: 글이 적힌 같은 노트<br><br>Start: 닫힌 책 · End: 펼쳐진 같은 책</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- BRIDGE -->
   <section class="slide slide-section" data-slide="6" data-diagram="bridge">
@@ -436,29 +548,28 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Transitions 화면, 어떻게 생겼을까요?</h2>
+      <h2 class="section-title">Transitions 화면, 어떻게 생겼을까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">👀 Part 04 · 강사 시연</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">개념 다 익히셨으니 이제 실제 UI를 봅니다. 강사가 Transitions 앱 진입부터 Generate까지 6단계를 스크린 공유로 보여 드립니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎛️ Effects 라이브러리 투어</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Effects 메뉴에도 들어가 봅니다. 50여 개 이펙트 중 오늘 쓸 3D Rotation과 Glowshift 위치를 눈으로 확인하시게 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">👣 Part 05부터 · 직접 따라 하기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 04까지는 눈으로 보기, Part 05부터는 직접 하기. 이 순서로 가시면 UI에 대한 낯설음이 많이 줄어듭니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -485,7 +596,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">힉스필드 Transitions에는 17개 트랜지션 프리셋이 있습니다[^T1-2]. 오늘 전부 다룰 수는 없으니, 대표 3종만 짚고 넘어가겠습니다.<br><br>Morph (모프): 한 이미지가 다른 이미지로 변형되며 바뀌는 효과 · 힉스필드 대표 트랜지션[^T1-2]. 꽃봉오리 → 꽃 피는 장면, 로고 변형 등에 적합.<br><br>Seamless (심리스 · 이음새 없는 전환): 자연스럽고 무난한 기본값 스타일. 어떤 쌍에도 무리 없이 맞아 왕초보에게 추천.<br><br>Roll (롤 · 회전 전환): 화면이 굴러가듯 전환되는 역동적 효과. 인스타 릴스 도입부에 자주 쓰임.<br><br>오늘 실습에서는 이 중 Morph 또는 Seamless 중 1개를 선택해 사용하시면 됩니다. Roll은 여유되는 수강생이 추가 시도.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -494,11 +625,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">좋은 쌍 · 기준 확보</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 04 · 힉스필드 UI 투어 (시연)</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-04.html">다음으로 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">Start/End Frame 좋은 쌍의 4조건: 색감 일관성 · 조명 방향 · 피사체 위치 · 스타일 통일.<br><br>이미지 조달 1순위는 28강 산출물 프레임 캡처, 2순위는 클라이언트 사례집, 3순위는 수업 중 생성.<br><br>트랜지션 프리셋은 17개 중 오늘 Morph 또는 Seamless로 시작.<br><br>개념이 정리됐으면, 이제 실제 힉스필드 화면으로 가 보겠습니다. Part 04에서 강사가 Transitions 앱 진입 → Start/End 업로드 → 프리셋 선택 → Generate까지 전 과정을 시연합니다. Effects(이펙트) 라이브러리도 이어서 같이 둘러봅니다.<br><br>*(여기서 휴식 시간)*</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 

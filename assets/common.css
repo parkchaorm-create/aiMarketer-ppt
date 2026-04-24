@@ -13,6 +13,17 @@
   --muted: #7a7666;
   --dim: #3a3730;
   --border: #1f1d19;
+
+  /* 2026-04-24 v3 · 레이아웃 토큰을 viewport 상대값으로 박제
+     (절대 px → vh/vw/clamp · 브라우저 줌 히스토리로 Part별 크기 차이 나는 문제 해결) */
+  --topbar-h: clamp(44px, 5vh, 64px);
+  --controls-h: clamp(64px, 7.5vh, 96px);
+  --bar-pad-x: clamp(16px, 1.8vw, 40px);
+  --slide-pad-x: clamp(32px, 4.5vw, 96px);
+  --slide-pad-y: clamp(24px, 3.2vh, 56px);
+  --note-w: clamp(200px, 14vw, 260px);
+  --note-top: calc(var(--topbar-h) + 8px);
+  --note-bottom: calc(var(--controls-h) + 4px);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; }
@@ -61,7 +72,7 @@ body {
 /* TOP BAR */
 .topbar {
   position: fixed; top: 0; left: 0; right: 0;
-  height: 56px; padding: 0 32px;
+  height: var(--topbar-h); padding: 0 var(--bar-pad-x);
   display: flex; align-items: center; justify-content: space-between;
   background: rgba(10,10,10,0.7);
   backdrop-filter: blur(12px);
@@ -103,7 +114,7 @@ body {
 
 /* PROGRESS */
 .progress {
-  position: fixed; top: 56px; left: 0; height: 2px;
+  position: fixed; top: var(--topbar-h); left: 0; height: 2px;
   background: linear-gradient(90deg, var(--gold), var(--gold-soft));
   width: 0%; z-index: 55;
   transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
@@ -113,11 +124,11 @@ body {
 /* DECK */
 .deck {
   position: relative; width: 100%; height: 100vh;
-  padding-top: 56px; z-index: 10;
+  padding-top: var(--topbar-h); z-index: 10;
 }
 .slide {
-  position: absolute; inset: 56px 0 80px 0;
-  padding: 50px 80px 30px;
+  position: absolute; inset: var(--topbar-h) 0 var(--controls-h) 0;
+  padding: var(--slide-pad-y) var(--slide-pad-x) calc(var(--slide-pad-y) * 0.6);
   opacity: 0;
   transform: translateY(30px) scale(0.985);
   filter: blur(8px);
@@ -237,29 +248,20 @@ body {
   font-size: 11px; color: var(--muted); letter-spacing: 3px;
   font-family: 'JetBrains Mono', monospace;
 }
-.section-grid {
-  flex: 1; display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 48px; align-items: center;
-  max-width: 1400px;
-}
-.section-body { display: flex; flex-direction: column; justify-content: center; }
-.section-title {
-  font-size: clamp(28px, 3.4vw, 48px);
-  font-weight: 900; color: var(--cream);
-  line-height: 1.15; margin-bottom: 32px;
-  word-break: keep-all; max-width: 22ch;
-  position: relative; padding-left: 28px;
-}
-.section-title::before {
-  content: ''; position: absolute;
-  left: 0; top: 8px;
-  width: 10px; height: calc(100% - 12px);
-  background: linear-gradient(180deg, var(--gold), transparent);
-}
+/* ⚠️ 2026-04-24: 구버전 grid 레이아웃 CSS 제거 · 골든 `.slide-section .section-*` 규칙으로 통일 */
+/* 아래 .bullet-list, .bullet-num, .bullet-text, .bullet-arrow, .bullet-detail 등은
+   탭 카드에 기본 필요하므로 유지하되, 슬라이드별 배치는 .slide-section 규칙이 덮어씀 */
+
 .bullet-list {
   list-style: none; display: flex; flex-direction: column;
-  gap: 14px; max-width: 62ch;
+  gap: 14px;
+}
+
+/* ⚠️ 2026-04-24: 구버전 HTML의 .section-body 래퍼 무력화 */
+/* 골든 Part 01은 section-body 없이 grid 직접 자식 (h2·visual·bullet-list) */
+/* 구버전 HTML은 section-body 래퍼 있음 · display:contents로 부모 flex에 직접 참여 */
+.slide-section .section-body {
+  display: contents !important;
 }
 .bullet-list li.tilt-card {
   display: flex; gap: 18px; align-items: flex-start;
@@ -318,14 +320,9 @@ body {
   opacity: 1; border-top: 1px solid var(--border); margin-top: 10px;
 }
 
-.section-visual {
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px;
-  min-height: 360px;
-}
+/* ⚠️ 2026-04-24: 구버전 .section-visual / .infographic CSS 제거 */
+/* 골든 `.slide-section .section-visual svg.infographic { width:50%, max-height:42vh }` 규칙이 단일 기준 */
 .infographic {
-  width: 100%; max-width: 620px;
-  height: auto;
   filter: drop-shadow(0 0 20px rgba(226,199,147,0.15));
 }
 
@@ -461,9 +458,9 @@ body {
 
 /* CONTROLS */
 .controls {
-  position: fixed; bottom: 0; left: 0; right: 0; height: 80px;
+  position: fixed; bottom: 0; left: 0; right: 0; height: var(--controls-h);
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 32px;
+  padding: 0 var(--bar-pad-x);
   background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
   z-index: 40;
 }
@@ -628,3 +625,494 @@ body {
   user-select: none;
   white-space: nowrap;
 }
+
+/* ============================================================
+
+/* ==============================================================
+   📝 강사 노트 · 레이아웃 · 책갈피 탭 시스템 (2026-04-24)
+   1강 Part 01 Golden Standard 전체 복제
+   ============================================================== */
+  /* ============================================
+     강사 노트 (Teacher Note) · 2026-04-24 도입 시범
+     - 기본 접힘 · 우하단 고정 · N 키로 일괄 토글
+     - @media print 및 body.presentation-hide 시 숨김
+     ============================================ */
+  details.teacher-note {
+    position: fixed;
+    top: var(--note-top); bottom: var(--note-bottom); right: clamp(12px, 1vw, 24px);
+    width: var(--note-w); max-width: calc(100vw - 40px);
+    font-size: 11px;
+    font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
+    background: rgba(13, 13, 13, 0.96);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 8px 12px;
+    z-index: 500;
+    color: var(--text);
+    backdrop-filter: blur(10px);
+    cursor: auto;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 12px rgba(226, 199, 147, 0.1);
+    overflow: hidden;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  details.teacher-note[open] { height: auto; }
+  details.teacher-note > summary {
+    flex: 0 0 auto !important;
+    list-style: none;
+  }
+  details.teacher-note > summary::-webkit-details-marker { display: none; }
+  details.teacher-note > .note-body {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden;
+    height: 100%;
+  }
+  .teacher-note .note-controls { flex: 0 0 auto !important; }
+  .teacher-note .note-refs {
+    flex: 0 0 auto !important;
+    max-height: clamp(120px, 16vh, 200px) !important;
+    overflow-y: auto;
+  }
+  .teacher-note .note-script {
+    flex: 0 0 clamp(200px, 30vh, 380px) !important;
+    height: clamp(200px, 30vh, 380px) !important;
+    max-height: clamp(200px, 30vh, 380px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(226, 199, 147, 0.5) rgba(226, 199, 147, 0.05);
+  }
+  .teacher-note .note-script .note-script-text {
+    flex: 1 1 auto;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  /* 스크롤바 미니멀 (스크립트 영역만 나타남) */
+  .teacher-note .note-script::-webkit-scrollbar { width: 4px; }
+  .teacher-note .note-script::-webkit-scrollbar-thumb {
+    background: rgba(226, 199, 147, 0.4); border-radius: 2px;
+  }
+  .teacher-note .note-script::-webkit-scrollbar-track {
+    background: rgba(226, 199, 147, 0.05);
+  }
+  .teacher-note summary {
+    cursor: pointer;
+    color: var(--gold);
+    font-weight: 600;
+    user-select: none;
+    list-style: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  .teacher-note summary::-webkit-details-marker { display: none; }
+  .teacher-note summary::before { content: "▶ "; color: var(--gold); }
+  .teacher-note[open] summary::before { content: "▼ "; }
+  .teacher-note[open] { padding: 12px 16px; }
+  .teacher-note .note-body {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  /* 💬 그대로 읽으세요 — 대사 영역 */
+  .teacher-note .note-script {
+    margin: 2px 0 6px;
+    padding: 8px 10px;
+    background: rgba(226, 199, 147, 0.08);
+    border-left: 2px solid var(--gold);
+    border-radius: 4px;
+  }
+  .teacher-note .note-script-label {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .teacher-note .note-script-text {
+    color: var(--cream);
+    font-size: 12px;
+    line-height: 1.45;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  .teacher-note .note-script-text::before { content: "\201C"; color: var(--gold); margin-right: 2px; }
+  .teacher-note .note-script-text::after { content: "\201D"; color: var(--gold); margin-left: 2px; }
+  /* 📌 참고 영역 — 작게 · 최대 180px · 넘치면 스크롤 */
+  .teacher-note .note-refs {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--dim);
+    font-size: 10px;
+  }
+  .teacher-note .note-refs-label {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .teacher-note .note-ref-row {
+    display: flex;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 3px;
+    align-items: flex-start;
+  }
+  .teacher-note .note-ref-row .note-ico { flex-shrink: 0; width: 14px; font-size: 10px; }
+  .teacher-note strong { color: var(--cream); }
+  /* 🎤 현재 읽는 문장 하이라이트 · 짙은 회색 배경 · 크기 변화 없음 */
+  .teacher-note .sentence {
+    display: inline;
+    transition: background 0.25s, color 0.25s;
+    padding: 1px 3px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .teacher-note .sentence.past {
+    color: var(--muted);
+    opacity: 0.35;
+  }
+  .teacher-note .sentence.active {
+    color: #ffffff;
+    background: rgba(80, 80, 80, 0.9);
+    font-weight: 600;
+  }
+  .teacher-note .sentence.future {
+    color: rgba(232, 224, 204, 0.55);
+  }
+  .teacher-note .sentence:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .teacher-note .note-para-break {
+    display: block;
+    height: 4px;
+  }
+  /* ============================================
+     🎯 새 레이아웃 · 제목→인포그래픽→1·2·3 가로 중앙 정렬
+     ============================================ */
+  .slide-section .section-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    grid-template-columns: none !important;
+    gap: 18px !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 0 10px !important;
+    overflow-y: auto !important;
+  }
+  /* section-head · 중앙 정렬 */
+  .slide-section .section-head {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    padding: 20px 0 0 !important;
+    position: relative;
+  }
+  .slide-section .section-kicker {
+    text-align: center !important;
+    align-self: center !important;
+    margin-bottom: 8px !important;
+  }
+  .slide-section .section-counter {
+    position: absolute !important;
+    top: 24px !important;
+    right: 40px !important;
+  }
+  /* 제목 앞 좌측 bar·세로선·pseudo 제거 */
+  .slide-section .section-title::before,
+  .slide-section .section-title::after {
+    display: none !important;
+    content: none !important;
+    border: 0 !important;
+  }
+  .slide-section .section-title {
+    order: 1 !important;
+    text-align: center !important;
+    font-size: 2.6rem !important;
+    font-weight: 900 !important;
+    margin-bottom: 0 !important;
+    letter-spacing: -0.01em !important;
+    color: var(--cream);
+    width: 100% !important;
+    border-left: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    background: none !important;
+  }
+  /* 2️⃣ 인포그래픽 · 중간 크기 (화면 절반) */
+  .slide-section .section-visual {
+    order: 2 !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    flex: 0 0 auto !important;
+    align-self: stretch !important;
+    padding: 0 20px !important;
+  }
+  .slide-section .section-visual svg.infographic {
+    width: 50% !important;
+    height: auto !important;
+    max-height: 42vh !important;
+    display: block;
+    margin: 0 auto;
+  }
+  .slide-section .section-grid {
+    padding: 0 !important;
+  }
+  /* 3️⃣ 책갈피 인덱스 탭 · 좌측 가장자리 붙음 · 클릭 시 펼침 */
+  .slide-section .bullet-list {
+    order: 3 !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: clamp(140px, 17vh, 220px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    list-style: none !important;
+    width: auto !important;
+    max-width: 420px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    z-index: 20 !important;
+  }
+  /* 탭 카드: 세로로 길쭉 · 오른쪽 화살표 꼬리 (clip-path) */
+  .slide-section .bullet-list li.tilt-card {
+    flex: 0 0 auto !important;
+    min-width: 44px !important;
+    max-width: 54px !important;
+    padding: 24px 20px 24px 12px !important;
+    background: linear-gradient(90deg, rgba(30, 30, 30, 0.98) 0%, rgba(15, 15, 15, 0.96) 100%) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+    cursor: pointer;
+    transition: min-width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.25s,
+                transform 0.25s !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    filter: drop-shadow(3px 3px 10px rgba(0, 0, 0, 0.5));
+    position: relative;
+  }
+  /* 탭 왼쪽 가장자리 골드 accent (책 인덱스 느낌) */
+  .slide-section .bullet-list li.tilt-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--gold);
+    opacity: 0.75;
+    transition: opacity 0.25s, width 0.25s;
+  }
+  .slide-section .bullet-list li.tilt-card:hover {
+    background: linear-gradient(90deg, rgba(226, 199, 147, 0.22) 0%, rgba(15, 15, 15, 0.96) 100%) !important;
+    transform: translateX(3px);
+  }
+  .slide-section .bullet-list li.tilt-card:hover::before {
+    opacity: 1;
+    width: 5px;
+  }
+  /* 숫자: 항상 표시 */
+  .slide-section .bullet-num {
+    flex-shrink: 0 !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    letter-spacing: 1px !important;
+    color: var(--gold) !important;
+    display: inline-block !important;
+    min-width: 24px !important;
+    text-align: center !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+  /* 기본 상태: 제목·화살표·상세 숨김 (숫자만 보임) */
+  .slide-section .bullet-list li.tilt-card .bullet-text,
+  .slide-section .bullet-list li.tilt-card .bullet-arrow,
+  .slide-section .bullet-list li.tilt-card .bullet-detail {
+    display: none !important;
+  }
+  /* 열린 탭: 오른쪽으로 펼쳐지면서 꼬리 유지 */
+  .slide-section .bullet-list li.tilt-card.open {
+    min-width: 240px !important;
+    max-width: 280px !important;
+    padding: 14px 26px 14px 14px !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%) !important;
+    filter: drop-shadow(6px 6px 20px rgba(226, 199, 147, 0.35));
+    transform: translateX(4px);
+  }
+  .slide-section .bullet-list li.tilt-card.open::before {
+    opacity: 1;
+    width: 5px;
+  }
+  .slide-section .bullet-list li.tilt-card.open .bullet-text {
+    display: inline-block !important;
+    flex: 1 1 auto !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--cream) !important;
+    line-height: 1.35 !important;
+    min-width: 0 !important;
+  }
+  .slide-section .bullet-list li.tilt-card.open .bullet-detail {
+    display: block !important;
+    flex-basis: 100% !important;
+    width: 100% !important;
+    font-size: 11px !important;
+    color: var(--text) !important;
+    line-height: 1.55 !important;
+    padding-top: 8px !important;
+    margin-top: 4px !important;
+    border-top: 1px dashed var(--dim) !important;
+  }
+  .slide-section .tilt-card.open .bullet-detail {
+    display: block !important;
+  }
+  /* 활성 슬라이드에서 세로 스크롤 지원 (아코디언 열림 대비) */
+  .slide-section.active {
+    overflow-y: auto !important;
+  }
+  /* ============================================
+     🎬 점진 공개 인터랙션
+     - 기본: 슬라이드 진입 시 제목→인포그래픽→불릿 순차 페이드업
+     - 고급: [data-reveal-step="N"] 요소는 강사 노트 문장 N 이상 활성화 시 .revealed
+     ============================================ */
+  .slide-section .section-title,
+  .slide-section .section-visual,
+  .slide-section .bullet-list li {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .slide-section.active .section-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+  }
+  .slide-section.active .section-visual {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.35s;
+  }
+  .slide-section.active .bullet-list li:nth-child(1) {
+    opacity: 1; transform: translateY(0); transition-delay: 0.6s;
+  }
+  .slide-section.active .bullet-list li:nth-child(2) {
+    opacity: 1; transform: translateY(0); transition-delay: 0.75s;
+  }
+  .slide-section.active .bullet-list li:nth-child(3) {
+    opacity: 1; transform: translateY(0); transition-delay: 0.9s;
+  }
+  .slide-section.active .bullet-list li:nth-child(4) {
+    opacity: 1; transform: translateY(0); transition-delay: 1.05s;
+  }
+  /* 강사 노트 문장과 연결된 data-reveal-step 요소 (고급) */
+  [data-reveal-step] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  [data-reveal-step].revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* ============================================
+     👥 수강생 뷰 · 강사 노트 완전 숨김 (기본값)
+     · 강사 뷰: URL에 ?view=teacher 추가
+     ============================================ */
+  body.student-view .teacher-note { display: none !important; }
+  /* 수동 전용 · 일시정지 버튼 숨김 (자동 모드 없음) */
+  .teacher-note .nc-btn[data-action="toggle"] { display: none !important; }
+  /* 프로젝터 창 열기 버튼 (강사 뷰 전용) */
+  #projectorBtn {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-family: inherit;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  #projectorBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(226, 199, 147, 0.4);
+  }
+  /* 노트 컨트롤 버튼 (⏪ ⏸ ⏩ 🔄) */
+  .teacher-note .note-controls {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--dim);
+  }
+  .teacher-note .nc-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 11px;
+    font-family: inherit;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    min-height: 26px;
+  }
+  .teacher-note .nc-btn:hover {
+    background: var(--gold);
+    color: #0D0D0D;
+  }
+  .teacher-note .nc-btn .nc-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .teacher-note .nc-btn .nc-ico svg {
+    display: block;
+  }
+  /* 현재 active 슬라이드의 강사 노트만 보이게 (opacity 기반 · 부모 transition 공유) */
+  .slide:not(.active) .teacher-note { opacity: 0; pointer-events: none; }
+  .slide.active .teacher-note { opacity: 1; pointer-events: auto; }
+  .teacher-note { transition: opacity 0.35s ease; }
+  @media print { .teacher-note { display: none !important; } }
+  body.presentation-hide-notes .teacher-note { display: none !important; }
