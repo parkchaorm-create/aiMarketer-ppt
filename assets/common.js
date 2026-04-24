@@ -51,6 +51,30 @@
   window.toggleThumbs = toggleThumbs;
   window.toggleHelp = toggleHelp;
 
+  // CRITICAL FIX (2026-04-24 · Space 버그): 포커스된 button에서 Space/Enter가
+  // browser-default로 onclick 트리거 · ctrl-btn(next/prev) 포커스 시 Space → 슬라이드 이동.
+  // 해결: keydown 시 활성 요소 blur + keyup·keypress도 잡아서 stopPropagation.
+  function blurActiveIfButton() {
+    var ae = document.activeElement;
+    if (ae && (ae.tagName === 'BUTTON' || ae.tagName === 'A') && typeof ae.blur === 'function') {
+      ae.blur();
+    }
+  }
+
+  // Space·Backspace의 keyup·keypress도 차단 (button 활성화 방지)
+  document.addEventListener('keyup', function(e) {
+    if (e.key === ' ' || e.key === 'Backspace' || e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+  document.addEventListener('keypress', function(e) {
+    if (e.key === ' ' || e.key === 'Backspace') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+
   document.addEventListener('keydown', e => {
     if (helpOverlay && helpOverlay.classList.contains('open') && e.key !== 'Escape' && e.key !== '?') return;
 
@@ -67,6 +91,8 @@
     }
     else if (e.key === ' ' || e.key === 'ArrowDown') {
       e.preventDefault();
+      e.stopPropagation();
+      blurActiveIfButton(); // 포커스된 button의 Space-click 차단
       var slide = document.querySelector('.slide.active');
       if (!slide || typeof window.setSentenceIdx !== 'function') return;
       var ss = slide.querySelectorAll('.teacher-note .sentence');
@@ -78,6 +104,8 @@
     }
     else if (e.key === 'Backspace' || e.key === 'ArrowUp') {
       e.preventDefault();
+      e.stopPropagation();
+      blurActiveIfButton();
       var slide2 = document.querySelector('.slide.active');
       if (!slide2 || typeof window.setSentenceIdx !== 'function') return;
       var ss2 = slide2.querySelectorAll('.teacher-note .sentence');
