@@ -855,5 +855,39 @@ function loop() {
 loop();
 </script>
 <div class="copyright-notice">© PajamaBoss</div>
+
+<!-- Progress Gate (2026-04-25) · progress.json 기반 카드 자동 비활성화 -->
+<script>
+(function indexProgressGate() {
+  fetch('./progress.json').then(function(r){ return r.ok ? r.json() : null; }).then(function(cfg){
+    if (!cfg) return;
+    var max = cfg.revealedUpTo || 0;
+    var extras = cfg.revealedExtras || [];
+    var lockedMsg = cfg.lockedMessage || '🔒 공개 예정';
+    function shouldLock(n){ return n > max && extras.indexOf(n) === -1; }
+
+    document.querySelectorAll('a.card.available').forEach(function(a){
+      var href = a.getAttribute('href');
+      var m = href && href.match(/^(\d+)강_/);
+      if (!m) return;
+      var n = parseInt(m[1], 10);
+      if (shouldLock(n)) {
+        a.setAttribute('data-orig-href', href);
+        a.removeAttribute('href');
+        a.classList.remove('available');
+        a.classList.add('locked');
+        a.setAttribute('title', lockedMsg);
+        a.style.opacity = '0.35';
+        a.style.cursor = 'not-allowed';
+        a.style.filter = 'grayscale(0.7)';
+        a.style.pointerEvents = 'auto';
+        a.addEventListener('click', function(e){ e.preventDefault(); });
+        var arr = a.querySelector('.arrow');
+        if (arr) arr.textContent = '🔒';
+      }
+    });
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

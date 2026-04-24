@@ -4,6 +4,66 @@
    미지정 시 FLOW가 기본값.
    ================================================================ */
 
+/* ─── PROGRESS GATE (2026-04-25) ───
+   progress.json 읽어서 revealedUpTo보다 큰 회차의 nav-arrow 링크 자동 비활성화.
+   강사가 수업 진도에 따라 progress.json만 편집하면 push 시 자동 반영. */
+(function progressGate() {
+  function relativeBase() {
+    // 현재 파일이 N강_/part-XX.html인 경우 ../../progress.json
+    // 최상위면 ./progress.json
+    var path = location.pathname;
+    var depth = (path.replace(/\/$/, '').match(/\//g) || []).length - 1;
+    // PPT HTML은 보통 /repo/N강_/part-XX.html 구조 → depth 2
+    // 안전하게 ../ 2~3번 시도는 아니고 common.css 경로 역산
+    var css = document.querySelector('link[href*="common.css"]');
+    if (!css) return null;
+    var href = css.getAttribute('href'); // "../assets/common.css" 등
+    var base = href.replace(/assets\/common\.css.*/, '').replace(/\/$/, '');
+    // base는 assets 상위 폴더 상대경로 · progress.json은 repo 루트
+    // assets와 같은 레벨이 루트임 (Public 플랫 구조)
+    return base + '/progress.json';
+  }
+
+  var url = relativeBase();
+  if (!url) return;
+
+  fetch(url).then(function(r) { return r.ok ? r.json() : null; }).then(function(cfg) {
+    if (!cfg) return;
+    var max = cfg.revealedUpTo || 0;
+    var extras = cfg.revealedExtras || [];
+    var lockedMsg = cfg.lockedMessage || '🔒 공개 예정';
+
+    function shouldLock(n) { return n > max && extras.indexOf(n) === -1; }
+
+    // 상단 nav-arrow 및 outro 버튼 처리
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (!href) return;
+      if (/^(https?:|mailto:|#)/.test(href)) return;
+      var m = href.match(/(\d+)강_/);
+      if (!m) return;
+      var n = parseInt(m[1], 10);
+      if (shouldLock(n)) {
+        a.setAttribute('data-orig-href', href);
+        a.removeAttribute('href');
+        a.classList.add('progress-locked');
+        a.setAttribute('title', lockedMsg);
+        a.style.opacity = '0.35';
+        a.style.cursor = 'not-allowed';
+        a.style.pointerEvents = 'auto';
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          alert(lockedMsg);
+        });
+        // 텍스트 끝에 자물쇠
+        if (a.innerHTML && !/🔒/.test(a.innerHTML)) {
+          a.innerHTML = '🔒 ' + a.innerHTML;
+        }
+      }
+    });
+  }).catch(function() {});
+})();
+
 /* ─── VIEW PARAM 전파 (2026-04-24) ───
    현재 URL에 ?view=student 또는 ?view=teacher 가 있으면
    페이지 내 모든 내부 HTML 링크(nav-arrow · btn · card 등)에 동일 파라미터 자동 추가.
