@@ -227,19 +227,30 @@
     });
   }
 
-  /* ─── TYPEWRITER ON COVER TITLE (2026-04-25 · 번쩍임 제거) ───
-     이전: innerHTML 전체 교체 + caret span → 폭 재계산으로 텍스트 흔들림·깜빡임.
-     이후: textContent로 글자만 append · caret 제거 · 속도 일정 (랜덤 제거). */
+  /* ─── TYPEWRITER ON COVER TITLE (2026-04-25 v3 · 폭 고정 reveal) ───
+     v1 버그: innerHTML 교체 + caret → DOM 재파싱·폭 재계산.
+     v2 버그: textContent로 바꿔도 중앙 정렬 제목은 글자 추가 시 좌우로 튐.
+     v3: 모든 글자를 <span>으로 미리 렌더 (전체 폭 고정) · 순차적 opacity reveal.
+         → 중앙 정렬 흔들림 없음 · 번쩍임 없음 · 레이아웃 시프트 없음. */
   const tw = document.querySelector('.typewriter-target');
   if (tw) {
     const text = tw.dataset.text || '';
     tw.textContent = '';
-    let ti = 0;
-    (function typ() {
-      if (ti < text.length) {
-        tw.textContent = text.substring(0, ti + 1);
-        ti++;
-        setTimeout(typ, 70);  // 일정 속도 · 랜덤 없음
+    const spans = [];
+    for (const ch of text) {
+      const s = document.createElement('span');
+      s.textContent = ch === ' ' ? ' ' : ch;
+      s.style.opacity = '0';
+      s.style.transition = 'opacity 0.15s ease';
+      tw.appendChild(s);
+      spans.push(s);
+    }
+    let ri = 0;
+    (function reveal() {
+      if (ri < spans.length) {
+        spans[ri].style.opacity = '1';
+        ri++;
+        setTimeout(reveal, 70);
       }
     })();
   }

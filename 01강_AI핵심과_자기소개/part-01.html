@@ -643,20 +643,29 @@ document.getElementById('deck').addEventListener('click', e => {
   next();
 });
 
-/* TYPEWRITER (2026-04-25 · 번쩍임 제거) · textContent + no caret + 일정 속도 */
+/* TYPEWRITER v3 (2026-04-25) · 폭 고정 opacity reveal · 중앙 정렬 흔들림 제거 */
 const tw = document.querySelector('.typewriter-target');
 if (tw) {
   const text = tw.dataset.text || '';
   tw.textContent = '';
-  let ti = 0;
-  function typ() {
-    if (ti < text.length) {
-      tw.textContent = text.substring(0, ti + 1);
-      ti++;
-      setTimeout(typ, 70);
+  const spans = [];
+  for (const ch of text) {
+    const s = document.createElement('span');
+    s.textContent = ch === ' ' ? ' ' : ch;
+    s.style.opacity = '0';
+    s.style.transition = 'opacity 0.15s ease';
+    tw.appendChild(s);
+    spans.push(s);
+  }
+  let ri = 0;
+  function reveal() {
+    if (ri < spans.length) {
+      spans[ri].style.opacity = '1';
+      ri++;
+      setTimeout(reveal, 70);
     }
   }
-  setTimeout(typ, 600);
+  setTimeout(reveal, 600);
 }
 
 function runCountup() {
