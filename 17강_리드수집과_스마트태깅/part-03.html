@@ -15,9 +15,10 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }</style>
+  }
+</style>
 </head>
-<body data-bg-mode="VORONOI" class="teacher-view">
+<body data-bg-mode="VORONOI">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -29,9 +30,8 @@
   <div class="brand">AI 마케터 · 17강</div>
   <div class="topbar-center">PART 03 · CONCEPT · 리드 · 태그 · VIP</div>
   <div class="topbar-right">
-    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-02.html" title="이전 파트">◀ PART 02</a>
-    <a class="nav-arrow" href="../index.html">INDEX</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-04.html" title="다음 파트">PART 04 ▶</a>
   </div>
 </div>
@@ -56,27 +56,7 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">리드(Lead)란 "아직 고객이 되지는 않았지만, 우리 서비스에 관심을 표현한 사람"을 가리키는 실무 용어입니다[^1]. 이름·연락처·관심 분야 같은 최소 정보 한 줄만 남겨도 리드로 분류돼요. 예를 들어:<br><br>푸르트(플로리스트) 홈페이지에서 "월간 꽃 구독 문의" 폼을 제출한 사람 → 리드<br><br>슬로우템포(브런치 카페) 인스타그램 DM으로 "단체 예약 가능한가요?"를 물어본 사람 → 리드</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -85,28 +65,29 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">개념 카드 3장 · 한 장씩</h2>
+      <div class="section-body">
+        <h2 class="section-title">개념 카드 3장 · 한 장씩</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📇 카드 1 · 리드가 무엇인가</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">리드(Lead · 관심을 표현한 잠재 고객)의 실무 정의. 가상 클라이언트별 리드 예시 3가지를 함께 봅니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🏷️ 카드 2 · 태그 명명 관례</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">태그(Tag · 짧은 분류 라벨)가 어떻게 쓰이는지. 하이픈 단순형과 콜론 구분형을 비교합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⭐ 카드 3 · VIP 실무 약칭</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">공공 강의 맥락에서 VIP는 "매출 보장"이 아닌 "응대 우선 순위가 높은 리드" 약칭으로 사용함을 명확히 합니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -116,6 +97,7 @@
             </linearGradient>
           </defs>
           <rect x="30" y="25" width="340" height="22" fill="url(#p3ov-g)" opacity="0.18"/>
+          <text x="200" y="41" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 03 · 개념 카드 3장</text>
           <rect x="40" y="70" width="100" height="130" fill="none" stroke="#3a3730" stroke-width="1" rx="4"/>
           <text x="90" y="100" font-size="26" text-anchor="middle" fill="#e2c793">📇</text>
           <text x="90" y="135" font-size="13" text-anchor="middle" fill="#F7F0DF" font-weight="700">리드</text>
@@ -140,27 +122,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">손결(핸드메이드 비누) 무료 샘플 신청 폼을 채운 사람 → 리드<br><br>리드가 곧바로 매출이 되진 않습니다. 그래서 "어떤 리드부터 먼저 응대할지"를 빠르게 가려내는 작업이 실무에서 가장 먼저 나오는 업무예요.<br><br>태그(Tag)는 리드에게 붙이는 짧은 라벨입니다. 엑셀의 "열(column)"보다 훨씬 가볍고, 여러 개를 동시에 붙일 수 있어요. 예를 들어 한 명의 리드에게 이렇게 붙일 수 있습니다:</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -169,28 +131,29 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">단어 세 개 · 정말 같은 뜻일까요?</h2>
+      <div class="section-body">
+        <h2 class="section-title">단어 세 개 · 정말 같은 뜻일까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🔤 문의자 · 고객 · 회원?</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"문의한 사람 = 고객 = 회원"으로 뭉뚱그리면 대행사 실무에서 자주 꼬입니다. 실제로는 단계가 다 달라요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🏷️ 태그 · 엑셀 열이랑 다른가</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">엑셀의 열(column)과 태그는 비슷해 보여도 운영 방식이 다릅니다. 여러 개를 동시에 붙일 수 있고 가볍죠.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⭐ VIP = 매출 보장?</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">공공 강의 맥락의 VIP는 "매출이 보장된 고객"이 아닙니다. 먼저 전화해 볼 대기열의 실무 약칭이에요.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <text x="80" y="50" font-size="11" text-anchor="middle" fill="#7a7666">뭉뚱그리면</text>
@@ -219,27 +182,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">리드 이름: 김지연 태그: [local-seoul] [interest-subscription] [budget-mid] [high-intent]<br><br>네 개의 태그만 봐도 "서울 거주 · 구독에 관심 · 중간 예산대 · 높은 의향"이라는 정보가 한눈에 보이죠. 태그는 필터·검색·자동화 워크플로우의 기준값으로 쓰입니다[^2].<br><br>하이픈 단순형: `vip-candidate`, `high-intent` (오늘 실습에서 사용할 형식)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 1 · 리드 카드 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -248,28 +191,29 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">리드 · 관심을 표현한 사람</h2>
+      <div class="section-body">
+        <h2 class="section-title">리드 · 관심을 표현한 사람</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📇 정의 · 아직 고객은 아님</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">리드(Lead · 잠재 고객)는 "아직 구매하지는 않았지만, 서비스에 관심을 표현한 사람"을 뜻하는 실무 용어입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">✏️ 최소 정보 한 줄만 있어도</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">이름·연락처·관심 분야 같은 정보 한 줄만 남겨도 리드로 분류됩니다. 완전한 정보가 없어도 관리 대상이에요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 먼저 · 가려내는 작업부터</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">리드가 곧 매출이 되진 않아요. 그래서 "어떤 리드부터 먼저 응대할지"를 빠르게 가려내는 업무가 실무의 출발점입니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="40" y="30" width="320" height="210" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
@@ -294,27 +238,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">콜론 구분형: `interest:subscription`, `source:facebook` (실무에서 자주 쓰는 고급 형식 · 본 회차는 하이픈형으로 시작)<br><br>공공 강의 맥락에서 VIP는 "매출 보장 고객"이 아니라 "응대 우선 순위가 가장 높은 리드"를 의미하는 실무 약칭으로 다루겠습니다. 대행사 입장에서는 다음 조건을 충족하면 VIP 후보로 분류하는 경우가 많습니다:<br><br>예산 규모가 평균 이상<br><br>즉시 시작 의사 표시</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 2 · 태그 카드 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -323,28 +247,29 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">태그 · 리드에 붙이는 라벨</h2>
+      <div class="section-body">
+        <h2 class="section-title">태그 · 리드에 붙이는 라벨</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🏷️ 여러 개 동시 · 붙일 수 있음</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">태그(Tag · 분류 라벨)는 엑셀 열보다 가볍습니다. 한 명의 리드에게 [local-seoul][interest-subscription] 식으로 여러 개 부착 가능해요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔎 자동화의 · 기준값</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">태그는 필터·검색·워크플로우(Workflow · 자동화 흐름)의 기준값으로 쓰입니다. 태그 한 개로 전체 그룹을 움직일 수 있어요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📝 명명 관례 · 하이픈형 통일</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘은 vip-candidate 같은 하이픈 단순형으로 통일합니다. 콜론형(interest:subscription)은 실무 고급 옵션으로 소개만.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="40" y="35" width="320" height="190" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
@@ -369,27 +294,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">이전 구매·문의 이력 존재<br><br>특정 지역·업종 등 우리가 가장 잘 서비스할 수 있는 세그먼트<br><br>오늘은 이 조건들을 폼 질문 + 태그 규칙으로 자동화해 볼 거예요. 단, "VIP = 반드시 계약됨"이 아닙니다. VIP 태그는 "먼저 전화해 볼 사람의 대기열"을 만드는 도구입니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="5" data-diagram="recap">
@@ -398,30 +303,32 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">Part 03 · 세 단어 정리</h2>
+      <div class="section-body">
+        <h2 class="section-title">Part 03 · 세 단어 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📇 리드 · 관심 표현한 사람</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Lead = 아직 고객은 아니지만 관심을 표현한 잠재 고객. 최소 정보 한 줄만 남겨도 리드로 분류됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🏷️ 태그 · 여러 개 동시 라벨</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Tag = 리드에게 붙이는 짧은 분류 라벨. 동시에 여러 개 부착 가능하며 자동화 워크플로우의 기준값으로 쓰입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⭐ VIP · 우선 응대 대기열</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">VIP = 공공 강의에선 "응대 우선 순위가 높은 리드"의 실무 약칭. 매출 보장 용어가 아닙니다. 스마트 태깅은 이 대기열을 자동화합니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="35" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">태그가 없을 때 vs 있을 때</text>
           <rect x="30" y="60" width="160" height="140" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
           <text x="110" y="82" font-size="11" text-anchor="middle" fill="#7a7666" font-weight="700">❌ 태그 없음</text>
           <text x="110" y="105" font-size="10" text-anchor="middle" fill="#7a7666">100명 이메일 열기</text>
@@ -444,27 +351,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">태그가 없다면 어떻게 될까요. 리드 100명이 하루에 쏟아진다고 상상해 봅시다.<br><br>없을 때: 100명의 이메일을 하나씩 열어보며 중요도를 수동 판단 → 시간 소모 큼·누락 발생<br><br>있을 때: 제출 순간 자동으로 태그가 붙어 `vip-candidate` 태그만 필터 → 10명만 집중 응대</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- BRIDGE -->
   <section class="slide slide-section" data-slide="6" data-diagram="bridge">
@@ -473,28 +360,29 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">개념은 끝 · 이제 만들어 봅니다</h2>
+      <div class="section-body">
+        <h2 class="section-title">개념은 끝 · 이제 만들어 봅니다</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🛠️ Part 04 · 실습 A 진입</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">지금부터는 손으로 움직입니다. 폼 빌더(Form Builder)로 랜딩 폼 1개를 직접 만들어 보겠습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔗 실습 A 목표 · 공개 URL</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">필드 구성 → 저장 → 공개 URL 발급까지. 발급된 URL은 슬랙 #수업실습 채널에 업로드해 공유합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">☕ 짧은 쉬는 시간 · 안내</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">운영 상황에 따라 강사가 짧은 쉬는 시간을 안내합니다. 돌아와서 Part 04 실습 A로 바로 진입합니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -518,27 +406,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">이 차이가 1인 대행사에게는 하루 근무 시간의 체감 밀도를 크게 바꿔 줍니다. 물론 수치는 운영 상황에 따라 다르며, 여기서는 개념 비유로만 봐 주세요.<br><br>리드(Lead) = 관심을 표현한 잠재 고객<br><br>태그(Tag) = 리드에게 붙이는 분류 라벨 (여러 개 동시 가능)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -547,31 +415,11 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">세 단어의 · 지도를 접어 둡니다</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 04 · 실습 A · 랜딩 폼 생성·배포</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-04.html">다음으로 →</a>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">VIP = 응대 우선 순위가 높은 리드의 실무 약칭 (매출 보장 용어 아님)<br><br>스마트 태깅은 제출 순간 태그가 자동으로 붙도록 규칙화하는 작업<br><br>자, 이제 개념은 정리됐으니 직접 만들어 볼 차례예요. 먼저 폼 하나를 만들고, 공개 URL까지 발급해 보겠습니다.<br><br>`[강사 선택: 짧은 쉬는 시간 안내 · 운영 상황에 맞춰]`</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
 </main>
 

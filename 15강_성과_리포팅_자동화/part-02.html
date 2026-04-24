@@ -15,9 +15,10 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }</style>
+  }
+</style>
 </head>
-<body data-bg-mode="WAVES" class="teacher-view">
+<body data-bg-mode="WAVES">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -29,9 +30,8 @@
   <div class="brand">AI 마케터 · 15강</div>
   <div class="topbar-center">PART 02 · 허브 콘텐츠 엔진 · 4요소 구조</div>
   <div class="topbar-right">
-    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-01.html" title="이전 파트">◀ PART 01</a>
-    <a class="nav-arrow" href="../index.html">INDEX</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-03.html" title="다음 파트">PART 03 ▶</a>
   </div>
 </div>
@@ -56,27 +56,7 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">"허브 엔진"이라고 하면 도구 여러 개를 묶어놓은 상자를 떠올리기 쉬우세요. 실무에서 엔진의 본질은 상자가 아닙니다. "하나의 중심 콘텐츠에서 여러 채널로 콘텐츠가 자동으로 흘러 나가는 길"이 본질입니다. 1인 마케팅 대표가 매번 각 채널마다 글을 새로 쓰지 않아도 되게 해 주는 구조라고 생각하시면 편합니다.<br><br>허브-스포크 모델(Hub &amp; Spoke · 자전거 바퀴의 중심축과 바퀴살 구조에서 따온 이름)은 마케팅 업계에서 2010년대 중반부터 표준으로 쓰이는 콘텐츠 배포 구조입니다[^1]. 중심에 허브 콘텐츠 한 편(보통 긴 블로그 글 또는 가이드)을 두고, 거기서 짧은 파생 콘텐츠(스포크)를 여러 채널로 뻗는 방식입니다.<br><br>팀이 선택한 클라이언트가 A 푸르트(동네 플로리스트)라고 가정해 볼게요.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -85,28 +65,29 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">네 글자만 · 기억하셔도 됩니다</h2>
+      <div class="section-body">
+        <h2 class="section-title">네 글자만 · 기억하셔도 됩니다</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🚲 허브-스포크 · 업계 표준 모델</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">허브-스포크(Hub & Spoke · 자전거 바퀴 중심축과 바퀴살 구조)는 2010년대 중반부터 마케팅 표준으로 쓰이는 배포 구조입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🧩 엔진 4요소 · 한 번에 이해</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">허브·스포크·파이프·리포트 네 요소가 각각 어디 폴더에 자리 잡는지 Phase 3 자산과 연결해 짚습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚡ 1인 대표 · 부담 10편 → 1편+검수</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">왜 1인 에이전시에 허브 엔진이 꼭 필요한지, 제작 부담이 어떻게 줄어드는지 숫자로 비교합니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -131,6 +112,7 @@
           <text x="200" y="210" font-size="11" text-anchor="middle" fill="#e2c793">②</text>
           <text x="320" y="210" font-size="11" text-anchor="middle" fill="#e2c793">③</text>
           <rect x="30" y="25" width="340" height="22" fill="url(#ov2-g1)" opacity="0.18"/>
+          <text x="200" y="41" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 02 · 엔진 개념</text>
           <line x1="30" y1="240" x2="370" y2="240" stroke="#e2c793" stroke-width="1" opacity="0.4"/>
           <text x="200" y="255" font-size="11" text-anchor="middle" fill="#7a7666">허브 · 스포크 · 파이프 · 리포트</text>
         </svg>
@@ -140,27 +122,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">허브(중심) — 블로그 글 한 편: "봄철 어버이날 꽃다발 고르는 법 7가지"<br><br>스포크 1 — 인스타그램 카드뉴스 7장 (7가지 팁을 한 장씩)<br><br>스포크 2 — 스레드(Threads) 짧은 글 3편 (핵심 3가지만 뽑아서)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -169,28 +131,29 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">엔진은 "상자"가 아니라 "길"이죠</h2>
+      <div class="section-body">
+        <h2 class="section-title">엔진은 "상자"가 아니라 "길"이죠</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📦 오해 · 엔진 = 도구 모음 상자</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"허브 엔진"이라고 하면 여러 도구를 담아둔 상자를 먼저 떠올리기 쉬우세요. 이게 출발점의 흔한 오해입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🛤️ 본질 · 콘텐츠가 흐르는 길</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">실무 엔진의 본질은 "중심 콘텐츠 1편에서 여러 채널로 자동으로 뻗어나가는 길"입니다. 구조가 먼저, 도구는 그 뒤입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🙋 1인 대표 · 매번 새로 쓰지 않기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">채널마다 글을 새로 쓰지 않아도 되게 해 주는 구조입니다. 엔진이 없으면 매주 10편을, 있으면 1편만 씁니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- Before: box -->
@@ -223,27 +186,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">스포크 3 — 네이버 플레이스 공지 한 줄 + 대표 이미지<br><br>스포크 4 — 뉴스레터 이메일 한 편 (단골용)<br><br>팀 실습에서 그려볼 엔진 구성도에는 네 가지 요소가 들어갑니다.<br><br>역할: 한 주에 한 편 또는 한 달에 두 편 정도 제작되는 긴 콘텐츠가 쌓이는 곳</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 1 · 허브-스포크 모델 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -252,34 +195,35 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">예시 · 클라이언트 A 푸르트</h2>
+      <div class="section-body">
+        <h2 class="section-title">예시 · 클라이언트 A 푸르트</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🌸 허브 · 블로그 긴 글 한 편</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">예: "봄철 어버이날 꽃다발 고르는 법 7가지" — 한 주에 한 편 또는 한 달에 두 편 제작되는 중심 콘텐츠입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📱 스포크 1 · 인스타 카드뉴스 7장</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">7가지 팁을 한 장씩 카드뉴스(Card News · 이미지 슬라이드형 콘텐츠)로 변환합니다. 11강 멀티모달 스킬이 담당합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🧵 스포크 2·3 · 스레드 · 플레이스</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">스레드(Threads · 메타의 단문 SNS) 3편과 네이버 플레이스 공지 한 줄로 핵심 내용을 짧게 뽑아냅니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">✉️ 스포크 4 · 뉴스레터 · 단골용</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">같은 허브 콘텐츠를 단골 고객용 뉴스레터 한 편으로 재가공합니다. 허브 1편 → 스포크 4~10편이 일반적입니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- hub in center -->
@@ -313,27 +257,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">위치: 팀 프로젝트 폴더의 `hub/` 하위 (예: `hub/2026-04_어버이날_꽃다발_가이드.md`)<br><br>10·11강과의 연결: CLAUDE.md에 "허브 폴더는 여기에 있다"고 기록해 두는 게 핵심<br><br>역할: 채널별로 가공된 짧은 콘텐츠가 저장되는 곳</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 2 · 4요소 상세 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -342,34 +266,35 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">허브 · 스포크 · 파이프 · 리포트</h2>
+      <div class="section-body">
+        <h2 class="section-title">허브 · 스포크 · 파이프 · 리포트</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🏛️ 허브 · 중심 콘텐츠 저장고</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">위치: `hub/` 폴더 (예: `hub/2026-04_어버이날_꽃다발_가이드.md`). 긴 콘텐츠 원본이 여기에 쌓입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📂 스포크 · 파생 콘텐츠 출력 폴더</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">위치: `spokes/instagram/`, `spokes/threads/`, `spokes/naver/`, `spokes/newsletter/`. 11·12강 스킬이 결과물을 쏟습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔧 파이프 · 허브→스포크 변환 규칙</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">위치: `.claude/commands/` 또는 `.claude/agents/`. 12강 리퍼포징, 14강 팀 에이전트가 곧 파이프 그 자체입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">📈 리포트 · 성과 측정·요약</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">위치: `reports/2026-04-21_주간.md`. 13강 분석 스크립트가 오늘 15강에서 팀 단위로 가동됩니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- 4 element quadrant -->
@@ -404,27 +329,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">위치: `spokes/instagram/`, `spokes/threads/`, `spokes/naver/`, `spokes/newsletter/`<br><br>11·12강과의 연결: 11강 멀티모달 변환·12강 리퍼포징 스킬이 여기에 결과물을 쏟아 냅니다<br><br>역할: "이 허브 글을 인스타 카드뉴스로 바꿀 때는 이런 규칙을 쓴다"는 지침</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 3 · 왜 1인에게 필요한가 -->
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
@@ -433,28 +338,29 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">10편 새로 · 1편+검수 · 비교</h2>
+      <div class="section-body">
+        <h2 class="section-title">10편 새로 · 1편+검수 · 비교</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">😓 엔진 없음 · 매주 10편 · 버거움</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">블로그 1 + 인스타 3 + 스레드 5 + 뉴스레터 1 = 10편을 채널별로 처음부터 다시 씁니다. 지속이 현실적으로 어렵습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">😌 엔진 있음 · 허브 1편 + 검수</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">대표는 허브 1편만 집중해서 쓰고, 나머지 9편은 파이프가 변환합니다. 대표 업무는 허브 쓰기·검수·발행 세 가지입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🏁 Phase 3 · 1인이 팀 역할 구조</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">이게 Phase 3 전체가 목표로 해 온 "1인이 팀 여러 명 역할을 할 수 있게 하는 엔진"의 실제 모습입니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- bar chart compare -->
@@ -488,27 +394,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 03</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">위치: `.claude/commands/` 또는 `.claude/agents/`<br><br>12·14강과의 연결: 12강 리퍼포징 워크플로우, 14강 팀 에이전트가 곧 파이프 그 자체<br><br>역할: 허브와 스포크가 얼마나 반응을 얻었는지 숫자로 정리<br><br>위치: `reports/2026-04-21_주간.md`</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- BRIDGE -->
   <section class="slide slide-section" data-slide="6" data-diagram="bridge">
@@ -517,28 +403,29 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">구조는 잡혔고 · 리포트 생김새?</h2>
+      <div class="section-body">
+        <h2 class="section-title">구조는 잡혔고 · 리포트 생김새?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">✅ 여기까지 · 엔진 4요소 완성</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">허브·스포크·파이프·리포트가 각각 어느 폴더에 자리 잡는지 머릿속에 그림이 잡혔습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📄 다음 · 리포트 문서 생김새</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"성과가 어땠다" 한 문장이 실제 문서로 어떻게 정리되는지 업계 표준 4블록 구조를 봅니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🧪 Part 03 · /report 자동 생성 원리</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">슬래시 명령어 한 줄로 4블록이 자동 출력되는 이유와 폴더 구조를 Part 03에서 정리합니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -562,27 +449,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">13·15강과의 연결: 13강 SEO/GEO 분석 스크립트가 오늘 15강에서 팀 단위로 가동됩니다<br><br>1인 대표가 매번 채널별로 글을 새로 쓰면 한 주에 블로그 1편 + 인스타 3편 + 스레드 5편 + 뉴스레터 1편 = 10편의 글을 처음부터 써야 합니다. 현실적으로 지속 어렵습니다.<br><br>허브 엔진이 있으면 한 주에 허브 1편만 집중해서 쓰고, 나머지 9편은 에이전트가 파이프 규칙에 따라 자동 변환합니다. 대표가 하는 일은 (1) 허브 쓰기 (2) 변환 결과 검수 (3) 발행 버튼 누르기 세 가지로 줄어듭니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -591,31 +458,11 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">엔진의 모양을 · 잡았습니다</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 03 · 성과 리포트 표준 4블록</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-03.html">다음으로 →</a>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">허브-스포크 모델은 중심 1개 · 파생 여러 개 구조입니다.<br><br>엔진 4요소: 허브 · 스포크 · 파이프 · 리포트.<br><br>1인 대표의 콘텐츠 제작 부담을 10편 → 1편 + 검수로 줄입니다.<br><br>엔진 구조는 잡혔습니다. 그다음 짚어야 할 건 리포트의 생김새입니다. "성과가 어땠다"라는 문장이 실제로 문서로 어떻게 정리되는지, 표준 4블록을 보여 드리겠습니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
 </main>
 

@@ -15,9 +15,10 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }</style>
+  }
+</style>
 </head>
-<body data-bg-mode="NETWORK" class="teacher-view">
+<body data-bg-mode="NETWORK">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -29,9 +30,8 @@
   <div class="brand">AI 마케터 · 31강</div>
   <div class="topbar-center">PART 04 · Theia 업스케일 · 강사 시연</div>
   <div class="topbar-right">
-    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-03.html" title="이전 파트">◀ PART 03</a>
-    <a class="nav-arrow" href="../index.html">INDEX</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-05.html" title="다음 파트">PART 05 ▶</a>
   </div>
 </div>
@@ -56,27 +56,7 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">Upscale은 생성(Generate)에 비하면 조작이 훨씬 단순합니다. 파일 올리고 · 모델 고르고 · Generate 누르고 · 기다리기. 이 네 단계가 전부예요. 다만 어떤 파일을 올리느냐가 결과 품질을 크게 좌우하므로, 그 부분을 시연으로 먼저 확인해 보시겠습니다.<br><br>Part 04는 강사가 스크린 공유로 처음부터 업스케일 한 편 완료까지 시연합니다. 수강생은 같이 따라 오시지 말고, 눈으로 전체 흐름을 보시는 게 목표입니다. Part 05부터 팀별로 직접 따라 하시게 됩니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -85,31 +65,33 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">시연 7단계 · 한 편 완료</h2>
+      <div class="section-body">
+        <h2 class="section-title">시연 7단계 · 한 편 완료</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">👀 강사 화면 공유 · 따라 X</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">강사가 처음부터 끝까지 시연합니다. 같이 따라 오시지 말고 눈으로 전체 흐름 잡는 게 목표. Part 05부터 직접 하시면 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎬 7단계 · 로그인부터 다운로드</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">힉스필드 로그인 · Upscale 페이지 이동 · Theia 선택 · 업로드 · 옵션 확인 · Generate · 대기·다운로드 7단계입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚠️ 실패 시나리오 · 5종 미리</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">업로드 멈춤·Generate 비활성·5분 초과·결과 차이 작음 등 흔히 마주칠 5가지를 미리 보여드려 실습 때 당황하지 않도록.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="340" height="22" fill="none" stroke="#e2c793" stroke-width="1.5" rx="2"/>
+          <text x="200" y="46" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800" letter-spacing="2">시연 · 7단계 흐름</text>
 
           <circle cx="65" cy="100" r="22" fill="none" stroke="#e2c793" stroke-width="1.5"/>
           <text x="65" y="105" font-size="14" text-anchor="middle" fill="#e2c793" font-weight="700">1</text>
@@ -155,27 +137,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">1. 힉스필드 로그인 · https://higgsfield.ai/ · 26강에서 개설한 계정 그대로 2. Upscale 페이지 이동 · 상단 메뉴에서 Video Upscale 또는 직접 https://higgsfield.ai/upscale 입력 3. 모델 선택 · Theia 카드 클릭 4. 파일 업로드 · 30강 원본 영상 드래그앤드롭 (또는 Upload 버튼) 5. 옵션 확인 · 기본값 유지 (샤프닝·디테일 파라미터는 기본으로)[^T2-3] 6. Generate 클릭 · 크레딧 차감 확인 (1분당 약 $0.45 상당) 7. 대기 · 다운로드 · 몇 분 후 완료 · 비교 뷰(Before/After)로 확인 · 다운로드<br><br>크레딧 차감 실제 보여 주기: 업로드 전 총 크레딧 → 처리 후 차감된 크레딧 비교.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -184,28 +146,29 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">조작은 단순 · 결과는 정직</h2>
+      <div class="section-body">
+        <h2 class="section-title">조작은 단순 · 결과는 정직</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎯 4단계 핵심 · 업로드·선택·생성·대기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">생성(Generate) 작업과 비교하면 Upscale 조작은 훨씬 단순합니다. 파일 올리고·모델 고르고·Generate·기다리기. 이게 전부예요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎬 입력이 결과를 · 좌우합니다</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">조작은 단순한 대신 어떤 파일을 올리느냐가 결과를 크게 좌우합니다. 그래서 Part 02 체크리스트를 먼저 한 번 거른 거예요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">👁️ 보시기만 · 손은 Part 05</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">시연 동안은 손을 PC에서 떼고 화면에만 집중해 주세요. 시연 직후 Part 05에서 직접 같은 흐름을 따라 하시게 됩니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="50" y="50" width="300" height="160" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
@@ -235,27 +198,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">Before/After 비교 뷰: 힉스필드가 자동으로 제공하는 비교 화면에서 해상도 차이를 실제로 보여 주기[^T1-7].<br><br>처리 대기 중 설명 진행: 업로드만 해 놓고 다음 팀 체크리스트 점검을 병렬로 돌리는 방식 안내.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 1 · 시연 7단계 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -264,46 +207,47 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">로그인 · 다운로드까지</h2>
+      <div class="section-body">
+        <h2 class="section-title">로그인 · 다운로드까지</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">1️⃣ 로그인 · 26강 그 계정</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">higgsfield.ai 접속 · 26강에서 개설한 계정 그대로 로그인. 우측 상단 크레딧 잔액을 시연 시작 전에 한 번 확인합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">2️⃣ Upscale 페이지 · 직접 URL</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">상단 메뉴 Video Upscale 또는 직접 higgsfield.ai/upscale 입력. 페이지 진입하면 4 모델 카드가 보입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">3️⃣ 모델 선택 · Theia 카드 클릭</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Theia 카드 클릭 → 업로드 화면 전환. Rhea·Gaia·Focus Fix는 카드만 가리키면서 "오늘은 Theia"라고 짧게 짚습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">4️⃣ 파일 업로드 · 드래그앤드롭</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">30강 원본 영상을 드래그앤드롭 또는 Upload 버튼. 100MB 이내 권장. 큰 파일은 미리 분할 안내.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.48s">
+          <li class="tilt-card reveal" style="transition-delay:0.48s">
             <span class="bullet-num">05</span>
             <span class="bullet-text">5️⃣ 옵션 · 기본값 유지</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">샤프닝·디테일 파라미터 3종 수동 조정 가능하지만 기본값 유지 권장. 첫 실습은 변경 없이 가는 것이 안전합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.6s">
+          <li class="tilt-card reveal" style="transition-delay:0.6s">
             <span class="bullet-num">06</span>
             <span class="bullet-text">6️⃣7️⃣ Generate · 대기·다운로드</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">크레딧 차감 확인하며 Generate 클릭. 몇 분 후 Before/After 비교 뷰로 결과 확인 후 다운로드. 시연 한 사이클 종료.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="35" width="340" height="190" fill="none" stroke="#3a3730" stroke-width="1" rx="6"/>
@@ -339,27 +283,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">파일 크기 주의: 1분 이내 · 100MB 이하 권장. 초과 시 분할 업로드 안내.<br><br>수업 중 흔히 마주칠 상황을 미리 공유합니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 2 · 실패 시나리오 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -368,43 +292,45 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">미리 알면 · 당황 X</h2>
+      <div class="section-body">
+        <h2 class="section-title">미리 알면 · 당황 X</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">⛔ ① 업로드 중간 멈춤 · 파일 크기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">파일 100MB 초과 시 흔합니다. 앞·뒤 잘라내기로 축약 + 네트워크 상태 확인. 필요시 무료 온라인 툴(clipchamp 등)로 분할.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🚫 ② Generate 비활성 · 크레딧 부족</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">우측 상단 크레딧 잔액 확인. 부족하면 Theia보다 더 저렴한 옵션은 없으므로 강사 화면 공유로 대체 참여하시면 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⏰ ③ 5분 초과 · 서버 상황</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">서버 부하에 따라 변동 가능. 10분 넘어가면 강사에게 알려 주세요. 그동안 다른 팀원 체크리스트 작업을 병렬로 돌립니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🤔 ④ 결과·원본 거의 같음 · 자연</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">원본이 이미 1080p+면 Theia 효과가 제한적입니다. 이 경우 원본 그대로 최종본으로 확정 가능 · 실패가 아닙니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.48s">
+          <li class="tilt-card reveal" style="transition-delay:0.48s">
             <span class="bullet-num">05</span>
             <span class="bullet-text">😅 ⑤ 차이 작음 · 실망 금지</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Theia는 샤프닝·디테일 강화 중심. 드라마틱한 변화가 아닌 은은한 품질 개선이 기본 기대치입니다. "완벽한 복원"은 아닙니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="340" height="22" fill="none" stroke="#e2c793" stroke-width="1.5" rx="2"/>
+          <text x="200" y="46" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800" letter-spacing="2">실패 5종 · 미리 안내</text>
 
           <rect x="30" y="65" width="105" height="55" fill="none" stroke="#e2c793" stroke-width="1" rx="3"/>
           <text x="82" y="85" font-size="10" text-anchor="middle" fill="#e2c793" font-weight="700">⛔ ①</text>
@@ -436,27 +362,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">"업로드가 중간에 멈춰요" → 파일 크기 확인. 100MB 초과 시 앞·뒤 잘라내기. 네트워크 상태도 확인.<br><br>"Generate 버튼이 비활성" → 크레딧 부족 가능성. 우측 상단 크레딧 수 확인. 부족하면 Theia보다 저렴한 옵션은 없으므로 강사 화면 공유로 대체 참여.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="5" data-diagram="recap">
@@ -465,28 +371,29 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">Part 04 · 세 줄 정리</h2>
+      <div class="section-body">
+        <h2 class="section-title">Part 04 · 세 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎯 4단계 · 업로드·선택·생성·대기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Upscale 핵심은 네 단계. 추가 옵션은 기본값으로 두는 게 첫 실습 안전판입니다. 너무 많이 바꾸지 마세요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔀 병렬 진행 · 시간 절약</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">업로드만 해 두고 다른 팀 체크리스트 작업을 병렬로 돌리면 수업 시간 절약. 한 사람만 PC 앞에 묶이지 않습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">😌 실패 5종 · 미리 알면 침착</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">업로드 멈춤·크레딧 부족·시간 초과·차이 작음 5종 모두 시연으로 미리 봤습니다. 실습 때 만나도 침착하게 대응 가능합니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -518,27 +425,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">"처리가 5분 넘게 안 끝남" → 서버 상황에 따라 변동 가능. 10분 넘어가면 강사에게 알림.<br><br>"결과 파일이 원본과 거의 같아 보여요" → 원본이 이미 고해상도(1080p+)였다면 Theia 업스케일 효과가 제한적. 이 경우 원본 그대로 최종본 확정 가능.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- BRIDGE -->
   <section class="slide slide-section" data-slide="6" data-diagram="bridge">
@@ -547,28 +434,29 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">시연 끝 · 손이 움직일 차례</h2>
+      <div class="section-body">
+        <h2 class="section-title">시연 끝 · 손이 움직일 차례</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">👥 팀별 · 디버깅 + 업스케일</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 05는 팀 영상 디버깅 실습 A. 30강 원본 들고 와서 체크리스트 점검 후 Theia 업스케일을 직접 돌립니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📎 노션 튜토리얼 · 상세 따라가기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">상세 단계는 노션 튜토리얼 실습A_업스케일.md를 기준으로 따라가시면 됩니다. PPT는 흐름만 알려드립니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🤝 강사·조교 · 순회 지원</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">실습 중에는 강사와 조교가 팀 자리를 돌면서 막힌 부분을 지원합니다. 손들기·슬랙 #강사-QnA로 알려 주세요.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -595,27 +483,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">"Before/After 차이가 작아요" → Theia는 샤프닝·디테일 강화 중심. 드라마틱한 차이보다 은은한 품질 개선이 기본. 실망 금지.<br><br>Upscale은 업로드 · 모델 선택 · Generate · 대기 네 단계.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -624,31 +492,11 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">시연 · 한 사이클 완료</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 05 · 실습 A · 팀 디버깅 + 업스케일</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-05.html">다음으로 →</a>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">기본 모델은 Theia · 파라미터는 기본값 유지.<br><br>업로드만 해 놓고 다른 작업 병렬 진행 가능 (수업 시간 절약).<br><br>강사 시연을 보셨으면, 이제 팀별로 직접 해 보실 시간입니다. Part 05는 실습 A — 팀 영상 업스케일입니다. 30강에서 만든 팀 영상 원본을 들고 오셔서, 체크리스트로 한 번 점검한 뒤 Theia 업스케일을 돌립니다. 노션 튜토리얼 실습 A를 기준으로 따라가 주시면 됩니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
 </main>
 

@@ -15,9 +15,10 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }</style>
+  }
+</style>
 </head>
-<body data-bg-mode="CONSTELLATION" class="teacher-view">
+<body data-bg-mode="CONSTELLATION">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -29,9 +30,8 @@
   <div class="brand">AI 마케터 · 24강</div>
   <div class="topbar-center">PART 05 · 팀A 통합 · 슬래시 명령어 카탈로그 3종</div>
   <div class="topbar-right">
-    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-04.html" title="이전 파트">◀ PART 04</a>
-    <a class="nav-arrow" href="../index.html">INDEX</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-06.html" title="다음 파트">PART 06 ▶</a>
   </div>
 </div>
@@ -56,27 +56,7 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">실습 A에서 GHL 쪽 배선이 끝났어요. 이제 "이 배선을 매번 손으로 다시 그리지 않아도 되도록" 만드는 단계입니다. 팀이 다음 주에도, 다다음 달에도, 새 가상 클라이언트를 받았을 때도, 슬래시 명령어 하나 입력으로 초안·체크리스트·가이드를 꺼내 쓸 수 있도록 `.claude/commands/` 폴더에 마크다운 파일 3개를 저장합니다.<br><br>1. 폴더 확인 — 팀 프로젝트 루트에 `.claude/commands/` 폴더가 있는지 확인. 없으면 1줄로 생성. 2. 명령어 파일 3개 저장 — `schedule-post.md` · `reactivate-lead.md` · `merge-automation.md` 각각 생성. 3. 명령어 호출 테스트 — Claude Code 터미널에서 `/schedule-post`·`/reactivate-lead`·`/merge-automation` 순서대로 호출하여 응답 확인. 4. 팀 공유 — 파일 3개를 팀 Git 저장소(또는 팀 드라이브)에 커밋·공유. 이후 팀원 누구나 같은 명령어 사용 가능.<br><br>역할: 18강 자산(3채널 예약 콘텐츠 초안 프롬프트)을 호출하여 다음 주 예약 콘텐츠 초안 생성<br><br>파일 경로: `.claude/commands/schedule-post.md`<br><br>파일 내용 (복사용):<br><br>--- description: 3채널(Instagram·Facebook·Blog) 예약 콘텐츠 초안 생성 allowed-tools: Read, Write ---<br><br>아래 조건으로 인스타그램·페이스북·블로그 3채널 게시물 초안을 각각 만들어 주세요.<br><br>클라이언트: $ARGUMENTS<br><br>브랜드 톤: 담백·차분·정보 중심 (이모지 최소 · 느낌표 금지)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -85,28 +65,29 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">마크다운 3개 · 팀 공유</h2>
+      <div class="section-body">
+        <h2 class="section-title">마크다운 3개 · 팀 공유</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📁 폴더 확인 · 10강 결과물 재사용</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">팀 프로젝트 루트에 `.claude/commands/` 폴더 유무 확인. 없으면 1줄로 생성. 10강에서 만든 `.claude/` 폴더 안쪽입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📝 마크다운 3개 · 저장</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">schedule-post.md · reactivate-lead.md · merge-automation.md. 각 파일은 YAML Frontmatter(메타데이터 · 상단 ---로 감싼 블록) + 프롬프트 본문.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔄 호출 테스트 · Git 공유</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">터미널에서 3개 명령어 순서대로 호출하여 응답 확인. 팀 Git에 커밋하면 팀원 누구나 같은 명령어 사용 가능.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -116,6 +97,7 @@
             </linearGradient>
           </defs>
           <rect x="30" y="25" width="340" height="22" fill="url(#p5ov)" opacity="0.18"/>
+          <text x="200" y="41" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">PART 05 · 실습 B · 4단계</text>
 
           <!-- 4 step flow -->
           <rect x="30" y="70" width="75" height="90" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -154,27 +136,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">포함해야 할 정보: 주제 1개 · 링크 1개 · 예약 시각 권장<br><br>법 체크: 제목 앞 (광고) 표기 · 본문 말미 수신거부 안내<br><br>출력 형식 (마크다운):<br><br>길이: 150~300자<br><br>해시태그: 5~10개 (한글 + 영문 혼합)<br><br>이미지 제안: 1장 (콘셉트 한 줄)<br><br>길이: 200~400자<br><br>링크: 1개 삽입<br><br>제목 (40자 이내)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -183,28 +145,29 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">매번 · 손으로 · 다시 그리실 건가요?</h2>
+      <div class="section-body">
+        <h2 class="section-title">매번 · 손으로 · 다시 그리실 건가요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">✍️ 다음 주에도 · 같은 프롬프트?</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">팀이 다음 주에도, 다다음 달에도 새 클라이언트에 같은 프롬프트를 타이핑해야 한다면 시간 낭비입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🗂️ 저장 · 한 번 · 호출 · 무한</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">마크다운 한 장 저장 = 팀 공유 슬래시 명령어 한 개. 다음부터는 `/명령어` 입력만으로 같은 프롬프트를 꺼냅니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🧰 팀 자산 · 처음으로 · 공유</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">`.claude/commands/` 폴더가 팀 자산의 출발점. 오늘이 팀 차원에서 재사용 가능한 프롬프트 저장고를 만드는 첫날입니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- before: manual -->
@@ -235,27 +198,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">부제 (1줄)<br><br>본문 (800~1500자 · 3문단 이상)<br><br>SEO 메타: description(150자) · keywords(5~8개) · alt text(80자)<br><br>마지막에 GHL Social Planner에 붙여넣을 때 주의할 점 3줄 요약도 함께 주세요.<br><br>호출 예시: `/schedule-post 푸르트 · 5월 꽃 구독 신규 오픈 안내`<br><br>→ `$ARGUMENTS`가 `푸르트 · 5월 꽃 구독 신규 오픈 안내`로 치환됨<br><br>→ Claude가 해당 재료로 3채널 초안을 반환<br><br>역할: 20강 자산(Smart List 조건 + 템플릿 T1·T2·T3 프롬프트)을 호출하여 재활성화 메시지 초안 재생성<br><br>파일 경로: `.claude/commands/reactivate-lead.md`</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 1 · 명령어 3종 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -264,28 +207,29 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">역할이 다른 · 명령어 세 줄</h2>
+      <div class="section-body">
+        <h2 class="section-title">역할이 다른 · 명령어 세 줄</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📢 /schedule-post · 3채널 초안</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">18강 자산 호출. 인스타그램·페이스북·블로그 3채널 게시물 초안 생성. 호출 예: `/schedule-post 푸르트 · 5월 꽃 구독 오픈`.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">💤 /reactivate-lead · T1·T2·T3</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">20강 자산 호출. Smart List 조건 + 재활성화 템플릿 T1(소프트)·T2(질문형 SMS)·T3(맞춤 제안) 초안 재생성.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔗 /merge-automation · 체크리스트</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">두 워크플로우 태그 기반 병합 절차를 체크리스트 + UI 확정 가이드 형식으로 출력. 중복 방지 3조건 · 법 5체크 자동 포함.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- 3 cmd cards -->
@@ -310,27 +254,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">파일 내용 (복사용):<br><br>--- description: Smart List 조건 + 재활성화 템플릿 T1·T2·T3 초안 재생성 allowed-tools: Read, Write ---<br><br>아래 조건으로 GHL Smart List 조건 초안 1개와 재활성화 메시지 3종(T1·T2·T3)을 만들어 주세요.<br><br>클라이언트: $ARGUMENTS<br><br>방치 기준일: 60일 또는 90일 (업종 감안하여 제안)<br><br>활용할 태그: need-nurturing, high-intent, vip-candidate 중 적합한 것<br><br>제외 조건: unsubscribed, converted, 지난 7일 내 캠페인 수신 리드<br><br>법 체크: 제목 (광고) 표기 + 본문 말미 수신거부 안내 + SMS 야간(오후 9시~오전 8시) 금지<br><br>출력 형식:<br><br>GHL Advanced Filters에 옮길 수 있는 AND/OR 논리 조건 목록</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 2 · 막힘 지점 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -339,34 +263,35 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">자주 · 막히는 · 네 지점</h2>
+      <div class="section-body">
+        <h2 class="section-title">자주 · 막히는 · 네 지점</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🔄 명령어 미인식 · Claude 재시작</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">파일을 저장했는데 `/schedule-post`가 인식 안 될 때. Claude Code 재시작 후 `/help`로 명령어 목록을 확인하면 대부분 해결됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📐 Frontmatter 구분자 · `---` 누락</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">파일 저장됐는데 빈 응답이 나오면 YAML Frontmatter의 `---` 구분자가 맨 위·메타데이터 아래 각각 있는지 먼저 확인하세요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔤 $ARGUMENTS 치환 실패</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">명령어 뒤에 인자를 붙이지 않았거나 $ARGUMENTS가 코드 블록 안에 갇혀 있으면 치환이 안 됩니다. 블록 밖에 배치하세요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🏠 홈 디렉터리로 저장 · 이동</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">파일이 `~/.claude/commands/`(홈)에 저장되면 팀원 공유가 안 됩니다. 팀 프로젝트 루트 `./.claude/commands/`로 이동하세요.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="340" height="200" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
@@ -395,27 +320,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">각 줄마다 짧은 한국어 주석 1줄<br><br>Smart List 추천 이름 3개<br><br>제목 (1줄 · (광고) 포함)<br><br>본문 (150~200자)<br><br>수신거부 안내 별도 줄<br><br>SMS 본문 + 야간 전송 금지 메모<br><br>제목 (1줄 · (광고) 포함)<br><br>본문 (200~300자)<br><br>수신거부 안내 별도 줄</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="5" data-diagram="recap">
@@ -424,28 +329,29 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">Part 05 · 세 줄 정리</h2>
+      <div class="section-body">
+        <h2 class="section-title">Part 05 · 세 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📝 마크다운 3 · 명령어 3</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">`.claude/commands/` 안에 마크다운 3개 저장 = 팀 공유 슬래시 명령어 카탈로그 완성. 오늘의 핵심 산출물입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🗂️ 프롬프트 저장고 · 경계</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">슬래시 명령어는 프롬프트 저장고. 워크플로우 저장·확정은 GHL UI에서. 20강 하이브리드 원칙이 오늘도 유지됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚠️ MCP 직접 호출 · 심화</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">MCP(Model Context Protocol · 모델 컨텍스트 프로토콜) 도구로 워크플로우 직접 생성은 심화. 테스트 Sub-account에서만 · 25강도 유지.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -477,27 +383,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">마지막에 "24강 병합 구조 태그 이름 권장 3종"도 함께 주세요.<br><br>호출 예시: `/reactivate-lead 손결 · 도예 공방 · 90일 기준`<br><br>역할: 두 워크플로우를 태그 기반으로 병합할 때 사용하는 체크리스트 + GHL UI 확정 가이드 생성<br><br>파일 경로: `.claude/commands/merge-automation.md`<br><br>파일 내용 (복사용):<br><br>--- description: 두 GHL 워크플로우의 태그 기반 병합 체크리스트 + UI 확정 가이드 allowed-tools: Read, Write ---<br><br>아래 두 워크플로우를 태그 기반으로 병합하는 절차를 정리해 주세요.<br><br>병합 대상: $ARGUMENTS<br><br>(형식 예: "워크플로우A이름 → 워크플로우B이름 / 클라이언트: 클라이언트명")</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- BRIDGE -->
   <section class="slide slide-section" data-slide="6" data-diagram="bridge">
@@ -506,28 +392,29 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">두 실습 · 손에 남은 것 점검</h2>
+      <div class="section-body">
+        <h2 class="section-title">두 실습 · 손에 남은 것 점검</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📦 팀B 테스트 · 결과 점검</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 06에서 팀B 역할로 실습 A·B 결과를 서로 확인합니다. 옆 팀이 내 병합 구조를 보고 막힘 지점을 짚어 주는 시간.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📤 업로드 · 2점 세트 확인</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">`[24강][클라] 병합아키텍처·연결태그3종` + `[24강][클라] 슬래시명령어카탈로그·3종·호출결과` 두 파일 업로드 유무 점검.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔁 30초 짝 교환 · RECAP</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">옆자리 수강생과 30초씩 번갈아 교환. 가장 자신 있는 연결 1개 + 태그 이름 + 자주 쓸 슬래시 명령어 1종.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -554,27 +441,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">출력 형식:<br><br>하이픈(-) 사용 · 한글 + 영문 혼합 가능<br><br>용도 한 줄씩 주석<br><br>Tag NOT contains "unsubscribed"<br><br>Tag NOT contains "converted"<br><br>Tag NOT contains "...-지난7일"<br><br>단계별 3줄 가이드<br><br>호출 예시: `/merge-automation 스케줄링엔진 → Reactivation엔진 / 클라이언트: 푸르트`<br><br>실습 B 산출물은 2점 세트입니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -583,31 +450,11 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">팀 자산 · 첫 카탈로그 · 완성</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 06 · 팀B 테스트 · RECAP · 30초 교환</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-06.html">다음으로 →</a>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">1. `.claude/commands/` 폴더 안의 마크다운 파일 3개 — `schedule-post.md`·`reactivate-lead.md`·`merge-automation.md` 2. 각 명령어 호출 결과 스크린샷 3장 — Claude Code 터미널에서 3개 명령어를 각각 호출하여 응답이 나온 화면.<br><br>슬랙 `#수업실습`에 `[24강][A/B/C/D] 슬래시명령어카탈로그·3종·호출결과` 형식으로 업로드. 팀 전원이 같은 `.claude/commands/` 폴더를 공유한다면 팀 대표 1명이 스크린샷 3장을 올려 주시면 됩니다.<br><br>1. 강사가 `schedule-post.md` 파일 생성 → Claude Code 터미널에서 `/schedule-post 푸르트 · 5월 월간 꽃 구독 오픈` 호출 → 응답 확인까지 한 사이클 시연. 2. 수강생은 시연한 `/schedule-post`를 먼저 저장하고 1회 호출. 정상 동작 확인 후 `/reactivate-lead`·`/merge-automation` 같은 패턴으로 반복. 3. 3개 파일 모두 저장되면 팀 Git 저장소에 커밋(또는 드라이브 공유). 4. 스크린샷 3장 슬랙 업로드.<br><br>Claude Code에 GHL MCP(Model Context Protocol) 서버가 연결되어 있으면[^6], `/mcp__ghl__create_workflow` 같은 형식의 MCP 도구 호출 슬래시 명령어가 자동으로 노출됩니다. 오늘은 직접 실행하지 않지만, 다음 단계에 관심 있는 팀을 위해 경로만 기록합니다.<br><br>// 공식 엔드포인트 (2026-04 기준) GHL MCP Server URL: https://services.leadconnectorhq.com/mcp/ 인증: GHL Private Integration Token (Settings → Private Integrations에서 발급)<br><br>`.claude/commands/` 폴더에 마크다운 3개 저장 = 팀 공유 슬래시 명령어 카탈로그 완성<br><br>3종 역할 분담: `/schedule-post` 콘텐츠 초안 · `/reactivate-lead` 재활성화 초안 · `/merge-automation` 병합 체크리스트<br><br>슬래시 명령어는 프롬프트 저장고. 워크플로우 저장·확정은 GHL UI에서.<br><br>MCP 도구 직접 호출은 심화 · 테스트 Sub-account에서만.<br><br>두 실습이 끝났으니, 오늘 만든 것을 정리하고 옆자리 팀원과 짧게 공유해 보는 시간을 갖겠습니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
 </main>
 

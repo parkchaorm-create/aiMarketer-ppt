@@ -15,9 +15,10 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }</style>
+  }
+</style>
 </head>
-<body data-bg-mode="VORONOI" class="teacher-view">
+<body data-bg-mode="VORONOI">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -29,9 +30,8 @@
   <div class="brand">AI 마케터 · 18강</div>
   <div class="topbar-center">PART 03 · 3채널 구조 · Social Planner · Blog · MCP</div>
   <div class="topbar-right">
-    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-02.html" title="이전 파트">◀ PART 02</a>
-    <a class="nav-arrow" href="../index.html">INDEX</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-04.html" title="다음 파트">PART 04 ▶</a>
   </div>
 </div>
@@ -56,27 +56,7 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">GHL 안에서 오늘 우리가 다룰 도구는 세 개입니다. 각각 무엇을 맡는지 한 줄로 정리해 볼게요.<br><br>Social Planner는 페이스북·인스타그램·링크드인·틱톡·구글 비즈니스 프로필·유튜브·블루스카이까지 주요 SNS 채널을 하나의 캘린더에서 예약·발행·관리하는 GHL 내장 모듈입니다[^1]. 핵심 특징 세 가지만 보면:<br><br>다채널 단일 예약: 게시물 1건을 여러 채널에 한 번에 예약할 수 있어요.<br><br>채널별 커스터마이즈: 같은 게시물이라도 인스타그램에는 긴 캡션, 페이스북에는 링크 포함 짧은 텍스트처럼 채널마다 다르게 다듬을 수 있습니다[^2]. "Customize for Each Post" 기능이라는 이름으로 제공돼요.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -85,28 +65,29 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">카드 3장 · 한 문장 · 정리</h2>
+      <div class="section-body">
+        <h2 class="section-title">카드 3장 · 한 문장 · 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📱 카드 1 · Social Planner</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Social Planner(소셜 플래너 · GHL의 다채널 SNS 예약 캘린더)가 맡는 역할과 상태 5종(Save·Post·Schedule·Approval·Recurring)을 한 줄로 정리합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📰 카드 2 · Blog 롱폼 모듈</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Blog(블로그 · 롱폼 콘텐츠 모듈)가 Social Planner와 어떻게 다른지 · 상태 3종(Draft·Publish·Schedule)을 짚습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔌 카드 3 · MCP 초안 엔진</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">MCP(Model Context Protocol · AI와 외부 도구 연결 어댑터)가 "초안"은 맡고 "확정"은 사람이 맡는 하이브리드 경계를 그립니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -140,6 +121,7 @@
           <text x="320" y="195" font-size="10" text-anchor="middle" fill="#e2c793">초안 엔진</text>
 
           <rect x="25" y="25" width="350" height="22" fill="url(#ov3-g)" opacity="0.18"/>
+          <text x="200" y="41" font-size="12" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">3축 지도 · GHL 안의 도구</text>
 
           <text x="200" y="240" font-size="10" text-anchor="middle" fill="#7a7666">마지막에 한 문장으로 합칩니다</text>
         </svg>
@@ -149,27 +131,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">상태 5가지: 저장만(Save for Later) · 즉시 게시(Post Now) · 미래 예약(Schedule for Later) · 승인 요청(Send for Approval) · 반복 게시(Recurring) 중 상황에 맞게 선택합니다[^3].<br><br>오늘 우리가 쓸 상태는 Schedule for Later — 미래 예약이에요. 수업 종료 30분~1시간 뒤 시점으로 예약을 잡아 보겠습니다.<br><br>GHL Blog는 Sites 메뉴 안에 있는 별도 모듈로, 제목·부제·본문·이미지·SEO 메타까지 갖춘 롱폼 콘텐츠를 직접 GHL 안에서 만들고 배포하는 공간입니다[^4]. 블로그 게시물도 예약이 가능한데, 상태가 Social Planner와 조금 달라요:<br><br>Draft (초안): 저장만 해 두고 공개 안 함</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -178,28 +140,29 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">"3채널 동시"가 · 진짜 1번인가요?</h2>
+      <div class="section-body">
+        <h2 class="section-title">"3채널 동시"가 · 진짜 1번인가요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🤔 같은 GHL · 모듈은 따로</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Social Planner와 Blog는 같은 GHL 안에 있지만 모듈이 달라요. 그래서 예약 액션은 두 번으로 나뉩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🧩 커버 채널 3개 · 액션 2번</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">인스타+페이스북은 Social Planner 1회, 블로그는 Blog 1회. 합쳐서 액션 2번으로 채널 3개를 커버합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🗝️ 이 구조 · 실습의 열쇠</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">이 구조를 먼저 알아 두면 Part 05 실습에서 "왜 저장을 두 번 하지?" 같은 혼란이 생기지 않습니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- equation -->
@@ -234,27 +197,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">Publish (즉시 게시 · 과거 날짜도 가능): 곧바로 또는 지정 과거 시점으로 공개<br><br>Schedule (미래 예약): 날짜·시간 지정 — 지정 시각에 자동 게시[^5]<br><br>오늘은 Schedule 상태를 사용합니다. 짚고 가야 할 중요한 포인트 하나: "3채널 동시 예약"이라고 하지만, Social Planner와 Blog는 모듈이 달라서 예약 액션은 두 번 나뉩니다.<br><br>Social Planner에서 인스타+페이스북을 함께 1회 예약</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 1 · Social Planner -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -263,28 +206,29 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">SNS 예약 캘린더 · 한 화면</h2>
+      <div class="section-body">
+        <h2 class="section-title">SNS 예약 캘린더 · 한 화면</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🌐 다채널 단일 예약 · 1건 → N곳</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">페이스북·인스타·링크드인·틱톡·GBP·유튜브·블루스카이까지 하나의 캘린더에서 예약·발행·관리합니다. 게시물 1건을 여러 채널에 동시 예약.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎛️ 채널별 커스터마이즈 · 각 방 다른 옷</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">같은 게시물도 인스타에는 긴 캡션 · 페이스북에는 링크 포함 짧은 텍스트. "Customize for Each Post" 토글 하나로 채널마다 다듬습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 상태 5종 · 오늘은 Schedule</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Save for Later(저장만) · Post Now(즉시) · Schedule for Later(미래 예약) · Send for Approval(승인 요청) · Recurring(반복). 오늘은 Schedule.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- calendar frame -->
@@ -334,27 +278,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">Blog에서 블로그 1회 예약<br><br>→ 예약 액션은 2번, 커버하는 채널은 3개<br><br>이 구조만 기억하시면 Part 05 실습에서 헷갈리지 않으실 거예요.<br><br>MCP(Model Context Protocol · 모델 컨텍스트 프로토콜)는 16강에서 이미 만난 이름이에요. AI 에이전트가 GHL 같은 외부 도구를 표준 방식으로 다룰 수 있게 해 주는 연결 어댑터입니다. 2026년 4월 기준 GHL 공식 MCP 서버는 36개 공식 도구를 제공하는데, 그중 오늘 주제와 직접 맞닿는 도구가 두 묶음이에요[^6]:</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 2 · Blog -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -363,28 +287,29 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">Blog · 롱폼 · 별도 예약 액션</h2>
+      <div class="section-body">
+        <h2 class="section-title">Blog · 롱폼 · 별도 예약 액션</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📚 Sites · Blogs · 롱폼 전용</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Sites 메뉴 안의 별도 모듈. 제목·부제·본문·이미지·SEO 메타까지 갖춘 롱폼을 GHL 내부에서 만들고 배포합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎯 상태 3종 · Draft / Publish / Schedule</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Draft(초안 · 저장만) · Publish(즉시 게시 · 과거 날짜도 가능) · Schedule(미래 예약 · 지정 시각 자동 게시). 오늘은 Schedule.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚠️ Planner와 분리 · 예약 액션 2번</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Blog는 Social Planner와 모듈이 달라서 예약은 따로 합니다. 실습 A·B에서 "왜 저장이 두 번?"의 답은 여기에 있어요.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- Blog editor mock -->
@@ -423,27 +348,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">Social Media Posting (6개): Create Post · Edit Post · Get Post · Get Social Media Accounts · Get Social Media Statistics 등<br><br>Blogs (6개): Create Post · Update Post · Retrieve Post · Check Slug · Categories · Authors<br><br>여기서 중요한 경계가 있습니다. MCP의 "Create Post"가 Social Planner의 예약 슬롯에 곧바로 꽂히는지는 공식 문서가 세부 동작을 명시하지 않았어요. 그래서 오늘은 안전한 하이브리드로 갑니다:<br><br>클로드 코드 MCP = 카피·캡션·해시태그·블로그 본문 초안 엔진</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 3 · MCP 하이브리드 -->
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
@@ -452,28 +357,29 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">MCP · 초안은 AI · 확정은 사람</h2>
+      <div class="section-body">
+        <h2 class="section-title">MCP · 초안은 AI · 확정은 사람</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🔌 MCP · 36개 공식 도구 어댑터</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">GHL 공식 MCP 서버는 36개 도구 제공. 오늘 관련은 Social Media Posting 6개(Create·Edit·Get·Accounts·Stats 등) + Blogs 6개.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">⚖️ 경계 · 공식 동작 명시 안 됨</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">MCP "Create Post"가 Social Planner 예약 슬롯에 바로 꽂히는지는 공식 문서가 세부를 명시하지 않았어요. 안전한 하이브리드로 갑니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🤝 역할 분담 · 재료 AI · 슬롯 사람</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">클로드 코드 MCP = 카피·캡션·해시태그·블로그 본문 초안 엔진. GHL UI = 예약 슬롯 확정 무대. 초안은 AI · 확정은 사람이 마무리.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- LHS · Claude Code MCP -->
@@ -509,27 +415,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 03</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">GHL UI = 예약 슬롯 확정 무대<br><br>→ MCP가 재료를 써 주고, 수강생이 GHL UI에 옮겨 붙여 예약 확정<br><br>"클로드 코드가 버튼 한 번으로 다 자동화해 줍니다"가 아닌, "초안은 AI에게 · 확정은 사람이" 기조로 진행하겠습니다.<br><br>세 도구를 한 문장에 녹이면 이렇게 됩니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
@@ -538,28 +424,29 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">3축 · 한 문장으로 · 합치기</h2>
+      <div class="section-body">
+        <h2 class="section-title">3축 · 한 문장으로 · 합치기</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎼 한 문장 · 오늘의 공식</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"클로드 코드 MCP로 재료를 받아 · GHL Social Planner와 Blog에 예약을 확정한다." 이 한 문장에 3축이 다 들어갑니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🧮 숫자 요약 · 2 + 3</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">예약 액션 2번(Planner 1 + Blog 1) · 커버 채널 3개. 이 숫자 한 쌍이 실습의 나침반입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">💎 가치 · 시간·일관성·확장성</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">세팅 한 번으로 시간이 줄고 · 3채널에 톤이 일관되며 · 19강 DM·20강 재활성 회차에 그대로 이어 붙일 수 있습니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="340" height="60" fill="rgba(226,199,147,0.08)" stroke="#e2c793" stroke-width="2" rx="6"/>
@@ -593,27 +480,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">시간 절약: 한 번 세팅해 두면 "글 쓰기·채널 맞춤 변형·예약"이 한 자리에서 끝나, 도구 사이를 오가는 피로가 크게 줄어요. 구체 감소량은 운영 상황에 따라 다릅니다.<br><br>일관성: 브랜드 톤이 3채널에 동시에 적용돼, 고객이 어느 채널에서 봐도 같은 인상을 받게 됩니다.<br><br>확장성: 오늘 만든 구조는 19강 DM·캘린더 연동, 20강 Reactivation 캠페인에 그대로 이어 붙일 수 있어요.<br><br>Social Planner = SNS 다채널 예약 캘린더 (인스타·페이스북 등)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -622,31 +489,11 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">지도 · 완성 · 손 움직일 차례</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 04 · 실습 A · 채널 연결 + 콘텐츠 준비</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-04.html">다음으로 →</a>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">Blog = 롱폼 블로그 게시물 모듈 (별도 예약 액션)<br><br>MCP = 클로드 코드 ↔ GHL 연결 어댑터 (36개 공식 도구 · Social Media 6 + Blogs 6 포함)<br><br>오늘 실습: "MCP 초안 + GHL UI 확정" 하이브리드. 3채널 커버는 예약 액션 2번(Social Planner 1 + Blog 1).<br><br>개념은 여기까지 정리했습니다. 이제 직접 손을 움직여 볼 차례예요. 먼저 채널 계정을 연결하고, 오늘 올릴 콘텐츠 1건의 재료를 준비합니다.<br><br>`[강사 선택: 짧은 쉬는 시간 안내 · 운영 상황에 맞춰]`</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
 </main>
 

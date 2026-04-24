@@ -15,9 +15,10 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }</style>
+  }
+</style>
 </head>
-<body data-bg-mode="WAVES" class="teacher-view">
+<body data-bg-mode="WAVES">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -29,9 +30,8 @@
   <div class="brand">AI 마케터 · 21강</div>
   <div class="topbar-center">PART 07 · 정리 · 22강 예고</div>
   <div class="topbar-right">
-    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-06.html" title="이전 파트">◀ PART 06</a>
-    <a class="nav-arrow" href="../index.html">INDEX</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
     <a class="nav-arrow" href="../../22강_컨텍스트_최적화/PPT/part-01.html" title="다음 강의">22강 ▶</a>
   </div>
 </div>
@@ -56,27 +56,7 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">다음 22강에서는 오늘까지 쌓은 자동화 전체를 클로드 코드의 지식 베이스(CLAUDE.md)에 체계적으로 기록해, 클로드 코드가 우리 팀 전체 파이프라인을 이해한 상태로 지시를 받아 내도록 정리해 보겠습니다. 구체적으로는:<br><br>오늘까지 만든 16~21강 자동화 구조를 한 장짜리 지도로 압축해 CLAUDE.md에 기록</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- HOOK · 전체 한 문장 -->
   <section class="slide slide-section" data-slide="1" data-diagram="hook">
@@ -85,28 +65,29 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">오늘 · 한 문장으로 묶으면?</h2>
+      <div class="section-body">
+        <h2 class="section-title">오늘 · 한 문장으로 묶으면?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📜 한 문장 · 양방향 쌍 완성</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"월간 뉴스레터를 자동 발행되도록 예약하고, VIP 리드 발생 시 Slack 요약 알림이 즉시 도착하는 구조를 연결했다."</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📦 산출물 2종 · 손에 남음</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">월간 뉴스레터 1개 + Slack 알림 1건. 두 산출물이 본인 GHL + Slack 계정에 실제로 동작 중이면 오늘 합격입니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🧭 다음 · 22강 컨텍스트로 연결</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘까지 쌓인 자동화 전체를 CLAUDE.md에 기록해 "우리 팀 자동화"를 클로드 코드가 한 번에 이해하도록 정리합니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="340" height="75" fill="none" stroke="#e2c793" stroke-width="2" rx="6"/>
@@ -129,27 +110,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">"우리 팀의 뉴스레터는 어떤 세그먼트에 나가고, Slack 알림은 어떤 태그에 울리는가"를 클로드 코드가 즉답 가능하도록 컨텍스트 정리<br><br>방대한 워크플로우를 에이전트가 스스로 우선순위 판단하도록 하는 지시어 패턴 실습<br><br>지금까지가 "각 조각을 만드는 회차"였다면, 다음 회차는 "흩어진 조각에 지도를 덮어 씌우는 회차"예요. 22강 이후 23강부터는 팀 프로젝트 통합 실습(GHL 파이프라인 빌드)이 시작됩니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 1 · 파트별 체크 6 -->
   <section class="slide slide-section" data-slide="2" data-diagram="concept">
@@ -158,37 +119,39 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">6파트 · 하나씩 밟아 온 길</h2>
+      <div class="section-body">
+        <h2 class="section-title">6파트 · 하나씩 밟아 온 길</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">✅ P1·P2 · OT + HOOK 지도</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 01에서 뉴스레터 1 + Slack 알림 1 산출물 지도 확인, Part 02에서 "한 쌍 설계" 이유를 응대 속도 관점으로 짚었어요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">✅ P3 · 개념 3카드 정리</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 03에서 뉴스레터(경로 A)·내부 알림(4채널)·웹훅(Outbound↔Incoming) 세 카드를 정리했습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">✅ P4·P5 · 세팅 + 실습 A 뉴스레터</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 04 준비물 4체크 통과 후, Part 05에서 클로드+GHL 하이브리드로 월간 뉴스레터 자동 발행을 세팅했어요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">✅ P6 · 실습 B · Slack 알림 연결</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 06에서 Slack A구간 5 + GHL B구간 4를 거쳐 `vip-candidate` 태그 추가 시 Slack 알림까지 연결했습니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="25" width="340" height="215" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
+          <text x="200" y="48" font-size="11" text-anchor="middle" fill="#e2c793" font-weight="800" letter-spacing="2">21강 · 6파트 체크</text>
           <line x1="50" y1="58" x2="350" y2="58" stroke="#3a3730" stroke-width="1"/>
           <rect x="55" y="72" width="14" height="14" fill="none" stroke="#e2c793" stroke-width="1.5"/>
           <path d="M 58 79 L 62 83 L 67 76" fill="none" stroke="#e2c793" stroke-width="2"/>
@@ -221,27 +184,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">✅ 슬랙 `#수업실습` 채널에 오늘 산출물 2종이 올라갔는지 확인해 주세요.<br><br>`[21강][A/B/C/D] 뉴스레터수신화면`</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 2 · 30초 짝 교환 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -250,30 +193,32 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">말로 꺼내면 · 머리에 남아요</h2>
+      <div class="section-body">
+        <h2 class="section-title">말로 꺼내면 · 머리에 남아요</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">⏱️ 30초 · 내가 설명</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">옆자리에게 30초 동안 ① 선택 클라이언트 ② 뉴스레터 세그먼트 ③ Slack 알림 트리거 조건을 한 줄씩 설명합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">❓ 30초 · 상대 질문·감상</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">옆자리가 30초 질문 또는 감상 — "왜 budget-low는 제외하셨어요?" "Slack 메시지 4줄에 뭘 넣으셨어요?" 같은 짧은 대화예요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔁 역할 바꿔 · 1분 총합</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">역할 교환해 반복. 정답 맞히기가 아니라 내 설계를 말로 꺼내 보는 연습이 오늘 지식의 정착에 중요합니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+          <text x="200" y="28" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">30초 × 2 = 1분 짝 교환</text>
           <circle cx="120" cy="90" r="22" fill="none" stroke="#e2c793" stroke-width="1.5"/>
           <text x="120" y="96" font-size="18" text-anchor="middle" fill="#e2c793">🙂</text>
           <text x="120" y="130" font-size="11" text-anchor="middle" fill="#F7F0DF" font-weight="700">나</text>
@@ -299,27 +244,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">`[21강][A/B/C/D] Slack알림수신화면`<br><br>아직 미완료이신 분은 수업 종료 전에 마무리해 주시면 됩니다.<br><br>수고하셨습니다. 오늘은 "꾸준히 나가는 목소리"와 "중요한 순간 켜지는 빨간불"을 한 쌍으로 설계해 보셨어요. Slack 쪽 설정은 처음이라 손에 익히는 데 시간이 조금 걸리는 영역이지만, 한 번 세팅해 두면 이후 회차의 알림 장치를 반복해서 덧붙이는 것이 훨씬 쉬워집니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- CONCEPT 3 · 오늘 얻은 감각 4 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -328,34 +253,35 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">손에 남는 네 문장</h2>
+      <div class="section-body">
+        <h2 class="section-title">손에 남는 네 문장</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🤝 한 쌍 · 관계 + 속도</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">뉴스레터는 관계 유지 장치, Slack 알림은 속도 확보 장치. 둘을 한 쌍으로 묶어야 구멍이 메워집니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔗 웹훅 · 한 URL 양 끝</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Outbound(GHL)와 Incoming(Slack)은 같은 URL의 양 끝. Slack이 발급 → GHL이 목적지로 등록하는 구조예요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🏷️ 태그 · 두 장치 공통 기준</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">모든 알림·뉴스레터 구조는 17강 태그 체계 위에서 동작. 태그가 흔들리면 위쪽 장치도 흔들립니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🌿 한 번에 성공 · 아니어도 OK</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Slack 설정은 새로 만지는 수강생이 많아 두세 번 되돌아가는 것이 자연스러운 회차. 감을 잡아 가는 중입니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="30" width="165" height="95" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -382,27 +308,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 03</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">다음 22강에서 뵙겠습니다. 감사합니다.<br><br>`[강사 선택: 오늘 특별히 잘하신 수강생 한두 분 사례 짧게 소개 · 20초 이내]`<br><br>HighLevel 공식 블로그, "Automate Slack Workflow". https://www.gohighlevel.com/post/automate-slack-workflow (확인: 2026-04-21)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- BRIDGE · 22강 예고 -->
   <section class="slide slide-section" data-slide="5" data-diagram="bridge">
@@ -411,34 +317,35 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">22강 · 컨텍스트 최적화 고도화</h2>
+      <div class="section-body">
+        <h2 class="section-title">22강 · 컨텍스트 최적화 고도화</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📝 CLAUDE.md · 한 장 지도</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘까지 쌓은 16~21강 자동화 구조를 한 장짜리 지도로 압축해 CLAUDE.md(클로드 코드가 읽는 프로젝트 안내서)에 기록합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🧠 즉답 가능 · 팀 파이프라인</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"우리 뉴스레터는 어떤 세그먼트에 나가고, Slack 알림은 어떤 태그에 울리는가"를 클로드 코드가 바로 답할 수 있게 정리해요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 지시어 패턴 · 우선순위 판단</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">방대한 워크플로우 중 에이전트가 스스로 우선순위 판단하도록 하는 지시어 패턴을 실습합니다. 23강 팀 빌드로 이어져요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🗺️ 조각 → 지도 · 전환 회차</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">지금까지가 "조각 만들기"였다면 22강은 "흩어진 조각에 지도를 덮어 씌우기". 23강부터는 팀 파이프라인 통합으로 넘어갑니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -462,27 +369,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">HighLevel Support Portal, "Workflow Action — Send SMS". https://help.gohighlevel.com/support/solutions/articles/155000002474-workflow-action-send-sms (확인: 2026-04-21)<br><br>HighLevel Support Portal, "Getting Started — Automatic Email and SMS Followup". https://help.gohighlevel.com/support/solutions/articles/155000005060-getting-started-automatic-email-and-sms-followup (확인: 2026-04-21)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- RECAP · 산출물 + 마무리 -->
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
@@ -491,28 +378,29 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">3줄 · 업로드 · 인사</h2>
+      <div class="section-body">
+        <h2 class="section-title">3줄 · 업로드 · 인사</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📤 1) 뉴스레터수신화면 · [21강]</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">`#수업실습` 채널에 `[21강][A/B/C/D] 뉴스레터수신화면` 업로드 확인. 미완료 시 지금 마무리해 주세요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📤 2) Slack알림수신화면 · URL 가림</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">`[21강][A/B/C/D] Slack알림수신화면` 업로드. Webhook URL이 스크린샷에 포함되지 않도록 꼭 가려 주세요.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🙏 3) 수고하셨습니다 · 22강에서</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Slack 쪽 설정은 처음이라 손에 익는 시간이 필요하지만, 한 번 세팅하면 이후 회차 알림도 훨씬 쉬워져요. 다음 22강에서 뵙겠습니다.</div>
           </li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -547,27 +435,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">Net Partners, "GoHighLevel Workflows: Complete Guide to Automations That Run Your Business". https://netpartners.marketing/gohighlevel-workflows/ (확인: 2026-04-21)<br><br>SupplyGem, "GoHighLevel Webhooks — 2026 Guide". https://supplygem.com/gohighlevel-webhooks/ (확인: 2026-04-21)<br><br>GHL Services Playbooks, "Build a Newsletter as a SaaS Offer with HighLevel". https://ghl-services-playbooks-automation-crm-marketing.ghost.io/build-a-newsletter-as-a-saas-offer-with-gohighlevel-email-automation-recurring-revenue/ (확인: 2026-04-21)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -576,31 +444,11 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">양방향 · 한 쌍 · 완성 · 수고하셨어요</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · 22강 · 컨텍스트 최적화 · 팀 자동화 지도화</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="../../22강_컨텍스트_최적화/PPT/part-01.html">22강으로 →</a>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">Hooklistener, "Slack Incoming Webhooks: Send Messages from Your Backend [2026]". https://www.hooklistener.com/learn/slack-incoming-webhooks<br><br>GitHub · slackhq/slack-api-docs, "Incoming Webhooks Index". https://github.com/slackhq/slack-api-docs/blob/master/index_incoming_webhooks.md<br><br>HireGHLDeveloper, "GoHighLevel SMS Marketing Features: 2026 Guide to Automation". https://hireghldeveloper.com/blog/post/gohighlevel-sms-marketing-features-guide-to-automation</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
 </main>
 

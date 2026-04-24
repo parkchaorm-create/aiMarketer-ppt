@@ -3,12 +3,636 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Part 04 · 페르소나 설계 원칙 — AI 마케터 과정</title>
+<title>Part 04 · 페르소나 설계 원칙 — AI 마케터 실전 과정</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="../assets/common.css">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --ink: #141414;
+    --gold: #e2c793;
+    --gold-soft: #b8941f;
+    --cream: #F7F0DF;
+    --text: #E8E0CC;
+    --muted: #7a7666;
+    --dim: #3a3730;
+    --border: #1f1d19;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow: hidden;
+    letter-spacing: -0.01em;
+    cursor: none;
+  }
+  #bgcanvas {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; opacity: 0.5;
+  }
+  .dot-grid {
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+    background-size: 28px 28px;
+    z-index: 1; pointer-events: none; opacity: 0.5;
+  }
+  .vignette {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.78) 100%);
+    z-index: 2; pointer-events: none;
+  }
+  /* Custom cursor */
+  .cursor-dot, .cursor-ring {
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px; background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--gold);
+  }
+  .cursor-ring {
+    width: 38px; height: 38px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), width 0.2s, height 0.2s;
+  }
+  .cursor-ring.hover { width: 70px; height: 70px; background: rgba(226,199,147,0.08); }
 
+  /* TOP BAR */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 56px; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 50;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; font-weight: 900; letter-spacing: 3px; color: var(--gold);
+  }
+  .brand::before {
+    content: ''; width: 10px; height: 10px;
+    background: var(--gold); transform: rotate(45deg);
+    box-shadow: 0 0 12px var(--gold);
+    animation: brandPulse 3s infinite;
+  }
+  @keyframes brandPulse {
+    0%, 100% { transform: rotate(45deg) scale(1); }
+    50% { transform: rotate(225deg) scale(1.2); }
+  }
+  .topbar-center { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+  .topbar-right { display: flex; gap: 12px; align-items: center; }
+  .nav-arrow {
+    font-size: 11px; color: var(--muted); text-decoration: none;
+    letter-spacing: 1px; padding: 6px 12px; border: 1px solid var(--border);
+    border-radius: 2px; transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .nav-arrow::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold);
+    transform: translateX(-101%);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-arrow:hover { color: var(--black); border-color: var(--gold); }
+  .nav-arrow:hover::before { transform: translateX(0); }
+  .nav-arrow span, .nav-arrow { position: relative; z-index: 1; }
+  .nav-arrow.disabled { opacity: 0.3; pointer-events: none; }
+
+  /* PROGRESS */
+  .progress {
+    position: fixed; top: 56px; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+    width: 0%; z-index: 55;
+    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 14px var(--gold);
+  }
+
+  /* DECK */
+  .deck {
+    position: relative; width: 100%; height: 100vh;
+    padding-top: 56px; z-index: 10;
+  }
+  .slide {
+    position: absolute; inset: 56px 0 80px 0;
+    padding: 50px 80px 30px;
+    opacity: 0;
+    transform: translateY(30px) scale(0.985);
+    filter: blur(8px);
+    pointer-events: none;
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.5s ease;
+    display: flex; flex-direction: column;
+  }
+  .slide.active {
+    opacity: 1; transform: translateY(0) scale(1); filter: blur(0);
+    pointer-events: auto;
+  }
+
+  /* Reveal items */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .slide.active .reveal { opacity: 1; transform: translateY(0); }
+
+  /* COVER */
+  .slide-cover { justify-content: center; align-items: flex-start; padding-left: 10vw; padding-right: 10vw; }
+  .cover-bg-shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .float-shape {
+    position: absolute; opacity: 0.18;
+    animation: floatShape 18s ease-in-out infinite;
+  }
+  .float-shape.fs1 { width: 180px; height: 180px; top: 8%; right: 8%; animation-delay: 0s; }
+  .float-shape.fs2 { width: 120px; height: 120px; bottom: 20%; right: 22%; animation-delay: -4s; }
+  .float-shape.fs3 { width: 100px; height: 100px; top: 40%; right: 18%; animation-delay: -9s; }
+  .float-shape.fs4 { width: 140px; height: 140px; bottom: 10%; right: 6%; animation-delay: -13s; }
+  @keyframes floatShape {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33%      { transform: translate(-25px, 18px) rotate(20deg); }
+    66%      { transform: translate(18px, -12px) rotate(-15deg); }
+  }
+  .cover-kicker {
+    font-size: 11px; letter-spacing: 4px; font-weight: 800;
+    color: var(--gold); padding: 8px 16px;
+    border: 1px solid var(--gold); border-radius: 30px;
+    display: inline-block; margin-bottom: 36px;
+    text-transform: uppercase;
+    background: rgba(226,199,147,0.04);
+    backdrop-filter: blur(6px);
+  }
+  .cover-number {
+    font-size: 13px; color: var(--muted); letter-spacing: 6px;
+    margin-bottom: 18px; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .cover-title {
+    font-size: clamp(40px, 5.5vw, 82px);
+    font-weight: 900; line-height: 1.1;
+    color: var(--cream); letter-spacing: -0.03em;
+    word-break: keep-all; max-width: 18ch;
+    margin-bottom: 28px; position: relative;
+    min-height: 1.2em;
+  }
+  .cover-title::after {
+    content: ''; display: block;
+    width: 0; height: 3px;
+    background: var(--gold); margin-top: 36px;
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s;
+  }
+  .slide-cover.active .cover-title::after { width: 120px; }
+  .cover-title .caret {
+    display: inline-block; width: 3px; height: 0.85em;
+    background: var(--gold); margin-left: 4px;
+    animation: caretBlink 0.7s steps(2) infinite;
+    vertical-align: text-bottom;
+  }
+  @keyframes caretBlink { 50% { opacity: 0; } }
+  .cover-sub {
+    font-size: 18px; color: var(--muted);
+    letter-spacing: 2px; font-weight: 600;
+    text-transform: uppercase;
+  }
+  .cover-meta {
+    position: absolute; bottom: 40px; left: 10vw;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; color: var(--muted); letter-spacing: 1px;
+  }
+  .meta-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--gold); border-radius: 50%;
+    animation: dotPulse 2s infinite;
+  }
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(226,199,147,0.6); }
+    50% { opacity: 0.5; transform: scale(1.5); box-shadow: 0 0 0 8px rgba(226,199,147,0); }
+  }
+  .cover-hint {
+    position: absolute; bottom: 40px; right: 10vw;
+    font-size: 11px; color: var(--dim); letter-spacing: 1px;
+  }
+  .cover-hint kbd {
+    background: var(--ink); border: 1px solid var(--border);
+    color: var(--gold); padding: 2px 6px; border-radius: 2px;
+    font-family: monospace; font-size: 10px;
+  }
+
+  /* SECTION SLIDE */
+  .section-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 32px;
+  }
+  .section-kicker {
+    font-size: 11px; letter-spacing: 4px; font-weight: 800;
+    color: var(--gold); text-transform: uppercase;
+    padding: 6px 14px; border: 1px solid var(--gold);
+    border-radius: 20px; background: rgba(226,199,147,0.04);
+  }
+  .section-counter {
+    font-size: 11px; color: var(--muted); letter-spacing: 3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .section-grid {
+    flex: 1; display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px; align-items: center;
+    max-width: 1400px;
+  }
+  .section-body { display: flex; flex-direction: column; justify-content: center; }
+  .section-title {
+    font-size: clamp(28px, 3.4vw, 48px);
+    font-weight: 900; color: var(--cream);
+    line-height: 1.15; margin-bottom: 32px;
+    word-break: keep-all; max-width: 22ch;
+    position: relative; padding-left: 28px;
+  }
+  .section-title::before {
+    content: ''; position: absolute;
+    left: 0; top: 8px;
+    width: 10px; height: calc(100% - 12px);
+    background: linear-gradient(180deg, var(--gold), transparent);
+  }
+  .bullet-list {
+    list-style: none; display: flex; flex-direction: column;
+    gap: 14px; max-width: 62ch;
+  }
+  .bullet-list li.tilt-card {
+    display: flex; gap: 18px; align-items: flex-start;
+    flex-wrap: wrap; cursor: pointer;
+    font-size: 17px; color: var(--text);
+    line-height: 1.5; word-break: keep-all;
+    padding: 14px 20px;
+    background: rgba(20,20,20,0.55);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--dim);
+    backdrop-filter: blur(6px);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-style: preserve-3d;
+    position: relative;
+  }
+  .bullet-list li.tilt-card::before {
+    content: ''; position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(226,199,147,0.08) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.35s;
+    pointer-events: none;
+  }
+  .bullet-list li.tilt-card:hover {
+    border-left-color: var(--gold);
+    border-color: var(--gold);
+    transform: translateX(6px) translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  }
+  .bullet-list li.tilt-card:hover::before { opacity: 1; }
+  .bullet-list li.tilt-card:hover .bullet-arrow { opacity: 1; transform: translateX(0); }
+  .bullet-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gold);
+    font-weight: 800; letter-spacing: 1px;
+    padding-top: 4px; min-width: 26px;
+  }
+  .bullet-text { flex: 1; }
+  .bullet-arrow {
+    font-size: 16px; color: var(--gold);
+    opacity: 0; transform: translateX(-8px);
+    transition: all 0.3s;
+    align-self: center;
+  }
+  .tilt-card.open .bullet-arrow { opacity: 1; transform: rotate(90deg); }
+  .tilt-card.open { border-left-color: var(--gold); background: rgba(226,199,147,0.06); }
+  .bullet-detail {
+    width: 100%; max-height: 0; overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.22,1,0.36,1), padding 0.35s, opacity 0.3s;
+    font-size: 14px; color: var(--muted); line-height: 1.75;
+    padding: 0 0 0 44px; opacity: 0;
+    word-break: keep-all;
+  }
+  .tilt-card.open .bullet-detail {
+    max-height: 500px; padding: 10px 0 6px 44px;
+    opacity: 1; border-top: 1px solid var(--border); margin-top: 10px;
+  }
+
+  .section-visual {
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    min-height: 360px;
+  }
+  .infographic {
+    width: 100%; max-width: 620px;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(226,199,147,0.15));
+  }
+
+  /* SVG Animations */
+  .svg-pulse { animation: svgPulse 3s ease-in-out infinite; transform-origin: center; }
+  .svg-pulse2 { animation: svgPulse 3s ease-in-out infinite 0.5s; transform-origin: center; }
+  @keyframes svgPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.08); }
+  }
+  .svg-rotate-slow { animation: svgRotate 24s linear infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgRotate { to { transform: rotate(360deg); } }
+  .svg-twinkle { animation: svgTwinkle 2.5s ease-in-out infinite; }
+  @keyframes svgTwinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.6); }
+  }
+  .slide.active .svg-draw {
+    stroke-dasharray: 1000; stroke-dashoffset: 1000;
+    animation: svgDraw 2s ease-out forwards 0.3s;
+  }
+  @keyframes svgDraw { to { stroke-dashoffset: 0; } }
+  .slide.active .svg-draw-path {
+    stroke-dasharray: 500; stroke-dashoffset: 500;
+    animation: svgDraw 1.5s ease-out forwards 0.6s;
+  }
+  .slide.active .svg-stagger {
+    opacity: 0; transform: translateY(10px);
+    animation: svgStagger 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
+  }
+  @keyframes svgStagger { to { opacity: 1; transform: translateY(0); } }
+  .slide.active .svg-check-mark {
+    stroke-dasharray: 30; stroke-dashoffset: 30;
+    animation: svgDraw 0.5s ease-out forwards 0.6s;
+  }
+  .slide.active .svg-check-row {
+    opacity: 0; transform: translateX(-12px);
+    animation: svgSlide 0.55s ease-out forwards 0.4s;
+  }
+  @keyframes svgSlide { to { opacity: 1; transform: translateX(0); } }
+  .slide.active .svg-progress {
+    stroke-dasharray: 565; stroke-dashoffset: 565;
+    animation: svgProgress 2s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.5s;
+  }
+  @keyframes svgProgress { to { stroke-dashoffset: 282; } }
+  .slide.active .svg-line-fill {
+    stroke-dasharray: 400; stroke-dashoffset: 400;
+    animation: svgDraw 1.8s ease-out forwards 0.4s;
+  }
+  .svg-spin { animation: svgRotate 12s linear infinite; transform-origin: 200px 130px; }
+  .svg-ripple { animation: svgRipple 2.4s ease-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgRipple {
+    0% { opacity: 0.8; transform: scale(0.6); }
+    100% { opacity: 0; transform: scale(1.1); }
+  }
+  .svg-button-pulse { animation: svgBtnPulse 2.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgBtnPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+  }
+  .svg-countup { font-feature-settings: "tnum"; }
+
+  /* Section foot — audio bar visualizer */
+  .section-foot {
+    display: flex; justify-content: space-between;
+    align-items: center; padding-top: 12px;
+  }
+  .audio-bars {
+    display: flex; gap: 3px; align-items: flex-end;
+    height: 18px;
+  }
+  .audio-bars span {
+    display: block; width: 3px;
+    background: var(--gold);
+    border-radius: 1px;
+    animation: audioBar 1.2s ease-in-out infinite;
+  }
+  .audio-bars span:nth-child(1) { height: 60%; animation-delay: 0s; }
+  .audio-bars span:nth-child(2) { height: 30%; animation-delay: 0.1s; }
+  .audio-bars span:nth-child(3) { height: 80%; animation-delay: 0.2s; }
+  .audio-bars span:nth-child(4) { height: 45%; animation-delay: 0.3s; }
+  .audio-bars span:nth-child(5) { height: 90%; animation-delay: 0.4s; }
+  .audio-bars span:nth-child(6) { height: 55%; animation-delay: 0.5s; }
+  .audio-bars span:nth-child(7) { height: 70%; animation-delay: 0.6s; }
+  .audio-bars span:nth-child(8) { height: 35%; animation-delay: 0.7s; }
+  @keyframes audioBar {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+  .foot-tag {
+    font-size: 10px; color: var(--dim);
+    letter-spacing: 2px; text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* OUTRO */
+  .slide-outro {
+    justify-content: center; align-items: center; text-align: center;
+    position: relative;
+  }
+  .outro-radial {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(226,199,147,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .outro-kicker {
+    font-size: 11px; letter-spacing: 6px;
+    color: var(--gold); margin-bottom: 32px; font-weight: 800;
+  }
+  .outro-title {
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 900; color: var(--cream);
+    letter-spacing: -0.02em; margin-bottom: 24px;
+    word-break: keep-all;
+  }
+  .outro-sub {
+    font-size: 18px; color: var(--muted);
+    letter-spacing: 2px; margin-bottom: 60px;
+  }
+  .outro-actions { display: flex; gap: 16px; }
+  .btn {
+    font-family: inherit; padding: 14px 28px;
+    font-size: 12px; font-weight: 800; letter-spacing: 2px;
+    border-radius: 2px; cursor: none;
+    text-decoration: none; border: 1px solid;
+    transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
+  .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+  .btn-gold { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 900; }
+  .btn-gold:hover { background: transparent; color: var(--gold); box-shadow: 0 0 30px rgba(226,199,147,0.4); }
+
+  /* CONTROLS */
+  .controls {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
+    z-index: 40;
+  }
+  .ctrl-left, .ctrl-right { display: flex; align-items: center; gap: 12px; }
+  .ctrl-btn {
+    width: 44px; height: 44px;
+    background: rgba(20,20,20,0.6);
+    border: 1px solid var(--border);
+    color: var(--muted); cursor: none;
+    font-size: 18px;
+    transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
+    backdrop-filter: blur(6px);
+  }
+  .ctrl-btn:hover {
+    background: var(--gold); color: var(--black); border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(226,199,147,0.25);
+  }
+  .ctrl-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted); letter-spacing: 2px;
+  }
+  .ctrl-counter strong { color: var(--gold); }
+  .ctrl-dots { display: flex; gap: 6px; max-width: 40vw; overflow: hidden; }
+  .ctrl-dot {
+    width: 20px; height: 2px; background: var(--dim);
+    cursor: none; transition: all 0.35s;
+  }
+  .ctrl-dot:hover { background: var(--muted); }
+  .ctrl-dot.active {
+    background: var(--gold); width: 40px;
+    box-shadow: 0 0 10px var(--gold);
+  }
+
+  /* THUMBNAIL STRIP */
+  .thumb-strip {
+    position: fixed; left: 0; right: 0;
+    bottom: 80px; height: 0;
+    background: rgba(10,10,10,0.96);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 41;
+  }
+  .thumb-strip.open { height: 110px; }
+  .thumb-strip-inner {
+    display: flex; gap: 12px; padding: 20px 32px;
+    overflow-x: auto;
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--ink);
+  }
+  .thumb-strip-inner::-webkit-scrollbar { height: 4px; }
+  .thumb-strip-inner::-webkit-scrollbar-thumb { background: var(--gold); }
+  .thumb {
+    flex-shrink: 0; width: 120px; height: 68px;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 10px;
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 1.5px; cursor: none;
+    transition: all 0.25s;
+    background: rgba(20,20,20,0.6);
+  }
+  .thumb:hover { border-color: var(--gold); background: rgba(28,26,20,0.9); transform: translateY(-2px); }
+  .thumb.active { border-color: var(--gold); background: rgba(226,199,147,0.08); }
+  .thumb-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold); font-weight: 900; font-size: 11px;
+  }
+  .thumb-label {
+    color: var(--cream); font-weight: 700; font-size: 10px;
+    text-transform: uppercase;
+  }
+  .thumb.active .thumb-label { color: var(--gold); }
+
+  /* HELP OVERLAY */
+  .help-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(16px);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .help-overlay.open { opacity: 1; pointer-events: auto; }
+  .help-box {
+    padding: 50px 60px;
+    background: var(--ink);
+    border: 1px solid var(--gold);
+    max-width: 480px;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.9);
+    transform: scale(0.92);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .help-overlay.open .help-box { transform: scale(1); }
+  .help-box h3 {
+    font-size: 14px; color: var(--gold);
+    letter-spacing: 4px; margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+  .help-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text);
+  }
+  .help-row:last-child { border-bottom: none; }
+  .help-key {
+    display: inline-flex; gap: 4px;
+  }
+  .help-key kbd {
+    background: var(--black);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: 4px 10px; border-radius: 2px;
+    font-family: monospace; font-size: 11px;
+    min-width: 28px; text-align: center;
+  }
+  .help-close {
+    margin-top: 24px; font-size: 10px;
+    color: var(--dim); letter-spacing: 2px;
+    text-align: center;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .section-grid { grid-template-columns: 1fr; gap: 24px; }
+    .section-visual { min-height: 200px; }
+    .infographic { max-width: 480px; }
+  }
+  @media (max-width: 900px) {
+    .slide { padding: 40px 28px 30px; }
+    .slide-cover { padding-left: 28px; padding-right: 28px; }
+    .cover-meta, .cover-hint { left: 28px; right: 28px; bottom: 20px; }
+    .bullet-list li.tilt-card { font-size: 15px; }
+    .topbar { padding: 0 16px; }
+    .nav-arrow { display: none; }
+    body { cursor: auto; }
+    .cursor-dot, .cursor-ring { display: none; }
+    .btn, .ctrl-btn, .ctrl-dot, .thumb { cursor: pointer; }
+  }
+
+  /* © PajamaBoss 저작권 표기 (2026-04-20 주입) */
+  .copyright-notice {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--muted, #7a7666);
+    opacity: 0.55;
+    letter-spacing: 0.02em;
+    z-index: 50;
+    pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  </style>
 </head>
-<body class="teacher-view">
+<body>
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -21,7 +645,7 @@
   <div class="topbar-center">PART 04 · 페르소나 설계 원칙</div>
   <div class="topbar-right">
     <a class="nav-arrow" href="part-03.html" title="이전 파트">◀ PART 03</a>
-    <a class="nav-arrow" href="../index.html">INDEX</a>
+    <a class="nav-arrow" href="index.html">INDEX</a>
     <a class="nav-arrow" href="part-05.html" title="다음 파트">PART 05 ▶</a>
   </div>
 </div>
@@ -30,6 +654,7 @@
 
 <main class="deck" id="deck">
 
+  <!-- COVER: slide 0 -->
   <section class="slide slide-cover" data-slide="0">
     <div class="cover-bg-shapes">
       <svg class="float-shape fs1" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" fill="none" stroke="#e2c793" stroke-width="1"/></svg>
@@ -41,296 +666,339 @@
     <div class="cover-number reveal" style="transition-delay:0.15s">PART 04</div>
     <h1 class="cover-title typewriter-target" data-text="페르소나 설계 원칙">&nbsp;</h1>
     <p class="cover-sub reveal" style="transition-delay:0.5s">인구학 + 심리·행동의 2단 구성</p>
-    <div class="cover-meta reveal" style="transition-delay:0.8s"><span class="meta-dot"></span><span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span></div>
+    <div class="cover-meta reveal" style="transition-delay:0.8s">
+      <span class="meta-dot"></span>
+      <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
+    </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">Part 04 · 페르소나 설계 원칙입니다. 인구학과 심리·행동 두 축을 함께 봅니다.</div></div>
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div></details>
   </section>
 
-  <section class="slide slide-section" data-slide="1" data-diagram="overview">
-    <div class="section-head"><div class="section-kicker reveal">OVERVIEW · 한눈 요약</div><div class="section-counter reveal">00 / 00</div></div>
+  <!-- META: slide 1 -->
+  <section class="slide slide-section" data-slide="1" data-diagram="meta">
+    <div class="section-head">
+      <div class="section-kicker reveal">META · 파트 메타</div>
+      <div class="section-counter reveal">00 / 00</div>
+    </div>
     <div class="section-grid">
-      <h2 class="section-title">이 파트에서 이해할 것 · 3줄</h2>
+      <div class="section-body">
+        <h2 class="section-title">파트 메타 · 페르소나 설계</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">👤 페르소나 · 가상 고객 인물 카드</span><span class="bullet-arrow">→</span><div class="bullet-detail">페르소나(Persona)는 실제 고객 조사 데이터를 합성해 만든 가상의 1인 인물 카드입니다. 집단 평균이 아닌 구체적 한 사람이에요.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🛠️ NN/g 2단 · 인구학 + 심리·행동</span><span class="bullet-arrow">→</span><div class="bullet-detail">닐슨 노먼 그룹(NN/g · Nielsen Norman Group) 권고에 따라 인구학 + 심리·행동 두 축으로 설계합니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🎯 의사결정 도구 · 정답 아닌 방향타</span><span class="bullet-arrow">→</span><div class="bullet-detail">페르소나는 "정답을 맞히는 것"이 아니라 글·이미지·광고 결정을 안정시키는 방향타(의사결정 도구)로 활용합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">⏱️ 이론 블록 마무리 · 약 8분 분량</span><span class="bullet-arrow">→</span><div class="bullet-detail">3강 이론 블록의 마지막 파트예요. 실습 A·B로 넘어가기 전 페르소나 개념을 정리합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🪪 비유 · 가상 고객 인물 카드 한 장</span><span class="bullet-arrow">→</span><div class="bullet-detail">페르소나는 실제 고객 조사 데이터를 합성해 만든 가상의 한 사람, 즉 인물 카드입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🎯 목표 · 페르소나를 의사결정 도구로 이해</span><span class="bullet-arrow">→</span><div class="bullet-detail">정답을 맞히는 것이 아니라 글·이미지·광고 결정을 안정시키는 도구로 페르소나를 활용해요.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🛠️ 프레임 · NN/g 권고 2단 구성 적용</span><span class="bullet-arrow">→</span><div class="bullet-detail">닐슨 노먼 그룹(NN/g) 권고에 따라 인구학 + 심리·행동의 두 축으로 설계합니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" class="infographic">
   <rect width="400" height="260" fill="#141414" opacity="0.7" rx="4"/>
+  <!-- 중앙 ID 카드 -->
   <rect x="148" y="22" width="104" height="150" rx="10" fill="none" stroke="#e2c793" stroke-width="1.5"/>
   <rect x="148" y="22" width="104" height="26" rx="10" fill="#3a3730"/>
   <rect x="148" y="38" width="104" height="10" fill="#3a3730"/>
-  <text x="200" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">PERSONA</text>
+  <text x="200" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">PERSONA</text>
   <circle cx="200" cy="90" r="18" fill="none" stroke="#F7F0DF" stroke-width="1.5"/>
   <path d="M170 154 Q170 124 200 124 Q230 124 230 154" fill="none" stroke="#F7F0DF" stroke-width="1.5"/>
+  <!-- 좌 박스 -->
   <rect x="12" y="64" width="122" height="46" rx="5" fill="#3a3730" stroke="#e2c793" stroke-width="1.2"/>
-  <text x="73" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">NN/g 2단 구성</text>
-  <text x="73" y="101" text-anchor="middle" font-size="11" fill="#7a7666">인구학 + 심리행동</text>
+  <text x="73" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">NN/g 2단 구성</text>
+  <text x="73" y="101" text-anchor="middle" font-size="11" fill="#7a7666" font-family="Pretendard Variable, sans-serif">인구학 + 심리행동</text>
+  <!-- 우 박스 -->
   <rect x="266" y="64" width="122" height="46" rx="5" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
-  <text x="327" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#F7F0DF">의사결정 도구</text>
-  <text x="327" y="101" text-anchor="middle" font-size="11" fill="#7a7666">정답 맞히기 아님</text>
+  <text x="327" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">의사결정 도구</text>
+  <text x="327" y="101" text-anchor="middle" font-size="11" fill="#7a7666" font-family="Pretendard Variable, sans-serif">정답 맞히기 아님</text>
   <line x1="134" y1="87" x2="148" y2="87" stroke="#e2c793" stroke-width="1" stroke-dasharray="3 3"/>
   <line x1="252" y1="87" x2="266" y2="87" stroke="#7a7666" stroke-width="1" stroke-dasharray="3 3"/>
-  <text x="200" y="204" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793">가상 고객 인물 카드 · 의사결정 도구</text>
+  <!-- 하단 -->
+  <text x="200" y="204" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">가상 고객 인물 카드 · 의사결정 도구</text>
 </svg>
       </div>
     </div>
-    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">OVERVIEW</div></div>
-    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">이 파트의 요약 세 줄입니다. 페르소나는 가상 고객 카드. 인구학과 심리·행동의 2단 구성이 핵심. 형용사 대신 하루 한 장면으로 구체화합니다.</div></div>
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div></details>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag"></div>
+    </div>
   </section>
 
+  <!-- HOOK: slide 2 -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
-    <div class="section-head"><div class="section-kicker reveal">HOOK · 오프닝 훅</div><div class="section-counter reveal">01 / 06</div></div>
+    <div class="section-head">
+      <div class="section-kicker reveal">HOOK · 오프닝 훅</div>
+      <div class="section-counter reveal">01 / 06</div>
+    </div>
     <div class="section-grid">
-      <h2 class="section-title">왜 '한 사람'만 떠올려야 할까요?</h2>
+      <div class="section-body">
+        <h2 class="section-title">왜 '한 사람'만 떠올려야 할까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🚫 '젊은 여성 직장인' · 이 문구로 뭘 쓸까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">집단을 넓게 잡으면 실무에서 아무것도 결정하기 어렵습니다. 어떤 문장으로, 어떤 이미지로 말을 걸지 정해지지 않습니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">✍️ 글·이미지·광고 · 누구에게 말 거는 건가요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">글을 쓸 때도, 이미지를 만들 때도, 광고를 집행할 때도 구체적인 한 사람이 떠올라야 결정을 내릴 수 있습니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🪪 페르소나 · 가상 인물 한 명이 답일까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">이 구체적인 가상의 한 사람을 부르는 이름이 페르소나(Persona · 여러 고객 조사 데이터를 합성한 가상의 1인 인물 카드)입니다. 의사결정을 안정시키는 도구입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">📅 1998년 시작 · 누가 처음 만들었을까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">페르소나 개념은 1998년 인터랙션 디자이너 앨런 쿠퍼가 고안해 1999년 저서에서 대중화됐습니다. UX(User Experience · 사용자 경험)·마케팅 양쪽에서 지금도 쓰입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🚫 '젊은 여성 직장인' · 이 문구로 뭘 쓸까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">집단을 넓게 잡으면 실무에서 아무것도 결정하기 어렵습니다. 어떤 문장으로, 어떤 이미지로 말을 걸지 정해지지 않습니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">✍️ 글·이미지·광고 · 누구에게 말 거는 건가요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">글을 쓸 때도, 이미지를 만들 때도, 광고를 집행할 때도 구체적인 한 사람이 떠올라야 결정을 내릴 수 있습니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🪪 페르소나 · 가상 인물 한 명이 답일까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">이 구체적인 가상의 한 사람을 부르는 이름이 페르소나(Persona · 여러 고객 조사 데이터를 합성한 가상의 1인 인물 카드)입니다. 의사결정을 안정시키는 도구입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">📅 1998년 시작 · 누가 처음 만들었을까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">페르소나 개념은 1998년 인터랙션 디자이너 앨런 쿠퍼가 고안해 1999년 저서에서 대중화됐습니다. UX(User Experience · 사용자 경험)·마케팅 양쪽에서 지금도 쓰입니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" class="infographic">
   <rect width="400" height="260" fill="#141414" opacity="0.7" rx="4"/>
   <line x1="200" y1="16" x2="200" y2="244" stroke="#3a3730" stroke-width="1.5"/>
   <circle cx="200" cy="128" r="20" fill="#3a3730" stroke="#e2c793" stroke-width="1.5"/>
-  <text x="200" y="133" text-anchor="middle" font-size="13" font-weight="900" fill="#e2c793">VS</text>
-  <text x="96" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="#7a7666">집단 정의</text>
+  <text x="200" y="133" text-anchor="middle" font-size="13" font-weight="900" fill="#e2c793" font-family="Pretendard Variable, sans-serif">VS</text>
+  <!-- 좌 -->
+  <text x="96" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="#7a7666" font-family="Pretendard Variable, sans-serif">집단 정의</text>
   <circle cx="60" cy="80" r="10" fill="none" stroke="#7a7666" stroke-width="1.2" opacity="0.5"/>
   <circle cx="86" cy="72" r="10" fill="none" stroke="#7a7666" stroke-width="1.2" opacity="0.4"/>
   <circle cx="114" cy="80" r="10" fill="none" stroke="#7a7666" stroke-width="1.2" opacity="0.5"/>
   <circle cx="72" cy="104" r="10" fill="none" stroke="#7a7666" stroke-width="1.2" opacity="0.3"/>
   <circle cx="100" cy="102" r="10" fill="none" stroke="#7a7666" stroke-width="1.2" opacity="0.4"/>
-  <text x="99" y="188" text-anchor="middle" font-size="11" font-weight="700" fill="#7a7666">실무 결정 불가</text>
-  <text x="304" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793">한 사람</text>
+  <text x="99" y="188" text-anchor="middle" font-size="11" font-weight="700" fill="#7a7666" font-family="Pretendard Variable, sans-serif">실무 결정 불가</text>
+  <!-- 우 -->
+  <text x="304" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">한 사람</text>
   <circle cx="304" cy="80" r="20" fill="none" stroke="#e2c793" stroke-width="2"/>
   <path d="M276 142 Q276 114 304 114 Q332 114 332 142" fill="none" stroke="#e2c793" stroke-width="2"/>
-  <text x="301" y="188" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">글·이미지 결정 가능</text>
+  <text x="301" y="188" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">글·이미지 결정 가능</text>
 </svg>
       </div>
     </div>
-    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">HOOK</div></div>
-    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">'젊은 여성 직장인'처럼 집단을 넓게 정의하면 실무에서 움직일 수 없어요. 글을 쓸 때도, 이미지를 만들 때도, 광고를 집행할 때도 구체적인 한 사람이 떠올라야 결정을 내릴 수 있습니다. 이 '구체적인 가상의 한 사람'을 부르는 이름이 페르소나입니다.</div></div>
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div></details>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">HOOK</div>
+    </div>
   </section>
 
+  <!-- CONCEPT #1: slide 3 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
-    <div class="section-head"><div class="section-kicker reveal">CONCEPT · 개념</div><div class="section-counter reveal">02 / 06</div></div>
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 개념</div>
+      <div class="section-counter reveal">02 / 06</div>
+    </div>
     <div class="section-grid">
-      <h2 class="section-title">페르소나 정의 · 목적</h2>
+      <div class="section-body">
+        <h2 class="section-title">페르소나 정의 · 목적</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📖 NN/g 정의 · 조사 데이터를 합성한 가상 1인</span><span class="bullet-arrow">→</span><div class="bullet-detail">닐슨 노먼 그룹(NN/g · Nielsen Norman Group · UX 연구로 잘 알려진 미국 컨설팅 기관)은 페르소나를 '사용자·고객 조사 데이터를 합성한 가상의 한 사람'으로 정의해요.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🔀 합성 · 여러 명 정보를 한 인물로 묶기</span><span class="bullet-arrow">→</span><div class="bullet-detail">실제 조사한 여러 명의 정보를 한 인물로 묶는 것이 핵심이에요. 특정 인물이 아닌 합성된 인물입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🧠 기억 · 통계는 휘발, 한 사람 이야기는 남아</span><span class="bullet-arrow">→</span><div class="bullet-detail">통계 수치는 머리에서 휘발되지만, 한 사람의 이야기로 묶으면 팀이 기억할 수 있어요.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">⚖️ 의사결정 도구 · 정답 맞히기가 아니에요</span><span class="bullet-arrow">→</span><div class="bullet-detail">페르소나는 정답을 맞히는 것이 아니라 의사결정을 안정시키는 도구입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📖 NN/g 정의 · 조사 데이터를 합성한 가상 1인</span><span class="bullet-arrow">→</span><div class="bullet-detail">닐슨 노먼 그룹(NN/g · Nielsen Norman Group · UX 연구로 잘 알려진 미국 컨설팅 기관)은 페르소나를 '사용자·고객 조사 데이터를 합성한 가상의 한 사람'으로 정의해요.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🔀 합성 · 여러 명 정보를 한 인물로 묶기</span><span class="bullet-arrow">→</span><div class="bullet-detail">실제 조사한 여러 명의 정보를 한 인물로 묶는 것이 핵심이에요. 특정 인물이 아닌 합성된 인물입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🧠 기억 · 통계는 휘발, 한 사람 이야기는 남아</span><span class="bullet-arrow">→</span><div class="bullet-detail">통계 수치는 머리에서 휘발되지만, 한 사람의 이야기로 묶으면 팀이 기억할 수 있어요.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">⚖️ 의사결정 도구 · 정답 맞히기가 아니에요</span><span class="bullet-arrow">→</span><div class="bullet-detail">페르소나는 정답을 맞히는 것이 아니라 의사결정을 안정시키는 도구입니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" class="infographic">
   <rect width="400" height="260" fill="#141414" opacity="0.7" rx="4"/>
+  <!-- 좌: 다수 조사 (수렴 화살표) -->
   <circle cx="48" cy="62" r="7" fill="none" stroke="#7a7666" stroke-width="1.2"/>
   <circle cx="48" cy="86" r="7" fill="none" stroke="#7a7666" stroke-width="1.2"/>
   <circle cx="48" cy="110" r="7" fill="none" stroke="#7a7666" stroke-width="1.2"/>
-  <text x="48" y="132" text-anchor="middle" font-size="11" fill="#7a7666">다수 조사</text>
+  <text x="48" y="132" text-anchor="middle" font-size="11" fill="#7a7666" font-family="Pretendard Variable, sans-serif">다수 조사</text>
   <line x1="62" y1="62" x2="152" y2="80" stroke="#7a7666" stroke-width="1.2" stroke-dasharray="4 3"/>
   <line x1="62" y1="86" x2="152" y2="86" stroke="#7a7666" stroke-width="1.2" stroke-dasharray="4 3"/>
   <line x1="62" y1="110" x2="152" y2="94" stroke="#7a7666" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <!-- 중앙: 합성 1인 -->
   <circle cx="200" cy="82" r="28" fill="none" stroke="#e2c793" stroke-width="2"/>
   <path d="M158 170 Q158 128 200 128 Q242 128 242 170" fill="none" stroke="#e2c793" stroke-width="2"/>
-  <text x="200" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793">합성된 가상 1인</text>
+  <text x="200" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">합성된 가상 1인</text>
+  <!-- 우: 기억됨 vs 휘발 -->
   <rect x="256" y="52" width="126" height="34" rx="5" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
-  <text x="319" y="74" text-anchor="middle" font-size="11" fill="#7a7666">통계 수치 → 휘발</text>
+  <text x="319" y="74" text-anchor="middle" font-size="11" fill="#7a7666" font-family="Pretendard Variable, sans-serif">통계 수치 → 휘발</text>
   <rect x="256" y="100" width="126" height="34" rx="5" fill="#3a3730" stroke="#e2c793" stroke-width="1.2"/>
-  <text x="319" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">한 사람 이야기 → 기억</text>
+  <text x="319" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">한 사람 이야기 → 기억</text>
   <rect x="80" y="218" width="240" height="30" rx="6" fill="#3a3730" stroke="#e2c793" stroke-width="1.2"/>
-  <text x="200" y="237" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793">의사결정 안정 도구 · 정답 아님</text>
+  <text x="200" y="237" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">의사결정 안정 도구 · 정답 아님</text>
 </svg>
       </div>
     </div>
-    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">CONCEPT</div></div>
-    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">닐슨 노먼 그룹은 페르소나를 '사용자·고객 조사 데이터를 합성한 가상의 한 사람'으로 정의합니다. 핵심은 두 가지예요. 합성 — 실제 여러 명의 정보를 한 인물로 묶는 것. 그리고 기억하기 위함 — 통계 수치는 휘발되지만 한 사람의 이야기로 묶으면 남습니다.</div></div>
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div></details>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT</div>
+    </div>
   </section>
 
+  <!-- CONCEPT #2: slide 4 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
-    <div class="section-head"><div class="section-kicker reveal">CONCEPT · 개념</div><div class="section-counter reveal">03 / 06</div></div>
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 개념</div>
+      <div class="section-counter reveal">03 / 06</div>
+    </div>
     <div class="section-grid">
-      <h2 class="section-title">2단 구성 · 인구학 + 심리행동</h2>
+      <div class="section-body">
+        <h2 class="section-title">2단 구성 · 인구학 + 심리행동</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">⚠️ 인구학만 · 실무에서 작동 안 해요</span><span class="bullet-arrow">→</span><div class="bullet-detail">인구학(Demographic · 나이·직업·거주지 등 통계적 특성) 정보만 담긴 페르소나(예: 35세 여성 직장인 서울 거주)는 실무에서 작동하지 않는다는 것이 NN/g와 업계 공통 권고입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">👤 인구학 축 · 나이대·거주지·직업·가족 구성</span><span class="bullet-arrow">→</span><div class="bullet-detail">첫 번째 축은 인구학(Demographic) — 나이대, 거주지 반경, 직업 유형, 가족 구성을 담아요.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">💭 심리·행동 축 · 고민·목표·정보 경로·구매 요인</span><span class="bullet-arrow">→</span><div class="bullet-detail">두 번째 축은 심리·행동(Psychographic · 고객의 가치관·태도·생활 행태 특성) — 하루 고민, 이루고 싶은 목표, 정보를 얻는 경로, 구매 결정 요인입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🃏 실습 B · 두 축을 카드 한 장으로 정리</span><span class="bullet-arrow">→</span><div class="bullet-detail">오늘 실습 B에서는 인구학 + 심리·행동 두 축을 카드 한 장으로 정리해 봅니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">⚠️ 인구학만 · 실무에서 작동 안 해요</span><span class="bullet-arrow">→</span><div class="bullet-detail">인구학(Demographic · 나이·직업·거주지 등 통계적 특성) 정보만 담긴 페르소나(예: 35세 여성 직장인 서울 거주)는 실무에서 작동하지 않는다는 것이 NN/g와 업계 공통 권고입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">👤 인구학 축 · 나이대·거주지·직업·가족 구성</span><span class="bullet-arrow">→</span><div class="bullet-detail">첫 번째 축은 인구학(Demographic) — 나이대, 거주지 반경, 직업 유형, 가족 구성을 담아요.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">💭 심리·행동 축 · 고민·목표·정보 경로·구매 요인</span><span class="bullet-arrow">→</span><div class="bullet-detail">두 번째 축은 심리·행동(Psychographic · 고객의 가치관·태도·생활 행태 특성) — 하루 고민, 이루고 싶은 목표, 정보를 얻는 경로, 구매 결정 요인입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🃏 실습 B · 두 축을 카드 한 장으로 정리</span><span class="bullet-arrow">→</span><div class="bullet-detail">오늘 실습 B에서는 인구학 + 심리·행동 두 축을 카드 한 장으로 정리해 봅니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" class="infographic">
   <rect width="400" height="260" fill="#141414" opacity="0.7" rx="4"/>
   <rect x="144" y="12" width="112" height="34" rx="8" fill="#3a3730" stroke="#e2c793" stroke-width="2"/>
-  <text x="200" y="34" text-anchor="middle" font-size="13" font-weight="900" fill="#e2c793">PERSONA</text>
+  <text x="200" y="34" text-anchor="middle" font-size="13" font-weight="900" fill="#e2c793" font-family="Pretendard Variable, sans-serif">PERSONA</text>
   <line x1="172" y1="46" x2="92" y2="80" stroke="#e2c793" stroke-width="1.5"/>
   <line x1="228" y1="46" x2="308" y2="80" stroke="#e2c793" stroke-width="1.5"/>
+  <!-- 좌: 인구학 -->
   <rect x="22" y="80" width="138" height="30" rx="6" fill="#3a3730" stroke="#F7F0DF" stroke-width="1.5"/>
-  <text x="91" y="99" text-anchor="middle" font-size="12" font-weight="700" fill="#F7F0DF">인구학 Demographic</text>
+  <text x="91" y="99" text-anchor="middle" font-size="12" font-weight="700" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">인구학 Demographic</text>
+  <line x1="91" y1="110" x2="91" y2="126" stroke="#7a7666" stroke-width="1"/>
   <rect x="22" y="126" width="138" height="60" rx="4" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
-  <text x="91" y="148" text-anchor="middle" font-size="11" fill="#F7F0DF">나이대 · 거주지 · 직업 · 가족</text>
+  <text x="91" y="148" text-anchor="middle" font-size="11" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">나이대 · 거주지 · 직업 · 가족</text>
+  <!-- 우: 심리·행동 -->
   <rect x="240" y="80" width="138" height="30" rx="6" fill="#3a3730" stroke="#e2c793" stroke-width="1.5"/>
-  <text x="309" y="99" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793">심리·행동 Psycho</text>
+  <text x="309" y="99" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">심리·행동 Psycho</text>
+  <line x1="309" y1="110" x2="309" y2="126" stroke="#7a7666" stroke-width="1"/>
   <rect x="240" y="126" width="138" height="60" rx="4" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
-  <text x="309" y="148" text-anchor="middle" font-size="11" fill="#F7F0DF">고민 · 목표 · 정보 경로 · 구매</text>
+  <text x="309" y="148" text-anchor="middle" font-size="11" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">고민 · 목표 · 정보 경로 · 구매</text>
+  <!-- 하단 경고 -->
   <rect x="54" y="204" width="292" height="42" rx="6" fill="#3a3730" stroke="#7a7666" stroke-width="1.2" stroke-dasharray="5 3"/>
-  <text x="200" y="221" text-anchor="middle" font-size="11" fill="#7a7666">인구학만으로는 작동 안 함 (NN/g · UX 연구기관)</text>
-  <text x="200" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">두 축 모두 있어야 작동</text>
+  <text x="200" y="221" text-anchor="middle" font-size="11" fill="#7a7666" font-family="Pretendard Variable, sans-serif">인구학만으로는 실무에서 작동 안 함 (NN/g)</text>
+  <text x="200" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">두 축 모두 있어야 작동</text>
 </svg>
       </div>
     </div>
-    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">CONCEPT</div></div>
-    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">인구학적 정보만 담긴 페르소나는 실무에서 작동하지 않습니다. 인구학 위에 심리·행동 축이 반드시 얹혀야 합니다. 인구학은 나이대·거주지·직업·가족 구성. 심리·행동은 하루의 주요 고민·이루고 싶은 목표·정보 습득 경로·구매 결정 요인입니다.</div></div>
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div></details>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT</div>
+    </div>
   </section>
 
+  <!-- CONCEPT #3: slide 5 -->
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
-    <div class="section-head"><div class="section-kicker reveal">CONCEPT · 개념</div><div class="section-counter reveal">04 / 06</div></div>
+    <div class="section-head">
+      <div class="section-kicker reveal">CONCEPT · 개념</div>
+      <div class="section-counter reveal">04 / 06</div>
+    </div>
     <div class="section-grid">
-      <h2 class="section-title">설계 주의점 · 4가지 원칙</h2>
+      <div class="section-body">
+        <h2 class="section-title">설계 주의점 · 4가지 원칙</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🚫 실제 인물 연상 금지 · 가상 이름·설정 사용</span><span class="bullet-arrow">→</span><div class="bullet-detail">실제 인물이나 특정 인구 집단을 연상시키지 않도록 가상의 이름과 설정을 사용합니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🔄 나와 다른 1인 · 무의식 함정을 피해요</span><span class="bullet-arrow">→</span><div class="bullet-detail">나와 비슷한 사람을 무의식적으로 그리는 경향이 있으니, 의도적으로 나와 다른 1인을 가정해 봅니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📝 수치 단정 금지 · 여유·보통·제한적으로</span><span class="bullet-arrow">→</span><div class="bullet-detail">연소득·재산 같은 수치는 단정하지 않고, '소비 여력: 여유 있음 / 보통 / 제한적'처럼 질적 표현으로 기록해요.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🎬 형용사 대신 · 하루 한 장면 한 문장으로</span><span class="bullet-arrow">→</span><div class="bullet-detail">형용사 나열(활발한·긍정적인) 대신 '퇴근길 지하철에서 인스타를 내리며 클래스를 고릅니다'처럼 장면을 씁니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.48s"><span class="bullet-num">05</span><span class="bullet-text">🔁 막히면 감각어 · 2강 슬로건 요령으로 재생성</span><span class="bullet-arrow">→</span><div class="bullet-detail">형용사 나열이 생기면 2강 슬로건 실습에서 배운 감각어(시각·청각·촉각 등 오감을 자극하는 단어) 교체 요령으로 한 번 바꿔 재생성하면 더 구체적으로 바뀝니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">🚫 실제 인물 연상 금지 · 가상 이름·설정 사용</span><span class="bullet-arrow">→</span><div class="bullet-detail">실제 인물이나 특정 인구 집단을 연상시키지 않도록 가상의 이름과 설정을 사용합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🔄 나와 다른 1인 · 무의식 함정을 피해요</span><span class="bullet-arrow">→</span><div class="bullet-detail">나와 비슷한 사람을 무의식적으로 그리는 경향이 있으니, 의도적으로 나와 다른 1인을 가정해 봅니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📝 수치 단정 금지 · 여유·보통·제한적으로</span><span class="bullet-arrow">→</span><div class="bullet-detail">연소득·재산 같은 수치는 단정하지 않고, '소비 여력: 여유 있음 / 보통 / 제한적'처럼 질적 표현으로 기록해요.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">🎬 형용사 대신 · 하루 한 장면 한 문장으로</span><span class="bullet-arrow">→</span><div class="bullet-detail">형용사 나열(활발한·긍정적인) 대신 '퇴근길 지하철에서 인스타를 내리며 클래스를 고릅니다'처럼 장면을 씁니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.48s"><span class="bullet-num">05</span><span class="bullet-text">🔁 막히면 감각어 · 2강 슬로건 요령으로 재생성</span><span class="bullet-arrow">→</span><div class="bullet-detail">형용사 나열이 생기면 2강 슬로건 실습에서 배운 감각어(시각·청각·촉각 등 오감을 자극하는 단어) 교체 요령으로 한 번 바꿔 재생성하면 더 구체적으로 바뀝니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" class="infographic">
   <rect width="400" height="260" fill="#141414" opacity="0.7" rx="4"/>
+  <text x="200" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793" letter-spacing="2" font-family="Pretendard Variable, sans-serif">나와 다른 1인 설계 원칙</text>
+  <!-- 행 1 -->
   <rect x="18" y="36" width="364" height="46" rx="5" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
   <circle cx="44" cy="59" r="11" fill="none" stroke="#7a7666" stroke-width="1.5"/>
   <line x1="38" y1="59" x2="50" y2="59" stroke="#7a7666" stroke-width="2"/>
-  <text x="66" y="55" font-size="11" font-weight="700" fill="#F7F0DF">실제 인물 연상 금지 — 가상 이름·설정 사용</text>
+  <text x="66" y="55" font-size="11" font-weight="700" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">실제 인물 연상 금지 — 가상 이름·설정 사용</text>
+  <!-- 행 2 (강조) -->
   <rect x="18" y="92" width="364" height="46" rx="5" fill="#3a3730" stroke="#e2c793" stroke-width="1.5"/>
   <circle cx="44" cy="115" r="11" fill="#e2c793"/>
-  <text x="44" y="119" text-anchor="middle" font-size="12" font-weight="900" fill="#141414">!</text>
-  <text x="66" y="111" font-size="11" font-weight="700" fill="#e2c793">나와 다른 1인 — 무의식 "비슷한 사람" 함정 탈출</text>
+  <text x="44" y="119" text-anchor="middle" font-size="12" font-weight="900" fill="#141414" font-family="Pretendard Variable, sans-serif">!</text>
+  <text x="66" y="111" font-size="11" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">나와 다른 1인 — 무의식 "비슷한 사람" 함정 탈출</text>
+  <!-- 행 3 -->
   <rect x="18" y="148" width="364" height="46" rx="5" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
   <circle cx="44" cy="171" r="11" fill="none" stroke="#7a7666" stroke-width="1.5"/>
   <line x1="38" y1="171" x2="50" y2="171" stroke="#7a7666" stroke-width="2"/>
-  <text x="66" y="167" font-size="11" font-weight="700" fill="#F7F0DF">수치 단정 금지 — 여유 / 보통 / 제한적</text>
+  <text x="66" y="167" font-size="11" font-weight="700" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">수치 단정 금지 — 여유 / 보통 / 제한적</text>
+  <!-- 행 4 -->
   <rect x="18" y="204" width="364" height="44" rx="5" fill="#3a3730" stroke="#7a7666" stroke-width="1"/>
   <circle cx="44" cy="226" r="11" fill="none" stroke="#7a7666" stroke-width="1.5"/>
   <line x1="38" y1="226" x2="50" y2="226" stroke="#7a7666" stroke-width="2"/>
-  <text x="66" y="222" font-size="11" font-weight="700" fill="#F7F0DF">형용사 대신 하루 한 장면 한 문장</text>
+  <text x="66" y="222" font-size="11" font-weight="700" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">형용사 대신 하루 한 장면 한 문장</text>
 </svg>
       </div>
     </div>
-    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">CONCEPT</div></div>
-    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">설계할 때 네 가지를 조심하세요. 실제 인물이나 특정 집단을 연상시키지 않도록 가상의 이름 사용. '나와 다른 1인'을 의도적으로 가정. 수치는 단정하지 않고 질적 표현으로. 그리고 형용사 나열 대신 하루의 한 장면을 한 문장으로 적어 봅니다.</div></div>
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div></details>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">CONCEPT</div>
+    </div>
   </section>
 
+  <!-- RECAP: slide 6 -->
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
-    <div class="section-head"><div class="section-kicker reveal">RECAP · 복습</div><div class="section-counter reveal">05 / 06</div></div>
+    <div class="section-head">
+      <div class="section-kicker reveal">RECAP · 복습</div>
+      <div class="section-counter reveal">05 / 06</div>
+    </div>
     <div class="section-grid">
-      <h2 class="section-title">Part 04 · 요약 세 줄</h2>
+      <div class="section-body">
+        <h2 class="section-title">Part 04 · 요약 세 줄</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📅 앨런 쿠퍼 1999 · 가상 고객 인물 카드 대중화</span><span class="bullet-arrow">→</span><div class="bullet-detail">페르소나는 1998~1999년 앨런 쿠퍼가 대중화한 가상의 한 고객 인물 카드입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🏗️ NN/g 권고 · 인구학 + 심리·행동 2단 구성</span><span class="bullet-arrow">→</span><div class="bullet-detail">NN/g(Nielsen Norman Group · UX 연구로 유명한 미국 컨설팅 기관) 권고에 따라 인구학 + 심리·행동의 2단 구성으로 설계합니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🎬 나와 다른 1인 · 형용사 대신 하루 한 장면</span><span class="bullet-arrow">→</span><div class="bullet-detail">나와 다른 1인을 설정하고, 형용사 나열 대신 하루 한 장면을 한 문장으로 구체화합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">📅 앨런 쿠퍼 1999 · 가상 고객 인물 카드 대중화</span><span class="bullet-arrow">→</span><div class="bullet-detail">페르소나는 1998~1999년 앨런 쿠퍼가 대중화한 가상의 한 고객 인물 카드입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🏗️ NN/g 권고 · 인구학 + 심리·행동 2단 구성</span><span class="bullet-arrow">→</span><div class="bullet-detail">NN/g 권고에 따라 인구학 + 심리·행동의 2단 구성으로 설계합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🎬 나와 다른 1인 · 형용사 대신 하루 한 장면</span><span class="bullet-arrow">→</span><div class="bullet-detail">나와 다른 1인을 설정하고, 형용사 나열 대신 하루 한 장면을 한 문장으로 구체화합니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" class="infographic">
   <rect width="400" height="260" fill="#141414" opacity="0.7" rx="4"/>
+  <!-- 카드 1: 앨런 쿠퍼 -->
   <rect x="12" y="16" width="114" height="182" rx="8" fill="#3a3730" stroke="#7a7666" stroke-width="1.2"/>
   <circle cx="69" cy="74" r="26" fill="none" stroke="#7a7666" stroke-width="1.5"/>
-  <text x="69" y="79" text-anchor="middle" font-size="12" font-weight="700" fill="#F7F0DF">앨런 쿠퍼</text>
-  <text x="69" y="132" text-anchor="middle" font-size="11" fill="#7a7666">가상 인물 카드 대중화</text>
+  <text x="69" y="79" text-anchor="middle" font-size="12" font-weight="700" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">앨런 쿠퍼</text>
+  <text x="69" y="132" text-anchor="middle" font-size="11" fill="#7a7666" font-family="Pretendard Variable, sans-serif">가상 인물 카드 대중화</text>
+  <!-- 카드 2: NN/g -->
   <rect x="143" y="16" width="114" height="182" rx="8" fill="#3a3730" stroke="#e2c793" stroke-width="1.5"/>
-  <text x="200" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">NN/g · 2단 구성</text>
-  <text x="200" y="124" text-anchor="middle" font-size="11" fill="#7a7666">인구학 + 심리행동</text>
+  <rect x="151" y="52" width="48" height="22" rx="3" fill="none" stroke="#F7F0DF" stroke-width="1"/>
+  <rect x="202" y="52" width="48" height="22" rx="3" fill="none" stroke="#e2c793" stroke-width="1"/>
+  <text x="200" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">NN/g · 2단 구성</text>
+  <text x="200" y="124" text-anchor="middle" font-size="11" fill="#7a7666" font-family="Pretendard Variable, sans-serif">인구학 + 심리행동</text>
+  <!-- 카드 3 -->
   <rect x="274" y="16" width="114" height="182" rx="8" fill="#3a3730" stroke="#7a7666" stroke-width="1.2"/>
-  <text x="331" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#F7F0DF">나와 다른 1인 · 장면</text>
+  <circle cx="331" cy="68" r="18" fill="none" stroke="#F7F0DF" stroke-width="1.5"/>
+  <path d="M307 104 Q307 86 331 86 Q355 86 355 104" fill="none" stroke="#F7F0DF" stroke-width="1.5"/>
+  <text x="331" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">나와 다른 1인 · 장면</text>
+  <!-- 배지 -->
   <rect x="92" y="214" width="216" height="32" rx="8" fill="#3a3730" stroke="#e2c793" stroke-width="1.2"/>
-  <text x="200" y="234" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793">페르소나 = 의사결정 도구</text>
+  <text x="200" y="234" text-anchor="middle" font-size="12" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">페르소나 = 의사결정 도구</text>
 </svg>
       </div>
     </div>
-    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">RECAP</div></div>
-    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">Part 04 정리입니다. 페르소나는 앨런 쿠퍼가 대중화한 '가상의 한 고객 인물 카드'입니다. NN/g 권고를 따라 인구학과 심리·행동의 2단 구성으로 설계합니다. '나와 다른 1인'을 설정하고 형용사 대신 하루 한 장면으로 구체화합니다.</div></div>
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div></details>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">RECAP</div>
+    </div>
   </section>
 
+  <!-- BRIDGE: slide 7 -->
   <section class="slide slide-section" data-slide="7" data-diagram="bridge">
-    <div class="section-head"><div class="section-kicker reveal">BRIDGE · 다음 악장</div><div class="section-counter reveal">06 / 06</div></div>
+    <div class="section-head">
+      <div class="section-kicker reveal">BRIDGE · 다음 악장</div>
+      <div class="section-counter reveal">06 / 06</div>
+    </div>
     <div class="section-grid">
-      <h2 class="section-title">NEXT · 실습 A 경쟁사 분석</h2>
+      <div class="section-body">
+        <h2 class="section-title">NEXT · 실습 A 경쟁사 분석</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">✅ 이론 블록 마무리 · 실습 A로 바로 이어져요</span><span class="bullet-arrow">→</span><div class="bullet-detail">이제 이론 블록은 마무리됐어요. 이어서 실습 A(경쟁사 분석)를 순서대로 진행합니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🔜 실습 B · 페르소나 카드는 그 다음 순서</span><span class="bullet-arrow">→</span><div class="bullet-detail">실습 A가 끝나면 실습 B(페르소나 1인 가상 인물 카드) 순으로 이어집니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📋 노션 튜토리얼 · 함께 열어 두고 따라오기</span><span class="bullet-arrow">→</span><div class="bullet-detail">자세한 단계는 노션 튜토리얼에 정리되어 있으니, 함께 열어 두고 따라오시면 됩니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.0s"><span class="bullet-num">01</span><span class="bullet-text">✅ 이론 블록 마무리 · 실습 A로 바로 이어져요</span><span class="bullet-arrow">→</span><div class="bullet-detail">이제 이론 블록은 마무리됐어요. 이어서 실습 A(경쟁사 분석)를 순서대로 진행합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🔜 실습 B · 페르소나 카드는 그 다음 순서</span><span class="bullet-arrow">→</span><div class="bullet-detail">실습 A가 끝나면 실습 B(페르소나 1인 가상 인물 카드) 순으로 이어집니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📋 노션 튜토리얼 · 함께 열어 두고 따라오기</span><span class="bullet-arrow">→</span><div class="bullet-detail">자세한 단계는 노션 튜토리얼에 정리되어 있으니, 함께 열어 두고 따라오시면 됩니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" class="infographic">
   <rect width="400" height="260" fill="#141414" opacity="0.7" rx="4"/>
   <line x1="36" y1="116" x2="364" y2="116" stroke="#3a3730" stroke-width="2"/>
+  <!-- 노드 1: 이론 완료 -->
   <circle cx="80" cy="116" r="22" fill="#3a3730" stroke="#e2c793" stroke-width="2"/>
-  <text x="80" y="121" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">이론 완료</text>
-  <text x="80" y="85" text-anchor="middle" font-size="11" fill="#e2c793">Part 04</text>
+  <text x="80" y="121" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">이론 완료</text>
+  <text x="80" y="85" text-anchor="middle" font-size="11" fill="#e2c793" font-family="Pretendard Variable, sans-serif">Part 04</text>
   <line x1="102" y1="116" x2="186" y2="116" stroke="#e2c793" stroke-width="1.5"/>
   <polygon points="188,112 196,116 188,120" fill="#e2c793"/>
+  <!-- 노드 2: 실습 A (강조) -->
   <circle cx="220" cy="116" r="28" fill="#3a3730" stroke="#e2c793" stroke-width="2"/>
-  <text x="220" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793">실습 A</text>
-  <text x="220" y="128" text-anchor="middle" font-size="11" fill="#F7F0DF">경쟁사 분석</text>
+  <text x="220" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#e2c793" font-family="Pretendard Variable, sans-serif">실습 A</text>
+  <text x="220" y="128" text-anchor="middle" font-size="11" fill="#F7F0DF" font-family="Pretendard Variable, sans-serif">경쟁사 분석</text>
   <line x1="248" y1="116" x2="316" y2="116" stroke="#7a7666" stroke-width="1.5"/>
   <polygon points="318,112 326,116 318,120" fill="#7a7666"/>
+  <!-- 노드 3: 실습 B -->
   <circle cx="346" cy="116" r="22" fill="#3a3730" stroke="#7a7666" stroke-width="1.5"/>
-  <text x="346" y="121" text-anchor="middle" font-size="11" font-weight="700" fill="#7a7666">실습 B</text>
+  <text x="346" y="121" text-anchor="middle" font-size="11" font-weight="700" fill="#7a7666" font-family="Pretendard Variable, sans-serif">실습 B</text>
 </svg>
       </div>
     </div>
-    <div class="section-foot"><div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="foot-tag">BRIDGE</div></div>
-    <details class="teacher-note" open><summary>📝 강사 노트</summary><div class="note-body"><div class="note-controls"><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a>0)window.setSentenceIdx(a-1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button><button class="nc-btn" onclick="var s=document.querySelector('.slide.active');var ss=s.querySelectorAll('.teacher-note .sentence');var a=-1;ss.forEach(function(x,i){if(x.classList.contains('active'))a=i});if(a<ss.length-1)window.setSentenceIdx(a+1,s);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button><button class="nc-btn" onclick="window.setSentenceIdx(0);"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button></div><div class="note-script"><div class="note-script-label">💬 그대로 읽으세요</div><div class="note-script-text">이제 이론 블록은 마무리됐어요. 이어서 실습 A 경쟁사 분석과 실습 B 페르소나 카드를 순서대로 진행하겠습니다. 자세한 단계는 노션 튜토리얼에 정리되어 있으니 함께 열어 두고 따라오시면 됩니다.</div></div>
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div></details>
+    <div class="section-foot">
+      <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="foot-tag">BRIDGE</div>
+    </div>
   </section>
 
+  <!-- OUTRO: slide 8 -->
   <section class="slide slide-outro" data-slide="8">
     <div class="outro-radial"></div>
     <div class="outro-kicker reveal">END OF PART</div>
@@ -350,7 +1018,6 @@
     <button class="ctrl-btn" onclick="prev()" title="이전 (←)">◀</button>
     <button class="ctrl-btn" onclick="next()" title="다음 (→)">▶</button>
     <div class="ctrl-counter"><strong id="curNum">01</strong> / <span id="totalNum">9</span></div>
-    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터">📺 프로젝터</button>
   </div>
   <div class="ctrl-dots" id="dots"></div>
   <div class="ctrl-right">
@@ -363,7 +1030,7 @@
 <div class="thumb-strip" id="thumbStrip">
   <div class="thumb-strip-inner" id="thumbInner">
     <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
-    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">META</span></div>
     <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
     <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">CONCEPT</span></div>
     <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">CONCEPT</span></div>
@@ -389,6 +1056,9 @@
 </div>
 
 <script>
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE NAVIGATION
+   ═══════════════════════════════════════════════════════════════ */
 const slides = document.querySelectorAll('.slide');
 const dotsEl = document.getElementById('dots');
 const progressEl = document.getElementById('progress');
@@ -396,136 +1066,419 @@ const curNumEl = document.getElementById('curNum');
 const thumbStrip = document.getElementById('thumbStrip');
 const helpOverlay = document.getElementById('helpOverlay');
 let current = 0;
-slides.forEach((s, i) => { const d = document.createElement('div'); d.className = 'ctrl-dot'; d.onclick = () => go(i); dotsEl.appendChild(d); });
-document.querySelectorAll('.thumb').forEach(t => { t.onclick = () => go(parseInt(t.dataset.idx, 10)); });
-function render() { slides.forEach((s, i) => s.classList.toggle('active', i === current)); document.querySelectorAll('.ctrl-dot').forEach((d, i) => d.classList.toggle('active', i === current)); document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === current)); progressEl.style.width = ((current + 1) / slides.length * 100) + '%'; curNumEl.textContent = String(current + 1).padStart(2, '0'); }
+
+slides.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.className = 'ctrl-dot';
+  d.onclick = () => go(i);
+  dotsEl.appendChild(d);
+});
+document.querySelectorAll('.thumb').forEach(t => {
+  t.onclick = () => go(parseInt(t.dataset.idx, 10));
+});
+
+function render() {
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  document.querySelectorAll('.ctrl-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === current));
+  progressEl.style.width = ((current + 1) / slides.length * 100) + '%';
+  curNumEl.textContent = String(current + 1).padStart(2, '0');
+  runCountup();
+}
 function next() { if (current < slides.length - 1) { current++; render(); } }
 function prev() { if (current > 0) { current--; render(); } }
 function go(i) { current = i; render(); }
 function goFirst() { current = 0; render(); }
-window.go = go; window.next = next; window.prev = prev;
-function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
 function toggleThumbs() { thumbStrip.classList.toggle('open'); }
 function toggleHelp() { helpOverlay.classList.toggle('open'); }
+
 document.addEventListener('keydown', e => {
   if (helpOverlay.classList.contains('open') && e.key !== 'Escape' && e.key !== '?') return;
-  if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
   else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
   else if (e.key === 'Home') go(0);
   else if (e.key === 'End') go(slides.length - 1);
   else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
   else if (e.key === 't' || e.key === 'T') toggleThumbs();
   else if (e.key === '?' || e.key === '/') toggleHelp();
-  else if (e.key === 'Escape') { helpOverlay.classList.remove('open'); thumbStrip.classList.remove('open'); }
+  else if (e.key === 'Escape') {
+    helpOverlay.classList.remove('open');
+    thumbStrip.classList.remove('open');
+  }
 });
-document.getElementById('deck').addEventListener('click', e => { if (e.target.closest('a, button, .bullet-list, .outro-actions, .teacher-note')) return; next(); });
+
+document.getElementById('deck').addEventListener('click', e => {
+  if (e.target.closest('a, button, .bullet-list, .outro-actions')) return;
+  next();
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPEWRITER ON COVER TITLE
+   ═══════════════════════════════════════════════════════════════ */
 const tw = document.querySelector('.typewriter-target');
-if (tw) { const text = tw.dataset.text; let ti = 0; tw.innerHTML = '<span class="caret"></span>'; function typ() { if (ti < text.length) { tw.innerHTML = text.substring(0, ti + 1) + '<span class="caret"></span>'; ti++; setTimeout(typ, 55 + Math.random() * 40); } } setTimeout(typ, 600); }
+if (tw) {
+  const text = tw.dataset.text;
+  let ti = 0;
+  tw.innerHTML = '<span class="caret"></span>';
+  function typ() {
+    if (ti < text.length) {
+      tw.innerHTML = text.substring(0, ti + 1) + '<span class="caret"></span>';
+      ti++;
+      setTimeout(typ, 55 + Math.random() * 40);
+    }
+  }
+  setTimeout(typ, 600);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COUNTUP ANIMATION FOR STAT NUMBERS
+   ═══════════════════════════════════════════════════════════════ */
+function runCountup() {
+  const active = document.querySelector('.slide.active');
+  if (!active) return;
+  active.querySelectorAll('.svg-countup').forEach(el => {
+    const target = parseInt(el.dataset.target || '100', 10);
+    let v = 0;
+    const step = Math.max(1, Math.ceil(target / 60));
+    const t = setInterval(() => {
+      v += step;
+      if (v >= target) { v = target; clearInterval(t); }
+      el.textContent = v;
+    }, 20);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CUSTOM CURSOR (dot + trailing ring)
+   ═══════════════════════════════════════════════════════════════ */
 const cDot = document.getElementById('cursorDot');
 const cRing = document.getElementById('cursorRing');
 let mx = window.innerWidth / 2, my = window.innerHeight / 2;
 let rx = mx, ry = my;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cDot.style.left = mx + 'px'; cDot.style.top = my + 'px'; });
-function animCursor() { rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14; cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px'; requestAnimationFrame(animCursor); }
-animCursor();
-document.querySelectorAll('.tilt-card').forEach(card => {
-  card.addEventListener('mousemove', e => { const r = card.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width - 0.5; const y = (e.clientY - r.top) / r.height - 0.5; card.style.transform = `translateX(6px) translateY(-2px) perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`; });
-  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-  card.addEventListener('click', () => { card.classList.toggle('open'); });
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cDot.style.left = mx + 'px';
+  cDot.style.top = my + 'px';
 });
+function animCursor() {
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  cRing.style.left = rx + 'px';
+  cRing.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+// Hover targets enlarge ring
+document.querySelectorAll('a, button, .ctrl-dot, .tilt-card, .thumb').forEach(el => {
+  el.addEventListener('mouseenter', () => cRing.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cRing.classList.remove('hover'));
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   3D TILT CARDS (mouse-tracked rotateX/Y)
+   ═══════════════════════════════════════════════════════════════ */
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `translateX(6px) translateY(-2px) perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+  card.addEventListener('click', () => {
+    card.classList.toggle('open');
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   ALGORITHMIC-ART BACKGROUND (mode: WAVES, mouse-reactive)
+   ═══════════════════════════════════════════════════════════════ */
 const canvas = document.getElementById('bgcanvas');
 const ctx = canvas.getContext('2d');
 let w, h;
-function resize() { w = canvas.width = window.innerWidth * devicePixelRatio; h = canvas.height = window.innerHeight * devicePixelRatio; canvas.style.width = window.innerWidth + 'px'; canvas.style.height = window.innerHeight + 'px'; }
+function resize() {
+  w = canvas.width = window.innerWidth * devicePixelRatio;
+  h = canvas.height = window.innerHeight * devicePixelRatio;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+}
 resize();
 window.addEventListener('resize', resize);
+
+const MODE = 'WAVES';
 const GOLD = '#e2c793';
+const GOLD2 = '#b8941f';
+
 let seed = 7932;
-function rand() { seed = (seed * 1664525 + 1013904223) | 0; return ((seed >>> 0) / 4294967296); }
-let cells = [];
+function rand() {
+  seed = (seed * 1664525 + 1013904223) | 0;
+  return ((seed >>> 0) / 4294967296);
+}
+
+const noiseTable = new Array(512);
+for (let i = 0; i < 512; i++) noiseTable[i] = rand();
+function noise2(x, y) {
+  const xi = Math.floor(x) & 255;
+  const yi = Math.floor(y) & 255;
+  const xf = x - Math.floor(x);
+  const yf = y - Math.floor(y);
+  const u = xf * xf * (3 - 2 * xf);
+  const v = yf * yf * (3 - 2 * yf);
+  const aa = noiseTable[(xi + yi * 57) & 511];
+  const ba = noiseTable[((xi + 1) + yi * 57) & 511];
+  const ab = noiseTable[(xi + (yi + 1) * 57) & 511];
+  const bb = noiseTable[((xi + 1) + (yi + 1) * 57) & 511];
+  const x1 = aa * (1 - u) + ba * u;
+  const x2 = ab * (1 - u) + bb * u;
+  return x1 * (1 - v) + x2 * v;
+}
+
+let particles = [], nodes = [], cells = [];
 let t = 0;
 let mouseX = w / 2, mouseY = h / 2;
-document.addEventListener('mousemove', e => { mouseX = e.clientX * devicePixelRatio; mouseY = e.clientY * devicePixelRatio; });
-for (let i = 0; i < 6; i++) { cells.push({ x: rand() * w, y: rand() * h, r: 80 + rand() * 220, phase: rand() * Math.PI * 2, speed: 0.5 + rand() * 1.5 }); }
-function drawWaves() {
-  ctx.fillStyle = 'rgba(13,13,13,0.12)'; ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = GOLD; ctx.lineWidth = 0.6 * devicePixelRatio;
-  for (const c of cells) { c.x += ((c._ox || c.x) - c.x) * 0.02; if (!c._ox) c._ox = c.x; }
-  for (const c of cells) { for (let k = 0; k < 8; k++) { const radius = (c.r + k * 22 * devicePixelRatio + Math.sin(t * 0.02 * c.speed + c.phase) * 20 * devicePixelRatio); ctx.globalAlpha = 0.12 - k * 0.012; ctx.beginPath(); ctx.arc(c.x, c.y, radius, 0, Math.PI * 2); ctx.stroke(); } }
-  ctx.globalAlpha = 0.25;
-  for (let k = 0; k < 4; k++) { ctx.beginPath(); ctx.arc(mouseX, mouseY, 30 * devicePixelRatio + k * 20 * devicePixelRatio + Math.sin(t * 0.06) * 6, 0, Math.PI * 2); ctx.stroke(); }
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX * devicePixelRatio;
+  mouseY = e.clientY * devicePixelRatio;
+});
+
+function initFlow() {
+  particles = [];
+  for (let i = 0; i < 220; i++) particles.push({ x: rand() * w, y: rand() * h, vx: 0, vy: 0, life: rand() * 200 });
+}
+function drawFlow() {
+  ctx.fillStyle = 'rgba(13,13,13,0.08)';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.6 * devicePixelRatio;
+  for (const p of particles) {
+    const mDx = (p.x - mouseX) / 300;
+    const mDy = (p.y - mouseY) / 300;
+    const n = noise2(p.x * 0.0018, p.y * 0.0018 + t * 0.02) * Math.PI * 4;
+    p.vx = Math.cos(n) * 1.2 * devicePixelRatio + mDx * 0.4;
+    p.vy = Math.sin(n) * 1.2 * devicePixelRatio + mDy * 0.4;
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+    p.x += p.vx; p.y += p.vy;
+    ctx.lineTo(p.x, p.y);
+    ctx.globalAlpha = 0.3;
+    ctx.stroke();
+    p.life--;
+    if (p.life < 0 || p.x < 0 || p.x > w || p.y < 0 || p.y > h) {
+      p.x = rand() * w; p.y = rand() * h; p.life = 120 + rand() * 160;
+    }
+  }
   ctx.globalAlpha = 1;
 }
-function loop() { t++; drawWaves(); requestAnimationFrame(loop); }
-loop();
-render();
 
-/* TEACHER NOTE SYSTEM · 2026-04-24 */
-(function(){ var p = new URLSearchParams(location.search); if (p.get('view') === 'student') { document.body.classList.remove('teacher-view'); document.body.classList.add('student-view'); } else { document.body.classList.add('teacher-view'); } })();
-(function(){
-  function setup(){
-    document.querySelectorAll('.teacher-note .note-script-text').forEach(function(el){
-      if (el.querySelector('.sentence')) return;
-      var paras = el.innerHTML.split(/<br\s*\/?>\s*<br\s*\/?>/i);
-      el.innerHTML = paras.map(function(p){
-        var s = p.replace(/<br\s*\/?>/gi,' ').trim(); if (!s) return '';
-        var t = s.match(/[^.?!]+[.?!]?\s*/g) || [s];
-        return t.map(function(x){var y=x.trim();return y?'<span class="sentence future">'+y+'</span>':'';}).filter(Boolean).join(' ');
-      }).filter(Boolean).join('<span class="note-para-break"></span>');
+function initNetwork() {
+  nodes = [];
+  for (let i = 0; i < 70; i++) {
+    nodes.push({
+      x: rand() * w, y: rand() * h,
+      vx: (rand() - 0.5) * 0.4 * devicePixelRatio,
+      vy: (rand() - 0.5) * 0.4 * devicePixelRatio
     });
-    window.setSentenceIdx = function(idx, slide){
-      slide = slide || document.querySelector('.slide.active'); if (!slide) return;
-      slide.querySelectorAll('.teacher-note .sentence').forEach(function(s,i){
-        s.classList.remove('past','active','future');
-        if (i<idx) s.classList.add('past'); else if (i===idx) s.classList.add('active'); else s.classList.add('future');
-      });
-    };
-    document.querySelectorAll('.slide').forEach(function(s){
-      new MutationObserver(function(){ if(s.classList.contains('active')) window.setSentenceIdx(0,s); }).observe(s,{attributes:true,attributeFilter:['class']});
+  }
+}
+function drawNetwork() {
+  ctx.fillStyle = 'rgba(13,13,13,0.2)';
+  ctx.fillRect(0, 0, w, h);
+  for (const n of nodes) {
+    const dx = mouseX - n.x, dy = mouseY - n.y;
+    const d = Math.sqrt(dx * dx + dy * dy);
+    if (d < 250 * devicePixelRatio) {
+      n.vx += dx / d * 0.02;
+      n.vy += dy / d * 0.02;
+    }
+    n.vx *= 0.98; n.vy *= 0.98;
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < 0 || n.x > w) n.vx *= -1;
+    if (n.y < 0 || n.y > h) n.vy *= -1;
+  }
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.5 * devicePixelRatio;
+  const limit = 180 * devicePixelRatio;
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < limit) {
+        ctx.globalAlpha = (1 - d / limit) * 0.4;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = GOLD;
+  for (const n of nodes) {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, 1.5 * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function initWaves() {
+  cells = [];
+  for (let i = 0; i < 6; i++) {
+    cells.push({ x: rand() * w, y: rand() * h, r: 80 + rand() * 220, phase: rand() * Math.PI * 2, speed: 0.5 + rand() * 1.5 });
+  }
+}
+function drawWaves() {
+  ctx.fillStyle = 'rgba(13,13,13,0.12)';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.6 * devicePixelRatio;
+  const mx = mouseX, my = mouseY;
+  for (const c of cells) {
+    c.x += ((c._ox || c.x) - c.x) * 0.02;
+    if (!c._ox) c._ox = c.x;
+  }
+  for (const c of cells) {
+    for (let k = 0; k < 8; k++) {
+      const radius = (c.r + k * 22 * devicePixelRatio + Math.sin(t * 0.02 * c.speed + c.phase) * 20 * devicePixelRatio);
+      ctx.globalAlpha = 0.12 - k * 0.012;
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, radius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 0.25;
+  for (let k = 0; k < 4; k++) {
+    ctx.beginPath();
+    ctx.arc(mx, my, 30 * devicePixelRatio + k * 20 * devicePixelRatio + Math.sin(t * 0.06) * 6, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function initVoronoi() {
+  nodes = [];
+  for (let i = 0; i < 40; i++) {
+    nodes.push({ x: rand() * w, y: rand() * h, vx: (rand() - 0.5) * 0.3 * devicePixelRatio, vy: (rand() - 0.5) * 0.3 * devicePixelRatio });
+  }
+}
+function drawVoronoi() {
+  ctx.fillStyle = 'rgba(13,13,13,0.35)';
+  ctx.fillRect(0, 0, w, h);
+  for (const n of nodes) {
+    const dx = mouseX - n.x, dy = mouseY - n.y;
+    const d = Math.sqrt(dx * dx + dy * dy);
+    if (d < 200 * devicePixelRatio && d > 1) {
+      n.vx -= dx / d * 0.03;
+      n.vy -= dy / d * 0.03;
+    }
+    n.vx *= 0.97; n.vy *= 0.97;
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < 0 || n.x > w) n.vx *= -1;
+    if (n.y < 0 || n.y > h) n.vy *= -1;
+  }
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.4 * devicePixelRatio;
+  for (let i = 0; i < nodes.length; i++) {
+    const dists = [];
+    for (let j = 0; j < nodes.length; j++) {
+      if (i === j) continue;
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      dists.push({ j, d: dx * dx + dy * dy });
+    }
+    dists.sort((a, b) => a.d - b.d);
+    for (let k = 0; k < 3; k++) {
+      const o = nodes[dists[k].j];
+      ctx.globalAlpha = 0.2 - k * 0.05;
+      ctx.beginPath();
+      ctx.moveTo(nodes[i].x, nodes[i].y);
+      ctx.lineTo(o.x, o.y);
+      ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = GOLD;
+  for (const n of nodes) {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, 1.2 * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function initConstellation() {
+  particles = [];
+  for (let i = 0; i < 120; i++) {
+    const angle = rand() * Math.PI * 2;
+    const dist = rand() * Math.min(w, h) * 0.45;
+    particles.push({
+      x: w / 2 + Math.cos(angle) * dist,
+      y: h / 2 + Math.sin(angle) * dist,
+      angle: angle, dist: dist,
+      speed: 0.0005 + rand() * 0.0012,
+      size: 0.8 + rand() * 1.4
     });
-    var a = document.querySelector('.slide.active'); if (a) window.setSentenceIdx(0,a);
-    document.addEventListener('keydown',function(e){
-      if (!document.body.classList.contains('teacher-view')) return;
-      if (e.key !== ' ' && e.key !== 'Backspace') return;
-      var slide = document.querySelector('.slide.active'); if (!slide) return;
-      var ss = slide.querySelectorAll('.teacher-note .sentence');
-      var aid = -1; ss.forEach(function(x,i){ if(x.classList.contains('active')) aid=i; });
-      if (e.key === ' ') { if (aid < ss.length-1 && ss.length > 0) { e.preventDefault(); window.setSentenceIdx(aid+1, slide); e.stopImmediatePropagation(); } }
-      else if (e.key === 'Backspace') { if (aid > 0) { e.preventDefault(); window.setSentenceIdx(aid-1, slide); e.stopImmediatePropagation(); } }
-    }, true);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
-})();
-window.openProjectorWindow = function(){ var base = location.href.split('?')[0]; var proj = window.open(base+'?view=student', 'projector-'+base, 'width=1920,height=1080'); if (!proj) { alert('팝업이 차단되었습니다.'); return; } window.__projector = proj; proj.focus(); };
-(function(){ function show(){ var b = document.getElementById('projectorBtn'); if (b && document.body.classList.contains('teacher-view')) b.style.display='inline-flex'; } if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', show); else show(); })();
-(function(){
-  var KEY = 'aimarketer-3gang-slide-sync', ch = null;
-  try { if (typeof BroadcastChannel !== 'undefined') ch = new BroadcastChannel(KEY); } catch(e){}
-  function bc(m){ if (window.__skipBroadcast) return;
-    try { if (ch) ch.postMessage(m); } catch(e){}
-    try { if (window.__projector && !window.__projector.closed) window.__projector.postMessage(m,'*'); } catch(e){}
-    try { if (window.opener && !window.opener.closed) window.opener.postMessage(m,'*'); } catch(e){}
-    try { localStorage.setItem(KEY, JSON.stringify(Object.assign({},m,{ts:Date.now()}))); } catch(e){}
+}
+function drawConstellation() {
+  ctx.fillStyle = 'rgba(13,13,13,0.18)';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = GOLD;
+  ctx.lineWidth = 0.35 * devicePixelRatio;
+  const cx = w / 2 + (mouseX - w / 2) * 0.08;
+  const cy = h / 2 + (mouseY - h / 2) * 0.08;
+  for (const p of particles) {
+    p.angle += p.speed;
+    p.x = cx + Math.cos(p.angle) * p.dist;
+    p.y = cy + Math.sin(p.angle) * p.dist;
   }
-  function h(m){
-    if (!m || !m.type) return;
-    if (m.type === 'goto' && typeof window.go === 'function') { window.__skipBroadcast = true; window.go(m.index); setTimeout(function(){ window.__skipBroadcast=false; }, 120); }
-    else if (m.type === 'sentence' && typeof window.setSentenceIdx === 'function') { window.__skipBroadcast = true; window.setSentenceIdx(m.index); setTimeout(function(){ window.__skipBroadcast=false; }, 120); }
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 120 * devicePixelRatio) {
+        ctx.globalAlpha = (1 - d / (120 * devicePixelRatio)) * 0.35;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
   }
-  if (ch) ch.onmessage = function(e){ h(e.data); };
-  window.addEventListener('message', function(e){ if (e.data) h(e.data); });
-  window.addEventListener('storage', function(e){ if (e.key === KEY && e.newValue) try { h(JSON.parse(e.newValue)); } catch(err){} });
-  function obs(){
-    document.querySelectorAll('.slide').forEach(function(s, idx){
-      new MutationObserver(function(){ if (s.classList.contains('active')) bc({type:'goto', index:idx}); }).observe(s, {attributes:true, attributeFilter:['class']});
-    });
-    var o = window.setSentenceIdx;
-    if (typeof o === 'function') { window.setSentenceIdx = function(i, el){ o(i, el); bc({type:'sentence', index:i}); }; }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = GOLD;
+  for (const p of particles) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', obs); else obs();
-})();
+}
+
+if (MODE === 'FLOW') initFlow();
+else if (MODE === 'NETWORK') initNetwork();
+else if (MODE === 'WAVES') initWaves();
+else if (MODE === 'VORONOI') initVoronoi();
+else initConstellation();
+
+function loop() {
+  t++;
+  if (MODE === 'FLOW') drawFlow();
+  else if (MODE === 'NETWORK') drawNetwork();
+  else if (MODE === 'WAVES') drawWaves();
+  else if (MODE === 'VORONOI') drawVoronoi();
+  else drawConstellation();
+  requestAnimationFrame(loop);
+}
+loop();
+
+render();
 </script>
   <div class="copyright-notice">© PajamaBoss</div>
-<script src="../assets/common.js"></script>
 </body>
 </html>

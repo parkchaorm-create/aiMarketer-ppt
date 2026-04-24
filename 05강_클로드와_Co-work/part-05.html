@@ -5,10 +5,634 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Part 05 · 실습 A — AI 마케터 5강</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="../assets/common.css">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --ink: #141414;
+    --gold: #e2c793;
+    --gold-soft: #b8941f;
+    --cream: #F7F0DF;
+    --text: #E8E0CC;
+    --muted: #7a7666;
+    --dim: #3a3730;
+    --border: #1f1d19;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow: hidden;
+    letter-spacing: -0.01em;
+    cursor: none;
+  }
+  #bgcanvas {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; opacity: 0.5;
+  }
+  .dot-grid {
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+    background-size: 28px 28px;
+    z-index: 1; pointer-events: none; opacity: 0.5;
+  }
+  .vignette {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.78) 100%);
+    z-index: 2; pointer-events: none;
+  }
+  /* Custom cursor */
+  .cursor-dot, .cursor-ring {
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px; background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--gold);
+  }
+  .cursor-ring {
+    width: 38px; height: 38px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), width 0.2s, height 0.2s;
+  }
+  .cursor-ring.hover { width: 70px; height: 70px; background: rgba(226,199,147,0.08); }
 
+  /* TOP BAR */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 56px; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 50;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; font-weight: 900; letter-spacing: 3px; color: var(--gold);
+  }
+  .brand::before {
+    content: ''; width: 10px; height: 10px;
+    background: var(--gold); transform: rotate(45deg);
+    box-shadow: 0 0 12px var(--gold);
+    animation: brandPulse 3s infinite;
+  }
+  @keyframes brandPulse {
+    0%, 100% { transform: rotate(45deg) scale(1); }
+    50% { transform: rotate(225deg) scale(1.2); }
+  }
+  .topbar-center { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+  .topbar-right { display: flex; gap: 12px; align-items: center; }
+  .nav-arrow {
+    font-size: 11px; color: var(--muted); text-decoration: none;
+    letter-spacing: 1px; padding: 6px 12px; border: 1px solid var(--border);
+    border-radius: 2px; transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .nav-arrow::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold);
+    transform: translateX(-101%);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-arrow:hover { color: var(--black); border-color: var(--gold); }
+  .nav-arrow:hover::before { transform: translateX(0); }
+  .nav-arrow span, .nav-arrow { position: relative; z-index: 1; }
+  .nav-arrow.disabled { opacity: 0.3; pointer-events: none; }
+
+  /* PROGRESS */
+  .progress {
+    position: fixed; top: 56px; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+    width: 0%; z-index: 55;
+    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 14px var(--gold);
+  }
+
+  /* DECK */
+  .deck {
+    position: relative; width: 100%; height: 100vh;
+    padding-top: 56px; z-index: 10;
+  }
+  .slide {
+    position: absolute; inset: 56px 0 80px 0;
+    padding: 50px 80px 30px;
+    opacity: 0;
+    transform: translateY(30px) scale(0.985);
+    filter: blur(8px);
+    pointer-events: none;
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.5s ease;
+    display: flex; flex-direction: column;
+  }
+  .slide.active {
+    opacity: 1; transform: translateY(0) scale(1); filter: blur(0);
+    pointer-events: auto;
+  }
+
+  /* Reveal items */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .slide.active .reveal { opacity: 1; transform: translateY(0); }
+
+  /* COVER */
+  .slide-cover { justify-content: center; align-items: flex-start; padding-left: 10vw; padding-right: 10vw; }
+  .cover-bg-shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .float-shape {
+    position: absolute; opacity: 0.18;
+    animation: floatShape 18s ease-in-out infinite;
+  }
+  .float-shape.fs1 { width: 180px; height: 180px; top: 8%; right: 8%; animation-delay: 0s; }
+  .float-shape.fs2 { width: 120px; height: 120px; bottom: 20%; right: 22%; animation-delay: -4s; }
+  .float-shape.fs3 { width: 100px; height: 100px; top: 40%; right: 18%; animation-delay: -9s; }
+  .float-shape.fs4 { width: 140px; height: 140px; bottom: 10%; right: 6%; animation-delay: -13s; }
+  @keyframes floatShape {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33%      { transform: translate(-25px, 18px) rotate(20deg); }
+    66%      { transform: translate(18px, -12px) rotate(-15deg); }
+  }
+  .cover-kicker {
+    font-size: 11px; letter-spacing: 4px; font-weight: 800;
+    color: var(--gold); padding: 8px 16px;
+    border: 1px solid var(--gold); border-radius: 30px;
+    display: inline-block; margin-bottom: 36px;
+    text-transform: uppercase;
+    background: rgba(226,199,147,0.04);
+    backdrop-filter: blur(6px);
+  }
+  .cover-number {
+    font-size: 13px; color: var(--muted); letter-spacing: 6px;
+    margin-bottom: 18px; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .cover-title {
+    font-size: clamp(40px, 5.5vw, 82px);
+    font-weight: 900; line-height: 1.1;
+    color: var(--cream); letter-spacing: -0.03em;
+    word-break: keep-all; max-width: 18ch;
+    margin-bottom: 28px; position: relative;
+    min-height: 1.2em;
+  }
+  .cover-title::after {
+    content: ''; display: block;
+    width: 0; height: 3px;
+    background: var(--gold); margin-top: 36px;
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s;
+  }
+  .slide-cover.active .cover-title::after { width: 120px; }
+  .cover-title .caret {
+    display: inline-block; width: 3px; height: 0.85em;
+    background: var(--gold); margin-left: 4px;
+    animation: caretBlink 0.7s steps(2) infinite;
+    vertical-align: text-bottom;
+  }
+  @keyframes caretBlink { 50% { opacity: 0; } }
+  .cover-sub {
+    font-size: 18px; color: var(--muted);
+    letter-spacing: 2px; font-weight: 600;
+    text-transform: uppercase;
+  }
+  .cover-meta {
+    position: absolute; bottom: 40px; left: 10vw;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px; color: var(--muted); letter-spacing: 1px;
+  }
+  .meta-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--gold); border-radius: 50%;
+    animation: dotPulse 2s infinite;
+  }
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(226,199,147,0.6); }
+    50% { opacity: 0.5; transform: scale(1.5); box-shadow: 0 0 0 8px rgba(226,199,147,0); }
+  }
+  .cover-hint {
+    position: absolute; bottom: 40px; right: 10vw;
+    font-size: 11px; color: var(--dim); letter-spacing: 1px;
+  }
+  .cover-hint kbd {
+    background: var(--ink); border: 1px solid var(--border);
+    color: var(--gold); padding: 2px 6px; border-radius: 2px;
+    font-family: monospace; font-size: 10px;
+  }
+
+  /* SECTION SLIDE */
+  .section-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 32px;
+  }
+  .section-kicker {
+    font-size: 11px; letter-spacing: 4px; font-weight: 800;
+    color: var(--gold); text-transform: uppercase;
+    padding: 6px 14px; border: 1px solid var(--gold);
+    border-radius: 20px; background: rgba(226,199,147,0.04);
+  }
+  .section-counter {
+    font-size: 11px; color: var(--muted); letter-spacing: 3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .section-grid {
+    flex: 1; display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px; align-items: center;
+    max-width: 1400px;
+  }
+  .section-body { display: flex; flex-direction: column; justify-content: center; }
+  .section-title {
+    font-size: clamp(28px, 3.4vw, 48px);
+    font-weight: 900; color: var(--cream);
+    line-height: 1.15; margin-bottom: 32px;
+    word-break: keep-all; max-width: 22ch;
+    position: relative; padding-left: 28px;
+  }
+  .section-title::before {
+    content: ''; position: absolute;
+    left: 0; top: 8px;
+    width: 10px; height: calc(100% - 12px);
+    background: linear-gradient(180deg, var(--gold), transparent);
+  }
+  .bullet-list {
+    list-style: none; display: flex; flex-direction: column;
+    gap: 14px; max-width: 62ch;
+  }
+  .bullet-list li.tilt-card {
+    display: flex; gap: 18px; align-items: flex-start;
+    flex-wrap: wrap; cursor: pointer;
+    font-size: 17px; color: var(--text);
+    line-height: 1.5; word-break: keep-all;
+    padding: 14px 20px;
+    background: rgba(20,20,20,0.55);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--dim);
+    backdrop-filter: blur(6px);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-style: preserve-3d;
+    position: relative;
+  }
+  .bullet-list li.tilt-card::before {
+    content: ''; position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(226,199,147,0.08) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.35s;
+    pointer-events: none;
+  }
+  .bullet-list li.tilt-card:hover {
+    border-left-color: var(--gold);
+    border-color: var(--gold);
+    transform: translateX(6px) translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  }
+  .bullet-list li.tilt-card:hover::before { opacity: 1; }
+  .bullet-list li.tilt-card:hover .bullet-arrow { opacity: 1; transform: translateX(0); }
+  .bullet-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gold);
+    font-weight: 800; letter-spacing: 1px;
+    padding-top: 4px; min-width: 26px;
+  }
+  .bullet-text { flex: 1; }
+  .bullet-arrow {
+    font-size: 16px; color: var(--gold);
+    opacity: 0; transform: translateX(-8px);
+    transition: all 0.3s;
+    align-self: center;
+  }
+  .tilt-card.open .bullet-arrow { opacity: 1; transform: rotate(90deg); }
+  .tilt-card.open { border-left-color: var(--gold); background: rgba(226,199,147,0.06); }
+  .bullet-detail {
+    width: 100%; max-height: 0; overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.22,1,0.36,1), padding 0.35s, opacity 0.3s;
+    font-size: 14px; color: var(--muted); line-height: 1.75;
+    padding: 0 0 0 44px; opacity: 0;
+    word-break: keep-all;
+  }
+  .tilt-card.open .bullet-detail {
+    max-height: 500px; padding: 10px 0 6px 44px;
+    opacity: 1; border-top: 1px solid var(--border); margin-top: 10px;
+  }
+
+  .section-visual {
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    min-height: 360px;
+  }
+  .infographic {
+    width: 100%; max-width: 620px;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(226,199,147,0.15));
+  }
+
+  /* SVG Animations */
+  .svg-pulse { animation: svgPulse 3s ease-in-out infinite; transform-origin: center; }
+  .svg-pulse2 { animation: svgPulse 3s ease-in-out infinite 0.5s; transform-origin: center; }
+  @keyframes svgPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.08); }
+  }
+  .svg-rotate-slow { animation: svgRotate 24s linear infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgRotate { to { transform: rotate(360deg); } }
+  .svg-twinkle { animation: svgTwinkle 2.5s ease-in-out infinite; }
+  @keyframes svgTwinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.6); }
+  }
+  .slide.active .svg-draw {
+    stroke-dasharray: 1000; stroke-dashoffset: 1000;
+    animation: svgDraw 2s ease-out forwards 0.3s;
+  }
+  @keyframes svgDraw { to { stroke-dashoffset: 0; } }
+  .slide.active .svg-draw-path {
+    stroke-dasharray: 500; stroke-dashoffset: 500;
+    animation: svgDraw 1.5s ease-out forwards 0.6s;
+  }
+  .slide.active .svg-stagger {
+    opacity: 0; transform: translateY(10px);
+    animation: svgStagger 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
+  }
+  @keyframes svgStagger { to { opacity: 1; transform: translateY(0); } }
+  .slide.active .svg-check-mark {
+    stroke-dasharray: 30; stroke-dashoffset: 30;
+    animation: svgDraw 0.5s ease-out forwards 0.6s;
+  }
+  .slide.active .svg-check-row {
+    opacity: 0; transform: translateX(-12px);
+    animation: svgSlide 0.55s ease-out forwards 0.4s;
+  }
+  @keyframes svgSlide { to { opacity: 1; transform: translateX(0); } }
+  .slide.active .svg-progress {
+    stroke-dasharray: 565; stroke-dashoffset: 565;
+    animation: svgProgress 2s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.5s;
+  }
+  @keyframes svgProgress { to { stroke-dashoffset: 282; } }
+  .slide.active .svg-line-fill {
+    stroke-dasharray: 400; stroke-dashoffset: 400;
+    animation: svgDraw 1.8s ease-out forwards 0.4s;
+  }
+  .svg-spin { animation: svgRotate 12s linear infinite; transform-origin: 200px 130px; }
+  .svg-ripple { animation: svgRipple 2.4s ease-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgRipple {
+    0% { opacity: 0.8; transform: scale(0.6); }
+    100% { opacity: 0; transform: scale(1.1); }
+  }
+  .svg-button-pulse { animation: svgBtnPulse 2.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes svgBtnPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+  }
+  .svg-countup { font-feature-settings: "tnum"; }
+
+  /* Section foot — audio bar visualizer */
+  .section-foot {
+    display: flex; justify-content: space-between;
+    align-items: center; padding-top: 12px;
+  }
+  .audio-bars {
+    display: flex; gap: 3px; align-items: flex-end;
+    height: 18px;
+  }
+  .audio-bars span {
+    display: block; width: 3px;
+    background: var(--gold);
+    border-radius: 1px;
+    animation: audioBar 1.2s ease-in-out infinite;
+  }
+  .audio-bars span:nth-child(1) { height: 60%; animation-delay: 0s; }
+  .audio-bars span:nth-child(2) { height: 30%; animation-delay: 0.1s; }
+  .audio-bars span:nth-child(3) { height: 80%; animation-delay: 0.2s; }
+  .audio-bars span:nth-child(4) { height: 45%; animation-delay: 0.3s; }
+  .audio-bars span:nth-child(5) { height: 90%; animation-delay: 0.4s; }
+  .audio-bars span:nth-child(6) { height: 55%; animation-delay: 0.5s; }
+  .audio-bars span:nth-child(7) { height: 70%; animation-delay: 0.6s; }
+  .audio-bars span:nth-child(8) { height: 35%; animation-delay: 0.7s; }
+  @keyframes audioBar {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+  .foot-tag {
+    font-size: 10px; color: var(--dim);
+    letter-spacing: 2px; text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* OUTRO */
+  .slide-outro {
+    justify-content: center; align-items: center; text-align: center;
+    position: relative;
+  }
+  .outro-radial {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(226,199,147,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .outro-kicker {
+    font-size: 11px; letter-spacing: 6px;
+    color: var(--gold); margin-bottom: 32px; font-weight: 800;
+  }
+  .outro-title {
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 900; color: var(--cream);
+    letter-spacing: -0.02em; margin-bottom: 24px;
+    word-break: keep-all;
+  }
+  .outro-sub {
+    font-size: 18px; color: var(--muted);
+    letter-spacing: 2px; margin-bottom: 60px;
+  }
+  .outro-actions { display: flex; gap: 16px; }
+  .btn {
+    font-family: inherit; padding: 14px 28px;
+    font-size: 12px; font-weight: 800; letter-spacing: 2px;
+    border-radius: 2px; cursor: none;
+    text-decoration: none; border: 1px solid;
+    transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
+  .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+  .btn-gold { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 900; }
+  .btn-gold:hover { background: transparent; color: var(--gold); box-shadow: 0 0 30px rgba(226,199,147,0.4); }
+
+  /* CONTROLS */
+  .controls {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
+    z-index: 40;
+  }
+  .ctrl-left, .ctrl-right { display: flex; align-items: center; gap: 12px; }
+  .ctrl-btn {
+    width: 44px; height: 44px;
+    background: rgba(20,20,20,0.6);
+    border: 1px solid var(--border);
+    color: var(--muted); cursor: none;
+    font-size: 18px;
+    transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
+    backdrop-filter: blur(6px);
+  }
+  .ctrl-btn:hover {
+    background: var(--gold); color: var(--black); border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(226,199,147,0.25);
+  }
+  .ctrl-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted); letter-spacing: 2px;
+  }
+  .ctrl-counter strong { color: var(--gold); }
+  .ctrl-dots { display: flex; gap: 6px; max-width: 40vw; overflow: hidden; }
+  .ctrl-dot {
+    width: 20px; height: 2px; background: var(--dim);
+    cursor: none; transition: all 0.35s;
+  }
+  .ctrl-dot:hover { background: var(--muted); }
+  .ctrl-dot.active {
+    background: var(--gold); width: 40px;
+    box-shadow: 0 0 10px var(--gold);
+  }
+
+  /* THUMBNAIL STRIP */
+  .thumb-strip {
+    position: fixed; left: 0; right: 0;
+    bottom: 80px; height: 0;
+    background: rgba(10,10,10,0.96);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 41;
+  }
+  .thumb-strip.open { height: 110px; }
+  .thumb-strip-inner {
+    display: flex; gap: 12px; padding: 20px 32px;
+    overflow-x: auto;
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--ink);
+  }
+  .thumb-strip-inner::-webkit-scrollbar { height: 4px; }
+  .thumb-strip-inner::-webkit-scrollbar-thumb { background: var(--gold); }
+  .thumb {
+    flex-shrink: 0; width: 120px; height: 68px;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 10px;
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 1.5px; cursor: none;
+    transition: all 0.25s;
+    background: rgba(20,20,20,0.6);
+  }
+  .thumb:hover { border-color: var(--gold); background: rgba(28,26,20,0.9); transform: translateY(-2px); }
+  .thumb.active { border-color: var(--gold); background: rgba(226,199,147,0.08); }
+  .thumb-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold); font-weight: 900; font-size: 11px;
+  }
+  .thumb-label {
+    color: var(--cream); font-weight: 700; font-size: 10px;
+    text-transform: uppercase;
+  }
+  .thumb.active .thumb-label { color: var(--gold); }
+
+  /* HELP OVERLAY */
+  .help-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(16px);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .help-overlay.open { opacity: 1; pointer-events: auto; }
+  .help-box {
+    padding: 50px 60px;
+    background: var(--ink);
+    border: 1px solid var(--gold);
+    max-width: 480px;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.9);
+    transform: scale(0.92);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .help-overlay.open .help-box { transform: scale(1); }
+  .help-box h3 {
+    font-size: 14px; color: var(--gold);
+    letter-spacing: 4px; margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+  .help-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text);
+  }
+  .help-row:last-child { border-bottom: none; }
+  .help-key {
+    display: inline-flex; gap: 4px;
+  }
+  .help-key kbd {
+    background: var(--black);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: 4px 10px; border-radius: 2px;
+    font-family: monospace; font-size: 11px;
+    min-width: 28px; text-align: center;
+  }
+  .help-close {
+    margin-top: 24px; font-size: 10px;
+    color: var(--dim); letter-spacing: 2px;
+    text-align: center;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .section-grid { grid-template-columns: 1fr; gap: 24px; }
+    .section-visual { min-height: 200px; }
+    .infographic { max-width: 480px; }
+  }
+  @media (max-width: 900px) {
+    .slide { padding: 40px 28px 30px; }
+    .slide-cover { padding-left: 28px; padding-right: 28px; }
+    .cover-meta, .cover-hint { left: 28px; right: 28px; bottom: 20px; }
+    .bullet-list li.tilt-card { font-size: 15px; }
+    .topbar { padding: 0 16px; }
+    .nav-arrow { display: none; }
+    body { cursor: auto; }
+    .cursor-dot, .cursor-ring { display: none; }
+    .btn, .ctrl-btn, .ctrl-dot, .thumb { cursor: pointer; }
+  }
+
+  /* © PajamaBoss 저작권 표기 (2026-04-20 주입) */
+  .copyright-notice {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--muted, #7a7666);
+    opacity: 0.55;
+    letter-spacing: 0.02em;
+    z-index: 50;
+    pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  </style>
 </head>
-<body class="teacher-view">
+<body>
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -20,7 +644,6 @@
   <div class="brand">AI 마케터 · 5강</div>
   <div class="topbar-center">PART 05 · 실습 A · 매뉴얼 업로드</div>
   <div class="topbar-right">
-    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-06.html">PART 06 ▶</a>
   </div>
@@ -46,45 +669,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">4강에서 팀으로 만드신 선택한 클라이언트 브랜드 매뉴얼, 지금은 문서함에 잠자고 있죠. 이 문서를 Claude에게 "학습 자료" 로 얹어 드리면, 앞으로 이 프로젝트 안에서 나누는 모든 대화가 그 클라이언트 톤으로 돌아옵니다. 매번 복사·붙여넣기 할 필요 없이요.<br><br>4강에서 팀 리더가 슬랙 `#수업실습`에 올린 팀 클라이언트 매뉴얼 PDF를 데스크톱에 저장 (아직 없으면 수업 중 슬랙에서 다운로드).<br><br>추가로 `클라이언트_사례집/클라이언트{A|B|C}_*.md`도 함께 업로드하면 더 정확합니다.<br><br>파일 크기가 크면(수십 MB 이상) Free 플랜 업로드 제한이 걸릴 수 있어요. 10MB 이내 권장.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
-  <section class="slide slide-section" data-slide="1" data-diagram="overview">
+  <section class="slide slide-section" data-slide="1" data-diagram="meta">
     <div class="section-head">
-      <div class="section-kicker reveal">OVERVIEW · 한눈 요약</div>
+      <div class="section-kicker reveal">META · 파트 메타</div>
       <div class="section-counter reveal">00 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">실습 A · 살아 있는 자료</h2>
+      <div class="section-body">
+        <h2 class="section-title">실습 A · 살아 있는 자료</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">📖 비유 · 매뉴얼을 살아 있는 자료로</span><span class="bullet-arrow">→</span><div class="bullet-detail">문서함에 잠자던 4강 매뉴얼을 Claude(클로드 · Anthropic의 대화형 AI)에 얹어, 대화 내내 배경으로 유지되도록 만듭니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🎯 목표 · 톤 글 1편 + 피드백 2회</span><span class="bullet-arrow">→</span><div class="bullet-detail">브랜드 매뉴얼 톤의 글 1편을 뽑고, 피드백을 2회 이상 주고받는 것이 이 파트의 목표입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🧩 프롬프트 · R·C·E·C·F 2회차</span><span class="bullet-arrow">→</span><div class="bullet-detail">Part 02의 R·C·E·C·F(역할·맥락·예시·제약·포맷 5요소 프레임)가 실제 프롬프트 템플릿(Template · 반복 사용 견본)으로 다시 등장합니다. 외우지 마시고 붙여 쓰세요.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">💬 채널 · #수업실습 업로드</span><span class="bullet-arrow">→</span><div class="bullet-detail">결과물은 #수업실습에 프롬프트와 함께 게시해 주시면 6~9강 내내 재사용됩니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">📖 비유 · 매뉴얼을 살아 있는 자료로</span><span class="bullet-arrow">→</span><div class="bullet-detail">문서함에 잠자던 4강 매뉴얼을 Claude(클로드 · Anthropic의 대화형 AI)에 얹어, 대화 내내 배경으로 유지되도록 만듭니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🎯 목표 · 톤 글 1편 + 피드백 2회</span><span class="bullet-arrow">→</span><div class="bullet-detail">브랜드 매뉴얼 톤의 글 1편을 뽑고, 피드백을 2회 이상 주고받는 것이 이 파트의 목표입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">🧩 프롬프트 · R·C·E·C·F 2회차</span><span class="bullet-arrow">→</span><div class="bullet-detail">Part 02의 R·C·E·C·F(역할·맥락·예시·제약·포맷 5요소 프레임)가 실제 프롬프트 템플릿(Template · 반복 사용 견본)으로 다시 등장합니다. 외우지 마시고 붙여 쓰세요.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">💬 채널 · #수업실습 업로드</span><span class="bullet-arrow">→</span><div class="bullet-detail">결과물은 #수업실습에 프롬프트와 함께 게시해 주시면 6~9강 내내 재사용됩니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic">
   <rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="36" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="3">PART META</text>
   <rect x="28" y="60" width="160" height="72" rx="4" fill="none" stroke="#e2c793" stroke-width="1.2"/>
   <text x="40" y="82" font-size="10" font-weight="900" fill="#e2c793" letter-spacing="2">METAPHOR</text>
   <text x="40" y="106" font-size="12" font-weight="700" fill="#F7F0DF">살아 있는</text>
@@ -107,29 +712,9 @@
     </div>
     <div class="section-foot">
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="foot-tag">OVERVIEW</div>
+      <div class="foot-tag">META</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">생성한 프로젝트 클릭 → 우측 또는 상단의 "Add content" 또는 "Project knowledge" 영역 확인.<br><br>파일 드래그 앤 드롭 또는 "Upload" 버튼으로 매뉴얼 업로드.<br><br>업로드 완료 후 파일 이름이 목록에 보이면 성공.<br><br>프로젝트 설정에서 Custom instructions 또는 "Project instructions" 칸을 찾습니다.<br><br>아래 템플릿을 붙여 넣고, 대괄호 부분만 선택한 클라이언트 정보(클라이언트 카드 + 4강 팀 매뉴얼)에 맞게 수정하세요.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
     <div class="section-head">
@@ -137,16 +722,18 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">잠든 매뉴얼 · 어떻게 깨울까요?</h2>
+      <div class="section-body">
+        <h2 class="section-title">잠든 매뉴얼 · 어떻게 깨울까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">😴 문서함 속 PDF · 계속 잠재우실 건가요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">4강에서 팀으로 만드신 클라이언트 브랜드 매뉴얼이 지금은 문서함에 PDF로만 잠들어 있습니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🔦 학습 자료로 얹으면 · 무슨 일이 생길까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">Projects(프로젝트 · Claude의 자료 모음 폴더)에 매뉴얼을 얹으면 앞으로 그 안의 모든 대화가 클라이언트 톤으로 돌아옵니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">💡 매뉴얼이 없다면 · 실습은 가능할까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">튜토리얼 폴더에 샘플 브랜드 매뉴얼 PDF가 있습니다. 실습 결과에는 영향이 없습니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">😴 문서함 속 PDF · 계속 잠재우실 건가요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">4강에서 팀으로 만드신 클라이언트 브랜드 매뉴얼이 지금은 문서함에 PDF로만 잠들어 있습니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🔦 학습 자료로 얹으면 · 무슨 일이 생길까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">Projects(프로젝트 · Claude의 자료 모음 폴더)에 매뉴얼을 얹으면 앞으로 그 안의 모든 대화가 클라이언트 톤으로 돌아옵니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">💡 매뉴얼이 없다면 · 실습은 가능할까요?</span><span class="bullet-arrow">→</span><div class="bullet-detail">튜토리얼 폴더에 샘플 브랜드 매뉴얼 PDF가 있습니다. 실습 결과에는 영향이 없습니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic">
   <rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="36" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2">Claude Projects · 자료철</text>
   <rect x="28" y="80" width="180" height="120" rx="4" fill="none" stroke="#e2c793" stroke-width="1.8"/>
   <rect x="28" y="80" width="180" height="20" rx="4" fill="#e2c793" opacity="0.15"/>
   <text x="118" y="95" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793">OO_브랜드</text>
@@ -172,27 +759,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">당신은 [브랜드명]의 콘텐츠를 돕는 카피라이터입니다.<br><br>모든 답변은 업로드된 [브랜드 매뉴얼 파일명]을 참고해 작성해 주세요. 매뉴얼에 명시된 톤·금지어·어휘 규칙을 우선합니다.<br><br>단정적 표현("최고", "유일한", "반드시") 금지<br><br>수치 사용 시 출처가 확실한 경우만 사용<br><br>감정 과장어 자제</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
     <div class="section-head">
@@ -200,17 +767,19 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">6단계 + 피드백 루프</h2>
+      <div class="section-body">
+        <h2 class="section-title">6단계 + 피드백 루프</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">1-2️⃣ 파일 준비 + Projects 업로드</span><span class="bullet-arrow">→</span><div class="bullet-detail">팀 매뉴얼 PDF(Portable Document Format · 문서 파일 형식)를 데스크톱에 저장하고 프로젝트에 드래그·드롭(끌어다 놓기)으로 업로드합니다. Free 플랜(무료 요금제)은 10MB(메가바이트 · 파일 크기 단위) 이내 권장입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">3️⃣ Custom instructions 작성 (핵심)</span><span class="bullet-arrow">→</span><div class="bullet-detail">Custom instructions(커스텀 인스트럭션 · 프로젝트 지침 칸)에 "업로드된 매뉴얼을 참고해 작성"을 명시합니다. 이 단계가 실습의 핵심입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">4️⃣ 첫 대화 · R·C·E·C·F 프롬프트</span><span class="bullet-arrow">→</span><div class="bullet-detail">Part 02 R·C·E·C·F 5요소가 모두 들어간 템플릿을 붙여 넣고 대괄호 부분만 수정해 요청합니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">5-6️⃣ 피드백 2회 · #수업실습 저장</span><span class="bullet-arrow">→</span><div class="bullet-detail">결과를 읽고 구체적 피드백을 2회 이상 주고받은 뒤, 프롬프트 + 결과를 #수업실습에 묶어 게시합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">1-2️⃣ 파일 준비 + Projects 업로드</span><span class="bullet-arrow">→</span><div class="bullet-detail">팀 매뉴얼 PDF(Portable Document Format · 문서 파일 형식)를 데스크톱에 저장하고 프로젝트에 드래그·드롭(끌어다 놓기)으로 업로드합니다. Free 플랜(무료 요금제)은 10MB(메가바이트 · 파일 크기 단위) 이내 권장입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">3️⃣ Custom instructions 작성 (핵심)</span><span class="bullet-arrow">→</span><div class="bullet-detail">Custom instructions(커스텀 인스트럭션 · 프로젝트 지침 칸)에 "업로드된 매뉴얼을 참고해 작성"을 명시합니다. 이 단계가 실습의 핵심입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">4️⃣ 첫 대화 · R·C·E·C·F 프롬프트</span><span class="bullet-arrow">→</span><div class="bullet-detail">Part 02 R·C·E·C·F 5요소가 모두 들어간 템플릿을 붙여 넣고 대괄호 부분만 수정해 요청합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">5-6️⃣ 피드백 2회 · #수업실습 저장</span><span class="bullet-arrow">→</span><div class="bullet-detail">결과를 읽고 구체적 피드백을 2회 이상 주고받은 뒤, 프롬프트 + 결과를 #수업실습에 묶어 게시합니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic">
   <rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="38" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2">실습 A · 6단계 + 피드백 루프</text>
   <rect x="12" y="100" width="56" height="68" rx="4" fill="none" opacity="1" stroke="#7a7666" stroke-width="1.2"/>
   <text x="40" y="124" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793">1</text>
   <text x="40" y="146" text-anchor="middle" font-size="11" font-weight="700" fill="#F7F0DF">파일</text>
@@ -252,27 +821,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">한국어로 답변<br><br>새 대화창을 열고, 아래 프롬프트를 붙여 넣어 보세요. 대괄호는 본인 상황으로 바꿔 주세요. Part 02에서 배운 R·C·E·C·F 다섯 요소가 모두 들어 있습니다.<br><br>[Role] 당신은 [브랜드명] 카피라이터입니다.<br><br>[Context] 독자는 [예: 1인 창업을 준비하는 소상공인]입니다. 이 글은 네이버 블로그에 게시됩니다. 주제: [예: 여름 신메뉴 출시 소식]</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
     <div class="section-head">
@@ -280,17 +829,19 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">R·C·E·C·F · 붙여 쓰는 틀</h2>
+      <div class="section-body">
+        <h2 class="section-title">R·C·E·C·F · 붙여 쓰는 틀</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">🎭 R · [브랜드명] 카피라이터</span><span class="bullet-arrow">→</span><div class="bullet-detail">Role(롤 · 역할 부여) 칸에 "당신은 [브랜드명] 카피라이터입니다"를 넣습니다. 대괄호만 선택한 클라이언트 이름으로 바꾸세요.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🌆 C · 독자·채널·주제</span><span class="bullet-arrow">→</span><div class="bullet-detail">Context(컨텍스트 · 맥락 제공)에 독자(예: 1인 창업 소상공인), 채널(네이버 블로그), 주제(여름 신메뉴)를 구체적으로 적습니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📎 E · 매뉴얼 톤 · 🚧 C · 제약</span><span class="bullet-arrow">→</span><div class="bullet-detail">Example(익잼플 · 예시 제시)은 업로드한 매뉴얼 톤을 따르도록 요청하고, Constraint(컨스트레인트 · 제약 조건)에 단정적 표현·이모지·과장 금지를 넣습니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">📐 F · 제목·서론·본론·마무리</span><span class="bullet-arrow">→</span><div class="bullet-detail">Format(포맷 · 출력 모양 지정)은 제목(1줄)·서론(1문단)·본론(2문단)·마무리(1문단)로 지정합니다. 포맷을 정하면 결과를 그대로 쓸 확률이 올라갑니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">🎭 R · [브랜드명] 카피라이터</span><span class="bullet-arrow">→</span><div class="bullet-detail">Role(롤 · 역할 부여) 칸에 "당신은 [브랜드명] 카피라이터입니다"를 넣습니다. 대괄호만 선택한 클라이언트 이름으로 바꾸세요.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🌆 C · 독자·채널·주제</span><span class="bullet-arrow">→</span><div class="bullet-detail">Context(컨텍스트 · 맥락 제공)에 독자(예: 1인 창업 소상공인), 채널(네이버 블로그), 주제(여름 신메뉴)를 구체적으로 적습니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📎 E · 매뉴얼 톤 · 🚧 C · 제약</span><span class="bullet-arrow">→</span><div class="bullet-detail">Example(익잼플 · 예시 제시)은 업로드한 매뉴얼 톤을 따르도록 요청하고, Constraint(컨스트레인트 · 제약 조건)에 단정적 표현·이모지·과장 금지를 넣습니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.36s"><span class="bullet-num">04</span><span class="bullet-text">📐 F · 제목·서론·본론·마무리</span><span class="bullet-arrow">→</span><div class="bullet-detail">Format(포맷 · 출력 모양 지정)은 제목(1줄)·서론(1문단)·본론(2문단)·마무리(1문단)로 지정합니다. 포맷을 정하면 결과를 그대로 쓸 확률이 올라갑니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic">
   <rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="42" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2">프롬프트 템플릿 · R·C·E·C·F</text>
   <rect x="28" y="60" width="40" height="26" rx="3" fill="#e2c793" opacity="0.15" stroke="#e2c793" stroke-width="1.4"/>
   <text x="48" y="78" text-anchor="middle" font-size="13" font-weight="900" fill="#e2c793">R</text>
   <text x="80" y="78" font-size="11" font-weight="700" fill="#F7F0DF">Role</text>
@@ -320,27 +871,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">[Example] 업로드한 브랜드 매뉴얼의 톤을 따라주세요.<br><br>[Constraint]<br><br>800자 이내<br><br>이모지 사용 금지<br><br>단정적 표현 금지</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
     <div class="section-head">
@@ -348,16 +879,18 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">실습 A · 3가지 확인</h2>
+      <div class="section-body">
+        <h2 class="section-title">실습 A · 3가지 확인</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">🏓 피드백 2회 이상 주고받기</span><span class="bullet-arrow">→</span><div class="bullet-detail">완성도보다 대화 감각이 이 실습의 핵심입니다. 피드백을 2회 이상 주고받으며 매뉴얼 톤에 가까워지는 경험을 합니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">👂 소리 내어 읽어 확인</span><span class="bullet-arrow">→</span><div class="bullet-detail">결과를 소리 내어 읽어 보세요. 입에 걸리는 표현은 독자에게도 걸립니다. 좋은 점검 방법입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">💬 #수업실습 · 프롬프트 + 결과</span><span class="bullet-arrow">→</span><div class="bullet-detail">프롬프트와 결과를 묶어 #수업실습에 게시하면 팀원·강사가 피드백을 남길 수 있습니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">🏓 피드백 2회 이상 주고받기</span><span class="bullet-arrow">→</span><div class="bullet-detail">완성도보다 대화 감각이 이 실습의 핵심입니다. 피드백을 2회 이상 주고받으며 매뉴얼 톤에 가까워지는 경험을 합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">👂 소리 내어 읽어 확인</span><span class="bullet-arrow">→</span><div class="bullet-detail">결과를 소리 내어 읽어 보세요. 입에 걸리는 표현은 독자에게도 걸립니다. 좋은 점검 방법입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">💬 #수업실습 · 프롬프트 + 결과</span><span class="bullet-arrow">→</span><div class="bullet-detail">프롬프트와 결과를 묶어 #수업실습에 게시하면 팀원·강사가 피드백을 남길 수 있습니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic">
   <rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="42" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="2">실습 A · 체크포인트</text>
   <rect x="28" y="72" width="344" height="38" rx="4" fill="#e2c793" opacity="0.06" stroke="#e2c793" stroke-width="1.4"/>
   <circle cx="50" cy="91" r="10" fill="none" stroke="#e2c793" stroke-width="1.4"/>
   <path d="M 45 91 L 49 95 L 56 87" fill="none" stroke="#e2c793" stroke-width="1.8" stroke-linecap="round"/>
@@ -378,27 +911,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">감정 과장어 자제<br><br>[Format]<br><br>제목 (1줄)<br><br>서론 (1문단)<br><br>본론 (2문단)</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
     <div class="section-head">
@@ -406,16 +919,18 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">Part 05 · 세 줄 요약</h2>
+      <div class="section-body">
+        <h2 class="section-title">Part 05 · 세 줄 요약</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">📁 매뉴얼 업로드 + Custom instructions</span><span class="bullet-arrow">→</span><div class="bullet-detail">Projects에 매뉴얼을 업로드하고 Custom instructions(프로젝트 지침 칸)에 참고 지시를 명시하는 것이 핵심입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🏓 R·C·E·C·F · 피드백 2회</span><span class="bullet-arrow">→</span><div class="bullet-detail">5요소를 모두 넣은 프롬프트로 시작해, 피드백을 2회 이상 주고받으며 매뉴얼 톤에 맞춰 다듬었습니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📤 #수업실습 · 6~9강 재사용 자산</span><span class="bullet-arrow">→</span><div class="bullet-detail">오늘 결과물은 프롬프트와 함께 #수업실습에 저장하면 6·8·9강에서 그대로 재사용됩니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">📁 매뉴얼 업로드 + Custom instructions</span><span class="bullet-arrow">→</span><div class="bullet-detail">Projects에 매뉴얼을 업로드하고 Custom instructions(프로젝트 지침 칸)에 참고 지시를 명시하는 것이 핵심입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">🏓 R·C·E·C·F · 피드백 2회</span><span class="bullet-arrow">→</span><div class="bullet-detail">5요소를 모두 넣은 프롬프트로 시작해, 피드백을 2회 이상 주고받으며 매뉴얼 톤에 맞춰 다듬었습니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">📤 #수업실습 · 6~9강 재사용 자산</span><span class="bullet-arrow">→</span><div class="bullet-detail">오늘 결과물은 프롬프트와 함께 #수업실습에 저장하면 6·8·9강에서 그대로 재사용됩니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic">
   <rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="44" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="3">RECAP · 핵심 3카드</text>
   <rect x="28" y="72" width="108" height="120" rx="4" fill="none" opacity="1" stroke="#7a7666" stroke-width="1.2"/>
   <text x="82" y="98" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="2">SETUP</text>
   <line x1="42" y1="108" x2="122" y2="108" stroke="#3a3730" stroke-width="1"/>
@@ -439,27 +954,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">마무리 (1문단 + 한 줄 메시지)<br><br>첫 결과를 읽어 보신 뒤, 다음 중 하나를 시도해 보세요.<br><br>"서론이 조금 밋밋해요. 매뉴얼의 '따뜻한 관찰자' 톤에 더 가깝게 고쳐 주세요."<br><br>"본론 두 번째 문단이 길어요. 한 문단으로 줄여 주세요."</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <section class="slide slide-section" data-slide="7" data-diagram="bridge">
     <div class="section-head">
@@ -467,16 +962,18 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <h2 class="section-title">다음 · 팀과 함께 다듬기</h2>
+      <div class="section-body">
+        <h2 class="section-title">다음 · 팀과 함께 다듬기</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">👥 다음 · 팀원과 순환형 협업</span><span class="bullet-arrow">→</span><div class="bullet-detail">혼자 쓴 글을 팀원과 같이 다듬어 보겠습니다. Artifacts(아티팩트 · Claude가 결과물을 펼쳐 보여주는 별도 작업 결과물 창)에서 공유 링크 + 피드백 반영 사이클(Cycle · 반복 순환)을 짧게 경험합니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">⏱️ 실시간 아님 · 순환형 5단계</span><span class="bullet-arrow">→</span><div class="bullet-detail">Artifacts는 실시간 동시 편집이 아닙니다. 초안 → 공유 → 피드백 → 업데이트 → 반복 5단계가 실무 협업 방식입니다.</div></li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">👨‍👩‍👧 팀 편성 · 2~3인 1조</span><span class="bullet-arrow">→</span><div class="bullet-detail">팀 2~3인 1조로 구성하고 팀장 1명을 지정합니다. 팀장이 Artifact(아티팩트 · 작업 결과물 창 하나)를 만드는 주 작성자가 됩니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.00s"><span class="bullet-num">01</span><span class="bullet-text">👥 다음 · 팀원과 순환형 협업</span><span class="bullet-arrow">→</span><div class="bullet-detail">혼자 쓴 글을 팀원과 같이 다듬어 보겠습니다. Artifacts(아티팩트 · Claude가 결과물을 펼쳐 보여주는 별도 캔버스) 캔버스에서 공유 링크 + 피드백 반영 사이클(Cycle · 반복 순환)을 짧게 경험합니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.12s"><span class="bullet-num">02</span><span class="bullet-text">⏱️ 실시간 아님 · 순환형 5단계</span><span class="bullet-arrow">→</span><div class="bullet-detail">Artifacts는 실시간 동시 편집이 아닙니다. 초안 → 공유 → 피드백 → 업데이트 → 반복 5단계가 실무 협업 방식입니다.</div></li>
+          <li class="tilt-card reveal" style="transition-delay:0.24s"><span class="bullet-num">03</span><span class="bullet-text">👨‍👩‍👧 팀 편성 · 2~3인 1조</span><span class="bullet-arrow">→</span><div class="bullet-detail">팀 2~3인 1조로 구성하고 팀장 1명을 지정합니다. 팀장이 Artifact(아티팩트 · 결과물 캔버스 하나)를 만드는 주 작성자가 됩니다.</div></li>
         </ul>
-      
+      </div>
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg viewBox="0 0 400 260" class="infographic">
   <rect x="0" y="0" width="400" height="260" fill="#0D0D0D" opacity="0.75"/>
+  <text x="200" y="40" text-anchor="middle" font-size="12" font-weight="900" fill="#e2c793" letter-spacing="3">BRIDGE · 다음 파트로</text>
   <rect x="36" y="86" width="140" height="100" rx="4" fill="#e2c793" opacity="0.08" stroke="#e2c793" stroke-width="1.8"/>
   <text x="106" y="116" text-anchor="middle" font-size="11" font-weight="900" fill="#e2c793" letter-spacing="2">지금</text>
   <text x="106" y="142" text-anchor="middle" font-size="13" font-weight="700" fill="#F7F0DF">Part 05</text>
@@ -494,27 +991,7 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">"제목을 3가지 후보로 제안해 주세요."<br><br>대화 하단의 복사 버튼으로 본문 복사 → 본인 메모장·구글 문서에 저장.<br><br>슬랙 `#수업실습`에 프롬프트 + 결과물을 묶어 게시. (피드백은 팀원·강사 모두에게 열려 있습니다.)<br><br>→ Custom instructions에 "업로드된 [파일명]을 참고해 작성해 주세요"를 명시적으로 써 두셨는지 확인해 주세요. Claude가 때때로 자료를 스스로 참고하지 않고 일반 답변을 하는 경우가 있어, 지침에 명시하는 편이 안정적입니다.<br><br>→ 같은 프로젝트에 여러 파일 업로드 가능합니다. 단, Free 플랜은 업로드 용량·개수 제한이 있어요. 중복되거나 구버전 파일은 삭제 후 업로드하는 편이 깔끔합니다.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
   <section class="slide slide-outro" data-slide="8">
     <div class="outro-radial"></div>
@@ -526,27 +1003,7 @@
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-06.html">다음으로 →</a>
     </div>
-        <details class="teacher-note" open>
-        <summary>📝 강사 노트</summary>
-        <div class="note-body">
-          <div class="note-controls">
-            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
-            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
-            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
-          </div>
-          <div class="note-script">
-            <div class="note-script-label">💬 그대로 읽으세요</div>
-            <div class="note-script-text">→ 정상입니다. AI 생성물의 기본 속성이에요. 같은 프롬프트·같은 자료라도 결과는 조금씩 달라집니다. 이걸 "결정론적이지 않다" 고 표현합니다. 결과가 마음에 들면 그 대화 링크를 저장해 두세요.<br><br>Projects에 브랜드 매뉴얼 업로드 → Custom instructions로 참고 지시 → 새 대화에서 R·C·E·C·F 프롬프트 적용.<br><br>피드백 최소 2회를 통해 결과물을 매뉴얼 톤에 맞춰 다듬는 것이 핵심.<br><br>결과물은 슬랙 `#수업실습`에 프롬프트와 함께 공유.<br><br>이제 혼자 쓴 글을 팀원과 같이 다듬는 경험을 해보시겠습니다. Artifacts 작업 결과물 창에서요.</div>
-          </div>
-        
-          <div class="note-refs">
-            <div class="note-refs-label">📌 참고 (눈으로만)</div>
-            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
-            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
-          </div></div>
-      </details>
-    </section>
+  </section>
 
 </main>
 
@@ -567,7 +1024,7 @@
 <div class="thumb-strip" id="thumbStrip">
   <div class="thumb-strip-inner" id="thumbInner">
     <div class="thumb" data-idx="0"><span class="thumb-num">01</span><span class="thumb-label">COVER</span></div>
-    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">OVERVIEW</span></div>
+    <div class="thumb" data-idx="1"><span class="thumb-num">02</span><span class="thumb-label">META</span></div>
     <div class="thumb" data-idx="2"><span class="thumb-num">03</span><span class="thumb-label">HOOK</span></div>
     <div class="thumb" data-idx="3"><span class="thumb-num">04</span><span class="thumb-label">CONCEPT</span></div>
     <div class="thumb" data-idx="4"><span class="thumb-num">05</span><span class="thumb-label">CONCEPT</span></div>
@@ -1015,288 +1472,7 @@ function loop() {
 loop();
 
 render();
-
-/* ============================================
-   📝 강사 노트 시스템 · 2026-04-24 도입
-   ============================================ */
-// 전역 공개
-if (typeof next === 'function') window.next = next;
-if (typeof prev === 'function') window.prev = prev;
-if (typeof go === 'function') window.go = go;
-
-// N 키 일괄 토글
-document.addEventListener('keydown', function(e) {
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-  if (e.key === 'n' || e.key === 'N') {
-    const notes = document.querySelectorAll('.teacher-note');
-    const anyOpen = Array.from(notes).some(el => el.open);
-    notes.forEach(el => {
-      if (anyOpen) el.removeAttribute('open');
-      else el.setAttribute('open', '');
-    });
-  }
-});
-
-// 컨트롤 버튼
-document.addEventListener('click', function(e) {
-  var btn = e.target.closest('.teacher-note .nc-btn');
-  if (!btn) return;
-  e.stopPropagation();
-  var action = btn.getAttribute('data-action');
-  var slide = btn.closest('.slide');
-  if (!slide || !window.setSentenceIdx) return;
-  var sentences = slide.querySelectorAll('.teacher-note .sentence');
-  var a = -1;
-  sentences.forEach(function(x, i) { if (x.classList.contains('active')) a = i; });
-  if (action === 'prev' && a > 0) window.setSentenceIdx(a - 1, slide);
-  else if (action === 'next' && a < sentences.length - 1) window.setSentenceIdx(a + 1, slide);
-  else if (action === 'reset') window.setSentenceIdx(0, slide);
-});
-
-// 노래방 모드
-(function initKaraokeMode() {
-  document.querySelectorAll('.note-script-text').forEach(function(scriptEl) {
-    var raw = scriptEl.innerHTML;
-    var paragraphs = raw.split(/<br\\s*\\/?>\\s*<br\\s*\\/?>/gi);
-    var html = paragraphs.map(function(para) {
-      var stripped = para.replace(/<br\\s*\\/?>/gi, ' ').trim();
-      if (!stripped) return '';
-      var sentences;
-      try {
-        sentences = stripped.split(/(?<=[.?!])\\s+/).filter(function(s) { return s.trim(); });
-      } catch(e) {
-        sentences = [];
-        var buf = '';
-        for (var i = 0; i < stripped.length; i++) {
-          buf += stripped[i];
-          if (/[.?!]/.test(stripped[i]) && (stripped[i+1] === ' ' || i === stripped.length - 1)) {
-            if (buf.trim()) sentences.push(buf.trim());
-            buf = '';
-          }
-        }
-        if (buf.trim()) sentences.push(buf.trim());
-      }
-      if (!sentences.length) sentences = [stripped];
-      return sentences.map(function(s) {
-        return '<span class="sentence future">' + s.trim() + '</span>';
-      }).join(' ');
-    }).filter(Boolean).join('<span class="note-para-break"></span>');
-    scriptEl.innerHTML = html;
-  });
-
-  document.querySelectorAll('.teacher-note .sentence').forEach(function(s) {
-    s.addEventListener('click', function(ev) {
-      ev.stopPropagation();
-      var slide = s.closest('.slide');
-      var sentences = Array.prototype.slice.call(slide.querySelectorAll('.teacher-note .sentence'));
-      var idx = sentences.indexOf(s);
-      window.setSentenceIdx(idx, slide);
-    });
-  });
-
-  window.setSentenceIdx = function(idx, slideEl) {
-    slideEl = slideEl || document.querySelector('.slide.active');
-    if (!slideEl) return;
-    var sentences = slideEl.querySelectorAll('.teacher-note .sentence');
-    sentences.forEach(function(s, i) {
-      s.classList.remove('past', 'active', 'future');
-      if (i < idx) s.classList.add('past');
-      else if (i === idx) s.classList.add('active');
-      else s.classList.add('future');
-    });
-  };
-
-  var obs = new MutationObserver(function(mutations) {
-    mutations.forEach(function(m) {
-      if (m.target.classList.contains('slide') && m.target.classList.contains('active')) {
-        window.setSentenceIdx(0, m.target);
-      }
-    });
-  });
-  document.querySelectorAll('.slide').forEach(function(s) {
-    obs.observe(s, { attributes: true, attributeFilter: ['class'] });
-  });
-
-  var initActive = document.querySelector('.slide.active');
-  if (initActive && typeof window.setSentenceIdx === 'function') {
-    window.setSentenceIdx(0, initActive);
-  }
-})();
-
-// 뷰 분리
-(function initViewMode() {
-  var params = new URLSearchParams(window.location.search);
-  if (params.get('view') === 'student') {
-    document.body.classList.remove('teacher-view');
-    document.body.classList.add('student-view');
-  }
-})();
-
-// 프로젝터
-window.openProjectorWindow = function() {
-  var base = window.location.href.split('?')[0];
-  var proj = window.open(base + '?view=student', 'projector-' + base,
-    'width=1920,height=1080,menubar=no,toolbar=no,location=no,status=no,resizable=yes');
-  if (!proj) { alert('팝업이 차단되었습니다. 주소창 옆 팝업 아이콘에서 허용해 주세요.'); return; }
-  window.__projector = proj;
-  proj.focus();
-};
-
-// 슬라이드·문장 동기화 (4중 채널)
-(function initSlideSync() {
-  var SYNC_KEY = 'aimarketer-slide-sync';
-  var channel = null;
-  try { if (typeof BroadcastChannel !== 'undefined') channel = new BroadcastChannel(SYNC_KEY); }
-  catch(e) { channel = null; }
-
-  function broadcast(msg) {
-    if (window.__skipBroadcast) return;
-    try { if (channel) channel.postMessage(msg); } catch(e) {}
-    try { if (window.__projector && !window.__projector.closed) window.__projector.postMessage(msg, '*'); } catch(e) {}
-    try { if (window.opener && !window.opener.closed) window.opener.postMessage(msg, '*'); } catch(e) {}
-    try { localStorage.setItem(SYNC_KEY, JSON.stringify(Object.assign({}, msg, { ts: Date.now() }))); } catch(e) {}
-  }
-
-  function handle(msg) {
-    if (!msg || !msg.type) return;
-    if (msg.type === 'goto' && typeof window.go === 'function') {
-      window.__skipBroadcast = true; window.go(msg.index);
-      setTimeout(function() { window.__skipBroadcast = false; }, 120);
-    } else if (msg.type === 'sentence' && typeof window.setSentenceIdx === 'function') {
-      window.__skipBroadcast = true; window.setSentenceIdx(msg.index);
-      setTimeout(function() { window.__skipBroadcast = false; }, 120);
-    } else if (msg.type === 'tab') {
-      var sl = document.querySelectorAll('.slide');
-      if (!sl[msg.slide]) return;
-      var cards = sl[msg.slide].querySelectorAll('.bullet-list li.tilt-card');
-      if (!cards[msg.card]) return;
-      window.__skipBroadcast = true;
-      if (msg.open) cards[msg.card].classList.add('open');
-      else cards[msg.card].classList.remove('open');
-      setTimeout(function() { window.__skipBroadcast = false; }, 120);
-    } else if (msg.type === 'navigate') {
-      if (window.location.pathname !== msg.path) {
-        var vp = new URLSearchParams(window.location.search).get('view');
-        window.location.href = msg.path + (vp ? '?view=' + vp : '');
-      }
-    } else if (msg.type === 'thumbs') {
-      var strip = document.getElementById('thumbStrip');
-      if (!strip) return;
-      window.__skipBroadcast = true;
-      if (msg.open) strip.classList.add('open');
-      else strip.classList.remove('open');
-      setTimeout(function() { window.__skipBroadcast = false; }, 120);
-    } else if (msg.type === 'help') {
-      var ov = document.getElementById('helpOverlay');
-      if (!ov) return;
-      window.__skipBroadcast = true;
-      if (msg.open) ov.classList.add('open');
-      else ov.classList.remove('open');
-      setTimeout(function() { window.__skipBroadcast = false; }, 120);
-    }
-  }
-
-  if (channel) channel.onmessage = function(e) { handle(e.data); };
-  window.addEventListener('message', function(e) { if (e.data) handle(e.data); });
-  window.addEventListener('storage', function(e) {
-    if (e.key === SYNC_KEY && e.newValue) {
-      try { handle(JSON.parse(e.newValue)); } catch(err) {}
-    }
-  });
-
-  document.querySelectorAll('.slide').forEach(function(s, slideIdx) {
-    new MutationObserver(function() {
-      if (s.classList.contains('active')) broadcast({ type: 'goto', index: slideIdx });
-    }).observe(s, { attributes: true, attributeFilter: ['class'] });
-    s.querySelectorAll('.bullet-list li.tilt-card').forEach(function(card, cardIdx) {
-      new MutationObserver(function() {
-        broadcast({ type: 'tab', slide: slideIdx, card: cardIdx, open: card.classList.contains('open') });
-      }).observe(card, { attributes: true, attributeFilter: ['class'] });
-    });
-  });
-
-  var origSet = window.setSentenceIdx;
-  if (typeof origSet === 'function') {
-    window.setSentenceIdx = function(idx, slideEl) {
-      origSet(idx, slideEl);
-      broadcast({ type: 'sentence', index: idx });
-    };
-  }
-
-  document.querySelectorAll('a.nav-arrow[href], .topbar-right a[href]').forEach(function(a) {
-    a.addEventListener('click', function() {
-      if (a.classList.contains('disabled')) return;
-      var href = a.getAttribute('href');
-      if (!href || href === '#') return;
-      try {
-        broadcast({ type: 'navigate', path: new URL(href, window.location.href).pathname });
-      } catch (err) {}
-    });
-  });
-
-  var ts = document.getElementById('thumbStrip');
-  if (ts) new MutationObserver(function() {
-    broadcast({ type: 'thumbs', open: ts.classList.contains('open') });
-  }).observe(ts, { attributes: true, attributeFilter: ['class'] });
-  var ho = document.getElementById('helpOverlay');
-  if (ho) new MutationObserver(function() {
-    broadcast({ type: 'help', open: ho.classList.contains('open') });
-  }).observe(ho, { attributes: true, attributeFilter: ['class'] });
-})();
-
-// 강사 뷰(기본)에서만 프로젝터 버튼 표시
-(function showProjectorBtn() {
-  function apply() {
-    var btn = document.getElementById('projectorBtn');
-    if (!btn) return;
-    btn.style.display = document.body.classList.contains('teacher-view') ? 'inline-flex' : 'none';
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
-  else apply();
-})();
-
-// active 문장 자동 스크롤
-(function initActiveSentenceScroll() {
-  var _origSet = window.setSentenceIdx;
-  if (typeof _origSet !== 'function') return;
-  window.setSentenceIdx = function(idx, slideEl) {
-    _origSet(idx, slideEl);
-    setTimeout(function() {
-      var slide = slideEl || document.querySelector('.slide.active');
-      if (!slide) return;
-      var active = slide.querySelector('.teacher-note .sentence.active');
-      if (active && typeof active.scrollIntoView === 'function') {
-        try { active.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch(e) {}
-      }
-    }, 50);
-  };
-})();
-
-// Space/Backspace → 문장 다음/이전
-document.addEventListener('keydown', function(e) {
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-  if (document.body.classList.contains('student-view')) return;
-  var ho = document.getElementById('helpOverlay');
-  if (ho && ho.classList.contains('open')) return;
-  var slide = document.querySelector('.slide.active');
-  if (!slide) return;
-  var sentences = slide.querySelectorAll('.teacher-note .sentence');
-  if (!sentences.length) return;
-  var curIdx = -1;
-  sentences.forEach(function(s, i) { if (s.classList.contains('active')) curIdx = i; });
-  if (e.key === ' ' || e.code === 'Space') {
-    e.preventDefault();
-    if (curIdx < sentences.length - 1) window.setSentenceIdx(curIdx + 1, slide);
-    else if (typeof window.next === 'function') window.next();
-  } else if (e.key === 'Backspace') {
-    e.preventDefault();
-    if (curIdx > 0) window.setSentenceIdx(curIdx - 1, slide);
-    else if (typeof window.prev === 'function') window.prev();
-  }
-});
-
 </script>
   <div class="copyright-notice">© PajamaBoss</div>
-<script src="../assets/common.js"></script>
 </body>
 </html>
