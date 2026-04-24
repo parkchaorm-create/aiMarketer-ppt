@@ -293,32 +293,6 @@
     user-select: none;
     white-space: nowrap;
   }
-
-  /* DISABLED · 2026-04-24 · 1~4강 외 비공개 */
-  .card.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: auto;
-    filter: grayscale(0.7);
-    position: relative;
-  }
-  .card.disabled:hover { border-color: var(--dim) !important; transform: none !important; box-shadow: none !important; }
-  .card.disabled .card-inner { background: rgba(20,20,20,0.5); }
-  .card.disabled .card-meta .arrow { content: '🔒'; }
-  .card.disabled .card-meta::after { content: '🔒'; position: absolute; top: 16px; right: 20px; font-size: 16px; color: var(--muted); opacity: 0.7; }
-
-  /* 범위 안내 배너 */
-  .release-notice {
-    max-width: 1200px; margin: 32px auto;
-    padding: 16px 24px;
-    background: rgba(226,199,147,0.08);
-    border: 1px solid var(--gold); border-radius: 8px;
-    font-size: 14px; color: var(--cream);
-    letter-spacing: 0.3px; text-align: center;
-    backdrop-filter: blur(6px);
-  }
-  .release-notice strong { color: var(--gold); font-weight: 800; }
-
 </style>
 </head>
 <body>
@@ -395,7 +369,7 @@
     <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 2 · 클로드 Co-work</h2><span class="phase-line"></span></div>
     <p class="phase-sub">5~9회 · <strong>김국희</strong> · 클로드 협업 환경 완벽 적응 및 콘텐츠 대량 생산 파이프라인</p>
     <div class="card-grid">
-      <span class="card disabled" data-href="05강_클로드와_Co-work/part-01.html" title="수업 진행 후 공개 예정">
+      <a class="card available" href="05강_클로드와_Co-work/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>5회</span><span class="tutor">김국희</span></div>
           <div class="card-title">클로드 &amp; Co-work</div>
@@ -403,8 +377,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="06강_텍스트와_SEO_전략/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="06강_텍스트와_SEO_전략/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>6회</span><span class="tutor">김국희</span></div>
           <div class="card-title">텍스트 및 SEO 전략</div>
@@ -412,8 +386,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="07강_비주얼_인스타그램/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="07강_비주얼_인스타그램/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>7회</span><span class="tutor">김국희</span></div>
           <div class="card-title">비주얼 인스타그램</div>
@@ -421,8 +395,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="08강_팀_SNS_1주_콘텐츠/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="08강_팀_SNS_1주_콘텐츠/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>8회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
           <div class="card-title">팀 SNS 1주치 콘텐츠</div>
@@ -430,8 +404,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="09강_콘텐츠_포트폴리오_패키징/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="09강_콘텐츠_포트폴리오_패키징/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>9회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
           <div class="card-title">콘텐츠 포트폴리오 패키징</div>
@@ -439,7 +413,7 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
+      </a>
     </div>
   </section>
 
@@ -448,7 +422,7 @@
     <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 3 · 클로드 코드 로컬</h2><span class="phase-line"></span></div>
     <p class="phase-sub">10~15회 · <strong>최미혜</strong> · IDE 터미널 기반 자동화 셋업 및 다채널 스킬 구현</p>
     <div class="card-grid">
-      <span class="card disabled" data-href="10강_터미널과_클로드지식베이스/part-01.html" title="수업 진행 후 공개 예정">
+      <a class="card available" href="10강_터미널과_클로드지식베이스/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>10회</span><span class="tutor">최미혜</span></div>
           <div class="card-title">터미널과 CLAUDE.md</div>
@@ -456,8 +430,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="11강_멀티모달과_스킬/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="11강_멀티모달과_스킬/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>11회</span><span class="tutor">최미혜</span></div>
           <div class="card-title">멀티모달 및 스킬 이해</div>
@@ -465,8 +439,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="12강_리퍼포징_자동화/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="12강_리퍼포징_자동화/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>12회</span><span class="tutor">최미혜</span></div>
           <div class="card-title">리퍼포징 자동화</div>
@@ -474,8 +448,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="13강_SEO_GEO_성과분석/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="13강_SEO_GEO_성과분석/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>13회</span><span class="tutor">최미혜</span></div>
           <div class="card-title">SEO/GEO 성과 자동 분석</div>
@@ -483,8 +457,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="14강_콘텐츠_자동_에이전트/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="14강_콘텐츠_자동_에이전트/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>14회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
           <div class="card-title">콘텐츠 자동 생성 에이전트 구축</div>
@@ -492,8 +466,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="15강_성과_리포팅_자동화/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="15강_성과_리포팅_자동화/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>15회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
           <div class="card-title">성과 분석 리포팅 자동화 시연</div>
@@ -501,7 +475,7 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
+      </a>
     </div>
   </section>
 
@@ -510,7 +484,7 @@
     <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 4 · GHL MCP 고도화</h2><span class="phase-line"></span></div>
     <p class="phase-sub">16~25회 · <strong>김국희</strong> · GHL MCP 킬러 자동화(예약 · 태깅 · 퍼블리싱)를 클로드 코드의 지휘 아래 완벽 구축</p>
     <div class="card-grid">
-      <span class="card disabled" data-href="16강_GHL_가입과_MCP연결/part-01.html" title="수업 진행 후 공개 예정">
+      <a class="card available" href="16강_GHL_가입과_MCP연결/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>16회</span><span class="tutor">김국희</span></div>
           <div class="card-title">GHL 가입 &amp; MCP 직결</div>
@@ -518,8 +492,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="17강_리드수집과_스마트태깅/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="17강_리드수집과_스마트태깅/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>17회</span><span class="tutor">김국희</span></div>
           <div class="card-title">리드 수집 &amp; 스마트 태깅</div>
@@ -527,8 +501,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="18강_콘텐츠_자동예약발행/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="18강_콘텐츠_자동예약발행/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>18회</span><span class="tutor">김국희</span></div>
           <div class="card-title">콘텐츠 자동 예약 발행</div>
@@ -536,8 +510,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="19강_DM_캘린더_자동화/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="19강_DM_캘린더_자동화/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>19회</span><span class="tutor">김국희</span></div>
           <div class="card-title">자동 DM 및 캘린더 연동</div>
@@ -545,8 +519,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="20강_Reactivation_캠페인/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="20강_Reactivation_캠페인/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>20회</span><span class="tutor">김국희</span></div>
           <div class="card-title">Reactivation 캠페인</div>
@@ -554,8 +528,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="21강_뉴스레터_알림요약/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="21강_뉴스레터_알림요약/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>21회</span><span class="tutor">김국희</span></div>
           <div class="card-title">자동 뉴스레터 &amp; 알림 요약</div>
@@ -563,8 +537,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="22강_컨텍스트_최적화/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="22강_컨텍스트_최적화/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>22회</span><span class="tutor">김국희</span></div>
           <div class="card-title">컨텍스트 최적화 고도화</div>
@@ -572,8 +546,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="23강_GHL_파이프라인_빌드/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="23강_GHL_파이프라인_빌드/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>23회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
           <div class="card-title">GHL 마케팅 &amp; CRM 통합 파이프라인</div>
@@ -581,8 +555,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="24강_스케줄링_오토메이션/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="24강_스케줄링_오토메이션/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>24회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
           <div class="card-title">스케줄링 &amp; 리드 활성화 병합</div>
@@ -590,8 +564,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="25강_파이프라인_라이브_디버깅/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="25강_파이프라인_라이브_디버깅/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>25회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
           <div class="card-title">GHL MCP 완전 자동화 시연</div>
@@ -599,7 +573,7 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
+      </a>
     </div>
   </section>
 
@@ -608,7 +582,7 @@
     <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 5 · HIGGSFIELD 비주얼</h2><span class="phase-line"></span></div>
     <p class="phase-sub">26~31회 · <strong>최미혜</strong> · 힉스필드 비주얼 아트 워크 및 생성 스킬 숙달에 집중</p>
     <div class="card-grid">
-      <span class="card disabled" data-href="26강_HIGGSFIELD_기동/part-01.html" title="수업 진행 후 공개 예정">
+      <a class="card available" href="26강_HIGGSFIELD_기동/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>26회</span><span class="tutor">최미혜</span></div>
           <div class="card-title">HIGGSFIELD 툴 기동</div>
@@ -616,8 +590,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="27강_캐릭터_모션제어/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="27강_캐릭터_모션제어/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>27회</span><span class="tutor">최미혜</span></div>
           <div class="card-title">캐릭터 · 동작(Motion) 제어</div>
@@ -625,8 +599,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="28강_시네마틱_앵글/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="28강_시네마틱_앵글/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>28회</span><span class="tutor">최미혜</span></div>
           <div class="card-title">시네마틱 앵글 컨트롤</div>
@@ -634,8 +608,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="29강_VFX_트랜지션/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="29강_VFX_트랜지션/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>29회</span><span class="tutor">최미혜</span></div>
           <div class="card-title">시각 효과(VFX) 및 트랜지션</div>
@@ -643,8 +617,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="30강_비주얼_영상_제작/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="30강_비주얼_영상_제작/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>30회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
           <div class="card-title">압도적 비주얼 영상 소스 제작</div>
@@ -652,8 +626,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="31강_영상_고해상도_렌더링/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="31강_영상_고해상도_렌더링/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>31회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
           <div class="card-title">영상 품질 디버깅 · 고해상도 렌더링</div>
@@ -661,7 +635,7 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
+      </a>
     </div>
   </section>
 
@@ -670,7 +644,7 @@
     <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 6 · 에이전시 런칭 &amp; 파이널</h2><span class="phase-line"></span></div>
     <p class="phase-sub">32~37회 · <strong>김국희</strong> · 1인 에이전시 창업 지식 함양 · 실제 클라이언트 포트폴리오 사이트 라이브 시연</p>
     <div class="card-grid">
-      <span class="card disabled" data-href="32강_창업_비즈니스_모델/part-01.html" title="수업 진행 후 공개 예정">
+      <a class="card available" href="32강_창업_비즈니스_모델/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>32회 · 🚀 창업</span><span class="tutor">김국희</span></div>
           <div class="card-title">비즈니스 모델</div>
@@ -678,8 +652,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="33강_세일즈와_제안서/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="33강_세일즈와_제안서/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>33회 · 🚀 창업</span><span class="tutor">김국희</span></div>
           <div class="card-title">세일즈와 제안서</div>
@@ -687,8 +661,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="34강_포트폴리오_웹사이트/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="34강_포트폴리오_웹사이트/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>34회 · 🎯 파이널</span><span class="tutor">김국희</span></div>
           <div class="card-title">공식 마케팅 포트폴리오 웹 제작</div>
@@ -696,8 +670,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="35강_멀티플랫폼_스케줄링/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="35강_멀티플랫폼_스케줄링/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>35회 · 🎯 파이널</span><span class="tutor">김국희</span></div>
           <div class="card-title">멀티 플랫폼 배포 스케줄링</div>
@@ -705,8 +679,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="36강_최종_피칭_리허설/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="36강_최종_피칭_리허설/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>36회 · 🎯 파이널</span><span class="tutor">김국희</span></div>
           <div class="card-title">배포 파이프라인 최종 점검 · 리허설</div>
@@ -714,8 +688,8 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
-      <span class="card disabled" data-href="37강_피칭데이_발표/part-01.html" title="수업 진행 후 공개 예정">
+      </a>
+      <a class="card available" href="37강_피칭데이_발표/part-01.html">
         <div class="card-inner">
           <div class="card-num"><span>37회 · 🏆 피칭 데이</span><span class="tutor">김국희</span></div>
           <div class="card-title">최종 발표 · 피칭 데이</div>
@@ -723,7 +697,7 @@
           <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
-      </span>
+      </a>
     </div>
   </section>
 
