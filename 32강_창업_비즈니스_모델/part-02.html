@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="WAVES">
+<body data-bg-mode="WAVES" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 32강</div>
   <div class="topbar-center">PART 02 · 비즈니스 모델의 네 요소</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-01.html" title="이전 파트">◀ PART 01</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-03.html" title="다음 파트">PART 03 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">마케팅 대행사 홈페이지를 열 군데만 돌아봐도 두 종류로 갈립니다. 한쪽은 Starter · Growth · Premium 같은 티어(Tier · 등급·단계)별로 가격을 당당히 공개합니다. 다른 쪽은 "상담 후 견적"만 적혀 있어요. 무슨 차이일까요?<br><br>답은 비즈니스 모델의 정의 수준입니다. 앞쪽은 서비스가 프로덕타이즈드 서비스(Productized Service · 제품처럼 표준화된 서비스) 형태로 정의된 것이고, 뒤쪽은 매번 고객마다 커스텀으로 협상하는 커스텀 컨설팅 형태예요. 두 모델 모두 유효하지만, 1인 대행사에게 효율적인 건 앞쪽입니다[^T2-1]. 이유는 잠시 후에 정리하겠습니다.<br><br>비즈니스 모델(BM · Business Model · 어떻게 돈을 버는지의 설계도)을 복잡하게 설명하는 책이 많지만, 1인 대행사 수준에서는 네 개 칸만 채워지면 충분합니다.<br><br>┌────────────┬────────────────────┐ │ ① Scope     │ 어떤 범위의 일을?      │ │ ② Deliverable│ 무엇을 납품하나?      │ │ ③ Turnaround│ 언제까지 납품하나?     │ │ ④ Price     │ 가격 구조는 어떻게?    │ └────────────┴────────────────────┘</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -65,29 +85,28 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">네 요소 · 두 함정 · 한 전환</h2>
+      <h2 class="section-title">네 요소 · 두 함정 · 한 전환</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🧱 BM 네 요소 · 한 칸씩</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Scope(범위) · Deliverable(납품물) · Turnaround(납기) · Price(가격 구조). 1인 대행사 기준 네 칸으로 충분합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📦 프로덕타이즈드 서비스로 전환</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">프로덕타이즈드 서비스(Productized Service · 제품처럼 표준화된 서비스)가 되면 즉답·반복·방어가 모두 가능해집니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🪤 두 함정 · 무제한 수정·저가</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">1인 대행사가 가장 자주 빠지는 두 함정 · 무제한 수정과 경쟁적 저가 · 미리 짚고 갑니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="40" y="35" width="320" height="190" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
@@ -114,7 +133,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">이 네 칸이 명확히 채워지면, 그 자체로 판매 가능한 상품이 됩니다. 반대로 하나라도 비면 고객은 "생각해 볼게요"라고 답하고 돌아가요.<br><br>정의: 내가 해 주는 일의 경계선<br><br>예시 (클라이언트 A 푸르트 · 플로리스트):<br><br>✅ 포함: 인스타그램 릴스 주 3회 · 카드뉴스 주 2회 · 한 달 콘텐츠 캘린더<br><br>❌ 미포함: 오프라인 매장 촉진물 제작 · 사진 촬영 · 광고 집행 대행</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -123,29 +162,28 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">왜 어떤 곳은 가격을 공개하고 어떤 곳은 "문의주세요"일까요?</h2>
+      <h2 class="section-title">왜 어떤 곳은 가격을 공개하고 어떤 곳은 "문의주세요"일까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">💰 한쪽 · Tier별 가격 당당 공개</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Starter·Growth·Premium 같은 Tier별 가격을 홈페이지에 그대로 공개하는 대행사 유형입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📞 한쪽 · "상담 후 견적"만</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">매번 고객마다 커스텀으로 협상하는 컨설팅 형태 · 가격을 공개하지 않습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔑 차이 · BM 정의 수준</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">앞쪽이 프로덕타이즈드 서비스 · 1인 대행사에게 효율적인 건 앞쪽 모델로 보고됩니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="50" width="160" height="170" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -176,7 +214,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">왜 중요한가: Scope가 모호하면 스코프 크리프(Scope Creep · 업무 범위가 몰래 늘어나는 현상)가 일어납니다. "이것도 해 주세요"가 쌓여 수익률이 무너져요.<br><br>1인 대행사 팁: 포함·미포함을 명시적으로 둘 다 적어 두기.<br><br>정의: 고객이 실제로 손에 받게 되는 것<br><br>예시 (클라이언트 B 슬로우템포 · 브런치카페):<br><br>✅ 매월 말 공유되는 노션 페이지 1개</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 1 · BM 네 요소 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -185,35 +243,34 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">네 칸 · 모두 채워지면 상품</h2>
+      <h2 class="section-title">네 칸 · 모두 채워지면 상품</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎯 ① Scope · 일의 경계선</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Scope(스코프 · 업무 범위)는 포함·미포함을 명시. 모호하면 스코프 크리프(범위가 몰래 늘어나는 현상)가 생깁니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📦 ② Deliverable · 손에 잡히는 것</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Deliverable(딜리버러블 · 납품 산출물)은 고객이 받는 물건. "시간을 판다"가 아닌 "산출물을 판다"로 표현합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⏱ ③ Turnaround · 납기·주기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Turnaround(턴어라운드 · 납기)는 단발 프로젝트라면 N주 · 월 리테이너라면 매월 마지막 주 등으로 명시.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🏷 ④ Price · 가격 구조</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Price(프라이싱)는 숫자가 아니라 매기는 방식 · 프로젝트·리테이너·시간제·가치 기반 네 가지 중 선택.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="40" y="30" width="320" height="200" fill="none" stroke="#3a3730" stroke-width="1.5" rx="6"/>
@@ -242,7 +299,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">✅ 인스타그램 포스트 12건 · 릴스 12편 (MP4 파일)<br><br>✅ 다음 달 콘텐츠 캘린더 (구글 시트 링크)<br><br>왜 중요한가: "뭘 받게 되는지" 명확해야 고객이 가격을 납득합니다.<br><br>1인 대행사 팁: "시간을 판다"가 아니라 "물건(산출물)을 판다"로 표현하는 연습.<br><br>정의: 착수부터 납품까지 걸리는 시간 · 또는 정기 납품 주기</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 2 · 프로덕타이즈드 서비스 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -251,35 +328,34 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">즉답 · 반복 · 방어 · 세 가지 이점</h2>
+      <h2 class="section-title">즉답 · 반복 · 방어 · 세 가지 이점</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">⚡ 이점 1 · 즉답 가능</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"얼마예요?" 질문에 1초 안에 구조로 답변. 매번 견적 만드는 시간이 사라집니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔁 이점 2 · 반복 생산</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">고객이 10명 와도 동일 워크플로우로 납품. 1인 대행사 운영이 가능해지는 핵심입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🛡️ 이점 3 · 스코프 크리프 방어</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">포함·미포함이 명시되어 있어 추가 요청에 대한 협상이 수월. "원래 그건 별도예요" 한 줄이면 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🪤 두 함정 · 무제한 수정·저가</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"수정 무제한"·"저가 출발"은 1인 대행사가 가장 빨리 지치는 두 함정 · 둘 다 명시적으로 차단합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="40" width="105" height="100" fill="rgba(226,199,147,0.06)" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -312,7 +388,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">예시 (클라이언트 C 손결 · 도예 공방):<br><br>단발 프로젝트: 2주 이내 완료<br><br>월 리테이너: 매월 마지막 주 금요일 다음 달치 납품<br><br>왜 중요한가: 납기가 명시되지 않으면 고객은 불안합니다. "언제 되나요?"를 반복해서 묻게 돼요.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="5" data-diagram="recap">
@@ -321,29 +417,28 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Part 02 · 세 줄 정리</h2>
+      <h2 class="section-title">Part 02 · 세 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🧱 BM 네 요소 · 한 칸도 비우지 않기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Scope·Deliverable·Turnaround·Price 네 칸. 하나라도 비면 고객은 "생각해 볼게요" 하고 돌아갑니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📦 채워지면 프로덕타이즈드 전환</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">네 칸이 채워지는 순간 즉답·반복·방어 세 이점 동시 발생. 1인 대행사의 본 모델입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🪤 두 함정 · 명시적으로 차단</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">무제한 수정과 경쟁적 저가는 시작 단계에 차단. 수정 N회·가치 전면 배치 두 문장으로 정리됩니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="40" y="30" width="320" height="200" fill="none" stroke="#e2c793" stroke-width="1.5" rx="6"/>
@@ -364,7 +459,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">1인 대행사 팁: 실제 작업 시간 + 버퍼 30~50% 추가로 납기 설정. 실제보다 조금 여유 있게 약속하고 조금 빠르게 납품하면 신뢰가 쌓입니다.<br><br>정의: 가격을 매기는 방식(숫자가 아닙니다)<br><br>네 가지 구조 (Part 04에서 상세):<br><br>1. 프로젝트 가격 · 단발 프로젝트에 고정 금액 2. 리테이너(Retainer · 월 정기 계약 서비스) · 월 고정 금액 3. 시간제 · 시간당 금액 4. 가치 기반(Value-Based Pricing · 투입 시간이 아닌 고객 가치 기준) · 성과·가치에 연동<br><br>왜 중요한가: 같은 일이라도 가격 구조에 따라 수익률과 고객 관계가 완전히 달라집니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- BRIDGE -->
   <section class="slide slide-section" data-slide="6" data-diagram="bridge">
@@ -373,29 +488,28 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">왜 두 개도 네 개도 아닌 · 세 개일까요?</h2>
+      <h2 class="section-title">왜 두 개도 네 개도 아닌 · 세 개일까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">☕ 커피 사이즈 · 셋이 기본</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Tall·Grande·Venti · 사이즈 세 종류가 표준입니다. 왜 두 개도 네 개도 아닐까요?</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🧠 선택 심리 · 셋이 가장 편함</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">두 개면 싸구려·비싼 것 인식 · 네 개 이상이면 결정 피로 · 세 개일 때 가장 편한 선택이 일어납니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📦 Part 03 · Good-Better-Best</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Part 03에서 3종 패키지 프레임 · 중간 옵션의 힘 · 세 축으로 차이 만들기까지 봅니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="90" width="120" height="80" fill="none" stroke="#7a7666" stroke-width="1.5" rx="4"/>
@@ -419,7 +533,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">1인 대행사 팁: 초기에는 프로젝트 + 리테이너 혼합이 가장 안전[^T2-2].<br><br>네 칸을 채우는 순간, 서비스는 프로덕타이즈드 서비스로 전환됩니다. 이점이 뚜렷해요[^T1-1].<br><br>1. 즉답 가능: "얼마예요?" 질문에 1초 안에 답. 2. 반복 생산 가능: 고객 10명이 와도 동일 워크플로우로 납품. 3. 스코프 크리프 방지: 포함·미포함이 명시되어 추가 요구 협상이 수월.<br><br>반대로 매번 커스텀 협상하면, 1인 대행사는 금세 지칩니다. 20명 고객 = 20개 워크플로우 = 1인으로 운영 불가능.<br><br>함정 1 · 무제한 수정: "수정 횟수 제한 없음"을 내건 순간 수익률이 0으로 수렴합니다. 대신 수정 라운드 N회로 명시.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -428,11 +562,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">네 칸이 · 채워졌으면 · 상품입니다</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 03 · 3종 패키지 · Good-Better-Best</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-03.html">다음으로 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">함정 2 · 경쟁적 저가: "저는 더 싸게 해 드릴 수 있어요"로 시작한 관계는 끝까지 그 프레임에 묶입니다. 대신 가치(브랜드·자동화·영상 등 AI 레버리지)를 전면에 배치.<br><br>BM 네 요소 = Scope · Deliverable · Turnaround · Price.<br><br>네 칸이 채워지면 프로덕타이즈드 서비스가 되어 즉답·반복·스코프 방어 가능.<br><br>1인 대행사가 피할 두 함정 = 무제한 수정 · 경쟁적 저가.<br><br>네 요소를 이해하셨으면, 이제 몇 개의 패키지를 만들 것인지를 정합니다. Part 03에서 3종 패키지(Good-Better-Best) 프레임을 봅니다. 왜 두 개도 네 개도 아닌 세 개인지, 근거와 함께 짚고 가겠습니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 

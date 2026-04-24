@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="WAVES">
+<body data-bg-mode="WAVES" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 27강</div>
   <div class="topbar-center">PART 07 · 정리 · 28강 예고</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-06.html" title="이전 파트">◀ PART 06</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="../../28강_시네마틱_앵글/PPT/part-01.html" title="다음 강의">28강 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">동일 캐릭터 3컷 시퀀스 1세트 (Wide · Close-up · Medium 구조 · 프롬프트 반복 방식)<br><br>미세 동작 제어 영상 1편 (주인공+환경 움직임 · 매우 느린 속도)<br><br>캐릭터 상세 묘사 블록 작성 감각 · 프롬프트 반복 전략 체감<br><br>Motion 분해 세 축 — 주인공·카메라·환경<br><br>오늘 수업이 남긴 변화는 이것입니다. 이제 수강생은 "같은 주인공이 여러 컷에 등장하는 영상이 어떻게 만들어지는지"와 "AI 영상 속 움직임이 어떤 층위로 구성되는지" 를 감각으로 아시게 됐어요. 브랜드 광고·릴스·숏폼 기획에 바로 연결되는 스킬입니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OVERVIEW -->
   <section class="slide slide-section" data-slide="1" data-diagram="overview">
@@ -65,29 +85,28 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">27강 마무리 · 3줄 구성</h2>
+      <h2 class="section-title">27강 마무리 · 3줄 구성</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📤 산출물 업로드 확인</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">두 건이 `#수업실습`에 올라왔는지 확인합니다. 3컷 시퀀스 1세트 · 미세 동작 영상 1편. 업로드 안 된 분은 지금 손들어 주시기 바랍니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎥 28강 예고 · 카메라 워크</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">다음 회차는 카메라가 주인공. Dolly·Pan·Tilt·Crane 네 가지 기본 카메라 워크로 시네마틱 앵글 연출을 익힙니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🙏 감사 · 다음 회차 인사</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘 두 산출물을 남기셨다면 충분합니다. 질문은 `#강사-QnA`에 언제든. 다음 수업에서 카메라 워크로 다시 뵙겠습니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- 3 closing blocks -->
@@ -114,7 +133,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">OVERVIEW</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">옆자리 수강생과 30초씩 번갈아 진행합니다.<br><br>30초 · 내가 옆자리에게: "3컷 중 가장 일관성이 잘 잡힌 컷 · 그 이유 한 줄"<br><br>30초 · 옆자리가 내게: 한 줄 감상 또는 질문 하나<br><br>역할 바꿔 반복.<br><br>총 1~2분, 교실 내 완결. 강사가 30초 타이머로 진행을 통제합니다.<br><br>다음 두 가지를 `#수업실습` 채널에 업로드하셨는지 확인합니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="2" data-diagram="hook">
@@ -123,29 +162,28 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">오늘 · 어떤 변화가 생겼나요?</h2>
+      <h2 class="section-title">오늘 · 어떤 변화가 생겼나요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎭 같은 사람 · 여러 컷 감각</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">이제 "같은 주인공이 여러 컷에 등장하는 영상이 어떻게 만들어지는지" 감각으로 아시게 되셨습니다. 브랜드 영상의 기본기입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🌬️ Motion 층위 · 세 축 이해</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">AI 영상 속 움직임이 주인공·카메라·환경 세 층위로 구성된다는 것. 이 구조는 28·29강·팀 프로젝트까지 이어집니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎬 광고·릴스·숏폼 · 바로 연결</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">오늘 배운 두 스킬은 브랜드 광고·인스타 릴스·유튜브 숏폼 기획에 곧바로 쓰입니다. 추상 이론이 아니라 실전 재료입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- Before vs After student state -->
@@ -181,7 +219,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">`[27강][클라이언트태그] 3컷시퀀스_설명.mp4` (또는 3개 영상 + 간단 설명 스레드)<br><br>`[27강][클라이언트태그] 동작영상_설명.mp4`<br><br>영상 파일이 크면 유튜브 비공개 업로드 또는 구글 드라이브 공유 링크만 올려 주셔도 됩니다. 강사와 운영진이 순회하며 업로드 여부를 확인하니, 혹시 업로드가 안 되신 분은 지금 손들어 주시기 바랍니다.<br><br>다음 시간 28강에서는 카메라가 주인공입니다. 27강 오늘이 "피사체가 어떻게 움직이는가"였다면, 28강은 "카메라가 어떻게 움직이는가" 예요.<br><br>28강에서 익힐 네 가지 기본 카메라 워크:<br><br>1. Dolly(돌리) · 카메라가 피사체로 다가가거나 멀어짐 2. Pan(팬) · 카메라가 제자리에서 좌우 회전 3. Tilt(틸트) · 카메라가 제자리에서 상하 회전 4. Crane(크레인) · 카메라가 위아래로 이동 (하이앵글·로우앵글 전환)</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 1 · 슬랙 업로드 양식 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -190,35 +248,34 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">두 건 · 업로드 형식</h2>
+      <h2 class="section-title">두 건 · 업로드 형식</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📁 파일명 · [27강][태그] 형식</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">예: `[27강][A] 3컷시퀀스_푸르트_부케완성.mp4` · `[27강][B] 동작영상_슬로우템포_커피김.mp4`. 태그가 검색·정리를 살립니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🎞️ 두 산출물 · 따로 업로드</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">3컷 시퀀스는 3개 영상 각각 또는 한 스레드로 묶어서. 동작 영상은 1편만. 두 건이 각각 구분되게 올려 주세요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">☁️ 대용량 · 링크로 대체 OK</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">파일이 커서 슬랙 업로드가 안 되면 유튜브 비공개 업로드 또는 구글 드라이브 공유 링크만 올리셔도 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">✋ 미업로드 · 지금 손들기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">혼자 해결하려고 시간 쓰지 마시고, 운영진이 순회 중일 때 바로 손들어 주세요. 자리에 가서 같이 봐 드립니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- channel mockup -->
@@ -246,7 +303,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">이 네 가지에 오늘 배운 캐릭터 일관성과 미세 Motion이 얹히면, 29강(VFX·트랜지션)·30·31강(팀 프로젝트) 고품질 영상 소스 제작 준비가 끝납니다.<br><br>`[강사 선택: 30강 팀 프로젝트 산출물 예시 영상 1~2건 화면 공유 가능]`<br><br>오늘 두 산출물을 남기셨으면 충분합니다. 힉스필드 대시보드에 동일 캐릭터 3컷 시퀀스 1세트와 미세 동작 영상 1편이 저장되어 있다는 것 — 그것이 오늘의 성과입니다. 이해가 어려운 부분은 `#강사-QnA`에 언제든 남겨 주시기 바랍니다.<br><br>다음 수업에서 카메라 워크로 다시 뵙겠습니다. 수고하셨습니다.<br><br>T1 · 공식 문서<br><br>https://higgsfield.ai/</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 2 · 28강 예고 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -255,35 +332,34 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">다음 회차 · 카메라가 주인공</h2>
+      <h2 class="section-title">다음 회차 · 카메라가 주인공</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎥 Dolly · 다가가거나 멀어짐</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Dolly(돌리 · 카메라가 앞뒤로 직선 이동)는 피사체에 다가가거나 멀어지는 움직임. Slow dolly in은 오늘 이미 한 줄로 써 보셨습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">↔️ Pan · 제자리 좌우 회전</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Pan(팬 · 카메라가 제자리에서 좌우 회전)은 공간을 둘러보는 느낌. 와이드 샷 오프닝에 자주 쓰입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">↕️ Tilt · 제자리 상하 회전</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Tilt(틸트 · 카메라가 제자리에서 상하 회전)는 위아래를 훑는 움직임. 제품을 발끝부터 얼굴까지 훑을 때 유용합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🏗️ Crane · 위아래 이동</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Crane(크레인 · 카메라가 수직으로 이동)은 하이앵글과 로우앵글을 전환. 시네마틱 연출의 핵심 기법 중 하나입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- 4 camera works -->
@@ -327,7 +403,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">https://higgsfield.ai/pricing<br><br>https://higgsfield.ai/blog/How-to-Achieve-Character-Consistency-Higgsfield-Popcorn<br><br>https://higgsfield.ai/blog/SOUL-ID-Superior-Level-of-AI-Character-Consistency<br><br>https://higgsfield.ai/blog/sould-id-best-character-consistency<br><br>https://higgsfield.ai/blog/Kling-2.6-Motion-Control-Full-Guide<br><br>https://higgsfield.ai/blog/kling-motion-control-3</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP · Final -->
   <section class="slide slide-section" data-slide="5" data-diagram="recap">
@@ -336,29 +432,28 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">27강 · 세 줄 정리</h2>
+      <h2 class="section-title">27강 · 세 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎭 같은 주인공 · 3컷 확보</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">동일 캐릭터 3컷 시퀀스 1세트. 프롬프트 반복 방식으로 Wide·Close-up·Medium 구조의 영상 세 편을 확보하셨습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🌬️ 미세 동작 · 1편 지시</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">주인공+환경 움직임과 매우 느린 카메라로 구성된 경량 Motion 프롬프트로 동작 영상 1편을 직접 지시해 보셨습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🧭 감각 2개 · 몸에 남음</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">캐릭터 상세 묘사 블록을 쓰는 감각과 Motion을 세 축으로 분해하는 감각. 두 가지가 28강·29강·팀 프로젝트의 바탕이 됩니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -393,7 +488,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">https://higgsfield.ai/blog/shots-next-gen-storyboard-generator<br><br>https://higgsfield.ai/blog/How-to-Build-Multi-Scene-Videos<br><br>https://higgsfield.ai/blog/Prompt-Guide-to-Cinematic-AI-Videos<br><br>https://higgsfield.ai/blog/AI-Video-Generator-How-to-Create-on-Higgsfield<br><br>T2 · 대중 검증<br><br>https://blog.segmind.com/higgsfield-ai-features-pricing-guide/</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- BRIDGE · 30초 짝 교환 -->
   <section class="slide slide-section" data-slide="6" data-diagram="bridge">
@@ -402,29 +517,28 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">옆자리와 · 30초씩 · 번갈아</h2>
+      <h2 class="section-title">옆자리와 · 30초씩 · 번갈아</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">⏱️ 내가 먼저 · 30초</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">옆자리 수강생께 말씀드리세요. "3컷 중 가장 일관성 잘 잡힌 컷과 그 이유 한 줄." 30초 타이머 안에서.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔄 옆자리 · 30초 응답</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">옆자리가 한 줄 감상 또는 질문 하나를 돌려주십니다. 평가가 아니라 감상 교환이 목적이에요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔁 역할 바꿔 · 반복</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">같은 방식으로 한 번 더. 총 1~2분, 교실 안에서 완결됩니다. 강사가 30초 타이머로 진행을 통제합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- 30sec exchange -->
@@ -458,7 +572,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">BRIDGE</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">https://scribehow.com/page/Higgsfield_Soul_ID_The_Best_Tool_for_AI_Character_Consistency_in_2026__i1nfbuF-TcalH-r-LeNQgg<br><br>https://www.youtube.com/watch?v=AtIrM3OS9q8<br><br>https://aidigitalspace.com/higgsfield-ai-review/<br><br>https://videoweb.ai/blog/detail/Motion-Control-Videos-Made-Simple-Higgsfield-Kling-2-6-on-VideoWeb-AI-Step-by-Step-10d6dd48a2b5/<br><br>https://www.tiktok.com/@ai.for.real.life/video/7538589450851339533<br><br>T3 · 교차 자료</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -467,11 +601,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">수고하셨습니다</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · 28강 · 시네마틱 앵글 · 카메라 워크</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="../../28강_시네마틱_앵글/PPT/part-01.html">다음 강의 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">https://medium.com/@302.AI/higgsfield-soul-id-test-how-realistic-is-the-character-consistency-1bc8b3250bca<br><br>https://fluxproweb.com/blog/detail/Directorial-Video-Generation-Guide-Using-Higgsfield-Kling-for-Multi-Shot-Clips-71ef85c97b77/<br><br>https://aifacefy.com/blog/detail/Higgsfield-Motion-Control-Explained-A-Smarter-Way-to-Create-Controlled-AI-Videos-ae9bb982f4b3/<br><br>https://github.com/neurodropp/prompt-resources/blob/main/prompt_docs/higgsfield/higgsfield-how-to-guides-hub.md<br><br>`_design/tool-live-higgsfield-27강-2026-04-21.md` · 3원천 교차 검증 · Fitness Declaration · Fact-Check Matrix 12건 · 할루시네이션 5체크 통과<br><br>`_design/전문가_회의록_v1.md` · 5인 가상 회의 · 이슈 A~H 합의안 반영</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 

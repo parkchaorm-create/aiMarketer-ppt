@@ -15,10 +15,9 @@
     z-index: 60; pointer-events: none;
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
     user-select: none; white-space: nowrap;
-  }
-</style>
+  }</style>
 </head>
-<body data-bg-mode="NETWORK">
+<body data-bg-mode="NETWORK" class="teacher-view">
 
 <canvas id="bgcanvas"></canvas>
 <div class="dot-grid"></div>
@@ -30,8 +29,9 @@
   <div class="brand">AI 마케터 · 20강</div>
   <div class="topbar-center">PART 04 · 실습 A 세팅 · Smart List 설계</div>
   <div class="topbar-right">
+    <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow" href="./part-03.html" title="이전 파트">◀ PART 03</a>
-    <a class="nav-arrow" href="../../index.html">INDEX</a>
+    <a class="nav-arrow" href="../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-05.html" title="다음 파트">PART 05 ▶</a>
   </div>
 </div>
@@ -56,7 +56,27 @@
       <span>인터랙티브 슬라이드 · 마우스·키보드로 조작</span>
     </div>
     <div class="cover-hint reveal" style="transition-delay:1s">⌨ ← → 이동 · <kbd>F</kbd> 전체화면 · <kbd>?</kbd> 도움말 · <kbd>T</kbd> 썸네일</div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">앞서 우리는 "방치 + 태그 + 제외 조건 = 세그먼트"라는 공식을 살펴봤어요. 이제 이 공식을 GHL의 Smart List 1개로 구체화합니다. Smart List는 매번 클릭할 때마다 조건에 맞는 리드를 실시간으로 다시 뽑아 주는 동적 목록이에요[^4]. 한 번 저장하면 계속 재사용됩니다.<br><br>실습 A는 6단계로 나눠 진행합니다. 세부 단계는 노션 튜토리얼(`실습_튜토리얼/실습A_리드필터.md`)에 화면 캡처와 함께 정리돼 있어요. 여기서는 큰 지도만 보고 갑니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- HOOK -->
   <section class="slide slide-section" data-slide="1" data-diagram="hook">
@@ -65,33 +85,31 @@
       <div class="section-counter reveal">01 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">첫 시도에 · 완벽해야 할까요?</h2>
+      <h2 class="section-title">첫 시도에 · 완벽해야 할까요?</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🎯 합격선 · 저장·명명까지만</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">수업 시간 내에는 Smart List를 저장하고 이름 붙이는 데까지만 가도 충분해요. 수치 조정은 운영하면서 다듬는 실무 흐름입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🗺️ Smart List · 동적 세그먼트</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Smart List는 매번 클릭할 때마다 조건에 맞는 리드를 실시간으로 다시 뽑아 주는 동적 목록이에요. 한 번 저장하면 계속 재사용됩니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🧭 Part 04 · 지도만 · 세부는 튜토리얼</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">실습 세부 단계는 노션 튜토리얼(`실습_튜토리얼/실습A_리드필터.md`)에 캡처와 함께 있습니다. 여기서는 6단계 큰 지도만 보고 갑니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- safety net metaphor -->
-          <text x="200" y="28" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">실습 안전망</text>
           <!-- target rings -->
           <circle cx="200" cy="140" r="80" fill="none" stroke="#3a3730" stroke-width="1"/>
           <circle cx="200" cy="140" r="55" fill="none" stroke="#3a3730" stroke-width="1"/>
@@ -113,7 +131,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">HOOK</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">1. 가상 클라이언트 확인 — 1강에서 선택한 A/B/C/D 중 하나. 업종에 따라 기본 기준일(60일/90일) 결정. 2. GHL Contacts 탭 진입 — 좌측 메뉴 Contacts → 상단 Advanced Filters 버튼 클릭. 3. 필터 조건 구성 — `Last Activity`, `Tag`, 제외 조건(unsubscribed·converted 등)을 AND로 조합. 4. 필터 결과 미리보기 — 조건 저장 전에 실제 매칭되는 연락처 수 확인 (16~17강에서 테스트 등록한 리드가 보일 수 있음). 5. Smart List로 저장 — "Save as Smart List" 버튼 → 이름 입력. 권장 이름: `재활성화-대기-60일` 또는 `푸르트_방치리드_90일`. 6. 공유 링크 또는 스크린샷 — 조건 요약을 슬랙 `#수업실습` 채널에 `[20강][A/B/C/D] 필터규칙` 형식으로 업로드.<br><br>예시 1 · 푸르트(소매) — 60일 기준<br><br>Last Activity &gt; 60 days ago AND Tag contains "need-nurturing" OR Tag contains "high-intent" AND Tag not contains "unsubscribed" AND Tag not contains "converted"</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 1 · 6단계 흐름 -->
   <section class="slide slide-section" data-slide="2" data-diagram="concept">
@@ -122,45 +160,43 @@
       <div class="section-counter reveal">02 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">확인 → 진입 → 조건 → 미리보기 → 저장 → 업로드</h2>
+      <h2 class="section-title">확인 → 진입 → 조건 → 미리보기 → 저장 → 업로드</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">👤 1) 클라이언트 확인 · A/B/C/D</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">1강에서 고른 가상 클라이언트 A 푸르트·B 슬로우템포·C 손결·D 링크드마인드 중 하나. 업종에 따라 기본 기준일이 정해집니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🚪 2) GHL Contacts · Advanced Filters</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">좌측 메뉴 Contacts 탭 → 상단 Advanced Filters 버튼을 클릭해 조건 구성 창을 엽니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🧩 3) 조건 구성 · AND 조합</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Last Activity · Tag · 제외 조건(unsubscribed·converted)을 AND로 조합합니다. Part 03에서 본 3축 그대로.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">👀 4) 결과 미리보기 · 저장 전</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">조건 저장 전에 실제 매칭되는 연락처 수를 먼저 확인합니다. 16~17강에서 등록한 테스트 리드가 보일 수 있어요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.48s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.48s">
             <span class="bullet-num">05</span>
             <span class="bullet-text">💾 5) Save as Smart List · 이름</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"Save as Smart List" 버튼 → 이름 입력. 권장 이름: `재활성화-대기-60일` 또는 `푸르트_방치리드_90일`.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- 6 step flow -->
-          <text x="200" y="28" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">6 STEPS · 실습 A 흐름</text>
           <!-- step nodes -->
           <circle cx="50" cy="80" r="16" fill="none" stroke="#e2c793" stroke-width="1.5"/>
           <text x="50" y="85" font-size="12" text-anchor="middle" fill="#e2c793" font-weight="800">1</text>
@@ -209,7 +245,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 01</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">예시 2 · 손결(교육) — 90일 기준 + 이메일 열람 추가<br><br>Last Activity &gt; 90 days ago AND Last Email Opened &gt; 60 days ago AND Tag contains "need-nurturing" AND Tag not contains "unsubscribed"<br><br>Smart List 조건 초안을 얻고 싶을 때 사용하세요. 프롬프트를 그대로 복사하고 [대괄호] 부분만 본인 가상 클라이언트에 맞춰 교체하시면 됩니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 2 · 필터 조건 예시 2벌 -->
   <section class="slide slide-section" data-slide="3" data-diagram="concept">
@@ -218,33 +274,31 @@
       <div class="section-counter reveal">03 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">클라이언트별 · 조건 2벌</h2>
+      <h2 class="section-title">클라이언트별 · 조건 2벌</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🌸 푸르트 · 60일 · 소매 기준</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Last Activity &gt; 60일 AND (need-nurturing OR high-intent) AND NOT unsubscribed AND NOT converted · 간단한 4줄 조합입니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🏺 손결 · 90일 + 열람 추가</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Last Activity &gt; 90일 AND Last Email Opened &gt; 60일 AND need-nurturing AND NOT unsubscribed · 이메일 열람 필드를 추가했어요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📝 UI 문구 · Last Engagement 변형</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">GHL 메뉴 개편으로 `Last Engagement` 같은 유사 이름으로 표시될 수 있어요. 문구가 달라도 의미가 같으면 동일 조건입니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- Two filter cards stacked -->
-          <text x="200" y="25" font-size="11" text-anchor="middle" fill="#e2c793" letter-spacing="2" font-weight="800">필터 조건 2벌</text>
           <!-- Card 1 -->
           <rect x="30" y="40" width="340" height="95" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
           <text x="45" y="60" font-size="11" fill="#e2c793" font-weight="800">🌸 푸르트 · 60일</text>
@@ -268,7 +322,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 02</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">아래 조건으로 GHL Smart List 필터 조건 초안을 만들어 주세요.<br><br>클라이언트: [손결 · 도예 공방 · 온라인 강의 준비 중]<br><br>방치 기준일: [90] 일</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 3 · 클로드 코드 프롬프트 -->
   <section class="slide slide-section" data-slide="4" data-diagram="concept">
@@ -277,35 +351,34 @@
       <div class="section-counter reveal">04 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">조건 초안 · 복사용 프롬프트</h2>
+      <h2 class="section-title">조건 초안 · 복사용 프롬프트</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📋 용도 · Smart List 초안 받기</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Claude Code(클로드 코드 · 터미널 기반 AI 코딩 에이전트)에게 Smart List 조건 초안을 받고 싶을 때 쓰는 프롬프트예요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🧱 입력 4요소 · 치환만 하면 OK</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">클라이언트·방치 기준일·활용할 태그·제외 조건 — 대괄호 4개만 본인 가상 클라이언트에 맞춰 교체하세요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🎯 출력 · AND/OR 논리 목록</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">출력 형식을 "Advanced Filters에 그대로 옮길 수 있는 AND/OR 논리 조건 목록 + 한국어 주석 1줄"로 지정하면 실무 바로 사용 가능해요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">💡 실제 저장 · GHL UI로</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">클로드 응답은 참고용 초안. GHL Advanced Filters는 클릭·드롭다운 방식이라 UI에서 직접 조합하는 것이 더 정확해요.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- prompt box -->
@@ -331,7 +404,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 03</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">활용할 태그: [need-nurturing, high-intent, vip-candidate 중 필요한 것만]<br><br>제외 조건: unsubscribed, converted, 지난 7일 내 캠페인 수신 리드</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- CONCEPT 4 · 막힘 지점 대처 -->
   <section class="slide slide-section" data-slide="5" data-diagram="concept">
@@ -340,35 +433,34 @@
       <div class="section-counter reveal">05 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">자주 나오는 4가지 · 1차 조치</h2>
+      <h2 class="section-title">자주 나오는 4가지 · 1차 조치</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🔍 Last Activity · 필드가 안 보임</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">좌측 필터 그룹에서 Activity 섹션을 스크롤해 펼쳐 주세요. 하위 그룹에 숨겨져 있는 경우가 많습니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🕳️ 매칭 결과 0명 · 정상일 수도</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">16·17강 테스트 리드가 아직 60일 방치 조건을 못 만족해서 그래요. `&gt; 1 days`로 임시 축소해 로직 동작만 확인하세요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚪ Save 버튼 회색 · 조건 비활성</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">최소 한 개 조건이 활성화되지 않은 상태입니다. 조건 줄 왼쪽 체크 표시가 들어 있는지 확인해 주세요.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">📂 저장 후 안 보임 · Smart Lists 탭</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Contacts 메뉴 좌측의 Smart Lists 탭으로 전환해야 저장된 목록이 보입니다. 기본 탭에서는 표시되지 않아요.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <!-- troubleshoot table -->
@@ -401,7 +493,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">CONCEPT · 04</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">출력 형식: GHL Advanced Filters에 그대로 옮길 수 있는 AND/OR 논리 조건 목록<br><br>각 조건 줄마다 짧은 한국어 주석 1줄 첨부<br><br>마지막 줄에 Smart List 추천 이름 3개 제안해 주세요 (한국어·영어 하이픈형 혼합).</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- RECAP -->
   <section class="slide slide-section" data-slide="6" data-diagram="recap">
@@ -410,29 +522,28 @@
       <div class="section-counter reveal">06 / 07</div>
     </div>
     <div class="section-grid">
-      <div class="section-body">
-        <h2 class="section-title">Part 04 · 세 줄 정리</h2>
+      <h2 class="section-title">Part 04 · 세 줄 정리</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🗺️ 6단계 · 저장·명명까지 합격</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">클라이언트 확인 → Advanced Filters → AND 조합 → 미리보기 → Save as Smart List → 슬랙 업로드. 수치 조정은 운영하면서.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🧩 조건 2벌 · 60일 · 90일</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">푸르트 60일 4줄 또는 손결 90일 + 열람 4~5줄. 가상 클라이언트에 맞춰 하나를 기본값으로 시작합니다.</div>
           </li>
-          <li class="tilt-card reveal" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🤖 클로드는 · 초안 도우미</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Claude Code 프롬프트로 조건 초안을 빠르게 받되, 실제 저장은 GHL UI 클릭·드롭다운에서 진행합니다.</div>
           </li>
         </ul>
-      </div>
+      
       <div class="section-visual reveal" style="transition-delay:0.3s">
         <svg class="infographic" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
           <rect x="30" y="60" width="105" height="140" fill="none" stroke="#e2c793" stroke-width="1.5" rx="4"/>
@@ -467,7 +578,27 @@
       <div class="audio-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="foot-tag">RECAP</div>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">1. 강사가 전면 화면에서 6단계 중 핵심 지점을 시연합니다 (Advanced Filters → 조건 추가 → Smart List 저장). 2. 시연 후 수강생은 각자 자리에서 본인 가상 클라이언트용 Smart List 1개를 저장합니다. 3. 완성된 수강생은 슬랙 `#수업실습` 채널에 `[20강][A/B/C/D] 필터규칙 · 조건요약` 형식으로 업로드. 실습 중에도 진행 화면을 자유롭게 공유해 주시면 서로 참고가 됩니다. 4. 막히는 분은 `#강사-QnA` 채널 또는 손 들기로 강사·운영진 호출.<br><br>우리는 "방치 + 태그 + 제외"를 Smart List 1개로 저장했어요.<br><br>기본값은 60일 또는 90일. 업종에 따라 조정합니다.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
   <!-- OUTRO -->
   <section class="slide slide-outro" data-slide="7">
@@ -476,11 +607,31 @@
     <h2 class="outro-title reveal" style="transition-delay:0.15s">지도 · 손에 쥐고 · 실습으로</h2>
     <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 05 · 실습 B · 메시지 템플릿 3종</div>
     <div class="outro-actions reveal" style="transition-delay:0.5s">
-      <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
+      <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
       <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
       <a class="btn btn-gold" href="./part-05.html">다음으로 →</a>
     </div>
-  </section>
+        <details class="teacher-note" open>
+        <summary>📝 강사 노트</summary>
+        <div class="note-body">
+          <div class="note-controls">
+            <button class="nc-btn" data-action="prev" type="button" title="이전 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3L3 8l5 5V3zM14 3L9 8l5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="toggle" type="button" title="일시정지"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg></span></button>
+            <button class="nc-btn" data-action="next" type="button" title="다음 문장"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M8 3l5 5-5 5V3zM2 3l5 5-5 5V3z"/></svg></span></button>
+            <button class="nc-btn" data-action="reset" type="button" title="처음부터"><span class="nc-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 11-1.6-3.9"/><polyline points="13.5,2.5 13.5,5 11,5"/></svg></span></button>
+          </div>
+          <div class="note-script">
+            <div class="note-script-label">💬 그대로 읽으세요</div>
+            <div class="note-script-text">클로드 코드는 조건 초안 도우미, 실제 저장은 GHL UI에서.<br><br>다음 파트에서 이 리스트를 받을 메시지 3종을 만들 거예요.<br><br>이제 "누구에게 보낼지"는 정해졌으니, "무엇을 어떤 톤으로 보낼지"로 넘어갑니다. 세 가지 다른 성격의 템플릿을 만들 차례예요.</div>
+          </div>
+        
+          <div class="note-refs">
+            <div class="note-refs-label">📌 참고 (눈으로만)</div>
+            <div class="note-ref-row"><span class="note-ico">⏱️</span><span>강사 페이스 · 수강생 반응 보며 조절</span></div>
+            <div class="note-ref-row"><span class="note-ico">⌨️</span><span><strong>Space</strong> 다음 문장 · <strong>Backspace</strong> 이전 · <strong>N</strong> 노트 토글</span></div>
+          </div></div>
+      </details>
+    </section>
 
 </main>
 
