@@ -3,379 +3,883 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 마케터 전문가 창업 과정 — 전체 목차 (37회)</title>
+<title>AI 마케터 전문가 창업 과정 — 전체 목차</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <style>
   :root {
-    --black: #0D0D0D; --ink: #141414; --gold: #e2c793;
-    --gold-soft: #b8941f; --cream: #F7F0DF; --text: #E8E0CC;
-    --muted: #7a7666; --dim: #3a3730; --border: #1f1d19;
+    --black: #0D0D0D;
+    --ink: #141414;
+    --gold: #e2c793;
+    --gold-dark: #b8941f;
+    --cream: #F7F0DF;
+    --text: #E8E0CC;
+    --muted: #7a7666;
+    --dim: #3a3730;
+    --border: #1f1d19;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { background: var(--black); color: var(--text); }
   body {
     font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    background: var(--black); color: var(--text);
     letter-spacing: -0.01em;
-    min-height: 100vh;
+    cursor: none;
   }
+  .cursor-dot, .cursor-ring { position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+  .cursor-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 12px var(--gold); }
+  .cursor-ring { width: 38px; height: 38px; border: 1px solid var(--gold); border-radius: 50%; transition: width 0.2s, height 0.2s; }
+  .cursor-ring.hover { width: 70px; height: 70px; background: rgba(226,199,147,0.08); }
+
+  #bgcanvas { position: fixed; inset: 0; z-index: 0; opacity: 0.45; }
   .dot-grid {
     position: fixed; inset: 0;
     background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
-    background-size: 28px 28px;
-    z-index: 1; pointer-events: none; opacity: 0.4;
+    background-size: 28px 28px; z-index: 1;
+    pointer-events: none; opacity: 0.5;
   }
   .vignette {
     position: fixed; inset: 0;
-    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
     z-index: 2; pointer-events: none;
   }
   main { position: relative; z-index: 10; }
 
-  /* COPYRIGHT */
-  .copyright-notice {
-    position: fixed; top: 24px; right: 32px;
-    font-size: 11px; color: var(--muted);
-    letter-spacing: 1.5px; z-index: 100;
-    font-weight: 700;
-  }
-
   /* HERO */
   .hero {
-    padding: 100px 32px 60px;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
     text-align: center;
-    border-bottom: 1px solid var(--border);
+    padding: 100px 32px 80px;
+    position: relative;
   }
   .brand-pill {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-size: 11px; letter-spacing: 4px; color: var(--gold);
-    font-weight: 900; padding: 9px 20px;
+    font-size: 12px; letter-spacing: 5px;
+    color: var(--gold); font-weight: 900;
+    margin-bottom: 48px;
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 10px 22px;
     border: 1px solid var(--gold); border-radius: 30px;
     background: rgba(226,199,147,0.04);
-    margin-bottom: 36px;
+    backdrop-filter: blur(6px);
+    animation: brandFade 1.2s ease-out;
   }
-  .brand-pill::before {
-    content: ''; width: 7px; height: 7px;
-    background: var(--gold); transform: rotate(45deg);
-    box-shadow: 0 0 8px var(--gold);
-  }
-  .hero h1 {
-    font-size: clamp(34px, 4.8vw, 64px);
-    font-weight: 900; color: var(--cream);
-    line-height: 1.16; letter-spacing: -0.03em;
-    margin-bottom: 24px;
-    max-width: 22ch; margin-left: auto; margin-right: auto;
-    word-break: keep-all;
-  }
-  .hero .sub {
-    font-size: 15px; color: var(--muted);
-    max-width: 36ch; margin: 0 auto 18px;
-    line-height: 1.6;
-  }
-  .hero .stats {
-    display: inline-flex; gap: 32px;
-    font-size: 13px; color: var(--text);
-    margin-top: 24px;
-    padding: 14px 28px;
-    border: 1px solid var(--dim); border-radius: 8px;
-    background: rgba(20,20,20,0.6);
-  }
-  .hero .stats b { color: var(--gold); font-weight: 900; }
+  @keyframes brandFade { from { opacity: 0; transform: translateY(-12px); } }
+  .brand-pill::before { content: ''; width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); box-shadow: 0 0 8px var(--gold); }
 
-  /* PHASE SECTION */
-  .phase {
-    padding: 60px 32px;
-    max-width: 1280px; margin: 0 auto;
+  .hero h1 {
+    font-size: clamp(38px, 5.5vw, 86px);
+    font-weight: 900; color: var(--cream);
+    line-height: 1.12; letter-spacing: -0.04em;
+    margin-bottom: 32px;
+    max-width: 22ch; word-break: keep-all;
+  }
+  .hero h1 .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: wordIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hero h1 .word.gold { color: var(--gold); }
+  @keyframes wordIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-sub {
+    font-size: 19px; color: var(--muted);
+    max-width: 62ch; line-height: 1.7;
+    margin-bottom: 52px; word-break: keep-all;
+    animation: fadeUp 1s ease-out 1.2s both;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } }
+  .hero-stats {
+    display: flex; gap: 70px;
+    flex-wrap: wrap; justify-content: center;
+    padding: 32px 60px;
+    border: 1px solid var(--border);
+    background: rgba(20,20,20,0.5);
+    backdrop-filter: blur(8px);
+    position: relative;
+    animation: fadeUp 1s ease-out 1.5s both;
+  }
+  .hero-stats::before, .hero-stats::after {
+    content: ''; position: absolute;
+    width: 16px; height: 16px;
+    border: 1px solid var(--gold);
+  }
+  .hero-stats::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .hero-stats::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+  .stat-num {
+    font-size: 42px; font-weight: 900;
+    color: var(--gold); letter-spacing: -0.02em;
+    font-feature-settings: "tnum";
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat-lbl {
+    font-size: 11px; letter-spacing: 3px;
+    color: var(--muted); text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .scroll-hint {
+    position: absolute; bottom: 30px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px; letter-spacing: 3px;
+    color: var(--dim);
+    animation: bounce 2.5s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.4; }
+    50% { transform: translate(-50%, 10px); opacity: 1; }
+  }
+
+  /* PHASE BLOCKS */
+  .phase-block {
+    padding: 80px 48px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
   }
   .phase-head {
-    margin-bottom: 32px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--dim);
-    display: flex; align-items: baseline; gap: 18px;
-    flex-wrap: wrap;
+    display: flex; align-items: center; gap: 24px;
+    margin-bottom: 16px;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .phase-num {
-    font-size: 12px; letter-spacing: 4px;
+  .phase-head.in { opacity: 1; transform: translateY(0); }
+  .phase-line { flex: 1; height: 1px; background: var(--dim); position: relative; }
+  .phase-line::before {
+    content: ''; position: absolute;
+    top: 50%; width: 8px; height: 8px;
+    background: var(--gold); border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 10px var(--gold);
+  }
+  .phase-head .phase-line:first-child::before { right: 0; }
+  .phase-head .phase-line:last-child::before { left: 0; }
+  .phase-title {
+    font-size: 13px; letter-spacing: 5px;
     color: var(--gold); font-weight: 900;
-    padding: 5px 12px; border: 1px solid var(--gold);
-    border-radius: 4px;
-    background: rgba(226,199,147,0.06);
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border: 1px solid var(--gold); border-radius: 30px;
+    background: rgba(226,199,147,0.04);
+    white-space: nowrap;
   }
-  .phase-name {
-    font-size: 24px; color: var(--cream);
-    font-weight: 800; letter-spacing: -0.02em;
+  .phase-sub {
+    text-align: center;
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 36px; letter-spacing: 0.02em;
+    word-break: keep-all;
   }
-  .phase-meta {
-    margin-left: auto;
-    font-size: 12px; color: var(--muted);
-    letter-spacing: 1.2px;
-  }
-
-  /* GRID */
-  .grid {
+  .phase-sub strong { color: var(--cream); font-weight: 700; }
+  .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
   }
-
-  /* CARD */
   .card {
     display: block; text-decoration: none; color: inherit;
-    padding: 24px 22px;
-    background: var(--ink);
-    border: 1px solid var(--dim);
-    border-radius: 8px;
-    transition: all 0.25s ease;
-    position: relative;
-    overflow: hidden;
+    position: relative; opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: none;
   }
-  .card::after {
-    content: '→';
-    position: absolute; right: 20px; bottom: 18px;
-    font-size: 18px; color: var(--muted);
-    transition: all 0.25s ease;
+  .card.in { opacity: 1; transform: translateY(0); }
+  .card-inner {
+    padding: 24px 28px;
+    background: rgba(18,18,18,0.75);
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+    backdrop-filter: blur(4px);
+    height: 100%;
   }
-  .card:hover {
+  .card-inner::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; width: 0; height: 3px;
+    background: var(--gold);
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card.available:hover .card-inner {
+    background: rgba(28,26,20,0.95);
     border-color: var(--gold);
-    background: rgba(226,199,147,0.04);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 24px rgba(226,199,147,0.12);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.7), 0 0 40px rgba(226,199,147,0.15);
   }
-  .card:hover::after { color: var(--gold); transform: translateX(4px); }
-  .card .num {
-    display: block;
-    font-size: 36px; font-weight: 900;
-    color: var(--gold); letter-spacing: -0.03em;
-    line-height: 1; margin-bottom: 10px;
+  .card.available:hover .card-inner::before { width: 100%; }
+  .card-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle 120px at var(--mx, 50%) var(--my, 50%), rgba(226,199,147,0.12), transparent);
+    opacity: 0; transition: opacity 0.35s;
+    pointer-events: none;
   }
-  .card .num small {
-    font-size: 13px; color: var(--muted);
-    font-weight: 700; letter-spacing: 1px;
-    margin-left: 4px;
+  .card.available:hover .card-glow { opacity: 1; }
+  .card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gold);
+    letter-spacing: 3px; font-weight: 800;
+    margin-bottom: 10px;
+    display: flex; justify-content: space-between; align-items: center;
   }
-  .card .title {
-    display: block;
-    font-size: 15px; font-weight: 700;
-    color: var(--cream); line-height: 1.4;
-    margin-bottom: 12px;
-    word-break: keep-all;
-    min-height: 42px;
+  .card-num .tutor {
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 1px; font-weight: 600;
+    font-family: 'Pretendard Variable', sans-serif;
   }
-  .card .meta {
-    display: flex; gap: 8px; flex-wrap: wrap;
+  .card-title {
+    font-size: 17px; font-weight: 800;
+    color: var(--cream); line-height: 1.35;
+    word-break: keep-all; margin-bottom: 14px;
+    min-height: 2.7em;
+  }
+  .card-desc {
+    font-size: 12.5px; color: var(--muted);
+    line-height: 1.55; word-break: keep-all;
+    margin-bottom: 18px; min-height: 3em;
+  }
+  .card-meta {
+    display: flex; justify-content: space-between;
+    align-items: center;
     font-size: 11px; color: var(--muted);
-    letter-spacing: 0.4px;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
   }
-  .card .meta span {
-    padding: 3px 8px;
-    border: 1px solid var(--dim);
-    border-radius: 3px;
+  .card-meta .arrow {
+    color: var(--gold); font-size: 18px;
+    transition: transform 0.35s;
   }
-  .card.team {
-    border-left: 3px solid var(--gold);
+  .card.available:hover .arrow { transform: translateX(10px); }
+  .card.locked { cursor: not-allowed; }
+  .card.locked .card-inner {
+    opacity: 0.45;
+    filter: saturate(0.4);
   }
-  .card.final {
-    background: linear-gradient(135deg, rgba(226,199,147,0.08), rgba(20,20,20,0.95));
-    border-color: var(--gold);
+  .card.locked .card-meta .status {
+    color: var(--muted); letter-spacing: 2px;
   }
-  .card.final .num { color: var(--cream); }
+  .card.locked .arrow { color: var(--dim); }
+
+  footer {
+    padding: 80px 32px; text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--dim); font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: 40px;
+  }
+  footer strong { color: var(--gold); }
+  footer .sub { display: block; margin-top: 10px; color: var(--muted); letter-spacing: 1px; font-size: 10px; }
+
+  @media (max-width: 720px) {
+    .hero-stats { padding: 22px 28px; gap: 32px; }
+    .stat-num { font-size: 32px; }
+    .phase-block { padding: 60px 24px 30px; }
+    body { cursor: auto; }
+    .cursor-dot, .cursor-ring { display: none; }
+    .card.available { cursor: pointer; }
+    .phase-head { flex-direction: column; gap: 12px; }
+    .phase-line { display: none; }
+  }
+
+  .copyright-notice {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--muted, #7a7666);
+    opacity: 0.55;
+    letter-spacing: 0.02em;
+    z-index: 50;
+    pointer-events: none;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+    user-select: none;
+    white-space: nowrap;
+  }
 
   /* DISABLED · 2026-04-24 · 1~4강 외 비공개 */
   .card.disabled {
-    opacity: 0.35;
+    opacity: 0.4;
     cursor: not-allowed;
     pointer-events: auto;
-    filter: grayscale(0.6);
-    background: rgba(20,20,20,0.5);
+    filter: grayscale(0.7);
+    position: relative;
   }
-  .card.disabled:hover {
-    border-color: var(--dim);
-    background: rgba(20,20,20,0.5);
-    transform: none;
-    box-shadow: none;
-  }
-  .card.disabled::after { content: '🔒'; font-size: 14px; color: var(--muted); }
-  .card.disabled:hover::after { transform: none; color: var(--muted); }
-  .card.disabled .num { color: var(--muted); }
-  .card.disabled .title { color: var(--muted); }
-  .card.disabled:hover .parts { display: none; }
+  .card.disabled:hover { border-color: var(--dim) !important; transform: none !important; box-shadow: none !important; }
+  .card.disabled .card-inner { background: rgba(20,20,20,0.5); }
+  .card.disabled .card-meta .arrow { content: '🔒'; }
+  .card.disabled .card-meta::after { content: '🔒'; position: absolute; top: 16px; right: 20px; font-size: 16px; color: var(--muted); opacity: 0.7; }
 
   /* 범위 안내 배너 */
   .release-notice {
-    max-width: 1200px;
-    margin: -20px auto 32px;
-    padding: 14px 24px;
+    max-width: 1200px; margin: 32px auto;
+    padding: 16px 24px;
     background: rgba(226,199,147,0.08);
-    border: 1px solid var(--gold);
-    border-radius: 6px;
-    font-size: 13px;
-    color: var(--cream);
-    letter-spacing: 0.3px;
-    text-align: center;
+    border: 1px solid var(--gold); border-radius: 8px;
+    font-size: 14px; color: var(--cream);
+    letter-spacing: 0.3px; text-align: center;
+    backdrop-filter: blur(6px);
   }
-  .release-notice strong { color: var(--gold); }
+  .release-notice strong { color: var(--gold); font-weight: 800; }
 
-  /* PARTS LINKS (회차 카드 호버 시 표시) */
-  .parts {
-    display: none; position: absolute; inset: auto 0 0 0;
-    background: rgba(13,13,13,0.96);
-    padding: 12px 18px;
-    border-top: 1px solid var(--gold);
-    backdrop-filter: blur(8px);
-  }
-  .card:hover .parts { display: flex; gap: 6px; flex-wrap: wrap; }
-  .parts a {
-    font-size: 10px; color: var(--gold);
-    padding: 3px 7px; border: 1px solid var(--gold);
-    border-radius: 3px; text-decoration: none;
-    background: rgba(226,199,147,0.05);
-    transition: all 0.15s;
-  }
-  .parts a:hover { background: var(--gold); color: var(--black); }
-
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 48px 32px;
-    border-top: 1px solid var(--border);
-    font-size: 12px; color: var(--muted);
-    letter-spacing: 1.5px;
-    margin-top: 60px;
-  }
-  footer a { color: var(--gold); text-decoration: none; }
 </style>
 </head>
 <body>
-  <div class="dot-grid"></div>
-  <div class="vignette"></div>
-  <div class="copyright-notice">© PajamaBoss</div>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
-      <div class="brand-pill">AI 마케터 전문가 창업 과정</div>
-      <h1>37회 커리큘럼 전체 목차</h1>
-      <p class="sub">1인 마케팅 에이전시 창업을 위한 AI 실습 과정. 6 Phase · 본문 PPT 196 슬라이드 · 대본 + 실습 튜토리얼 동반.</p>
-      <div class="stats">
-        <span><b>37</b> 회차</span>
-        <span><b>148</b> 시간</span>
-        <span><b>196</b> PPT 슬라이드</span>
-        <span><b>2</b> 강사</span>
-      </div>
-    </section>
+<canvas id="bgcanvas"></canvas>
+<div class="dot-grid"></div>
+<div class="vignette"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-    <div class="release-notice">
-      🔓 현재 <strong>1~4강</strong>만 공개 접근 가능합니다. 5강 이후 자료는 수업 진행에 따라 순차 공개 예정.
+<main>
+  <section class="hero">
+    <div class="brand-pill">AI MARKETER · 전문가 창업 과정 · KR</div>
+    <h1 id="heroTitle"></h1>
+    <p class="hero-sub">
+      37회 148시간 · 6개 Phase로 완성되는 1인 에이전시 창업 과정.<br>
+      브랜딩부터 클로드 코드 자동화, GHL MCP 오케스트레이션, 힉스필드 영상 제작, 피칭 데이까지.
+    </p>
+    <div class="hero-stats">
+      <div><div class="stat-num" data-target="37">0</div><div class="stat-lbl">회차</div></div>
+      <div><div class="stat-num" data-target="148">0</div><div class="stat-lbl">시간</div></div>
+      <div><div class="stat-num" data-target="6">0</div><div class="stat-lbl">PHASE</div></div>
+      <div><div class="stat-num" data-target="9">0</div><div class="stat-lbl">공개 중</div></div>
     </div>
+    <div class="scroll-hint">▼ SCROLL FOR LECTURES</div>
+  </section>
 
-    <!-- Phase 1 -->
-    <section class="phase">
-      <div class="phase-head">
-        <span class="phase-num">PHASE 1</span>
-        <span class="phase-name">브랜딩 기초</span>
-        <span class="phase-meta">1~4강 · 최미혜 대표 · 4회</span>
-      </div>
-      <div class="grid">
-        <a class="card" href="01강_AI핵심과_자기소개/part-01.html"><span class="num">01<small>강</small></span><span class="title">AI 핵심 & 자기소개</span><div class="meta"><span>최미혜</span><span>OT</span></div></a>
-        <a class="card" href="02강_아이덴티티와_스토리/part-01.html"><span class="num">02<small>강</small></span><span class="title">아이덴티티와 스토리</span><div class="meta"><span>최미혜</span><span>네이밍</span></div></a>
-        <a class="card" href="03강_브랜드_기초_분석/part-01.html"><span class="num">03<small>강</small></span><span class="title">브랜드 기초 분석</span><div class="meta"><span>최미혜</span><span>3C·SWOT</span></div></a>
-        <a class="card team" href="04강_에이전시_브랜드_매뉴얼/part-01.html"><span class="num">04<small>강</small></span><span class="title">[팀] 에이전시 브랜드 매뉴얼</span><div class="meta"><span>최미혜</span><span>팀 프로젝트</span></div></a>
-      </div>
-    </section>
+  <!-- PHASE 1 -->
+  <section class="phase-block">
+    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 1 · 브랜딩</h2><span class="phase-line"></span></div>
+    <p class="phase-sub">1~4회 · <strong>최미혜</strong> · 기초 AI/브랜딩 압축 학습 및 1차 팀 브랜드 완성</p>
+    <div class="card-grid">
+      <a class="card available" href="01강_AI핵심과_자기소개/part-01.html">
+        <div class="card-inner">
+          <div class="card-num"><span>1회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">AI 핵심 요약 &amp; 자기소개</div>
+          <div class="card-desc">AI 트렌드 · 구글 플로우 캐릭터 설계 → 스티치 자기소개 웹 제작 → 구글 AI Studio 퍼블리싱</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+      <a class="card available" href="02강_아이덴티티와_스토리/part-01.html">
+        <div class="card-inner">
+          <div class="card-num"><span>2회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">아이덴티티와 스토리</div>
+          <div class="card-desc">POMELLI 활용 브랜드 네이밍 · 슬로건 작성 · 컬러 · 폰트 무드보드 설정</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+      <a class="card available" href="03강_브랜드_기초_분석/part-01.html">
+        <div class="card-inner">
+          <div class="card-num"><span>3회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">브랜드 기초 분석</div>
+          <div class="card-desc">마케팅의 본질 · 경쟁사 분석 · 나의 강점 · 창업 타겟 페르소나 명확화</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+      <a class="card available" href="04강_에이전시_브랜드_매뉴얼/part-01.html">
+        <div class="card-inner">
+          <div class="card-num"><span>4회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">에이전시 브랜드 매뉴얼 구축</div>
+          <div class="card-desc">팀별 방향성 셋업 · 가이드북 완성 · 1차 팀 브랜드 완성</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+    </div>
+  </section>
 
-    <!-- Phase 2 -->
-    <section class="phase">
-      <div class="phase-head">
-        <span class="phase-num">PHASE 2</span>
-        <span class="phase-name">콘텐츠 파이프라인</span>
-        <span class="phase-meta">5~9강 · 김국희 대표 · 5회</span>
-      </div>
-      <div class="grid">
-        <span class="card disabled" data-href="05강_클로드와_Co-work/part-01.html" title="수업 진행 후 공개 예정"><span class="num">05<small>강</small></span><span class="title">Claude & Co-work</span><div class="meta"><span>김국희</span><span>워크스페이스</span></div></span>
-        <span class="card disabled" data-href="06강_텍스트와_SEO_전략/part-01.html" title="수업 진행 후 공개 예정"><span class="num">06<small>강</small></span><span class="title">텍스트 · SEO 전략</span><div class="meta"><span>김국희</span><span>롱폼</span></div></span>
-        <span class="card disabled" data-href="07강_비주얼_인스타그램/part-01.html" title="수업 진행 후 공개 예정"><span class="num">07<small>강</small></span><span class="title">비주얼 인스타그램</span><div class="meta"><span>김국희</span><span>카드뉴스</span></div></span>
-        <span class="card disabled team" data-href="08강_팀_SNS_1주_콘텐츠/part-01.html" title="수업 진행 후 공개 예정"><span class="num">08<small>강</small></span><span class="title">[팀] 팀 SNS 1주 콘텐츠</span><div class="meta"><span>김국희</span><span>팀 프로젝트</span></div></span>
-        <span class="card disabled team" data-href="09강_콘텐츠_포트폴리오_패키징/part-01.html" title="수업 진행 후 공개 예정"><span class="num">09<small>강</small></span><span class="title">[팀] 포트폴리오 패키징</span><div class="meta"><span>김국희</span><span>팀 프로젝트</span></div></span>
-      </div>
-    </section>
+  <!-- PHASE 2 -->
+  <section class="phase-block">
+    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 2 · 클로드 Co-work</h2><span class="phase-line"></span></div>
+    <p class="phase-sub">5~9회 · <strong>김국희</strong> · 클로드 협업 환경 완벽 적응 및 콘텐츠 대량 생산 파이프라인</p>
+    <div class="card-grid">
+      <span class="card disabled" data-href="05강_클로드와_Co-work/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>5회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">클로드 &amp; Co-work</div>
+          <div class="card-desc">클로드 프롬프트 심화 · Co-work 워크스페이스 세팅 · 캔버스 동시 편집</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="06강_텍스트와_SEO_전략/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>6회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">텍스트 및 SEO 전략</div>
+          <div class="card-desc">스레드 콘텐츠 캘린더 작성 · 롱폼 블로그 SEO(서론·본론·결론) 대화형 집필</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="07강_비주얼_인스타그램/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>7회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">비주얼 인스타그램</div>
+          <div class="card-desc">인스타그램 카드뉴스 레이아웃 기획 · 이미지 프롬프팅 · 캡션 캔버스화</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="08강_팀_SNS_1주_콘텐츠/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>8회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
+          <div class="card-title">팀 SNS 1주치 콘텐츠</div>
+          <div class="card-desc">팀 브랜드 공식 SNS 1주일치 전체 배포용 콘텐츠 생성 · 파트 분담 집중 기획</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="09강_콘텐츠_포트폴리오_패키징/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>9회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
+          <div class="card-title">콘텐츠 포트폴리오 패키징</div>
+          <div class="card-desc">생성된 콘텐츠의 포트폴리오 패키징 · 팀 단위 PDF/웹 포맷 산출물 완성</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+    </div>
+  </section>
 
-    <!-- Phase 3 -->
-    <section class="phase">
-      <div class="phase-head">
-        <span class="phase-num">PHASE 3</span>
-        <span class="phase-name">Claude Code 로컬 오케스트레이션</span>
-        <span class="phase-meta">10~15강 · 최미혜 대표 · 6회</span>
-      </div>
-      <div class="grid">
-        <span class="card disabled" data-href="10강_터미널과_클로드지식베이스/part-01.html" title="수업 진행 후 공개 예정"><span class="num">10<small>강</small></span><span class="title">터미널과 CLAUDE.md</span><div class="meta"><span>최미혜</span><span>Antigravity</span></div></span>
-        <span class="card disabled" data-href="11강_멀티모달과_스킬/part-01.html" title="수업 진행 후 공개 예정"><span class="num">11<small>강</small></span><span class="title">멀티모달 · 스킬</span><div class="meta"><span>최미혜</span><span>Skills</span></div></span>
-        <span class="card disabled" data-href="12강_리퍼포징_자동화/part-01.html" title="수업 진행 후 공개 예정"><span class="num">12<small>강</small></span><span class="title">리퍼포징 자동화</span><div class="meta"><span>최미혜</span><span>Workflow</span></div></span>
-        <span class="card disabled" data-href="13강_SEO_GEO_성과분석/part-01.html" title="수업 진행 후 공개 예정"><span class="num">13<small>강</small></span><span class="title">SEO/GEO 성과 분석</span><div class="meta"><span>최미혜</span><span>스크립트</span></div></span>
-        <span class="card disabled team" data-href="14강_콘텐츠_자동_에이전트/part-01.html" title="수업 진행 후 공개 예정"><span class="num">14<small>강</small></span><span class="title">[팀] 콘텐츠 자동 에이전트</span><div class="meta"><span>최미혜</span><span>팀 프로젝트</span></div></span>
-        <span class="card disabled team" data-href="15강_성과_리포팅_자동화/part-01.html" title="수업 진행 후 공개 예정"><span class="num">15<small>강</small></span><span class="title">[팀] 성과 리포팅 자동화</span><div class="meta"><span>최미혜</span><span>팀 프로젝트</span></div></span>
-      </div>
-    </section>
+  <!-- PHASE 3 -->
+  <section class="phase-block">
+    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 3 · 클로드 코드 로컬</h2><span class="phase-line"></span></div>
+    <p class="phase-sub">10~15회 · <strong>최미혜</strong> · IDE 터미널 기반 자동화 셋업 및 다채널 스킬 구현</p>
+    <div class="card-grid">
+      <span class="card disabled" data-href="10강_터미널과_클로드지식베이스/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>10회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">터미널과 CLAUDE.md</div>
+          <div class="card-desc">안티그래비티 IDE 설치 · 첫 터미널 필수 명령어 · CLAUDE.md(지식 베이스) 세팅</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="11강_멀티모달과_스킬/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>11회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">멀티모달 및 스킬 이해</div>
+          <div class="card-desc">소셜미디어 스킬 셋업 · 텍스트·PDF·이미지 간 다채널 에셋 자동 변환 명령</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="12강_리퍼포징_자동화/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>12회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">리퍼포징 자동화</div>
+          <div class="card-desc">기존 콘텐츠를 타겟 채널에 맞춰 대량 리퍼포징하는 클로드 코드 워크플로우</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="13강_SEO_GEO_성과분석/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>13회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">SEO/GEO 성과 자동 분석</div>
+          <div class="card-desc">타겟 URL 및 더미 통계 데이터 기반 평가 보고서 자동 생성 스크립트</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="14강_콘텐츠_자동_에이전트/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>14회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">콘텐츠 자동 생성 에이전트 구축</div>
+          <div class="card-desc">팀별 목적에 맞춘 오토메이션 워크플로우 셋업</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="15강_성과_리포팅_자동화/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>15회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">성과 분석 리포팅 자동화 시연</div>
+          <div class="card-desc">팀 에이전시 전용 허브 콘텐츠 엔진 가동</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+    </div>
+  </section>
 
-    <!-- Phase 4 -->
-    <section class="phase">
-      <div class="phase-head">
-        <span class="phase-num">PHASE 4</span>
-        <span class="phase-name">GHL MCP 고도화</span>
-        <span class="phase-meta">16~25강 · 김국희 대표 · 10회</span>
-      </div>
-      <div class="grid">
-        <span class="card disabled" data-href="16강_GHL_가입과_MCP연결/part-01.html" title="수업 진행 후 공개 예정"><span class="num">16<small>강</small></span><span class="title">GHL 가입 & MCP 연결</span><div class="meta"><span>김국희</span><span>GHL</span></div></span>
-        <span class="card disabled" data-href="17강_리드수집과_스마트태깅/part-01.html" title="수업 진행 후 공개 예정"><span class="num">17<small>강</small></span><span class="title">리드 수집 · 스마트 태깅</span><div class="meta"><span>김국희</span><span>CRM</span></div></span>
-        <span class="card disabled" data-href="18강_콘텐츠_자동예약발행/part-01.html" title="수업 진행 후 공개 예정"><span class="num">18<small>강</small></span><span class="title">콘텐츠 자동 예약 발행</span><div class="meta"><span>김국희</span><span>스케줄러</span></div></span>
-        <span class="card disabled" data-href="19강_DM_캘린더_자동화/part-01.html" title="수업 진행 후 공개 예정"><span class="num">19<small>강</small></span><span class="title">DM · 캘린더 자동화</span><div class="meta"><span>김국희</span><span>OAuth</span></div></span>
-        <span class="card disabled" data-href="20강_Reactivation_캠페인/part-01.html" title="수업 진행 후 공개 예정"><span class="num">20<small>강</small></span><span class="title">Reactivation 캠페인</span><div class="meta"><span>김국희</span><span>콜드메일</span></div></span>
-        <span class="card disabled" data-href="21강_뉴스레터_알림요약/part-01.html" title="수업 진행 후 공개 예정"><span class="num">21<small>강</small></span><span class="title">뉴스레터 · 알림 요약</span><div class="meta"><span>김국희</span><span>Slack</span></div></span>
-        <span class="card disabled" data-href="22강_컨텍스트_최적화/part-01.html" title="수업 진행 후 공개 예정"><span class="num">22<small>강</small></span><span class="title">컨텍스트 최적화</span><div class="meta"><span>김국희</span><span>CLAUDE.md</span></div></span>
-        <span class="card disabled team" data-href="23강_GHL_파이프라인_빌드/part-01.html" title="수업 진행 후 공개 예정"><span class="num">23<small>강</small></span><span class="title">[팀] GHL 파이프라인 빌드</span><div class="meta"><span>김국희</span><span>팀 1/3</span></div></span>
-        <span class="card disabled team" data-href="24강_스케줄링_오토메이션/part-01.html" title="수업 진행 후 공개 예정"><span class="num">24<small>강</small></span><span class="title">[팀] 스케줄링 오토메이션</span><div class="meta"><span>김국희</span><span>팀 2/3</span></div></span>
-        <span class="card disabled team" data-href="25강_파이프라인_라이브_디버깅/part-01.html" title="수업 진행 후 공개 예정"><span class="num">25<small>강</small></span><span class="title">[팀] 파이프라인 라이브 디버깅</span><div class="meta"><span>김국희</span><span>팀 3/3</span></div></span>
-      </div>
-    </section>
+  <!-- PHASE 4 -->
+  <section class="phase-block">
+    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 4 · GHL MCP 고도화</h2><span class="phase-line"></span></div>
+    <p class="phase-sub">16~25회 · <strong>김국희</strong> · GHL MCP 킬러 자동화(예약 · 태깅 · 퍼블리싱)를 클로드 코드의 지휘 아래 완벽 구축</p>
+    <div class="card-grid">
+      <span class="card disabled" data-href="16강_GHL_가입과_MCP연결/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>16회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">GHL 가입 &amp; MCP 직결</div>
+          <div class="card-desc">GHL 계정 셋업 직후 → 클로드 코드에 GHL MCP 연결 및 권한 통신 테스트</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="17강_리드수집과_스마트태깅/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>17회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">리드 수집 &amp; 스마트 태깅</div>
+          <div class="card-desc">랜딩 폼 생성 후 제출 내용 바탕으로 VIP를 가려내는 AI 스마트 태깅</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="18강_콘텐츠_자동예약발행/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>18회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">콘텐츠 자동 예약 발행</div>
+          <div class="card-desc">SNS 스케줄러(인스타 · 페이스북 · 블로그) 동시 예약 발행 세팅</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="19강_DM_캘린더_자동화/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>19회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">자동 DM 및 캘린더 연동</div>
+          <div class="card-desc">스마트 캘린더 예약 연동 · 문의 메시지(DM) 자동 회신 시스템 구축</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="20강_Reactivation_캠페인/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>20회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">Reactivation 캠페인</div>
+          <div class="card-desc">방치된 리드 필터링 · 클로드가 쓰는 맞춤형 콜드메일/SMS 재활성화</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="21강_뉴스레터_알림요약/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>21회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">자동 뉴스레터 &amp; 알림 요약</div>
+          <div class="card-desc">정기 이메일 뉴스레터 발행 자동화 · 주요 리드 발생 시 SMS/Slack 요약 알림</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="22강_컨텍스트_최적화/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>22회</span><span class="tutor">김국희</span></div>
+          <div class="card-title">컨텍스트 최적화 고도화</div>
+          <div class="card-desc">배포 구조를 CLAUDE.md에 추가하여 방대한 워크플로우 에이전트 지능 고도화</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="23강_GHL_파이프라인_빌드/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>23회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
+          <div class="card-title">GHL 마케팅 &amp; CRM 통합 파이프라인</div>
+          <div class="card-desc">팀 서비스 목적에 맞는 통합 파이프라인 설계 및 빌드</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="24강_스케줄링_오토메이션/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>24회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
+          <div class="card-title">스케줄링 &amp; 리드 활성화 병합</div>
+          <div class="card-desc">클로드 코드 명령어로 작동하는 스케줄링 및 이메일 오토메이션 병합</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="25강_파이프라인_라이브_디버깅/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>25회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
+          <div class="card-title">GHL MCP 완전 자동화 시연</div>
+          <div class="card-desc">구축된 파이프라인 완전 자동화 테스트 · 팀 단위 라이브 디버깅</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+    </div>
+  </section>
 
-    <!-- Phase 5 -->
-    <section class="phase">
-      <div class="phase-head">
-        <span class="phase-num">PHASE 5</span>
-        <span class="phase-name">HIGGSFIELD 비주얼 마스터</span>
-        <span class="phase-meta">26~31강 · 최미혜 대표 · 6회</span>
-      </div>
-      <div class="grid">
-        <span class="card disabled" data-href="26강_HIGGSFIELD_기동/part-01.html" title="수업 진행 후 공개 예정"><span class="num">26<small>강</small></span><span class="title">HIGGSFIELD 툴 기동</span><div class="meta"><span>최미혜</span><span>T2V·I2V</span></div></span>
-        <span class="card disabled" data-href="27강_캐릭터_모션제어/part-01.html" title="수업 진행 후 공개 예정"><span class="num">27<small>강</small></span><span class="title">캐릭터 · 모션 제어</span><div class="meta"><span>최미혜</span><span>일관성</span></div></span>
-        <span class="card disabled" data-href="28강_시네마틱_앵글/part-01.html" title="수업 진행 후 공개 예정"><span class="num">28<small>강</small></span><span class="title">시네마틱 앵글</span><div class="meta"><span>최미혜</span><span>줌·팬·틸트·돌리</span></div></span>
-        <span class="card disabled" data-href="29강_VFX_트랜지션/part-01.html" title="수업 진행 후 공개 예정"><span class="num">29<small>강</small></span><span class="title">VFX · 트랜지션</span><div class="meta"><span>최미혜</span><span>화면 전환</span></div></span>
-        <span class="card disabled team" data-href="30강_비주얼_영상_제작/part-01.html" title="수업 진행 후 공개 예정"><span class="num">30<small>강</small></span><span class="title">[팀] 비주얼 영상 제작</span><div class="meta"><span>최미혜</span><span>팀 1/2</span></div></span>
-        <span class="card disabled team" data-href="31강_영상_고해상도_렌더링/part-01.html" title="수업 진행 후 공개 예정"><span class="num">31<small>강</small></span><span class="title">[팀] 고해상도 렌더링</span><div class="meta"><span>최미혜</span><span>팀 2/2</span></div></span>
-      </div>
-    </section>
+  <!-- PHASE 5 -->
+  <section class="phase-block">
+    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 5 · HIGGSFIELD 비주얼</h2><span class="phase-line"></span></div>
+    <p class="phase-sub">26~31회 · <strong>최미혜</strong> · 힉스필드 비주얼 아트 워크 및 생성 스킬 숙달에 집중</p>
+    <div class="card-grid">
+      <span class="card disabled" data-href="26강_HIGGSFIELD_기동/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>26회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">HIGGSFIELD 툴 기동</div>
+          <div class="card-desc">텍스트-to-비디오(T2V) · 이미지-to-비디오(I2V) 기초 파라미터 제어</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="27강_캐릭터_모션제어/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>27회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">캐릭터 · 동작(Motion) 제어</div>
+          <div class="card-desc">동일 인물/캐릭터 일관성 유지 프롬프팅 · 피사체 무브먼트 제어 실습</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="28강_시네마틱_앵글/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>28회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">시네마틱 앵글 컨트롤</div>
+          <div class="card-desc">줌 · 팬 · 틸트 · 돌리 등 전문적인 가상 카메라 워킹 명령어 마스터</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="29강_VFX_트랜지션/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>29회</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">시각 효과(VFX) 및 트랜지션</div>
+          <div class="card-desc">영상 소스 간 자연스러운 화면 전환 프롬프팅 · 극적인 이펙트 연출</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="30강_비주얼_영상_제작/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>30회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">압도적 비주얼 영상 소스 제작</div>
+          <div class="card-desc">카메라 워킹 및 모션 제어 스킬 총동원 · 고품질 영상 생성</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="31강_영상_고해상도_렌더링/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>31회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
+          <div class="card-title">영상 품질 디버깅 · 고해상도 렌더링</div>
+          <div class="card-desc">기술적 완성도 점검 · 비주얼 테크닉 상영회</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+    </div>
+  </section>
 
-    <!-- Phase 6 -->
-    <section class="phase">
-      <div class="phase-head">
-        <span class="phase-num">PHASE 6</span>
-        <span class="phase-name">에이전시 런칭 · 파이널</span>
-        <span class="phase-meta">32~37강 · 김국희 대표 · 6회</span>
-      </div>
-      <div class="grid">
-        <span class="card disabled" data-href="32강_창업_비즈니스_모델/part-01.html" title="수업 진행 후 공개 예정"><span class="num">32<small>강</small></span><span class="title">[창업] 비즈니스 모델</span><div class="meta"><span>김국희</span><span>패키지·Pricing</span></div></span>
-        <span class="card disabled" data-href="33강_세일즈와_제안서/part-01.html" title="수업 진행 후 공개 예정"><span class="num">33<small>강</small></span><span class="title">[창업] 세일즈 · 제안서</span><div class="meta"><span>김국희</span><span>콜드메일·PDF</span></div></span>
-        <span class="card disabled team" data-href="34강_포트폴리오_웹사이트/part-01.html" title="수업 진행 후 공개 예정"><span class="num">34<small>강</small></span><span class="title">[파이널] 포트폴리오 웹사이트</span><div class="meta"><span>김국희</span><span>파이널 1/3</span></div></span>
-        <span class="card disabled team" data-href="35강_멀티플랫폼_스케줄링/part-01.html" title="수업 진행 후 공개 예정"><span class="num">35<small>강</small></span><span class="title">[파이널] 멀티플랫폼 스케줄링</span><div class="meta"><span>김국희</span><span>파이널 2/3</span></div></span>
-        <span class="card disabled team" data-href="36강_최종_피칭_리허설/part-01.html" title="수업 진행 후 공개 예정"><span class="num">36<small>강</small></span><span class="title">[파이널] 피칭 리허설</span><div class="meta"><span>김국희</span><span>파이널 3/3</span></div></span>
-        <span class="card disabled final" data-href="37강_피칭데이_발표/part-01.html" title="수업 진행 후 공개 예정"><span class="num">37<small>강</small></span><span class="title">🏆 최종 피칭 데이</span><div class="meta"><span>김국희</span><span>수료</span></div></span>
-      </div>
-    </section>
+  <!-- PHASE 6 -->
+  <section class="phase-block">
+    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 6 · 에이전시 런칭 &amp; 파이널</h2><span class="phase-line"></span></div>
+    <p class="phase-sub">32~37회 · <strong>김국희</strong> · 1인 에이전시 창업 지식 함양 · 실제 클라이언트 포트폴리오 사이트 라이브 시연</p>
+    <div class="card-grid">
+      <span class="card disabled" data-href="32강_창업_비즈니스_모델/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>32회 · 🚀 창업</span><span class="tutor">김국희</span></div>
+          <div class="card-title">비즈니스 모델</div>
+          <div class="card-desc">1인 대행사 3종 마케팅 패키지 셋업 · 서비스 가격(Pricing) 전략 수립</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="33강_세일즈와_제안서/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>33회 · 🚀 창업</span><span class="tutor">김국희</span></div>
+          <div class="card-title">세일즈와 제안서</div>
+          <div class="card-desc">아웃바운드 영업(콜드메일 워크플로우) · 매력적인 PDF 제안서 구조 기획</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="34강_포트폴리오_웹사이트/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>34회 · 🎯 파이널</span><span class="tutor">김국희</span></div>
+          <div class="card-title">공식 마케팅 포트폴리오 웹 제작</div>
+          <div class="card-desc">클로드코드 + Stitch + GHL 코어 연동 완벽 제작</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="35강_멀티플랫폼_스케줄링/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>35회 · 🎯 파이널</span><span class="tutor">김국희</span></div>
+          <div class="card-title">멀티 플랫폼 배포 스케줄링</div>
+          <div class="card-desc">포트폴리오에 연동될 일주일치 멀티 플랫폼 배포용 콘텐츠 스케줄링</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="36강_최종_피칭_리허설/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>36회 · 🎯 파이널</span><span class="tutor">김국희</span></div>
+          <div class="card-title">배포 파이프라인 최종 점검 · 리허설</div>
+          <div class="card-desc">전체 배포 파이프라인 최종 점검 · 피칭 프레젠테이션 실전 리허설</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+      <span class="card disabled" data-href="37강_피칭데이_발표/part-01.html" title="수업 진행 후 공개 예정">
+        <div class="card-inner">
+          <div class="card-num"><span>37회 · 🏆 피칭 데이</span><span class="tutor">김국희</span></div>
+          <div class="card-title">최종 발표 · 피칭 데이</div>
+          <div class="card-desc">팀 FINAL 피칭 데이 · 퍼포먼스 라이브 시연 · 발표로 원데이 종료</div>
+          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </span>
+    </div>
+  </section>
 
-    <footer>
-      © PajamaBoss · AI 마케터 전문가 창업 과정 · 37회 커리큘럼<br>
-      <a href="https://github.com/parkchaorm-create/aiMarketer" target="_blank">GitHub</a> ·
-      <a href="AI_Marketer_Curriculum_Final.md">커리큘럼 원문</a> ·
-      <a href="_roadmap_37회.md">37회 로드맵</a>
-    </footer>
-  </main>
+  <footer>
+    <strong>AI MARKETER · 전문가 창업 과정</strong><br>
+    <span class="sub">총 37회 · 148시간 · 1일 4시간 (이론 1h + 실습 3h) · 여성인력개발센터</span>
+    <span class="sub">담당 강사: 최미혜 대표(16회) · 김국희 대표(21회)</span>
+  </footer>
+</main>
+
+<script>
+/* Hero word-by-word animation */
+const heroTitle = document.getElementById('heroTitle');
+const phrase = [
+  { t: '1인', gold: false },
+  { t: '에이전시로', gold: false },
+  { t: '\n', gold: false },
+  { t: '창업하는', gold: false },
+  { t: 'AI', gold: true },
+  { t: '마케터', gold: true },
+  { t: '과정', gold: false },
+];
+phrase.forEach((p, i) => {
+  if (p.t === '\n') { heroTitle.appendChild(document.createElement('br')); return; }
+  const sp = document.createElement('span');
+  sp.className = 'word' + (p.gold ? ' gold' : '');
+  sp.textContent = p.t + ' ';
+  sp.style.animationDelay = (0.3 + i * 0.12) + 's';
+  heroTitle.appendChild(sp);
+});
+
+/* Countup for stats */
+document.querySelectorAll('.stat-num').forEach(el => {
+  const tgt = parseInt(el.dataset.target, 10);
+  let v = 0, step = Math.max(1, Math.ceil(tgt / 50));
+  const int = setInterval(() => {
+    v += step;
+    if (v >= tgt) { v = tgt; clearInterval(int); }
+    el.textContent = v;
+  }, 30);
+});
+
+/* Cursor */
+const cDot = document.getElementById('cursorDot');
+const cRing = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cDot.style.left = mx + 'px'; cDot.style.top = my + 'px';
+});
+function animC() {
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px';
+  requestAnimationFrame(animC);
+}
+animC();
+document.querySelectorAll('a, .card.available').forEach(el => {
+  el.addEventListener('mouseenter', () => cRing.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cRing.classList.remove('hover'));
+});
+
+/* Glow follow for cards */
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+});
+
+/* Intersection Observer reveal */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.card, .phase-head').forEach(el => io.observe(el));
+
+/* Background canvas — constellation with mouse gravity */
+const canvas = document.getElementById('bgcanvas');
+const ctx = canvas.getContext('2d');
+let w, h;
+function resize() {
+  w = canvas.width = window.innerWidth * devicePixelRatio;
+  h = canvas.height = window.innerHeight * devicePixelRatio;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+}
+resize();
+window.addEventListener('resize', resize);
+
+let seed = 42;
+function rand() {
+  seed = (seed * 1664525 + 1013904223) | 0;
+  return ((seed >>> 0) / 4294967296);
+}
+const particles = [];
+for (let i = 0; i < 120; i++) {
+  particles.push({
+    x: rand() * w, y: rand() * h,
+    vx: (rand() - 0.5) * 0.3 * devicePixelRatio,
+    vy: (rand() - 0.5) * 0.3 * devicePixelRatio,
+    size: 0.6 + rand() * 1.3
+  });
+}
+let mouseCx = w / 2, mouseCy = h / 2;
+document.addEventListener('mousemove', e => {
+  mouseCx = e.clientX * devicePixelRatio;
+  mouseCy = e.clientY * devicePixelRatio;
+});
+function loop() {
+  ctx.fillStyle = 'rgba(13,13,13,0.18)';
+  ctx.fillRect(0, 0, w, h);
+  for (const p of particles) {
+    const dx = mouseCx - p.x, dy = mouseCy - p.y;
+    const d = Math.sqrt(dx * dx + dy * dy);
+    if (d < 180 * devicePixelRatio && d > 1) {
+      p.vx += dx / d * 0.015;
+      p.vy += dy / d * 0.015;
+    }
+    p.vx *= 0.985; p.vy *= 0.985;
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > w) p.vx *= -1;
+    if (p.y < 0 || p.y > h) p.vy *= -1;
+  }
+  ctx.strokeStyle = '#e2c793';
+  ctx.lineWidth = 0.35 * devicePixelRatio;
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 180 * devicePixelRatio) {
+        ctx.globalAlpha = (1 - d / (180 * devicePixelRatio)) * 0.35;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = '#e2c793';
+  for (const p of particles) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+<div class="copyright-notice">© PajamaBoss</div>
 </body>
 </html>
