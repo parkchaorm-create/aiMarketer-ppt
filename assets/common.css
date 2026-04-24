@@ -200,10 +200,15 @@ body {
 .cover-title .caret {
   display: inline-block; width: 3px; height: 0.85em;
   background: var(--gold); margin-left: 4px;
-  animation: caretBlink 0.7s steps(2) infinite;
+  animation: caretBlink 1.6s ease-in-out infinite;
   vertical-align: text-bottom;
+  opacity: 0.85;
 }
-@keyframes caretBlink { 50% { opacity: 0; } }
+/* 2026-04-25 · 섬광(steps(2)) → 부드러운 fade 전환 · opacity 최저 0.3 · 사람 눈에 편함 */
+@keyframes caretBlink {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 0.3; }
+}
 .cover-sub {
   font-size: 18px; color: var(--muted);
   letter-spacing: 2px; font-weight: 600;
