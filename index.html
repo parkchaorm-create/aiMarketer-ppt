@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 마케터 전문가 창업 과정 — 전체 목차</title>
+<title>Claude Code 마케팅 마스터클래스 — 전체 목차</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <style>
   :root {
@@ -67,9 +67,9 @@
   .brand-pill::before { content: ''; width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); box-shadow: 0 0 8px var(--gold); }
 
   .hero h1 {
-    font-size: clamp(38px, 5.5vw, 86px);
+    font-size: clamp(40px, 6vw, 96px);
     font-weight: 900; color: var(--cream);
-    line-height: 1.12; letter-spacing: -0.04em;
+    line-height: 1.08; letter-spacing: -0.04em;
     margin-bottom: 32px;
     max-width: 22ch; word-break: keep-all;
   }
@@ -85,7 +85,7 @@
   }
   .hero-sub {
     font-size: 19px; color: var(--muted);
-    max-width: 62ch; line-height: 1.7;
+    max-width: 60ch; line-height: 1.7;
     margin-bottom: 52px; word-break: keep-all;
     animation: fadeUp 1s ease-out 1.2s both;
   }
@@ -130,48 +130,40 @@
     50% { transform: translate(-50%, 10px); opacity: 1; }
   }
 
-  /* PHASE BLOCKS */
-  .phase-block {
-    padding: 80px 48px 40px;
+  /* ACT BLOCKS */
+  .act-block {
+    padding: 100px 48px 60px;
     max-width: 1400px;
     margin: 0 auto;
   }
-  .phase-head {
+  .act-head {
     display: flex; align-items: center; gap: 24px;
-    margin-bottom: 16px;
+    margin-bottom: 48px;
     opacity: 0; transform: translateY(20px);
     transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .phase-head.in { opacity: 1; transform: translateY(0); }
-  .phase-line { flex: 1; height: 1px; background: var(--dim); position: relative; }
-  .phase-line::before {
+  .act-head.in { opacity: 1; transform: translateY(0); }
+  .act-line { flex: 1; height: 1px; background: var(--dim); position: relative; }
+  .act-line::before {
     content: ''; position: absolute;
     top: 50%; width: 8px; height: 8px;
     background: var(--gold); border-radius: 50%;
     transform: translateY(-50%);
     box-shadow: 0 0 10px var(--gold);
   }
-  .phase-head .phase-line:first-child::before { right: 0; }
-  .phase-head .phase-line:last-child::before { left: 0; }
-  .phase-title {
+  .act-head .act-line:first-child::before { right: 0; }
+  .act-head .act-line:last-child::before { left: 0; }
+  .act-title {
     font-size: 13px; letter-spacing: 5px;
     color: var(--gold); font-weight: 900;
     text-transform: uppercase;
     padding: 10px 22px;
     border: 1px solid var(--gold); border-radius: 30px;
     background: rgba(226,199,147,0.04);
-    white-space: nowrap;
   }
-  .phase-sub {
-    text-align: center;
-    font-size: 13px; color: var(--muted);
-    margin-bottom: 36px; letter-spacing: 0.02em;
-    word-break: keep-all;
-  }
-  .phase-sub strong { color: var(--cream); font-weight: 700; }
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
   }
   .card {
@@ -183,13 +175,12 @@
   }
   .card.in { opacity: 1; transform: translateY(0); }
   .card-inner {
-    padding: 24px 28px;
+    padding: 28px 30px;
     background: rgba(18,18,18,0.75);
     border: 1px solid var(--border);
     position: relative; overflow: hidden;
     transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
     backdrop-filter: blur(4px);
-    height: 100%;
   }
   .card-inner::before {
     content: ''; position: absolute;
@@ -197,101 +188,71 @@
     background: var(--gold);
     transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .card.available:hover .card-inner {
+  .card:hover .card-inner {
     background: rgba(28,26,20,0.95);
     border-color: var(--gold);
     transform: translateY(-6px);
     box-shadow: 0 24px 60px rgba(0,0,0,0.7), 0 0 40px rgba(226,199,147,0.15);
   }
-  .card.available:hover .card-inner::before { width: 100%; }
+  .card:hover .card-inner::before { width: 100%; }
   .card-glow {
     position: absolute; inset: 0;
     background: radial-gradient(circle 120px at var(--mx, 50%) var(--my, 50%), rgba(226,199,147,0.12), transparent);
     opacity: 0; transition: opacity 0.35s;
     pointer-events: none;
   }
-  .card.available:hover .card-glow { opacity: 1; }
+  .card:hover .card-glow { opacity: 1; }
   .card-num {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px; color: var(--gold);
     letter-spacing: 3px; font-weight: 800;
-    margin-bottom: 10px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .card-num .tutor {
-    font-size: 10px; color: var(--muted);
-    letter-spacing: 1px; font-weight: 600;
-    font-family: 'Pretendard Variable', sans-serif;
+    margin-bottom: 14px;
   }
   .card-title {
-    font-size: 17px; font-weight: 800;
+    font-size: 19px; font-weight: 800;
     color: var(--cream); line-height: 1.35;
-    word-break: keep-all; margin-bottom: 14px;
-    min-height: 2.7em;
-  }
-  .card-desc {
-    font-size: 12.5px; color: var(--muted);
-    line-height: 1.55; word-break: keep-all;
-    margin-bottom: 18px; min-height: 3em;
+    word-break: keep-all; margin-bottom: 22px;
+    min-height: 3em;
   }
   .card-meta {
     display: flex; justify-content: space-between;
     align-items: center;
     font-size: 11px; color: var(--muted);
     letter-spacing: 2px; text-transform: uppercase;
-    padding-top: 14px;
-    border-top: 1px solid var(--border);
   }
   .card-meta .arrow {
     color: var(--gold); font-size: 18px;
     transition: transform 0.35s;
   }
-  .card.available:hover .arrow { transform: translateX(10px); }
-  .card.locked { cursor: not-allowed; }
-  .card.locked .card-inner {
-    opacity: 0.45;
-    filter: saturate(0.4);
-  }
-  .card.locked .card-meta .status {
-    color: var(--muted); letter-spacing: 2px;
-  }
-  .card.locked .arrow { color: var(--dim); }
+  .card:hover .arrow { transform: translateX(10px); }
 
   footer {
     padding: 80px 32px; text-align: center;
     border-top: 1px solid var(--border);
     color: var(--dim); font-size: 11px;
     letter-spacing: 2px;
-    margin-top: 40px;
   }
   footer strong { color: var(--gold); }
-  footer .sub { display: block; margin-top: 10px; color: var(--muted); letter-spacing: 1px; font-size: 10px; }
+
+
+  .card-thumb {
+    margin: 0 -4px 16px;
+    padding: 8px 4px 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    height: 56px; overflow: hidden;
+    opacity: 0.85; transition: opacity 0.4s;
+  }
+  .card:hover .card-thumb { opacity: 1; }
+  .card-thumb-svg { width: 100%; height: 100%; max-width: 220px; }
 
   @media (max-width: 720px) {
     .hero-stats { padding: 22px 28px; gap: 32px; }
     .stat-num { font-size: 32px; }
-    .phase-block { padding: 60px 24px 30px; }
+    .act-block { padding: 60px 24px; }
     body { cursor: auto; }
     .cursor-dot, .cursor-ring { display: none; }
-    .card.available { cursor: pointer; }
-    .phase-head { flex-direction: column; gap: 12px; }
-    .phase-line { display: none; }
-  }
-
-  .copyright-notice {
-    position: fixed;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 10px;
-    color: var(--muted, #7a7666);
-    opacity: 0.55;
-    letter-spacing: 0.02em;
-    z-index: 50;
-    pointer-events: none;
-    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
-    user-select: none;
-    white-space: nowrap;
+    .card { cursor: pointer; }
   }
 </style>
 </head>
@@ -305,406 +266,304 @@
 
 <main>
   <section class="hero">
-    <div class="brand-pill">AI MARKETER · 전문가 창업 과정 · KR</div>
+    <div class="brand-pill">CLAUDE CODE · MASTERCLASS · KR</div>
     <h1 id="heroTitle"></h1>
     <p class="hero-sub">
-      37회 148시간 · 6개 Phase로 완성되는 1인 에이전시 창업 과정.<br>
-      브랜딩부터 클로드 코드 자동화, GHL MCP 오케스트레이션, 힉스필드 영상 제작, 피칭 데이까지.
+      4악장 28파트로 완성되는 1인 사업자용 Claude Code 자동화 마스터클래스.<br>
+      각 파트는 독립된 인터랙티브 슬라이드 덱으로 준비되어 있습니다.
     </p>
     <div class="hero-stats">
-      <div><div class="stat-num" data-target="37">0</div><div class="stat-lbl">회차</div></div>
-      <div><div class="stat-num" data-target="148">0</div><div class="stat-lbl">시간</div></div>
-      <div><div class="stat-num" data-target="6">0</div><div class="stat-lbl">PHASE</div></div>
-      <div><div class="stat-num" data-target="9">0</div><div class="stat-lbl">공개 중</div></div>
+      <div><div class="stat-num" data-target="28">0</div><div class="stat-lbl">PARTS</div></div>
+      <div><div class="stat-num" data-target="4">0</div><div class="stat-lbl">ACTS</div></div>
+      <div><div class="stat-num" data-target="260">0</div><div class="stat-lbl">SLIDES</div></div>
     </div>
-    <div class="scroll-hint">▼ SCROLL FOR LECTURES</div>
+    <div class="scroll-hint">▼ SCROLL FOR PARTS</div>
   </section>
 
-  <!-- PHASE 1 -->
-  <section class="phase-block">
-    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 1 · 브랜딩</h2><span class="phase-line"></span></div>
-    <p class="phase-sub">1~4회 · <strong>최미혜</strong> · 기초 AI/브랜딩 압축 학습 및 1차 팀 브랜드 완성</p>
-    <div class="card-grid">
-      <a class="card available" href="01강_AI핵심과_자기소개/part-01.html">
+  <section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">Prologue</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-00.html" style="animation-delay:0.0s">
         <div class="card-inner">
-          <div class="card-num"><span>1회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">AI 핵심 요약 &amp; 자기소개</div>
-          <div class="card-desc">AI 트렌드 · 구글 플로우 캐릭터 설계 → 스티치 자기소개 웹 제작 → 구글 AI Studio 퍼블리싱</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A4"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><line x1="28" y1="28" x2="192" y2="28" stroke="#3a3730" stroke-width="1.5"/><line x1="28" y1="28" x2="110" y2="28" stroke="#e2c793" stroke-width="1.5"/><circle cx="38" cy="28" r="5" fill="#e2c793"/><circle cx="86" cy="28" r="5" fill="#e2c793"/><circle cx="134" cy="28" r="5" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="182" cy="28" r="5" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 00</div>
+          <div class="card-title">오프닝 – 오늘 우리는 나만의 콘텐츠 마케팅 오케스트라를 만듭니다</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="02강_아이덴티티와_스토리/part-01.html">
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">ACT 1 · 기초</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-01.html" style="animation-delay:0.08s">
         <div class="card-inner">
-          <div class="card-num"><span>2회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">아이덴티티와 스토리</div>
-          <div class="card-desc">POMELLI 활용 브랜드 네이밍 · 슬로건 작성 · 컬러 · 폰트 무드보드 설정</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A2"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><rect x="70" y="34" width="18" height="14" fill="#7a7666"/><rect x="98" y="22" width="18" height="26" fill="#e2c793" opacity="0.55"/><rect x="126" y="10" width="18" height="38" fill="#e2c793"/><line x1="62" y1="48" x2="152" y2="48" stroke="#3a3730" stroke-width="1"/></svg></div>
+          <div class="card-num">PART 01</div>
+          <div class="card-title">클로드 코드란? + 요금제 완벽 정리</div>
+          <div class="card-meta"><span>10 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="03강_브랜드_기초_분석/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>3회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">브랜드 기초 분석</div>
-          <div class="card-desc">마케팅의 본질 · 경쟁사 분석 · 나의 강점 · 창업 타겟 페르소나 명확화</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="04강_에이전시_브랜드_매뉴얼/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>4회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">에이전시 브랜드 매뉴얼 구축</div>
-          <div class="card-desc">팀별 방향성 셋업 · 가이드북 완성 · 1차 팀 브랜드 완성</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-    </div>
-  </section>
 
-  <!-- PHASE 2 -->
-  <section class="phase-block">
-    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 2 · 클로드 Co-work</h2><span class="phase-line"></span></div>
-    <p class="phase-sub">5~9회 · <strong>김국희</strong> · 클로드 협업 환경 완벽 적응 및 콘텐츠 대량 생산 파이프라인</p>
-    <div class="card-grid">
-      <a class="card available" href="05강_클로드와_Co-work/part-01.html">
+      <a class="card tilt-card" href="part-02.html" style="animation-delay:0.16s">
         <div class="card-inner">
-          <div class="card-num"><span>5회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">클로드 &amp; Co-work</div>
-          <div class="card-desc">클로드 프롬프트 심화 · Co-work 워크스페이스 세팅 · 캔버스 동시 편집</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 02</div>
+          <div class="card-title">설치 A to Z + 첫 성공 체험 – 25분 이내 완료!</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="06강_텍스트와_SEO_전략/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>6회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">텍스트 및 SEO 전략</div>
-          <div class="card-desc">스레드 콘텐츠 캘린더 작성 · 롱폼 블로그 SEO(서론·본론·결론) 대화형 집필</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="07강_비주얼_인스타그램/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>7회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">비주얼 인스타그램</div>
-          <div class="card-desc">인스타그램 카드뉴스 레이아웃 기획 · 이미지 프롬프팅 · 캡션 캔버스화</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="08강_팀_SNS_1주_콘텐츠/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>8회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
-          <div class="card-title">팀 SNS 1주치 콘텐츠</div>
-          <div class="card-desc">팀 브랜드 공식 SNS 1주일치 전체 배포용 콘텐츠 생성 · 파트 분담 집중 기획</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="09강_콘텐츠_포트폴리오_패키징/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>9회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
-          <div class="card-title">콘텐츠 포트폴리오 패키징</div>
-          <div class="card-desc">생성된 콘텐츠의 포트폴리오 패키징 · 팀 단위 PDF/웹 포맷 산출물 완성</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-    </div>
-  </section>
 
-  <!-- PHASE 3 -->
-  <section class="phase-block">
-    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 3 · 클로드 코드 로컬</h2><span class="phase-line"></span></div>
-    <p class="phase-sub">10~15회 · <strong>최미혜</strong> · IDE 터미널 기반 자동화 셋업 및 다채널 스킬 구현</p>
-    <div class="card-grid">
-      <a class="card available" href="10강_터미널과_클로드지식베이스/part-01.html">
+      <a class="card tilt-card" href="part-03.html" style="animation-delay:0.24s">
         <div class="card-inner">
-          <div class="card-num"><span>10회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">터미널과 CLAUDE.md</div>
-          <div class="card-desc">안티그래비티 IDE 설치 · 첫 터미널 필수 명령어 · CLAUDE.md(지식 베이스) 세팅</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 03</div>
+          <div class="card-title">터미널 공포증 완치 + Plan Mode – 삽질 방지 보험</div>
+          <div class="card-meta"><span>9 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="11강_멀티모달과_스킬/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>11회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">멀티모달 및 스킬 이해</div>
-          <div class="card-desc">소셜미디어 스킬 셋업 · 텍스트·PDF·이미지 간 다채널 에셋 자동 변환 명령</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="12강_리퍼포징_자동화/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>12회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">리퍼포징 자동화</div>
-          <div class="card-desc">기존 콘텐츠를 타겟 채널에 맞춰 대량 리퍼포징하는 클로드 코드 워크플로우</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="13강_SEO_GEO_성과분석/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>13회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">SEO/GEO 성과 자동 분석</div>
-          <div class="card-desc">타겟 URL 및 더미 통계 데이터 기반 평가 보고서 자동 생성 스크립트</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="14강_콘텐츠_자동_에이전트/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>14회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">콘텐츠 자동 생성 에이전트 구축</div>
-          <div class="card-desc">팀별 목적에 맞춘 오토메이션 워크플로우 셋업</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="15강_성과_리포팅_자동화/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>15회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">성과 분석 리포팅 자동화 시연</div>
-          <div class="card-desc">팀 에이전시 전용 허브 콘텐츠 엔진 가동</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-    </div>
-  </section>
 
-  <!-- PHASE 4 -->
-  <section class="phase-block">
-    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 4 · GHL MCP 고도화</h2><span class="phase-line"></span></div>
-    <p class="phase-sub">16~25회 · <strong>김국희</strong> · GHL MCP 킬러 자동화(예약 · 태깅 · 퍼블리싱)를 클로드 코드의 지휘 아래 완벽 구축</p>
-    <div class="card-grid">
-      <a class="card available" href="16강_GHL_가입과_MCP연결/part-01.html">
+      <a class="card tilt-card" href="part-04.html" style="animation-delay:0.32s">
         <div class="card-inner">
-          <div class="card-num"><span>16회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">GHL 가입 &amp; MCP 직결</div>
-          <div class="card-desc">GHL 계정 셋업 직후 → 클로드 코드에 GHL MCP 연결 및 권한 통신 테스트</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 04</div>
+          <div class="card-title">CLAUDE.md + Knowledge 폴더 – 총보 완성 & ACT 1 마무리</div>
+          <div class="card-meta"><span>7 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="17강_리드수집과_스마트태깅/part-01.html">
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">ACT 2 · 스킬 빌딩</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-05.html" style="animation-delay:0.4s">
         <div class="card-inner">
-          <div class="card-num"><span>17회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">리드 수집 &amp; 스마트 태깅</div>
-          <div class="card-desc">랜딩 폼 생성 후 제출 내용 바탕으로 VIP를 가려내는 AI 스마트 태깅</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 05</div>
+          <div class="card-title">컨텍스트 & 토큰 – 지휘자 책상과 택시 미터기</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="18강_콘텐츠_자동예약발행/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>18회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">콘텐츠 자동 예약 발행</div>
-          <div class="card-desc">SNS 스케줄러(인스타 · 페이스북 · 블로그) 동시 예약 발행 세팅</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="19강_DM_캘린더_자동화/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>19회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">자동 DM 및 캘린더 연동</div>
-          <div class="card-desc">스마트 캘린더 예약 연동 · 문의 메시지(DM) 자동 회신 시스템 구축</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="20강_Reactivation_캠페인/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>20회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">Reactivation 캠페인</div>
-          <div class="card-desc">방치된 리드 필터링 · 클로드가 쓰는 맞춤형 콜드메일/SMS 재활성화</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="21강_뉴스레터_알림요약/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>21회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">자동 뉴스레터 &amp; 알림 요약</div>
-          <div class="card-desc">정기 이메일 뉴스레터 발행 자동화 · 주요 리드 발생 시 SMS/Slack 요약 알림</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="22강_컨텍스트_최적화/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>22회</span><span class="tutor">김국희</span></div>
-          <div class="card-title">컨텍스트 최적화 고도화</div>
-          <div class="card-desc">배포 구조를 CLAUDE.md에 추가하여 방대한 워크플로우 에이전트 지능 고도화</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="23강_GHL_파이프라인_빌드/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>23회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
-          <div class="card-title">GHL 마케팅 &amp; CRM 통합 파이프라인</div>
-          <div class="card-desc">팀 서비스 목적에 맞는 통합 파이프라인 설계 및 빌드</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="24강_스케줄링_오토메이션/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>24회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
-          <div class="card-title">스케줄링 &amp; 리드 활성화 병합</div>
-          <div class="card-desc">클로드 코드 명령어로 작동하는 스케줄링 및 이메일 오토메이션 병합</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="25강_파이프라인_라이브_디버깅/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>25회 · 🎯 팀 실습</span><span class="tutor">김국희</span></div>
-          <div class="card-title">GHL MCP 완전 자동화 시연</div>
-          <div class="card-desc">구축된 파이프라인 완전 자동화 테스트 · 팀 단위 라이브 디버깅</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-    </div>
-  </section>
 
-  <!-- PHASE 5 -->
-  <section class="phase-block">
-    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 5 · HIGGSFIELD 비주얼</h2><span class="phase-line"></span></div>
-    <p class="phase-sub">26~31회 · <strong>최미혜</strong> · 힉스필드 비주얼 아트 워크 및 생성 스킬 숙달에 집중</p>
-    <div class="card-grid">
-      <a class="card available" href="26강_HIGGSFIELD_기동/part-01.html">
+      <a class="card tilt-card" href="part-06.html" style="animation-delay:0.0s">
         <div class="card-inner">
-          <div class="card-num"><span>26회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">HIGGSFIELD 툴 기동</div>
-          <div class="card-desc">텍스트-to-비디오(T2V) · 이미지-to-비디오(I2V) 기초 파라미터 제어</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 06</div>
+          <div class="card-title">이미지·PDF + 툴 사용 – 악기의 특수 주법</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="27강_캐릭터_모션제어/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>27회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">캐릭터 · 동작(Motion) 제어</div>
-          <div class="card-desc">동일 인물/캐릭터 일관성 유지 프롬프팅 · 피사체 무브먼트 제어 실습</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="28강_시네마틱_앵글/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>28회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">시네마틱 앵글 컨트롤</div>
-          <div class="card-desc">줌 · 팬 · 틸트 · 돌리 등 전문적인 가상 카메라 워킹 명령어 마스터</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="29강_VFX_트랜지션/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>29회</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">시각 효과(VFX) 및 트랜지션</div>
-          <div class="card-desc">영상 소스 간 자연스러운 화면 전환 프롬프팅 · 극적인 이펙트 연출</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="30강_비주얼_영상_제작/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>30회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">압도적 비주얼 영상 소스 제작</div>
-          <div class="card-desc">카메라 워킹 및 모션 제어 스킬 총동원 · 고품질 영상 생성</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-      <a class="card available" href="31강_영상_고해상도_렌더링/part-01.html">
-        <div class="card-inner">
-          <div class="card-num"><span>31회 · 🎯 팀 실습</span><span class="tutor">최미혜</span></div>
-          <div class="card-title">영상 품질 디버깅 · 고해상도 렌더링</div>
-          <div class="card-desc">기술적 완성도 점검 · 비주얼 테크닉 상영회</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
-          <div class="card-glow"></div>
-        </div>
-      </a>
-    </div>
-  </section>
 
-  <!-- PHASE 6 -->
-  <section class="phase-block">
-    <div class="phase-head"><span class="phase-line"></span><h2 class="phase-title">PHASE 6 · 에이전시 런칭 &amp; 파이널</h2><span class="phase-line"></span></div>
-    <p class="phase-sub">32~37회 · <strong>김국희</strong> · 1인 에이전시 창업 지식 함양 · 실제 클라이언트 포트폴리오 사이트 라이브 시연</p>
-    <div class="card-grid">
-      <a class="card available" href="32강_창업_비즈니스_모델/part-01.html">
+      <a class="card tilt-card" href="part-07.html" style="animation-delay:0.08s">
         <div class="card-inner">
-          <div class="card-num"><span>32회 · 🚀 창업</span><span class="tutor">김국희</span></div>
-          <div class="card-title">비즈니스 모델</div>
-          <div class="card-desc">1인 대행사 3종 마케팅 패키지 셋업 · 서비스 가격(Pricing) 전략 수립</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 07</div>
+          <div class="card-title">첫 번째 악기 – 소셜미디어 콘텐츠 자동화</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="33강_세일즈와_제안서/part-01.html">
+
+      <a class="card tilt-card" href="part-08.html" style="animation-delay:0.16s">
         <div class="card-inner">
-          <div class="card-num"><span>33회 · 🚀 창업</span><span class="tutor">김국희</span></div>
-          <div class="card-title">세일즈와 제안서</div>
-          <div class="card-desc">아웃바운드 영업(콜드메일 워크플로우) · 매력적인 PDF 제안서 구조 기획</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 08</div>
+          <div class="card-title">브랜드 보이스 – 나를 AI로 클론하는 피아노</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="34강_포트폴리오_웹사이트/part-01.html">
+
+      <a class="card tilt-card" href="part-09.html" style="animation-delay:0.24s">
         <div class="card-inner">
-          <div class="card-num"><span>34회 · 🎯 파이널</span><span class="tutor">김국희</span></div>
-          <div class="card-title">공식 마케팅 포트폴리오 웹 제작</div>
-          <div class="card-desc">클로드코드 + Stitch + GHL 코어 연동 완벽 제작</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 09</div>
+          <div class="card-title">리퍼포징 스킬 – URL 하나로 7중주</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="35강_멀티플랫폼_스케줄링/part-01.html">
+
+      <a class="card tilt-card" href="part-10.html" style="animation-delay:0.32s">
         <div class="card-inner">
-          <div class="card-num"><span>35회 · 🎯 파이널</span><span class="tutor">김국희</span></div>
-          <div class="card-title">멀티 플랫폼 배포 스케줄링</div>
-          <div class="card-desc">포트폴리오에 연동될 일주일치 멀티 플랫폼 배포용 콘텐츠 스케줄링</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 10</div>
+          <div class="card-title">SEO + GEO 감사 – 내 사이트 건강검진 트럼펫</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="36강_최종_피칭_리허설/part-01.html">
+
+      <a class="card tilt-card" href="part-11.html" style="animation-delay:0.4s">
         <div class="card-inner">
-          <div class="card-num"><span>36회 · 🎯 파이널</span><span class="tutor">김국희</span></div>
-          <div class="card-title">배포 파이프라인 최종 점검 · 리허설</div>
-          <div class="card-desc">전체 배포 파이프라인 최종 점검 · 피칭 프레젠테이션 실전 리허설</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A6"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g stroke="#e2c793" stroke-width="2" fill="none" stroke-linecap="round"><rect x="52" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 56 26 L 62 32 L 70 20"/><rect x="100" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 104 26 L 110 32 L 118 20"/><rect x="148" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 152 26 L 158 32 L 166 20"/></g></svg></div>
+          <div class="card-num">PART 11</div>
+          <div class="card-title">GA4 분석 – 데이터 읽어주는 드럼</div>
+          <div class="card-meta"><span>3 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-      <a class="card available" href="37강_피칭데이_발표/part-01.html">
+
+      <a class="card tilt-card" href="part-12.html" style="animation-delay:0.0s">
         <div class="card-inner">
-          <div class="card-num"><span>37회 · 🏆 피칭 데이</span><span class="tutor">김국희</span></div>
-          <div class="card-title">최종 발표 · 피칭 데이</div>
-          <div class="card-desc">팀 FINAL 피칭 데이 · 퍼포먼스 라이브 시연 · 발표로 원데이 종료</div>
-          <div class="card-meta"><span>열기</span><span class="arrow">→</span></div>
+          <div class="card-thumb" data-archetype="A5"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><text x="110" y="42" text-anchor="middle" font-size="36" font-weight="900" fill="#e2c793" font-family="'JetBrains Mono',monospace" letter-spacing="-2">100</text><text x="110" y="52" text-anchor="middle" font-size="7" font-weight="700" fill="#7a7666" letter-spacing="3">METRIC</text></svg></div>
+          <div class="card-num">PART 12</div>
+          <div class="card-title">아웃라이어 리서치 – 터지는 콘텐츠 탐지기</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
           <div class="card-glow"></div>
         </div>
       </a>
-    </div>
-  </section>
+
+      <a class="card tilt-card" href="part-13.html" style="animation-delay:0.08s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 13</div>
+          <div class="card-title">허브 콘텐츠 엔진 – 교향곡을 여러 공연장에서</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">ACT 3 · 오케스트라</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-14.html" style="animation-delay:0.16s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 14</div>
+          <div class="card-title">4막 시작 – 독주에서 오케스트라로</div>
+          <div class="card-meta"><span>7 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-15.html" style="animation-delay:0.24s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 15</div>
+          <div class="card-title">단원 배치 – 전문 에이전트 설계하기</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-16.html" style="animation-delay:0.32s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 16</div>
+          <div class="card-title">지휘자 세우기 – 오케스트레이터 구축</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-17.html" style="animation-delay:0.4s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 17</div>
+          <div class="card-title">비주얼 마케팅 팀 – 카드뉴스와 썸네일까지 자동 생성</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-18.html" style="animation-delay:0.0s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 18</div>
+          <div class="card-title">쇼츠 영상 자동 제작 – 영상 팀까지 완성</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-19.html" style="animation-delay:0.08s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 19</div>
+          <div class="card-title">리모션 영상 자동화 – 데이터만 넣으면 영상이 나온다</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-20.html" style="animation-delay:0.16s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A7"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="110" cy="28" r="9" fill="#e2c793" fill-opacity="0.25" stroke="#e2c793" stroke-width="1.5"/><line x1="104" y1="22" x2="56" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="104" y1="34" x2="56" y2="44" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="22" x2="164" y2="12" stroke="#e2c793" stroke-width="1.2"/><line x1="116" y1="34" x2="164" y2="44" stroke="#e2c793" stroke-width="1.2"/><circle cx="52" cy="12" r="4" fill="#e2c793"/><circle cx="52" cy="44" r="4" fill="#e2c793"/><circle cx="168" cy="12" r="4" fill="#e2c793"/><circle cx="168" cy="44" r="4" fill="#e2c793"/></svg></div>
+          <div class="card-num">PART 20</div>
+          <div class="card-title">풀 데모 – 전체 오케스트라 라이브 공연</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">ACT 4 · 자동화 시스템</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-21.html" style="animation-delay:0.24s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 21</div>
+          <div class="card-title">하네스 시스템 – 말이 강할수록 마구가 필요하다</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-22.html" style="animation-delay:0.32s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A2"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><rect x="70" y="34" width="18" height="14" fill="#7a7666"/><rect x="98" y="22" width="18" height="26" fill="#e2c793" opacity="0.55"/><rect x="126" y="10" width="18" height="38" fill="#e2c793"/><line x1="62" y1="48" x2="152" y2="48" stroke="#3a3730" stroke-width="1"/></svg></div>
+          <div class="card-num">PART 22</div>
+          <div class="card-title">NotebookLM 연동 – AI에게 영구 기억장치를 달다</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-23.html" style="animation-delay:0.4s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A6"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g stroke="#e2c793" stroke-width="2" fill="none" stroke-linecap="round"><rect x="52" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 56 26 L 62 32 L 70 20"/><rect x="100" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 104 26 L 110 32 L 118 20"/><rect x="148" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 152 26 L 158 32 L 166 20"/></g></svg></div>
+          <div class="card-num">PART 23</div>
+          <div class="card-title">무인 배포 – 9개 SNS에 동시 발행하기</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-24.html" style="animation-delay:0.0s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A6"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g stroke="#e2c793" stroke-width="2" fill="none" stroke-linecap="round"><rect x="52" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 56 26 L 62 32 L 70 20"/><rect x="100" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 104 26 L 110 32 L 118 20"/><rect x="148" y="16" width="20" height="20" rx="2" opacity="0.3"/><path d="M 152 26 L 158 32 L 166 20"/></g></svg></div>
+          <div class="card-num">PART 24</div>
+          <div class="card-title">GitHub Actions – 매주 월요일 자동으로 공연장이 열린다</div>
+          <div class="card-meta"><span>4 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-25.html" style="animation-delay:0.08s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A3"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><circle cx="46" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="56" y1="28" x2="102" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="102,28 96,25 96,31" fill="#e2c793"/><circle cx="112" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/><line x1="122" y1="28" x2="168" y2="28" stroke="#e2c793" stroke-width="1.3"/><polygon points="168,28 162,25 162,31" fill="#e2c793"/><circle cx="178" cy="28" r="9" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 25</div>
+          <div class="card-title">Karpathy 자기 개선 루프 – AI 지휘자가 스스로 실력을 키운다</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+
+      <a class="card tilt-card" href="part-26.html" style="animation-delay:0.16s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A4"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><line x1="28" y1="28" x2="192" y2="28" stroke="#3a3730" stroke-width="1.5"/><line x1="28" y1="28" x2="110" y2="28" stroke="#e2c793" stroke-width="1.5"/><circle cx="38" cy="28" r="5" fill="#e2c793"/><circle cx="86" cy="28" r="5" fill="#e2c793"/><circle cx="134" cy="28" r="5" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="182" cy="28" r="5" fill="none" stroke="#e2c793" stroke-width="1.5"/></svg></div>
+          <div class="card-num">PART 26</div>
+          <div class="card-title">데이터 자산화 + 한국형 플랫폼 연결</div>
+          <div class="card-meta"><span>5 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section><section class="act-block"><div class="act-head"><span class="act-line"></span><h2 class="act-title">Finale</h2><span class="act-line"></span></div><div class="card-grid">
+      <a class="card tilt-card" href="part-27.html" style="animation-delay:0.24s">
+        <div class="card-inner">
+          <div class="card-thumb" data-archetype="A9"><svg viewBox="0 0 220 56" class="card-thumb-svg" aria-hidden="true"><g transform="translate(110 28)"><path d="M 0 -18 L 18 0 L 0 18 L -18 0 Z" fill="none" stroke="#e2c793" stroke-width="1.5"/><circle cx="0" cy="0" r="5" fill="#e2c793"/><circle cx="0" cy="0" r="12" fill="none" stroke="#e2c793" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/></g></svg></div>
+          <div class="card-num">PART 27</div>
+          <div class="card-title">앙코르 – 전체 복기, 7일 액션 플랜, 수익화 로드맵</div>
+          <div class="card-meta"><span>6 섹션</span><span class="arrow">→</span></div>
+          <div class="card-glow"></div>
+        </div>
+      </a>
+</div></section>
 
   <footer>
-    <strong>AI MARKETER · 전문가 창업 과정</strong><br>
-    <span class="sub">총 37회 · 148시간 · 1일 4시간 (이론 1h + 실습 3h) · 여성인력개발센터</span>
-    <span class="sub">담당 강사: 최미혜 대표(16회) · 김국희 대표(21회)</span>
+    <strong>CLAUDE CODE MASTERCLASS</strong> · 인터랙티브 슬라이드 덱 · <span style="color:var(--muted);">2026</span>
   </footer>
 </main>
 
@@ -712,13 +571,12 @@
 /* Hero word-by-word animation */
 const heroTitle = document.getElementById('heroTitle');
 const phrase = [
-  { t: '1인', gold: false },
-  { t: '에이전시로', gold: false },
+  { t: '나만의', gold: false },
+  { t: '콘텐츠', gold: false },
+  { t: '마케팅', gold: false },
   { t: '\n', gold: false },
-  { t: '창업하는', gold: false },
-  { t: 'AI', gold: true },
-  { t: '마케터', gold: true },
-  { t: '과정', gold: false },
+  { t: '오케스트라를', gold: true },
+  { t: '만듭니다', gold: false },
 ];
 phrase.forEach((p, i) => {
   if (p.t === '\n') { heroTitle.appendChild(document.createElement('br')); return; }
@@ -755,7 +613,7 @@ function animC() {
   requestAnimationFrame(animC);
 }
 animC();
-document.querySelectorAll('a, .card.available').forEach(el => {
+document.querySelectorAll('a, .card').forEach(el => {
   el.addEventListener('mouseenter', () => cRing.classList.add('hover'));
   el.addEventListener('mouseleave', () => cRing.classList.remove('hover'));
 });
@@ -777,8 +635,8 @@ const io = new IntersectionObserver(entries => {
       io.unobserve(e.target);
     }
   });
-}, { threshold: 0.1 });
-document.querySelectorAll('.card, .phase-head').forEach(el => io.observe(el));
+}, { threshold: 0.15 });
+document.querySelectorAll('.card, .act-head').forEach(el => io.observe(el));
 
 /* Background canvas — constellation with mouse gravity */
 const canvas = document.getElementById('bgcanvas');
@@ -854,6 +712,5 @@ function loop() {
 }
 loop();
 </script>
-<div class="copyright-notice">© PajamaBoss</div>
 </body>
 </html>
