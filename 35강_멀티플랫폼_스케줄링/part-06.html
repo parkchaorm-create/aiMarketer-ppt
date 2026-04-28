@@ -87,19 +87,19 @@
     <div class="section-grid">
       <h2 class="section-title">CSV 업로드 흐름</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📂 5단계 · Bulk Schedule</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">명령어 호출 → CSV 작성 → Bulk Upload(대량 업로드 · CSV 한 장으로 여러 게시물 한꺼번에 예약) → Preview → Confirm. 다섯 클릭으로 10건이 한 번에 들어갑니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">📊 Basic CSV · 5칼럼</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Date · Content · OG Meta URL · Image/Video Links · GIF 다섯 칼럼이 기본형(Basic CSV · 최소 양식)입니다. 오늘 실습은 이 5칼럼만 채웁니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚙️ 행 5~10 · 다채널 분기</span>
             <span class="bullet-arrow">→</span>
@@ -179,25 +179,25 @@
     <div class="section-grid">
       <h2 class="section-title">5칼럼 · 행 작성법</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📅 Date · 분 단위</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">YYYY-MM-DD HH:MM 형식으로 분 단위까지 적습니다. 예약 시점은 수업 종료 이후 7일 범위에 분산하고, 같은 시각에 두 행이 겹치지 않게 합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">✍️ Content · 캡션 본문</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">게시물 캡션을 큰따옴표로 감쌉니다. 줄바꿈은 그대로 살릴 수 있고, 채널마다 길이를 달리해 행을 따로 만드시면 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔗 OG Meta URL · UTM</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">포트폴리오 URL에 UTM 3요소(source·medium·campaign)를 붙여 넣습니다. 채널마다 utm_source 값만 바꾸면 한 캠페인을 채널별로 추적할 수 있습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🖼️ Image/Video · GIF</span>
             <span class="bullet-arrow">→</span>
@@ -276,25 +276,25 @@
     <div class="section-grid">
       <h2 class="section-title">/weekly-launch-plan</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📁 .claude/commands/ 추가</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">팀 폴더의 .claude/commands/ 안에 weekly-launch-plan.md 파일을 새로 한 개 만듭니다. 24강에서 만든 schedule-post.md 옆에 나란히 두시면 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">🔁 24강 · /schedule-post 재호출</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">/schedule-post 푸르트 launch-week1 https://… 처럼 인자(argument · 명령어 뒤에 붙이는 값) 3개를 바꿔 호출하면 같은 명령어로 새 캠페인용 행이 다시 나옵니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">📝 출력 · CSV 행 10개</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">신규 명령어는 7일 매트릭스에 맞춰 행 10개를 한 번에 뽑아 줍니다. 재활용 6건 · 신규 4건 비율로 잡혀 있어 그대로 CSV에 붙여 넣을 수 있습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🌐 미설치 팀 · 웹 채팅 우회</span>
             <span class="bullet-arrow">→</span>
@@ -369,25 +369,25 @@
     <div class="section-grid">
       <h2 class="section-title">Preview · Confirm 분기</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">👀 Preview · 행 단위 검수</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Preview(미리보기 · CSV 업로드 직후 행별로 표시되는 검수 화면)에서 채널·시간·캡션·UTM이 의도대로 들어갔는지 행 단위로 확인합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">✅ Confirm · 일괄 예약 확정</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Confirm 버튼으로 모든 행이 한 번에 Schedule for Later 상태가 됩니다. 이 시점부터 Calendar 화면에 점으로 표시되어 36강 시연 자료가 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">⚠️ 실패 행만 분리 재업로드</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">CSV 포맷 오류가 있으면 GHL이 실패 행만 리턴해 줍니다. 전량을 다시 올리지 마시고, 해당 행만 시트에서 고쳐 그 행만 따로 재업로드하시면 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.36s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.36s">
             <span class="bullet-num">04</span>
             <span class="bullet-text">🔁 Recurring · 선택 1건</span>
             <span class="bullet-arrow">→</span>
@@ -468,19 +468,19 @@
     <div class="section-grid">
       <h2 class="section-title">옆자리와 1분</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">🗣️ 30초 · 내가 옆자리에</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">"우리 팀 UI 예약 몇 건, CSV 업로드 몇 행, UTM 포함 게시물 몇 건"을 숫자로 한 줄에 공유합니다. 강사가 30초 타이머로 통제합니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">👂 30초 · 옆자리 의견</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">옆자리가 한 줄 감상 또는 질문 한 가지를 돌려줍니다. 해석이나 평가 대신 들리는 그대로 받아 적기만 하셔도 됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">🔄 역할 바꿔 반복</span>
             <span class="bullet-arrow">→</span>
@@ -547,19 +547,19 @@
     <div class="section-grid">
       <h2 class="section-title">CSV 흐름 · 3줄</h2>
         <ul class="bullet-list">
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.0s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.0s">
             <span class="bullet-num">01</span>
             <span class="bullet-text">📂 Bulk 업로드 1건 확정</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">Basic CSV 5칼럼에 행 5~10개를 채워 한 번의 Bulk Upload(대량 업로드)로 일괄 예약했습니다. UI 단건 예약 대비 시간이 크게 줄었습니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.12s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.12s">
             <span class="bullet-num">02</span>
             <span class="bullet-text">⌨️ 명령어 2건 · 재호출+신규</span>
             <span class="bullet-arrow">→</span>
             <div class="bullet-detail">24강 /schedule-post 인자 치환 재호출 1회 + 신규 /weekly-launch-plan.md 파일 1개 추가. 두 명령어가 36강 이후에도 캠페인마다 재사용됩니다.</div>
           </li>
-          <li class="tilt-card reveal" onclick="this.classList.toggle('open');event.stopPropagation();" style="transition-delay:0.24s">
+          <li class="tilt-card reveal" onclick="event.stopPropagation();" style="transition-delay:0.24s">
             <span class="bullet-num">03</span>
             <span class="bullet-text">✅ 다채널 분기 · UTM 일관</span>
             <span class="bullet-arrow">→</span>
