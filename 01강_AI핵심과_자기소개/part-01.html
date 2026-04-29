@@ -21,7 +21,7 @@
   <div class="topbar-right">
     <button id="projectorBtn" type="button" onclick="window.openProjectorWindow()" style="display:none;" title="프로젝터용 수강생 창 새로 열기 (강사 창과 자동 동기화)">📺 프로젝터</button>
     <a class="nav-arrow disabled" title="이전 없음">◀ FIRST</a>
-    <a class="nav-arrow" href="../index.html">INDEX</a>
+    <a class="nav-arrow" href="../../index.html">INDEX</a>
     <a class="nav-arrow" href="./part-02.html" title="다음 파트">PART 02 ▶</a>
   </div>
 </div>
@@ -461,7 +461,7 @@
       <h2 class="outro-title reveal" style="transition-delay:0.15s">Part 01 · 마무리</h2>
       <div class="outro-sub reveal" style="transition-delay:0.3s">NEXT · Part 02 · 마케팅·브랜딩·AI 마케터 용어 정리</div>
       <div class="outro-actions reveal" style="transition-delay:0.5s">
-        <a class="btn btn-ghost" href="../index.html">← 전체 목차</a>
+        <a class="btn btn-ghost" href="../../index.html">← 전체 목차</a>
         <button class="btn btn-gold" onclick="goFirst()">처음으로 ↺</button>
         <a class="btn btn-gold" href="./part-02.html">다음으로 →</a>
       </div>
@@ -603,7 +603,7 @@ document.addEventListener('keydown', e => {
   if (helpOverlay.classList.contains('open') && e.key !== 'Escape' && e.key !== '?') return;
   if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); next(); }
   else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
-  // Space / ArrowDown = 문장 다음만 (슬라이드 이동 절대 X · 문장 끝이어도 멈춤)
+  // Space / ArrowDown = 다음 문장 → 마지막 문장이면 다음 슬라이드 (2026-04-29 정책 변경)
   else if (e.key === ' ' || e.key === 'ArrowDown') {
     e.preventDefault(); e.stopPropagation();
     blurActiveIfButton();
@@ -612,10 +612,16 @@ document.addEventListener('keydown', e => {
     var aid = ssd.findIndex(function(s){ return s.classList.contains('active'); });
     if (ssd.length > 0 && aid < ssd.length - 1 && typeof window.setSentenceIdx === 'function') {
       window.setSentenceIdx(aid + 1);
+    } else {
+      // 마지막 문장 → 다음 슬라이드 + 첫 문장 active
+      next();
+      setTimeout(function() {
+        var nxt = document.querySelector('.slide.active');
+        if (nxt && typeof window.setSentenceIdx === 'function') window.setSentenceIdx(0, nxt);
+      }, 30);
     }
-    } else { next(); setTimeout(function(){ var nxt = document.querySelector(".slide.active"); if (nxt && typeof window.setSentenceIdx === "function") window.setSentenceIdx(0, nxt); }, 30); }
   }
-  // Backspace / ArrowUp = 문장 이전만 (슬라이드 이동 절대 X)
+  // Backspace / ArrowUp = 이전 문장 → 첫 문장이면 이전 슬라이드 마지막 문장
   else if (e.key === 'Backspace' || e.key === 'ArrowUp') {
     e.preventDefault(); e.stopPropagation();
     blurActiveIfButton();
@@ -624,8 +630,16 @@ document.addEventListener('keydown', e => {
     var aiu = ssu.findIndex(function(s){ return s.classList.contains('active'); });
     if (aiu > 0 && typeof window.setSentenceIdx === 'function') {
       window.setSentenceIdx(aiu - 1);
+    } else {
+      // 첫 문장 → 이전 슬라이드 + 마지막 문장 active
+      prev();
+      setTimeout(function() {
+        var prv = document.querySelector('.slide.active');
+        if (!prv || typeof window.setSentenceIdx !== 'function') return;
+        var ss3 = prv.querySelectorAll('.teacher-note .sentence');
+        window.setSentenceIdx(Math.max(0, ss3.length - 1), prv);
+      }, 30);
     }
-    } else { prev(); setTimeout(function(){ var prv = document.querySelector(".slide.active"); if (!prv || typeof window.setSentenceIdx !== "function") return; var ss3 = prv.querySelectorAll(".teacher-note .sentence"); window.setSentenceIdx(Math.max(0, ss3.length - 1), prv); }, 30); }
   }
   else if (e.key === 'Home') go(0);
   else if (e.key === 'End') go(slides.length - 1);
