@@ -167,10 +167,10 @@
     if (helpOverlay && helpOverlay.classList.contains('open') && e.key !== 'Escape' && e.key !== '?') return;
 
     // 골든 Part 01 정책 · 키 역할 엄격 분리
-    // ArrowRight/PageDown: 다음 슬라이드
-    // ArrowLeft/PageUp: 이전 슬라이드
-    // Space/ArrowDown: 문장 다음 (슬라이드 이동 절대 X)
-    // Backspace/ArrowUp: 문장 이전
+    // ArrowRight/PageDown: 다음 슬라이드 (즉시)
+    // ArrowLeft/PageUp: 이전 슬라이드 (즉시)
+    // Space/ArrowDown: 다음 문장 → 마지막 문장이면 다음 슬라이드 (PowerPoint 발표자 모드 패턴 · 2026-04-29)
+    // Backspace/ArrowUp: 이전 문장 → 첫 문장이면 이전 슬라이드 마지막 문장
     if (e.key === 'ArrowRight' || e.key === 'PageDown') {
       e.preventDefault(); next();
     }
@@ -180,28 +180,46 @@
     else if (e.key === ' ' || e.key === 'ArrowDown') {
       e.preventDefault();
       e.stopPropagation();
-      blurActiveIfButton(); // 포커스된 button의 Space-click 차단
+      blurActiveIfButton();
       var slide = document.querySelector('.slide.active');
-      if (!slide || typeof window.setSentenceIdx !== 'function') return;
+      if (!slide) { next(); return; }
       var ss = slide.querySelectorAll('.teacher-note .sentence');
-      if (ss.length === 0) return;
+      if (ss.length === 0 || typeof window.setSentenceIdx !== 'function') { next(); return; }
       var aid = -1;
       ss.forEach(function(s, i) { if (s.classList.contains('active')) aid = i; });
-      if (aid < ss.length - 1) window.setSentenceIdx(aid + 1, slide);
-      // 문장 끝이어도 슬라이드 이동 안 함
+      if (aid < ss.length - 1) {
+        window.setSentenceIdx(aid + 1, slide);
+      } else {
+        // 마지막 문장 → 다음 슬라이드 + 첫 문장 active
+        next();
+        setTimeout(function() {
+          var nxt = document.querySelector('.slide.active');
+          if (nxt && typeof window.setSentenceIdx === 'function') window.setSentenceIdx(0, nxt);
+        }, 30);
+      }
     }
     else if (e.key === 'Backspace' || e.key === 'ArrowUp') {
       e.preventDefault();
       e.stopPropagation();
       blurActiveIfButton();
       var slide2 = document.querySelector('.slide.active');
-      if (!slide2 || typeof window.setSentenceIdx !== 'function') return;
+      if (!slide2) { prev(); return; }
       var ss2 = slide2.querySelectorAll('.teacher-note .sentence');
-      if (ss2.length === 0) return;
+      if (ss2.length === 0 || typeof window.setSentenceIdx !== 'function') { prev(); return; }
       var aid2 = -1;
       ss2.forEach(function(s, i) { if (s.classList.contains('active')) aid2 = i; });
-      if (aid2 > 0) window.setSentenceIdx(aid2 - 1, slide2);
-      // 문장 처음이어도 슬라이드 이동 안 함
+      if (aid2 > 0) {
+        window.setSentenceIdx(aid2 - 1, slide2);
+      } else {
+        // 첫 문장 → 이전 슬라이드 + 마지막 문장 active
+        prev();
+        setTimeout(function() {
+          var prv = document.querySelector('.slide.active');
+          if (!prv || typeof window.setSentenceIdx !== 'function') return;
+          var ss3 = prv.querySelectorAll('.teacher-note .sentence');
+          window.setSentenceIdx(Math.max(0, ss3.length - 1), prv);
+        }, 30);
+      }
     }
     else if (e.key === 'Home') go(0);
     else if (e.key === 'End') go(slides.length - 1);

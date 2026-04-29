@@ -613,7 +613,7 @@ document.addEventListener('keydown', e => {
     if (ssd.length > 0 && aid < ssd.length - 1 && typeof window.setSentenceIdx === 'function') {
       window.setSentenceIdx(aid + 1);
     }
-    // 문장 끝에서는 멈춤 · next() 호출 안 함
+    } else { next(); setTimeout(function(){ var nxt = document.querySelector(".slide.active"); if (nxt && typeof window.setSentenceIdx === "function") window.setSentenceIdx(0, nxt); }, 30); }
   }
   // Backspace / ArrowUp = 문장 이전만 (슬라이드 이동 절대 X)
   else if (e.key === 'Backspace' || e.key === 'ArrowUp') {
@@ -625,7 +625,7 @@ document.addEventListener('keydown', e => {
     if (aiu > 0 && typeof window.setSentenceIdx === 'function') {
       window.setSentenceIdx(aiu - 1);
     }
-    // 문장 처음에서는 멈춤 · prev() 호출 안 함
+    } else { prev(); setTimeout(function(){ var prv = document.querySelector(".slide.active"); if (!prv || typeof window.setSentenceIdx !== "function") return; var ss3 = prv.querySelectorAll(".teacher-note .sentence"); window.setSentenceIdx(Math.max(0, ss3.length - 1), prv); }, 30); }
   }
   else if (e.key === 'Home') go(0);
   else if (e.key === 'End') go(slides.length - 1);
